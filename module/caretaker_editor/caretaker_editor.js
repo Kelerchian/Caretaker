@@ -2,6 +2,18 @@
 class CaretakerForm extends React.Component{
 	constructor(props){
 		super(props)
+		this.state = {}
+		if(this.isEditOne() && this.isEditMany()){
+			throw
+		}else if(this.isEditOne()){
+
+		}
+	}
+	isEditOne(){
+		return !!this.props.editOne
+	}
+	isEditMany(){
+		return !!this.props.editMany
 	}
 	render(){
 		var fields = props.fields || []
@@ -65,14 +77,14 @@ class CaretakerObject extends React.createElement{
 		}
 	}
 	getNegativeChildPropKeys(){
-		return ["label","description","quantity","max","min"]
+		return ["label","description","quantity","max","min","options"]
 	}
-	getCustomPropKeys(){
+	getNegativeInputPropKeys(){
 		return ["label","description","quantity","max","min","has"]
 	}
-	getElementProps(){
+	getInputProps(){
 		var props = Object.assign({}, this.props)
-		this.getCustomPropKeys().forEach(function(prop){
+		this.getNegativeInputPropKeys().forEach(function(prop){
 			if(props[prop]){
 				props[prop] = null
 				delete props[prop]
@@ -131,7 +143,7 @@ class CaretakerObject extends React.createElement{
 			}
 			return React.createElement('div',{className:"CaretakerObjectCollection", "key":"object"}, objects)
 		}else{
-			var props = this.getElementProps()
+			var props = this.getInputProps()
 			props.onChange = this.getOnChangeListener()
 			return React.createElement(CaretakerInput,props)
 		}
@@ -157,5 +169,63 @@ class CaretakerObject extends React.createElement{
 }
 
 class CaretakerInput extends React.Component{
+	constructor(props){
+		super(props)
+		if(this.isCommonInput()){
+			this.state.value = ""
+		}
+	}
+	getProps(props){
+		return Object.assign({},props)
+	}
+	onCommonInputChange(){
 
+	}
+	isCommonInput(){
+		switch(this.props.type){
+			//need time interface
+			case "time"			:
+			case "date"			:
+			case "week"			:
+			//need options
+			case "select"		:
+			case "select-multiple"		:
+			case "checkbox"	:
+			case "textarea"	:
+			case "radio"		: return false; break;
+			default					: return true; break;
+			// Other includes:
+			// ["text","password","submit","reset","button","color","email","range","search","tel","url","number"]
+		}
+	}
+	onChange(event){
+		this.state.value = event.target.value
+	}
+	renderSpecialInput(){
+		switch (this.props.type) {
+			//need time interface
+			case "time"						: return; break;
+			case "date"						: return; break;
+			case "week"						: return; break;
+			//need options
+			case "select"					: return; break;
+			case "select-multiple": return; break;
+			case "checkbox"				: return; break;
+			case "textarea"				: return; break;
+			case "radio"					: return; break;
+		}
+	}
+	render(){
+		var props = this.getProps()
+		props.onChange = this.onCommonInputChange.bind(this)
+		if(this.isCommonInput()){
+			return React.createElement('div',{className: "CaretakerInput"}, (
+				React.createElement('input', props)
+			)}
+		}else{
+			return React.createElement('div',{className: "CaretakerInput"}, (
+				this.renderSpecialInput()
+			))
+		}
+	}
 }

@@ -29,9 +29,10 @@ var Person = {
 }
 
 var PersonForm = {
-	editOne: {
-		Person: Person
-	},
+	editedObject: Person,
+	quantity: "many",
+	max: "12",
+	min: "1",
 	action: "",
 	successRedirect: "",
 	failureRedirect: ""
