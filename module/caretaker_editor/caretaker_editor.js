@@ -3,17 +3,23 @@ class CaretakerForm extends React.Component{
 	constructor(props){
 		super(props)
 		this.state = {}
-		if(this.isEditOne() && this.isEditMany()){
-			throw
-		}else if(this.isEditOne()){
-
+		if(this.isEditMany()){
+			this.state.value = []
+			if(this.props.min && this.props.max ){
+				if(this.props.min < 1 || this.props.max < 1){
+					throw "minimum or maximum count of childObject cannot be less than 1"
+				}
+				if(this.props.min > this.props.max){
+					throw "minimum count of childObject cannot be more than maximum count"
+				}
+			}
+			this.state.count = this.props.min || (this.props.max > 1 ? 1 : 0)
+		}else{
+			this.state.value = {}
 		}
 	}
-	isEditOne(){
-		return !!this.props.editOne
-	}
 	isEditMany(){
-		return !!this.props.editMany
+		return this.props.quantity == "many"
 	}
 	render(){
 		var fields = props.fields || []

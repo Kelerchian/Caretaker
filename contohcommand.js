@@ -34,8 +34,11 @@ var PersonForm = {
 	max: "12",
 	min: "1",
 	action: "",
-	successRedirect: "",
-	failureRedirect: ""
+	submittable: true,
+	resettable: false,
+	readonly: false,
+	successRedirect: false,
+	failureRedirect: false
 }
 
 // switch(this.props.type){
