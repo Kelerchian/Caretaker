@@ -1,0 +1,74 @@
+/**
+* Buttons
+*
+*/
+
+.btn{
+	padding: 1remrem 2rem 0.5rem;
+	border-radius: 0.40rem;
+}
+
+.btn-onyx,
+.btn-quartz{
+	transition: box-shadow 0.3s ease;
+	border: none;
+}
+
+.btn-onyx{
+	color: white;
+	background: linear-gradient(white,black,black);
+	box-shadow: inset 0 0 2rem 0.05rem black;
+}
+.btn-onyx:hover{
+	box-shadow: inset 0 0 2rem 0.05rem black, inset 0 0 3rem 0.2rem white;
+	color: white;
+}
+
+.btn-quartz{
+	color: black;
+	background: linear-gradient(white,white,#ccc);
+	box-shadow: inset 0 0 1px 0px black, inset 0 0 2rem 0.05rem white;
+}
+.btn-quartz:hover{
+	box-shadow: inset 0 0 1px 0px black, inset 0 0 9rem 0.05rem white;
+	color: black;
+}
+
+/**
+* Sections
+*
+*/
+
+.section{
+	padding: 1rem;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	border: 1px dotted black;
+}
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+
+/**
+* CustomElements
+*
+*/
+
+.UserDisplay>.identity{
+	padding: 1rem 2rem;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	color: #666;
+	display: inline-block;
+	background: #ebebeb;
+	border: 1rem solid #222;
+	box-shadow: inset 0 2px 1rem rgba(0,0,0,0.3), 0 2px 1rem rgba(0,0,0,0.3);
+	max-width: 100%;
+}
+
+.UserDisplay>img{
+	padding: 1rem;
+	box-shadow: inset 0 2px 1rem rgba(0,0,0,0.3), 0 2px 1rem rgba(0,0,0,0.3);
+	border: 1rem solid #222;
+}

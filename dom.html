@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Basic Example with JSX</title>
+
+		<link rel="stylesheet" href="asset/bootstrap4/css/bootstrap.css">
+		<link rel="stylesheet" href="asset/bootstrap-override.css">
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<!-- Latest compiled JavaScript -->
+		<script src="asset/bootstrap4/js/bootstrap.js"></script>
+		<script src="react/build/react.js"></script>
+    <script src="react/build/react-dom.js"></script>
+    <script src="module/notification/notification.js"></script>
+		<link rel="stylesheet" href="module/notification/notification.css">
+    <script src="module/user_display/user_display.js"></script>
+		<link rel="stylesheet" href="module/user_display/user_display.css">
+		<script src="module/caretaker_editor/caretaker_editor.js"></script>
+		<script>
+			var user = {name:"Alan Darmasaputra", subtext:"CareTaker Author", image:"asset/image/user.jpg"}
+		</script>
+  </head>
+  <body>
+		<div class="container-fluid" id="container">
+			<div class="row">
+				<div class="col-md-3 text-center">
+						<section class="section text-center">
+							<div id="user-display"></div>
+						</section>
+						<section class="section">
+							<div id="user-display-notification"></div>
+						</section>
+					</div>
+					<div class="col-md-9">
+						<div id="form-container"></div>
+						<div id="notification-container"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Form Test -->
+
+		<script async>
+			var param = {
+				html: [
+					{
+						tag: 'h1',
+						html: "The Form"
+					},
+					{
+						tag: "div",
+						attributes: {
+							className: "form-group"
+						},
+						html: [
+							{
+								tag: "input",
+								attributes: {label:"username", placeholder: "username", type:"text", name:"username"}
+							},{
+								tag:"input",
+								attributes: {type:"checkbox",name:"The fucking" , values:[
+									{ value: "a", text:"The FUcking A"},
+									{ value: "b", text:"The FUcking B", checked: true}
+								]}
+							}
+
+						]
+					}
+				]
+			}
+			ReactDOM.render(React.createElement(CaretakerForm, param), window['form-container'])
+		</script>
+
+
+		<!-- User Display -->
+
+		<script async>
+			ReactDOM.render(
+				React.createElement(UserDisplay),
+				window['user-display']
+			).setState(user)
+		</script>
+
+
+		<!-- User Display Inline -->
+
+		<script async>
+			ReactDOM.render(
+				React.createElement(UserDisplayInline),
+				window['user-display-notification']
+			).setState(user)
+		</script>
+
+
+		<!-- User Display Inline -->
+
+		<script async>
+		var noti = ReactDOM.render(
+			React.createElement(NotificationBar),
+			window['notification-container']
+		)
+		var notifications = [
+			{
+				"title": 'Howdy',
+				"body": 'This is notification of KleyCaretaker'
+			},
+			{
+				"title": 'Notification Test',
+				"body": 'Notification seemed to have pulled rather well'
+			}
+		];
+		function queueNotifications(notifications,index){
+			if(index < notifications.length){
+				noti.addNotification(notifications[index])
+				setTimeout(function(){
+					queueNotifications(notifications, index+1)
+				},500)
+			}
+		}
+		queueNotifications(notifications,0)
+		</script>
+  </body>
+</html>

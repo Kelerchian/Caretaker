@@ -1,0 +1,48 @@
+/**
+* UserDisplay
+*
+*/
+.UserDisplay{
+	width: 100%;
+}
+.UserDisplay>img{
+	width: 230px;
+	max-width: 100%;
+	object-fit: cover;
+}
+
+.UserDisplay>.identity{
+	display: inline-block;
+}
+.UserDisplay>.identity,
+.UserDisplay>.identity>*{
+	max-width: 100%;
+	word-wrap: break-word;
+}
+
+/**
+* UserDisplayInline
+*
+*/
+.UserDisplayInline{
+	width: 100%;
+	display: flex;
+	align-items: flex-start;
+}
+.UserDisplayInline>img{
+	flex: 60px 0 0;
+	height: 60px;
+	padding: 0.5rem;
+	object-fit: cover;
+}
+.UserDisplayInline>.identity{
+	flex: auto 1 1;
+	padding: 0.5rem;
+}
+.UserDisplayInline>.identity,
+.UserDisplayInline>.identity>*{
+	max-width: 100%;
+	word-wrap: break-word;
+	text-align: left;
+	margin: 0.25rem 0;
+}
