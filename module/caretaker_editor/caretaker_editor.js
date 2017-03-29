@@ -3,68 +3,32 @@ class CaretakerForm extends React.Component{
 	constructor(props){
 		super(props)
 		this.state = {}
-		if(this.isEditMany()){
-			this.state.value = []
-			if(this.props.min && this.props.max ){
-				if(this.props.min < 1 || this.props.max < 1){
-					throw "minimum or maximum count of childObject cannot be less than 1"
-				}
-				if(this.props.min > this.props.max){
-					throw "minimum count of childObject cannot be more than maximum count"
-				}
-			}
-			this.state.count = this.props.min || (this.props.max > 1 ? 1 : 0)
-		}else{
-			this.state.value = {}
-		}
+		this.state.value = null
 	}
-	isEditMany(){
-		return this.props.quantity == "many"
+	onChange(value){
+		this.state.value = value
 	}
 	render(){
-		var fields = props.fields || []
-		var attributes = Object.assign({}, props.attributes || {})
-		var html = []
-		fields.map(function(inputProperties, index){
-			var props = Object.assign({}, inputProperties)
-			props.key = index
-
-			html.push(React.createElement(CaretakerInput))
-		})
-		attributes.className = (attributes.className || "") + " CaretakerForm"
-
-		return React.createElement('form', {className: "CaretakerForm"}, html)
+		var props = Object.assign({}, this.props.edit)
+		props.onChange = this.onChange.bind(this)
+		return React.createElement('form', {className: "CaretakerForm"}, (
+			React.createElement(CaretakerFormObject, props)
+		))
 	}
 }
 
-class CaretakerObject extends React.createElement{
+class CaretakerFormObject extends React.Component{
 	constructor(props){
 		super(props)
-
 		this.state = {}
 		if(this.isMany()){
 			this.state.value = []
-			if(this.props.min && this.props.max ){
-				if(this.props.min < 0 || this.props.max < 0){
-					throw "minimum or maximum count of childObject cannot be less than 0"
-				}
-				if(this.props.min > this.props.max){
-					throw "minimum count of childObject cannot be more than maximum count"
-				}
-			}
-			this.state.count = this.props.min || (this.props.max > 1 ? 1 : 0)
 		}
 		else if(this.isObject()){
 			this.state.value = {}
 		}else{
 			this.state.value = null
 		}
-	}
-	getValue(){
-		return this.state.value
-	}
-	getOnChangeListener(){
-		return this.onChange.bind(this)
 	}
 	isMany(){
 		return this.props.quantity == "many"
@@ -73,39 +37,43 @@ class CaretakerObject extends React.createElement{
 		return this.props.type == "object"
 	}
 	onChange(value, name){
-		if(!this.isObject()){
-			this.state.value = value
-		}else{
+		if(name){
 			this.state.value[name] = value
+		}else{
+			this.state.value = value
 		}
-		if(this.props.onChange && this.props.name){
+		if(this.props.onChange){
 			this.props.onChange(this.state.value, this.props.name)
 		}
 	}
+	getValue(){
+		return this.state.value
+	}
+	getOnChangeListener(){
+		return this.onChange.bind(this)
+	}
 	getNegativeChildPropKeys(){
-		return ["label","description","quantity","max","min","options"]
+		return ["label","description","quantity","options"]
 	}
 	getNegativeInputPropKeys(){
-		return ["label","description","quantity","max","min","has"]
+		return ["label","description","quantity","has"]
 	}
 	getInputProps(){
 		var props = Object.assign({}, this.props)
-		this.getNegativeInputPropKeys().forEach(function(prop){
-			if(props[prop]){
-				props[prop] = null
-				delete props[prop]
-			}
+		this.getNegativeInputPropKeys().forEach(function(key){
+			props[key] = null
+			delete props[key]
 		})
+		props.onChange = this.getOnChangeListener()
 		return props
 	}
-	getChildProp(){
+	getCollectionProps(){
 		var props = Object.assign({}, this.props)
-		this.getNegativeChildPropKeys().forEach(function(prop){
-			if(prosp[prop]){
-				props[prop] = null
-				delete props[prop]
-			}
+		this.getNegativeChildPropKeys().forEach(function(key){
+			props[key] = null
+			delete props[key]
 		})
+		props.onChange = this.getOnChangeListener()
 		return props
 	}
 	appearanceGetLabel(){
@@ -128,29 +96,28 @@ class CaretakerObject extends React.createElement{
 	}
 	appearanceGetObject(){
 		if(this.isMany()){
-			var objects = []
-			for(var i = 0; i < this.state.count; i++){
-				var props = this.childProps()
-				props.key = i
-				props.name = i
-				props.onChange = this.getOnChangeListener()
-				objects.push( React.createElement(CaretakerObject,props) )
-			}
-			return React.createElement('div',{className:"CaretakerObjectCollection", "key":"object"}, objects)
+			var props = this.getCollectionProps()
+			props.key = "object"
+			return React.createElement(CaretakerFormObjectCollection, props)
 		}else if(this.isObject()){
 			var objects = []
 			if(this.props.has){
+				var has = this.props.has
 				for(var i in has){
 					var childProps = Object.assign({},has[i])
+					childProps.key = i
 					childProps.name = i
+					if(has[i].name){
+						childProps.name = has[i].name
+					}
 					childProps.onChange = this.getOnChangeListener()
-					object.push( React,createElement(CaretakerObject, childProps) )
+					objects.push( React.createElement(CaretakerFormObject, childProps) )
 				}
 			}
-			return React.createElement('div',{className:"CaretakerObjectCollection", "key":"object"}, objects)
+			return React.createElement('div',{className:"CaretakerFormObject", "key":"object"}, objects)
 		}else{
 			var props = this.getInputProps()
-			props.onChange = this.getOnChangeListener()
+			props.key = "object"
 			return React.createElement(CaretakerInput,props)
 		}
 	}
@@ -169,65 +136,166 @@ class CaretakerObject extends React.createElement{
 	}
 	render(){
 		var props = {}
-		props.className = "ObjectContainer " + this.props.name
-		return React.createElement('div',{ className:'ObjectContainer' }, this.appearanceGetinsideObjectContainer())
+		props.className = "CaretakerFormObject " + (this.props.name ? this.props.name : "")
+		return React.createElement('div',props, this.appearanceGetInsideObjectContainer())
+	}
+}
+
+class CaretakerFormObjectCollection extends React.Component{
+	constructor(props){
+		super(props)
+		this.state = {}
+		this.state.maxCount = props.max || Infinity
+		this.state.minCount = props.min || 0
+		console.log()
+		if(this.state.maxCount < 1){ throw "max count of multiple object cannot be fewer than 1" }
+		if(this.state.minCount < 0){ throw "min count of multiple object cannot be fewer than 0" }
+		if(this.state.maxCount < this.state.minCount ){ throw "max count cannot be fewer than min count" }
+		this.state.childrenCount = this.state.minCount || 1
+		this.state.value = []
+	}
+	getNegativeChildPropKeys(){
+		return ["min","max"]
+	}
+	getProps(){
+		var props = Object.assign({}, this.props)
+		this.getNegativeChildPropKeys().forEach(function(key){
+			props[key] = null
+			delete props[key]
+		})
+		props.onChange = this.onChange.bind(this)
+		return props
+	}
+	updateParent(){
+		this.setState(this.state)
+		if(this.props.onChange){
+			this.props.onChange(this.state.value)
+		}
+	}
+	onChange(value,name){
+		this.state.value[name] = value
+		this.updateParent()
+	}
+	onRemoveChild(i){
+		if(this.state.childrenCount > this.state.minCount){
+			this.state.value.splice(i,1)
+			this.state.childrenCount--
+			this.updateParent()
+		}
+	}
+	onAddChild(){
+		if(this.state.childrenCount < this.state.maxCount){
+			this.state.childrenCount++
+			this.updateParent()
+		}
+	}
+	appearanceGetControl(){
+		return React.createElement('div',{className:"CaretakerFormObjectCollectionControl", key:"control"}, (
+			React.createElement('button',{className:"CaretakerFormObjectCollectionAdd", "type":"button", onClick:this.onAddChild.bind(this)}, "Add New")
+		))
+	}
+	appearanceGetChildren(){
+		var children = ""
+		for(var i = 0; i<this.state.childrenCount; i++){
+			if(i == 0){
+				children = []
+			}
+			var props = this.getProps()
+			props.name = i
+			props.key = i+"-child"
+			if(this.state.value[i]){
+				props.value = this.state.value[i]
+			}
+			children.push( React.createElement('div', { className: "CaretakerFormObjectContainer", key: i}, [
+				React.createElement('button', { onClick:this.onRemoveChild.bind(this,i), name:i, type:"button" , key:i+"-delete-button" }, "delete"),
+				React.createElement(CaretakerFormObject, props)
+			]) )
+		}
+		return React.createElement('div',{className:"CaretakerFormObjectCollectionChildren", key:"children"}, children);
+	}
+	render(){
+		return React.createElement('div',{className: "CaretakerFormObjectCollection"}, [this.appearanceGetControl(), this.appearanceGetChildren()] )
 	}
 }
 
 class CaretakerInput extends React.Component{
 	constructor(props){
 		super(props)
+		this.state = {}
 		if(this.isCommonInput()){
 			this.state.value = ""
 		}
 	}
-	getProps(props){
-		return Object.assign({},props)
+	getNegativeCommonPropKeys(){
+		return ["options"]
 	}
-	onCommonInputChange(){
-
+	getProps(){
+		var props = Object.assign({},props)
+		if(this.isCommonInput()){
+			this.getNegativeCommonPropKeys().forEach(function(key){
+				props[key] = null
+				delete props[key]
+			})
+		}
+		return props
 	}
 	isCommonInput(){
 		switch(this.props.type){
 			//need time interface
-			case "time"			:
-			case "date"			:
-			case "week"			:
+			case "time"							:
+			case "date"							:
+			case "week"							:
 			//need options
-			case "select"		:
-			case "select-multiple"		:
-			case "checkbox"	:
-			case "textarea"	:
-			case "radio"		: return false; break;
+			case "select"						:
+			case "select-multiple"	:
+			case "checkbox"					:
+			case "textarea"					:
+			case "radio"						:
+			//need select interface
+			case "select-object"		:	return false; break;
 			default					: return true; break;
 			// Other includes:
 			// ["text","password","submit","reset","button","color","email","range","search","tel","url","number"]
 		}
 	}
-	onChange(event){
+	updateParent(){
+		this.setState(this.state)
+		if(this.props.onChange){
+			this.props.onChange(this.state.value)
+		}
+	}
+	onCommonInputChange(event){
 		this.state.value = event.target.value
+		this.updateParent()
+	}
+	onChange(value){
+		this.state.value = value
+		this.updateParent()
 	}
 	renderSpecialInput(){
 		switch (this.props.type) {
 			//need time interface
-			case "time"						: return; break;
-			case "date"						: return; break;
-			case "week"						: return; break;
+			case "time"							:
+			case "date"							:
+			case "week"							:
 			//need options
-			case "select"					: return; break;
-			case "select-multiple": return; break;
-			case "checkbox"				: return; break;
-			case "textarea"				: return; break;
-			case "radio"					: return; break;
+			case "select"						:
+			case "select-multiple"	:
+			case "checkbox"					:
+			case "textarea"					:
+			case "radio"						:
+			//need select interface
+			case "select-object"		:	return false; break;
+			default					: return true; break;
 		}
 	}
 	render(){
 		var props = this.getProps()
-		props.onChange = this.onCommonInputChange.bind(this)
 		if(this.isCommonInput()){
+			props.onChange = this.onCommonInputChange.bind(this)
 			return React.createElement('div',{className: "CaretakerInput"}, (
 				React.createElement('input', props)
-			)}
+			))
 		}else{
 			return React.createElement('div',{className: "CaretakerInput"}, (
 				this.renderSpecialInput()

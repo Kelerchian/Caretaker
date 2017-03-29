@@ -10,7 +10,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<!-- Latest compiled JavaScript -->
 		<script src="asset/bootstrap4/js/bootstrap.js"></script>
-		<script src="react/build/react.js"></script>
+    <script src="react/build/react.js"></script>
     <script src="react/build/react-dom.js"></script>
     <script src="module/notification/notification.js"></script>
 		<link rel="stylesheet" href="module/notification/notification.css">
@@ -43,34 +43,37 @@
 		<!-- Form Test -->
 
 		<script async>
-			var param = {
-				html: [
+			var UserModel = {
+				quantity: "many",
+				type: "object",
+				has: [
 					{
-						tag: 'h1',
-						html: "The Form"
-					},
-					{
-						tag: "div",
-						attributes: {
-							className: "form-group"
-						},
-						html: [
-							{
-								tag: "input",
-								attributes: {label:"username", placeholder: "username", type:"text", name:"username"}
-							},{
-								tag:"input",
-								attributes: {type:"checkbox",name:"The fucking" , values:[
-									{ value: "a", text:"The FUcking A"},
-									{ value: "b", text:"The FUcking B", checked: true}
-								]}
-							}
-
-						]
+						type:"text",
+						label:"First Name",
+						name:"firstname"
+					},{
+						type:"text",
+						label:"Last Name",
+						name:"lastname",
+						value:"asdf"
 					}
-				]
+				],
+				label: "Users",
+				description: "this is a panel to edit user[thedescription]"
 			}
-			ReactDOM.render(React.createElement(CaretakerForm, param), window['form-container'])
+			var formCommand = {
+				edit: UserModel,
+				quantity: "many",
+				max: "12",
+				min: "1",
+				action: "",
+				submittable: true,
+				resettable: false,
+				readonly: false,
+				successRedirect: false,
+				failureRedirect: false
+			}
+			var theForm = ReactDOM.render(React.createElement(CaretakerForm, formCommand), window['form-container'])
 		</script>
 
 
