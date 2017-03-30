@@ -9,7 +9,7 @@
 	value: ["value","_rememberme"]
 }
 */
-class CaretakerFormInputCheckBox extends React.Component{
+class CaretakerFormInputCheckbox extends React.Component{
 	constructor(props){
 		super(props)
 
@@ -28,7 +28,7 @@ class CaretakerFormInputCheckBox extends React.Component{
 	}
 	updateParent(){
 		if(this.props.onChange){
-			this.props.onChange(this.state.value)
+			this.props.onChange(Array.from(this.state.value))
 		}
 	}
 	onChange(index, value){
@@ -70,7 +70,7 @@ class CaretakerFormInputCheckBox extends React.Component{
 				props.checked = false
 			}
 
-			html.push(React.createElement('div',{className:"CaretakerFormInputCheckBox", key:i}, [
+			html.push(React.createElement('div',{className:"CaretakerFormInputCheckbox", key:i}, [
 				React.createElement('input', props),
 				text
 			]))
@@ -79,7 +79,7 @@ class CaretakerFormInputCheckBox extends React.Component{
 	}
 	render(){
 		var name = this.props.name || ""
-		return React.createElement('div', {className: "CaretakerFormInputCheckBoxCollection"}, (
+		return React.createElement('div', {className: "CaretakerFormInputCheckboxCollection"}, (
 			this.getCheckboxes()
 		))
 	}
