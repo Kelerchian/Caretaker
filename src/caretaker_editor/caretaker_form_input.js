@@ -4,10 +4,13 @@ class CaretakerInput extends React.Component{
 		this.state = {}
 		if(this.isCommonInput()){
 			this.state.value = ""
+			if(props.value){
+				this.state.value = props.value
+			}
 		}
 	}
 	getNegativeCommonPropKeys(){
-		return ["options"]
+		return ["options","value"]
 	}
 	getProps(){
 		var props = Object.assign({}, this.props)
@@ -18,6 +21,7 @@ class CaretakerInput extends React.Component{
 			})
 		}
 		props.onChange = this.onCommonInputChange.bind(this)
+		props.value = this.state.value
 		return props
 	}
 	getSpecialProps(){
@@ -44,17 +48,18 @@ class CaretakerInput extends React.Component{
 		}
 	}
 	updateParent(){
-		this.setState(this.state)
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
 		}
 	}
 	onCommonInputChange(event){
 		this.state.value = event.target.value
+		this.setState(this.state)
 		this.updateParent()
 	}
 	onChange(value){
 		this.state.value = value
+		this.setState(this.state)
 		this.updateParent()
 	}
 	renderSpecialInput(){
@@ -66,9 +71,9 @@ class CaretakerInput extends React.Component{
 			//need options
 			case "select"										: break;
 			case "select-multiple"					: break;
-			case "checkbox"									: return React.createElement(CaretakerFormInputCheckBox, this.getSpecialProps()); break;
+			case "checkbox"									: return React.createElement(CaretakerFormInputCheckbox, this.getSpecialProps()); break;
 			case "textarea"									: break;
-			case "radio"										:	 break;
+			case "radio"										:	return React.createElement(CaretakerFormInputRadio, this.getSpecialProps());
 			//need select interface
 			case "select-object"						: break;
 			case "select-object-multiple"		:	return false; break;

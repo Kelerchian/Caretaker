@@ -22,10 +22,13 @@ class CaretakerInput extends React.Component{
 		this.state = {}
 		if(this.isCommonInput()){
 			this.state.value = ""
+			if(props.value){
+				this.state.value = props.value
+			}
 		}
 	}
 	getNegativeCommonPropKeys(){
-		return ["options"]
+		return ["options","value"]
 	}
 	getProps(){
 		var props = Object.assign({}, this.props)
@@ -36,6 +39,7 @@ class CaretakerInput extends React.Component{
 			})
 		}
 		props.onChange = this.onCommonInputChange.bind(this)
+		props.value = this.state.value
 		return props
 	}
 	getSpecialProps(){
@@ -62,17 +66,18 @@ class CaretakerInput extends React.Component{
 		}
 	}
 	updateParent(){
-		this.setState(this.state)
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
 		}
 	}
 	onCommonInputChange(event){
 		this.state.value = event.target.value
+		this.setState(this.state)
 		this.updateParent()
 	}
 	onChange(value){
 		this.state.value = value
+		this.setState(this.state)
 		this.updateParent()
 	}
 	renderSpecialInput(){
@@ -84,9 +89,9 @@ class CaretakerInput extends React.Component{
 			//need options
 			case "select"										: break;
 			case "select-multiple"					: break;
-			case "checkbox"									: return React.createElement(CaretakerFormInputCheckBox, this.getSpecialProps()); break;
+			case "checkbox"									: return React.createElement(CaretakerFormInputCheckbox, this.getSpecialProps()); break;
 			case "textarea"									: break;
-			case "radio"										:	 break;
+			case "radio"										:	return React.createElement(CaretakerFormInputRadio, this.getSpecialProps());
 			//need select interface
 			case "select-object"						: break;
 			case "select-object-multiple"		:	return false; break;
@@ -318,7 +323,7 @@ class CaretakerFormObjectCollection extends React.Component{
 	value: ["value","_rememberme"]
 }
 */
-class CaretakerFormInputCheckBox extends React.Component{
+class CaretakerFormInputCheckbox extends React.Component{
 	constructor(props){
 		super(props)
 
@@ -337,7 +342,7 @@ class CaretakerFormInputCheckBox extends React.Component{
 	}
 	updateParent(){
 		if(this.props.onChange){
-			this.props.onChange(this.state.value)
+			this.props.onChange(Array.from(this.state.value))
 		}
 	}
 	onChange(index, value){
@@ -379,7 +384,7 @@ class CaretakerFormInputCheckBox extends React.Component{
 				props.checked = false
 			}
 
-			html.push(React.createElement('div',{className:"CaretakerFormInputCheckBox", key:i}, [
+			html.push(React.createElement('div',{className:"CaretakerFormInputCheckbox", key:i}, [
 				React.createElement('input', props),
 				text
 			]))
@@ -388,7 +393,77 @@ class CaretakerFormInputCheckBox extends React.Component{
 	}
 	render(){
 		var name = this.props.name || ""
-		return React.createElement('div', {className: "CaretakerFormInputCheckBoxCollection"}, (
+		return React.createElement('div', {className: "CaretakerFormInputCheckboxCollection"}, (
+			this.getCheckboxes()
+		))
+	}
+}
+
+/** Command example
+{
+	type:"type",
+	name:"theformradio"
+	values:{
+		"male":"Male",
+		"female":"Female"
+	},
+	value: "male"
+}
+*/
+class CaretakerFormInputRadio extends React.Component{
+	constructor(props){
+		super(props)
+		this.state = {}
+		this.state.value = this.props.value || ""
+	}
+	updateParent(){
+		if(this.props.onChange){
+			this.props.onChange(this.state.value)
+		}
+	}
+	onChange(value){
+		this.state.value = value
+		this.setState(this.state)
+		this.updateParent()
+	}
+	getNegativePropKeys(){
+		return ["values","value","options"]
+	}
+	getProps(){
+		var props = Object.assign({}, this.props)
+		this.getNegativePropKeys().forEach(function(key){
+			props[key] = null
+			delete props[key]
+		})
+		return props
+	}
+	getCheckboxes(){
+		var html = ""
+		var values = this.props.values
+		for(var i in values){
+			if(html == ""){
+				html = []
+			}
+			var text = values[i]
+			var props = this.getProps()
+			props.onChange = this.onChange.bind(this, i)
+			props.key = i+"-radio"
+			if(this.state.value == i){
+				props.checked = true
+			}else{
+				props.checked = false
+			}
+
+			html.push(React.createElement('div',{className:"CaretakerFormInputRadio", key:i}, [
+				React.createElement('input', props),
+				text
+			]))
+		}
+		return html
+	}
+	render(){
+		var name = this.props.name || ""
+		return React.createElement('div', {className: "CaretakerFormInputRadioCollection"}, (
 			this.getCheckboxes()
 		))
 	}
