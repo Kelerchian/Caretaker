@@ -1,0 +1,136 @@
+	.NotificationBar{
+		display: block;
+		transition: opacity 0.5s ease;
+		width: 300px;
+		margin: auto;
+		opacity: 1;
+	}
+	.NotificationBar.hidden{
+		display: none;
+	}
+	.NotificationBar.faded{
+		opacity: 0;
+	}
+	.NotificationList{
+		padding: 2px;
+		background: black;
+		border-top-right-radius: 0;
+	}
+	.NotificationItem{
+		padding: 0.5rem;
+		background: #fafafa;
+		box-shadow: inset 0 0 0.2px black;
+		transition: background-color 0.3s ease, opacity 0.3s ease;
+		text-decoration: none;
+		color: black;
+		opacity: 1;
+
+		display: flex;
+		flex-flow: row nowrap;
+		align-items: stretch;
+		justify-content: center;
+	}
+	.NotificationItem:hover *{
+		transition: background-color 0.3s ease, opacity 0.3s ease;
+		text-decoration: none;
+		color: black;
+	}
+	.NotificationItem .image-container{
+		padding: 0.25rem 0;
+		flex: 45px 0 0;
+	}
+	.NotificationItem .image-container>img{
+		width:100%;
+		height: 45px;
+	}
+	.NotificationItem .text-container{
+		padding: 0.25rem 0.5rem;
+		flex: auto 1 1;
+	}
+	.NotificationItem .remove-container{
+		padding: 0.25rem 0;
+		flex: 20px 0 0;
+		display: flex;
+		flex-flow: row nowrap;
+		align-items: flex-start;
+	}
+	.NotificationItem .remove-button{
+		border:none;
+		background: rgba(0,0,0,0);
+	}
+	.NotificationItem .remove-button:hover{
+		border:none;
+		background: rgba(0,0,0,0.2);
+	}
+	.NotificationItem.hidden{
+		display: none;
+	}
+	.NotificationItem.faded{
+		opacity: 0;
+	}
+	.NotificationItem[href]{
+		background: #32A0D1;
+		color: white;
+	}
+	.NotificationItem[href]>*{
+		color: white;
+	}
+	.NotificationItem[href]:hover{
+		background: #A9D5E8;
+	}
+	.NotificationClose{
+		border: none;
+		border-top-left-radius: 0.5rem;
+		border-top-right-radius: 0.5rem;
+		margin-left: auto;
+		color: white;
+	}
+
+/**
+* UserDisplay
+*
+*/
+.UserDisplay{
+	width: 100%;
+}
+.UserDisplay>img{
+	width: 230px;
+	max-width: 100%;
+	object-fit: cover;
+}
+
+.UserDisplay>.identity{
+	display: inline-block;
+}
+.UserDisplay>.identity,
+.UserDisplay>.identity>*{
+	max-width: 100%;
+	word-wrap: break-word;
+}
+
+/**
+* UserDisplayInline
+*
+*/
+.UserDisplayInline{
+	width: 100%;
+	display: flex;
+	align-items: flex-start;
+}
+.UserDisplayInline>img{
+	flex: 60px 0 0;
+	height: 60px;
+	padding: 0.5rem;
+	object-fit: cover;
+}
+.UserDisplayInline>.identity{
+	flex: auto 1 1;
+	padding: 0.5rem;
+}
+.UserDisplayInline>.identity,
+.UserDisplayInline>.identity>*{
+	max-width: 100%;
+	word-wrap: break-word;
+	text-align: left;
+	margin: 0.25rem 0;
+}

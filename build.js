@@ -1,7 +1,7 @@
-const fs = require('fs')
-const path = require('path')
-const gulp = require('gulp')
-const concat = require('gulp-concat')
+var fs = require('fs')
+var path = require('path')
+var gulp = require('gulp')
+var concat = require('gulp-concat')
 path.delimiter = "/"
 
 var javascriptSource = [];
@@ -10,7 +10,7 @@ var cssSource = [];
 
 	var folderContent = fs.readdirSync( path.resolve(__dirname, dir) )
 	folderContent.forEach(function( filename ){
-		var filepath = "./"+ dir+"/"+ filename 
+		var filepath = "./"+ dir+"/"+ filename
 		filepath = filepath.replace(/\\/gi, "/")
 		var stat = fs.lstatSync( filepath )
 		if(stat.isFile()){
@@ -29,8 +29,10 @@ var cssSource = [];
 
 console.log(javascriptSource, cssSource)
 
-gulp.task('script', function(){
-	gulp.src(javascriptSource)
-			.pipe(concat('caretaker.js'))
-			.pipe(gulp.dest("dist") )
-})
+gulp.src(javascriptSource)
+	.pipe(concat('caretaker.js'))
+	.pipe(gulp.dest("dist") )
+
+gulp.src(cssSource)
+	.pipe(concat('caretaker.css'))
+	.pipe(gulp.dest("dist"))
