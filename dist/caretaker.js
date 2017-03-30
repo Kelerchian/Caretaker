@@ -1,4 +1,3 @@
-
 class CaretakerForm extends React.Component{
 	constructor(props){
 		super(props)
@@ -14,6 +13,96 @@ class CaretakerForm extends React.Component{
 		return React.createElement('form', {className: "CaretakerForm"}, (
 			React.createElement(CaretakerFormObject, props)
 		))
+	}
+}
+
+class CaretakerInput extends React.Component{
+	constructor(props){
+		super(props)
+		this.state = {}
+		if(this.isCommonInput()){
+			this.state.value = ""
+		}
+	}
+	getNegativeCommonPropKeys(){
+		return ["options"]
+	}
+	getProps(){
+		var props = Object.assign({}, this.props)
+		if(this.isCommonInput()){
+			this.getNegativeCommonPropKeys().forEach(function(key){
+				props[key] = null
+				delete props[key]
+			})
+		}
+		props.onChange = this.onCommonInputChange.bind(this)
+		return props
+	}
+	getSpecialProps(){
+		var props = Object.assign({}, this.props)
+		props.onChange = this.onChange.bind(this)
+		return props
+	}
+	isCommonInput(){
+		switch (this.props.type) {
+			//need time interface
+			case "time"											:
+			case "date"											:
+			case "week"											:
+			//need options
+			case "select"										:
+			case "select-multiple"					:
+			case "checkbox"									:
+			case "textarea"									:
+			case "radio"										:
+			//need select interface
+			case "select-object"						:
+			case "select-object-multiple"		:	return false;
+			default: return true;
+		}
+	}
+	updateParent(){
+		this.setState(this.state)
+		if(this.props.onChange){
+			this.props.onChange(this.state.value)
+		}
+	}
+	onCommonInputChange(event){
+		this.state.value = event.target.value
+		this.updateParent()
+	}
+	onChange(value){
+		this.state.value = value
+		this.updateParent()
+	}
+	renderSpecialInput(){
+		switch (this.props.type) {
+			//need time interface
+			case "time"											: break;
+			case "date"											: break;
+			case "week"											: break;
+			//need options
+			case "select"										: break;
+			case "select-multiple"					: break;
+			case "checkbox"									: return React.createElement(CaretakerFormInputCheckBox, this.getSpecialProps()); break;
+			case "textarea"									: break;
+			case "radio"										:	 break;
+			//need select interface
+			case "select-object"						: break;
+			case "select-object-multiple"		:	return false; break;
+		}
+	}
+	render(){
+
+		if(this.isCommonInput()){
+			return React.createElement('div',{className: "CaretakerInput"}, (
+				React.createElement('input', this.getProps())
+			))
+		}else{
+			return React.createElement('div',{className: "CaretakerInput"}, (
+				this.renderSpecialInput()
+			))
+		}
 	}
 }
 
@@ -218,89 +307,90 @@ class CaretakerFormObjectCollection extends React.Component{
 	}
 }
 
-class CaretakerInput extends React.Component{
+/** Command example
+{
+	type:"type",
+	name:"theformcheckboxes"
+	values:{
+		"value":"text",
+		"_rememberme":"Rememberme"
+	},
+	value: ["value","_rememberme"]
+}
+*/
+class CaretakerFormInputCheckBox extends React.Component{
 	constructor(props){
 		super(props)
-		this.state = {}
-		if(this.isCommonInput()){
-			this.state.value = ""
-		}
-	}
-	getNegativeCommonPropKeys(){
-		return ["options"]
-	}
-	getProps(){
-		var props = Object.assign({},props)
-		if(this.isCommonInput()){
-			this.getNegativeCommonPropKeys().forEach(function(key){
-				props[key] = null
-				delete props[key]
-			})
-		}
-		return props
-	}
-	isCommonInput(){
-		switch(this.props.type){
-			//need time interface
-			case "time"							:
-			case "date"							:
-			case "week"							:
-			//need options
-			case "select"						:
-			case "select-multiple"	:
-			case "checkbox"					:
-			case "textarea"					:
-			case "radio"						:
-			//need select interface
-			case "select-object"		:	return false; break;
-			default					: return true; break;
-			// Other includes:
-			// ["text","password","submit","reset","button","color","email","range","search","tel","url","number"]
+
+		var value = new Set()
+		try{
+			for(var i in props.value){
+				try{
+					value.add(props.value[i])
+				}catch(e){}
+			}
+		}catch(e){}
+
+		this.state = {
+			value: value
 		}
 	}
 	updateParent(){
-		this.setState(this.state)
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
 		}
 	}
-	onCommonInputChange(event){
-		this.state.value = event.target.value
-		this.updateParent()
-	}
-	onChange(value){
-		this.state.value = value
-		this.updateParent()
-	}
-	renderSpecialInput(){
-		switch (this.props.type) {
-			//need time interface
-			case "time"							:
-			case "date"							:
-			case "week"							:
-			//need options
-			case "select"						:
-			case "select-multiple"	:
-			case "checkbox"					:
-			case "textarea"					:
-			case "radio"						:
-			//need select interface
-			case "select-object"		:	return false; break;
-			default					: return true; break;
+	onChange(index, value){
+
+		if(this.state.value.has(index)){
+			this.state.value.delete(index)
+		}else{
+			this.state.value.add(index)
 		}
+
+		this.setState(this.state)
+		this.updateParent()
+	}
+	getNegativePropKeys(){
+		return ["values","value","options"]
+	}
+	getProps(){
+		var props = Object.assign({}, this.props)
+		this.getNegativePropKeys().forEach(function(key){
+			props[key] = null
+			delete props[key]
+		})
+		return props
+	}
+	getCheckboxes(){
+		var html = ""
+		var values = this.props.values
+		for(var i in values){
+			if(html == ""){
+				html = []
+			}
+			var text = values[i]
+			var props = this.getProps()
+			props.onChange = this.onChange.bind(this, i)
+			props.key = i+"-checkbox"
+			if(this.state.value.has(i)){
+				props.checked = true
+			}else{
+				props.checked = false
+			}
+
+			html.push(React.createElement('div',{className:"CaretakerFormInputCheckBox", key:i}, [
+				React.createElement('input', props),
+				text
+			]))
+		}
+		return html
 	}
 	render(){
-		var props = this.getProps()
-		if(this.isCommonInput()){
-			props.onChange = this.onCommonInputChange.bind(this)
-			return React.createElement('div',{className: "CaretakerInput"}, (
-				React.createElement('input', props)
-			))
-		}else{
-			return React.createElement('div',{className: "CaretakerInput"}, (
-				this.renderSpecialInput()
-			))
-		}
+		var name = this.props.name || ""
+		return React.createElement('div', {className: "CaretakerFormInputCheckBoxCollection"}, (
+			this.getCheckboxes()
+		))
 	}
 }
 
