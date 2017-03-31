@@ -5,12 +5,14 @@
   "main": "build.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-		"runfactory": "node runfactory"
+    "runfactory": "node runfactory"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "draft-js": "^0.10.0",
+    "draft-js-buttons": "^2.0.0-beta6",
+    "draft-js-inline-toolbar-plugin": "^2.0.0-beta6",
     "draft-js-linkify-plugin": "^2.0.0-beta1",
     "draft-js-plugins-editor": "^2.0.0-beta1",
     "gulp": "^3.9.1",

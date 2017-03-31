@@ -40,6 +40,8 @@ class CaretakerInput extends React.Component{
 			case "select-multiple"					:
 			case "checkbox"									:
 			case "textarea"									:
+			case "textarea-text"						:
+			case "textarea-html"						:
 			case "radio"										:
 			//need select interface
 			case "select-object"						:
@@ -72,8 +74,10 @@ class CaretakerInput extends React.Component{
 			case "select"										: break;
 			case "select-multiple"					: break;
 			case "checkbox"									: return React.createElement(CaretakerFormInputCheckbox, this.getSpecialProps()); break;
-			case "textarea"									: break;
-			case "radio"										:	return React.createElement(CaretakerFormInputRadio, this.getSpecialProps());
+			case "textarea"									:
+			case "textarea-text"						: return React.createElement(CaretakerFormInputTextarea, this.getSpecialProps()); break;
+			case "textarea-html"						: return React.createElement(CaretakerFormInputTextareaHTML, this.getSpecialProps()); break;
+			case "radio"										:	return React.createElement(CaretakerFormInputRadio, this.getSpecialProps()); break;
 			//need select interface
 			case "select-object"						: break;
 			case "select-object-multiple"		:	return false; break;
