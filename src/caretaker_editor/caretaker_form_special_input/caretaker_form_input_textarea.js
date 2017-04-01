@@ -2,13 +2,25 @@ class CaretakerFormInputTextarea extends React.Component{
 	constructor(props){
 		super(props)
 		this.state = {}
-		this.state.value = props.value || ""
+		this.state.value = ""
+		this.loadValue(props)
+	}
+	componentDidMount(){
+		this.updateParent()
+	}
+	componentWillReceiveProps(props){
+		this.loadValue(props)
+		this.setState(this.state)
+	}
+	loadValue(props){
+		if(props.value){
+			this.state.value = props.value
+		}
 	}
 	updateParent(){
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
 		}
-		this.setState(this.state)
 	}
 	onChange(event){
 		this.state.value = event.target.value

@@ -4,9 +4,19 @@ class CaretakerInput extends React.Component{
 		this.state = {}
 		if(this.isCommonInput()){
 			this.state.value = ""
-			if(props.value){
-				this.state.value = props.value
-			}
+		}
+		this.loadValue(props)
+	}
+	componentDidMount(){
+		this.updateParent()
+	}
+	componentWillReceiveProps(props){
+		this.loadValue(props)
+		this.setState(this.state)
+	}
+	loadValue(props){
+		if(props.value != null){
+			this.state.value = props.value
 		}
 	}
 	getNegativeCommonPropKeys(){

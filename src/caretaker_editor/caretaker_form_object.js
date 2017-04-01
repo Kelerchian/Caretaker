@@ -4,11 +4,34 @@ class CaretakerFormObject extends React.Component{
 		this.state = {}
 		if(this.isMany()){
 			this.state.value = []
+			this.state.name = "arr"
 		}
 		else if(this.isObject()){
 			this.state.value = {}
+			this.state.name = "obj"
 		}else{
 			this.state.value = null
+			this.state.name = "val"
+		}
+		this.loadValue(props)
+	}
+	componentDidMount(){
+		this.updateParent()
+	}
+	componentWillReceiveProps(props){
+		this.loadValue(props)
+		this.setState(this.state)
+	}
+	loadValue(props){
+
+		if(props.value != null){
+			this.state.value = props.value
+		}else if(props.defaultValue != null){
+			this.state.value = props.defaultValue
+		}
+
+		if(props.name != null){
+			this.state.name = props.name
 		}
 	}
 	isMany(){
@@ -19,29 +42,26 @@ class CaretakerFormObject extends React.Component{
 	}
 	updateParent(){
 		if(this.props.onChange){
-			this.props.onChange(this.state.value, this.props.name)
+			this.props.onChange(this.state.value, this.state.name)
 		}
 		this.setState(this.state)
 	}
 	onChange(value, name){
-		if(name){
+		if(name != null){
 			this.state.value[name] = value
 		}else{
 			this.state.value = value
 		}
 		this.updateParent()
 	}
-	getValue(){
-		return this.state.value
-	}
 	getOnChangeListener(){
 		return this.onChange.bind(this)
 	}
 	getNegativeChildPropKeys(){
-		return ["label","description","quantity","options"]
+		return ["label","description","quantity"]
 	}
 	getNegativeInputPropKeys(){
-		return ["label","description","quantity","has"]
+		return ["label","description","quantity","has","defaultValue"]
 	}
 	getInputProps(){
 		var props = Object.assign({}, this.props)
@@ -50,6 +70,7 @@ class CaretakerFormObject extends React.Component{
 			delete props[key]
 		})
 		props.onChange = this.getOnChangeListener()
+		props.value = this.state.value
 		return props
 	}
 	getCollectionProps(){
@@ -59,6 +80,7 @@ class CaretakerFormObject extends React.Component{
 			delete props[key]
 		})
 		props.onChange = this.getOnChangeListener()
+		props.value = this.state.value
 		return props
 	}
 	appearanceGetLabel(){
@@ -66,7 +88,7 @@ class CaretakerFormObject extends React.Component{
 			if(this.isObject()){
 				return React.createElement('h5', {key:"label"}, this.props.label)
 			}else{
-				return React.createElement('label', {htmlFor: this.props.name, key:"label"}, this.props.label)
+				return React.createElement('label', {htmlFor: this.state.name, key:"label"}, this.props.label)
 			}
 		}
 		return false
@@ -92,8 +114,14 @@ class CaretakerFormObject extends React.Component{
 					var childProps = Object.assign({},has[i])
 					childProps.key = i
 					childProps.name = i
-					if(has[i].name){
+					if(this.state.value[i] != null){
+						childProps.value = this.state.value[i]
+					}
+					if(has[i].name != null){
 						childProps.name = has[i].name
+						if(this.state.value[childProps.name]){
+							childProps.value = this.state.value[childProps.name]
+						}
 					}
 					childProps.onChange = this.getOnChangeListener()
 					objects.push( React.createElement(CaretakerFormObject, childProps) )
@@ -103,6 +131,7 @@ class CaretakerFormObject extends React.Component{
 		}else{
 			var props = this.getInputProps()
 			props.key = "object"
+			props.value = this.state.value
 			return React.createElement(CaretakerInput,props)
 		}
 	}
@@ -121,7 +150,7 @@ class CaretakerFormObject extends React.Component{
 	}
 	render(){
 		var props = {}
-		props.className = "CaretakerFormObject " + (this.props.name ? this.props.name : "")
+		props.className = "CaretakerFormObject " + (this.state.name ? this.state.name : "")
 		return React.createElement('div',props, this.appearanceGetInsideObjectContainer())
 	}
 }

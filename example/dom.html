@@ -48,36 +48,38 @@
 						type:"text",
 						label:"First Name",
 						name:"firstname",
-						value: "firstname"
+						defaultValue: "firstname"
+					},{
+						type:"checkbox",
+						name:"thecheckboxes",
+						values: {
+							one: "Checkbox one",
+							two: "Checkbox two"
+						},
+						defaultValue: ["one"]
+					},{
+						type:"radio",
+						label:"Gender",
+						name:"gender",
+						values:{
+							male: "Male",
+							female: "Female"
+						},
+						defaultValue:"female"
+					},{
+						type:"textarea-html",
+						name:"description",
+						label:"description",
+						description:"tell people about you",
+						placeholder: "write about yourselff"
 					}
-					// },{
-					// 	type:"text",
-					// 	label:"Last Name",
-					// 	name:"lastname",
-					// 	value:"asdf"
-					// },{
-					// 	type:"checkbox",
-					// 	name:"thecheckboxes",
-					// 	values: {
-					// 		one: "Checkbox one",
-					// 		two: "Checkbox two"
-					// 	}
-					// },{
-					// 	type:"radio",
-					// 	label:"Gender",
-					// 	name:"gender",
-					// 	value: "male",
-					// 	values:{
-					// 		male: "Male",
-					// 		female: "Female"
-					// 	}
-					// },{
-					// 	type:"textarea-html",
-					// 	name:"description",
-					// 	label:"description",
-					// 	description:"tell people about you",
-					// 	value: "<p>This is where it becomes <b>bold</b></p>"
-					// }
+					,{
+						type:"textarea",
+						name:"description2",
+						label:"description2",
+						description:"tell people about you",
+						value: "<p>This is where it becomes <b>bold</b></p>"
+					}
 				],
 				label: "Users",
 				description: "this is a panel to edit user[thedescription]"

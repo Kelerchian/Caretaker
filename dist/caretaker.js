@@ -54887,17 +54887,22 @@ module.exports = __webpack_amd_options__;
 class CaretakerForm extends React.Component{
 	constructor(props){
 		super(props)
-		this.state = {}
-		this.state.value = null
+		this.state = {
+			value: props.value
+		}
 	}
 	onChange(value){
 		this.state.value = value
 		this.setState(this.state)
 	}
-	render(){
+	getProps(){
 		var props = Object.assign({}, this.props.edit)
 		props.onChange = this.onChange.bind(this)
 		props.value = this.state.value
+		return props
+	}
+	render(){
+		var props = this.getProps()
 		return React.createElement('form', {className: "CaretakerForm"}, (
 			React.createElement(CaretakerFormObject, props)
 		))
@@ -54910,9 +54915,19 @@ class CaretakerInput extends React.Component{
 		this.state = {}
 		if(this.isCommonInput()){
 			this.state.value = ""
-			if(props.value){
-				this.state.value = props.value
-			}
+		}
+		this.loadValue(props)
+	}
+	componentDidMount(){
+		this.updateParent()
+	}
+	componentWillReceiveProps(props){
+		this.loadValue(props)
+		this.setState(this.state)
+	}
+	loadValue(props){
+		if(props.value != null){
+			this.state.value = props.value
 		}
 	}
 	getNegativeCommonPropKeys(){
@@ -55007,11 +55022,34 @@ class CaretakerFormObject extends React.Component{
 		this.state = {}
 		if(this.isMany()){
 			this.state.value = []
+			this.state.name = "arr"
 		}
 		else if(this.isObject()){
 			this.state.value = {}
+			this.state.name = "obj"
 		}else{
 			this.state.value = null
+			this.state.name = "val"
+		}
+		this.loadValue(props)
+	}
+	componentDidMount(){
+		this.updateParent()
+	}
+	componentWillReceiveProps(props){
+		this.loadValue(props)
+		this.setState(this.state)
+	}
+	loadValue(props){
+
+		if(props.value != null){
+			this.state.value = props.value
+		}else if(props.defaultValue != null){
+			this.state.value = props.defaultValue
+		}
+
+		if(props.name != null){
+			this.state.name = props.name
 		}
 	}
 	isMany(){
@@ -55022,29 +55060,26 @@ class CaretakerFormObject extends React.Component{
 	}
 	updateParent(){
 		if(this.props.onChange){
-			this.props.onChange(this.state.value, this.props.name)
+			this.props.onChange(this.state.value, this.state.name)
 		}
 		this.setState(this.state)
 	}
 	onChange(value, name){
-		if(name){
+		if(name != null){
 			this.state.value[name] = value
 		}else{
 			this.state.value = value
 		}
 		this.updateParent()
 	}
-	getValue(){
-		return this.state.value
-	}
 	getOnChangeListener(){
 		return this.onChange.bind(this)
 	}
 	getNegativeChildPropKeys(){
-		return ["label","description","quantity","options"]
+		return ["label","description","quantity"]
 	}
 	getNegativeInputPropKeys(){
-		return ["label","description","quantity","has"]
+		return ["label","description","quantity","has","defaultValue"]
 	}
 	getInputProps(){
 		var props = Object.assign({}, this.props)
@@ -55053,6 +55088,7 @@ class CaretakerFormObject extends React.Component{
 			delete props[key]
 		})
 		props.onChange = this.getOnChangeListener()
+		props.value = this.state.value
 		return props
 	}
 	getCollectionProps(){
@@ -55062,6 +55098,7 @@ class CaretakerFormObject extends React.Component{
 			delete props[key]
 		})
 		props.onChange = this.getOnChangeListener()
+		props.value = this.state.value
 		return props
 	}
 	appearanceGetLabel(){
@@ -55069,7 +55106,7 @@ class CaretakerFormObject extends React.Component{
 			if(this.isObject()){
 				return React.createElement('h5', {key:"label"}, this.props.label)
 			}else{
-				return React.createElement('label', {htmlFor: this.props.name, key:"label"}, this.props.label)
+				return React.createElement('label', {htmlFor: this.state.name, key:"label"}, this.props.label)
 			}
 		}
 		return false
@@ -55095,8 +55132,14 @@ class CaretakerFormObject extends React.Component{
 					var childProps = Object.assign({},has[i])
 					childProps.key = i
 					childProps.name = i
-					if(has[i].name){
+					if(this.state.value[i] != null){
+						childProps.value = this.state.value[i]
+					}
+					if(has[i].name != null){
 						childProps.name = has[i].name
+						if(this.state.value[childProps.name]){
+							childProps.value = this.state.value[childProps.name]
+						}
 					}
 					childProps.onChange = this.getOnChangeListener()
 					objects.push( React.createElement(CaretakerFormObject, childProps) )
@@ -55106,6 +55149,7 @@ class CaretakerFormObject extends React.Component{
 		}else{
 			var props = this.getInputProps()
 			props.key = "object"
+			props.value = this.state.value
 			return React.createElement(CaretakerInput,props)
 		}
 	}
@@ -55124,7 +55168,7 @@ class CaretakerFormObject extends React.Component{
 	}
 	render(){
 		var props = {}
-		props.className = "CaretakerFormObject " + (this.props.name ? this.props.name : "")
+		props.className = "CaretakerFormObject " + (this.state.name ? this.state.name : "")
 		return React.createElement('div',props, this.appearanceGetInsideObjectContainer())
 	}
 }
@@ -55135,15 +55179,27 @@ class CaretakerFormObjectCollection extends React.Component{
 		this.state = {}
 		this.state.maxCount = props.max || Infinity
 		this.state.minCount = props.min || 0
-		console.log()
 		if(this.state.maxCount < 1){ throw "max count of multiple object cannot be fewer than 1" }
 		if(this.state.minCount < 0){ throw "min count of multiple object cannot be fewer than 0" }
 		if(this.state.maxCount < this.state.minCount ){ throw "max count cannot be fewer than min count" }
 		this.state.childrenCount = this.state.minCount || 1
 		this.state.value = []
+		this.loadValue(props)
+	}
+	componentDidMount(){
+		this.updateParent()
+	}
+	componentWillReceiveProps(props){
+		this.loadValue(props)
+		this.setState(this.state)
+	}
+	loadValue(props){
+		if(props.value){
+			this.state.value = props.value
+		}
 	}
 	getNegativeChildPropKeys(){
-		return ["min","max"]
+		return ["min","max","value"]
 	}
 	getProps(){
 		var props = Object.assign({}, this.props)
@@ -55191,11 +55247,11 @@ class CaretakerFormObjectCollection extends React.Component{
 			var props = this.getProps()
 			props.name = i
 			props.key = i+"-child"
-			if(this.state.value[i]){
+			if(this.state.value[i] != null){
 				props.value = this.state.value[i]
 			}
 			children.push( React.createElement('div', { className: "CaretakerFormObjectContainer", key: i}, [
-				React.createElement('button', { onClick:this.onRemoveChild.bind(this,i), name:i, type:"button" , key:i+"-delete-button" }, "delete"),
+				React.createElement('button', { onClick:this.onRemoveChild.bind(this,i), type:"button" , key:i+"-delete-button" }, "delete"),
 				React.createElement(CaretakerFormObject, props)
 			]) )
 		}
@@ -55220,19 +55276,28 @@ class CaretakerFormObjectCollection extends React.Component{
 class CaretakerFormInputCheckbox extends React.Component{
 	constructor(props){
 		super(props)
-
+		this.state = {}
+		this.loadValue(props)
+	}
+	componentDidMount(){
+		this.updateParent()
+	}
+	componentWillReceiveProps(props){
+		this.loadValue(props)
+		this.setState(this.state)
+	}
+	loadValue(props){
 		var value = new Set()
-		try{
-			for(var i in props.value){
-				try{
-					value.add(props.value[i])
-				}catch(e){}
-			}
-		}catch(e){}
-
-		this.state = {
-			value: value
+		if(props.value != null){
+			try{
+				for(var i in props.value){
+					try{
+						value.add(props.value[i])
+					}catch(e){}
+				}
+			}catch(e){console.log(e)}
 		}
+		this.state.value = value
 	}
 	updateParent(){
 		if(this.props.onChange){
@@ -55307,7 +55372,19 @@ class CaretakerFormInputRadio extends React.Component{
 	constructor(props){
 		super(props)
 		this.state = {}
-		this.state.value = this.props.value || ""
+		this.loadValue(props)
+	}
+	componentDidMount(){
+		this.updateParent()
+	}
+	componentWillReceiveProps(props){
+		this.loadValue(props)
+		this.setState(this.state)
+	}
+	loadValue(props){
+		if(props.value){
+			this.state.value = props.value
+		}
 	}
 	updateParent(){
 		if(this.props.onChange){
@@ -55366,13 +55443,25 @@ class CaretakerFormInputTextarea extends React.Component{
 	constructor(props){
 		super(props)
 		this.state = {}
-		this.state.value = props.value || ""
+		this.state.value = ""
+		this.loadValue(props)
+	}
+	componentDidMount(){
+		this.updateParent()
+	}
+	componentWillReceiveProps(props){
+		this.loadValue(props)
+		this.setState(this.state)
+	}
+	loadValue(props){
+		if(props.value){
+			this.state.value = props.value
+		}
 	}
 	updateParent(){
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
 		}
-		this.setState(this.state)
 	}
 	onChange(event){
 		this.state.value = event.target.value
@@ -55403,11 +55492,27 @@ class CaretakerFormInputTextarea extends React.Component{
 class CaretakerFormInputTextareaHTML extends React.Component{
 	constructor(props){
 		super(props)
-		var value = props.value || ""
-		var blocksFromHTML = CaretakerTextareaDependency.convertFromHTML(value)
-		var state = CaretakerTextareaDependency.ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap)
-		this.state = {
-			editorState: CaretakerTextareaDependency.EditorState.createWithContent(state)
+		this.state = { editorState:CaretakerTextareaDependency.EditorState.createEmpty() }
+		this.loadValue(props)
+	}
+	componentDidMount(){
+		this.updateParent()
+	}
+	componentWillReceiveProps(props){
+		this.loadValue(props)
+		this.setState(this.state)
+	}
+	loadValue(props){
+		if(props.value){
+			var currentValue = CaretakerTextareaDependency.convertToHTML(this.state.editorState.getCurrentContent())
+			var value = props.value || ""
+			if(currentValue != value){
+				var blocksFromHTML = CaretakerTextareaDependency.convertFromHTML(value)
+				var state = CaretakerTextareaDependency.ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap)
+				this.state = {
+					editorState: CaretakerTextareaDependency.EditorState.createWithContent(state)
+				}
+			}
 		}
 	}
 	updateParent(){
@@ -55415,7 +55520,6 @@ class CaretakerFormInputTextareaHTML extends React.Component{
 		if(this.props.onChange){
 			this.props.onChange(value)
 		}
-		this.setState(this.state)
 	}
 	focus(){
 		this.editor.focus()
@@ -55437,7 +55541,7 @@ class CaretakerFormInputTextareaHTML extends React.Component{
 		props.editorState = this.state.editorState
 		props.plugins = CaretakerTextareaDependency.pluginsHTML
 		props.ref = (element) => { this.editor = element }
-		props.key = "textarea"
+		props.key = "textarea_html"
 		return props
 	}
 	getTextarea(){

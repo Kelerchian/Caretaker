@@ -4,15 +4,27 @@ class CaretakerFormObjectCollection extends React.Component{
 		this.state = {}
 		this.state.maxCount = props.max || Infinity
 		this.state.minCount = props.min || 0
-		console.log()
 		if(this.state.maxCount < 1){ throw "max count of multiple object cannot be fewer than 1" }
 		if(this.state.minCount < 0){ throw "min count of multiple object cannot be fewer than 0" }
 		if(this.state.maxCount < this.state.minCount ){ throw "max count cannot be fewer than min count" }
 		this.state.childrenCount = this.state.minCount || 1
 		this.state.value = []
+		this.loadValue(props)
+	}
+	componentDidMount(){
+		this.updateParent()
+	}
+	componentWillReceiveProps(props){
+		this.loadValue(props)
+		this.setState(this.state)
+	}
+	loadValue(props){
+		if(props.value){
+			this.state.value = props.value
+		}
 	}
 	getNegativeChildPropKeys(){
-		return ["min","max"]
+		return ["min","max","value"]
 	}
 	getProps(){
 		var props = Object.assign({}, this.props)
@@ -60,11 +72,11 @@ class CaretakerFormObjectCollection extends React.Component{
 			var props = this.getProps()
 			props.name = i
 			props.key = i+"-child"
-			if(this.state.value[i]){
+			if(this.state.value[i] != null){
 				props.value = this.state.value[i]
 			}
 			children.push( React.createElement('div', { className: "CaretakerFormObjectContainer", key: i}, [
-				React.createElement('button', { onClick:this.onRemoveChild.bind(this,i), name:i, type:"button" , key:i+"-delete-button" }, "delete"),
+				React.createElement('button', { onClick:this.onRemoveChild.bind(this,i), type:"button" , key:i+"-delete-button" }, "delete"),
 				React.createElement(CaretakerFormObject, props)
 			]) )
 		}

@@ -12,19 +12,28 @@
 class CaretakerFormInputCheckbox extends React.Component{
 	constructor(props){
 		super(props)
-
+		this.state = {}
+		this.loadValue(props)
+	}
+	componentDidMount(){
+		this.updateParent()
+	}
+	componentWillReceiveProps(props){
+		this.loadValue(props)
+		this.setState(this.state)
+	}
+	loadValue(props){
 		var value = new Set()
-		try{
-			for(var i in props.value){
-				try{
-					value.add(props.value[i])
-				}catch(e){}
-			}
-		}catch(e){}
-
-		this.state = {
-			value: value
+		if(props.value != null){
+			try{
+				for(var i in props.value){
+					try{
+						value.add(props.value[i])
+					}catch(e){}
+				}
+			}catch(e){console.log(e)}
 		}
+		this.state.value = value
 	}
 	updateParent(){
 		if(this.props.onChange){

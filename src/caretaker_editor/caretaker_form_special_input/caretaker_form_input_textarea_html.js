@@ -1,11 +1,27 @@
 class CaretakerFormInputTextareaHTML extends React.Component{
 	constructor(props){
 		super(props)
-		var value = props.value || ""
-		var blocksFromHTML = CaretakerTextareaDependency.convertFromHTML(value)
-		var state = CaretakerTextareaDependency.ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap)
-		this.state = {
-			editorState: CaretakerTextareaDependency.EditorState.createWithContent(state)
+		this.state = { editorState:CaretakerTextareaDependency.EditorState.createEmpty() }
+		this.loadValue(props)
+	}
+	componentDidMount(){
+		this.updateParent()
+	}
+	componentWillReceiveProps(props){
+		this.loadValue(props)
+		this.setState(this.state)
+	}
+	loadValue(props){
+		if(props.value){
+			var currentValue = CaretakerTextareaDependency.convertToHTML(this.state.editorState.getCurrentContent())
+			var value = props.value || ""
+			if(currentValue != value){
+				var blocksFromHTML = CaretakerTextareaDependency.convertFromHTML(value)
+				var state = CaretakerTextareaDependency.ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap)
+				this.state = {
+					editorState: CaretakerTextareaDependency.EditorState.createWithContent(state)
+				}
+			}
 		}
 	}
 	updateParent(){
@@ -13,7 +29,6 @@ class CaretakerFormInputTextareaHTML extends React.Component{
 		if(this.props.onChange){
 			this.props.onChange(value)
 		}
-		this.setState(this.state)
 	}
 	focus(){
 		this.editor.focus()
@@ -35,7 +50,7 @@ class CaretakerFormInputTextareaHTML extends React.Component{
 		props.editorState = this.state.editorState
 		props.plugins = CaretakerTextareaDependency.pluginsHTML
 		props.ref = (element) => { this.editor = element }
-		props.key = "textarea"
+		props.key = "textarea_html"
 		return props
 	}
 	getTextarea(){

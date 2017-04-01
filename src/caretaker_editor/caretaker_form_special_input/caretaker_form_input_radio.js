@@ -13,7 +13,19 @@ class CaretakerFormInputRadio extends React.Component{
 	constructor(props){
 		super(props)
 		this.state = {}
-		this.state.value = this.props.value || ""
+		this.loadValue(props)
+	}
+	componentDidMount(){
+		this.updateParent()
+	}
+	componentWillReceiveProps(props){
+		this.loadValue(props)
+		this.setState(this.state)
+	}
+	loadValue(props){
+		if(props.value){
+			this.state.value = props.value
+		}
 	}
 	updateParent(){
 		if(this.props.onChange){
