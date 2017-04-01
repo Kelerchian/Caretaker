@@ -14,6 +14,7 @@ class CaretakerFormInputRadio extends React.Component{
 		super(props)
 		this.state = {}
 		this.state.value = this.props.value || ""
+		console.log(this.state)
 	}
 	updateParent(){
 		if(this.props.onChange){
@@ -21,12 +22,12 @@ class CaretakerFormInputRadio extends React.Component{
 		}
 	}
 	onChange(value){
+		console.log(value)
 		this.state.value = value
-		this.setState(this.state)
 		this.updateParent()
 	}
 	getNegativePropKeys(){
-		return ["values","value","options"]
+		return ["values","value","options","name"]
 	}
 	getProps(){
 		var props = Object.assign({}, this.props)
