@@ -9,9 +9,10 @@ class CaretakerFormInputTextareaHTML extends React.Component{
 		}
 	}
 	updateParent(){
-		// if(this.props.onChange){
-		// 	this.props.onChange(this.state.value)
-		// }
+		var value = CaretakerTextareaDependency.convertToHTML(this.state.editorState.getCurrentContent())
+		if(this.props.onChange){
+			this.props.onChange(value)
+		}
 	}
 	focus(){
 		this.editor.focus()
