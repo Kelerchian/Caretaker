@@ -1,9 +1,15 @@
 const webpack = require('webpack')
 const path = require('path')
+const gulp = require('gulp')
+var concat = require('gulp-concat')
+path.delimiter = "/"
 
+var caretakerDependencyFolderPath = path.resolve("./src/caretaker_editor/caretaker_dependency")
+
+//registering webpack config file
 var outputConfig = {
 	filename: "CaretakerTextareaDependency.js",
-	path: path.resolve("./src/caretaker_editor/caretaker_dependency")
+	path: caretakerDependencyFolderPath
 }
 
 var config = {
@@ -14,5 +20,14 @@ var config = {
 		"react-dom": "ReactDOM"
 	}
 }
+
+//installing cssfile
+var cssFilePath = [
+	path.resolve("./node_modules/draft-js-inline-toolbar-plugin/lib/plugin.css"),
+	path.resolve("./node_modules/draft-js/dist/draft.css")
+]
+gulp.src( cssFilePath )
+		.pipe( concat('CaretakerTextareaDependency.css') )
+		.pipe( gulp.dest(caretakerDependencyFolderPath) )
 
 module.exports = config

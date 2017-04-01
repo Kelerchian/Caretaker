@@ -32,13 +32,13 @@ class CaretakerFormInputTextareaHTML extends React.Component{
 		})
 		props.onChange = this.onChange.bind(this)
 		props.editorState = this.state.editorState
-		props.plugins = CaretakerTextareaDependency.plugins
+		props.plugins = CaretakerTextareaDependency.pluginsHTML
 		props.ref = (element) => { this.editor = element }
 		props.key = "textarea"
 		return props
 	}
 	getTextarea(){
-		return React.createElement(CaretakerTextareaDependency.Editor, this.getProps())
+		return [React.createElement(CaretakerTextareaDependency.Editor, this.getProps()), React.createElement(CaretakerTextareaDependency.InlineToolbar, {key:"toolbar"})]
 	}
 	render(){
 		return React.createElement('div',{className: "CaretakerFormInputTextareaHTML", onClick: this.focus.bind(this)}, (

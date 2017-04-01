@@ -18672,36 +18672,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
- // eslint-disable-line import/no-unresolved
+
 var inlineToolbarPlugin = __WEBPACK_IMPORTED_MODULE_3_draft_js_inline_toolbar_plugin___default()({
-	structure: [
-		__WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["AlignBlockLeftButton"],
-		__WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["AlignBlockCenterButton"],
-		__WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["AlignBlockRightButton"],
-		__WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["AlignBlockDefaultButton"],
-		__WEBPACK_IMPORTED_MODULE_3_draft_js_inline_toolbar_plugin__["Separator"],
-		__WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["BoldButton"],
-		__WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["ItalicButton"],
-		__WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["UnderlineButton"],
-		__WEBPACK_IMPORTED_MODULE_3_draft_js_inline_toolbar_plugin__["Separator"],
-		__WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["HeadlineOneButton"],
-		__WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["HeadlineTwoButton"],
-		__WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["HeadlineThreeButton"],
-		__WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["UnorderedListButton"],
-		__WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["OrderedListButton"],
-		__WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["BlockquoteButton"],
-		__WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["CodeButton"]
-	]
-})
+  structure: [
+    __WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["BoldButton"],
+    __WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["ItalicButton"],
+    __WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["UnderlineButton"],
+    __WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["CodeButton"],
+    __WEBPACK_IMPORTED_MODULE_3_draft_js_inline_toolbar_plugin__["Separator"],
+    __WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["HeadlineOneButton"],
+    __WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["HeadlineTwoButton"],
+    __WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["HeadlineThreeButton"],
+    __WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["UnorderedListButton"],
+    __WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["OrderedListButton"],
+    __WEBPACK_IMPORTED_MODULE_5_draft_js_buttons__["BlockquoteButton"]
+  ]
+});
 var {InlineToolbar} = inlineToolbarPlugin
-var plugins = [
+var pluginsHTML = [
 	__WEBPACK_IMPORTED_MODULE_1_draft_js_undo_plugin___default()(),
 	__WEBPACK_IMPORTED_MODULE_2_draft_js_linkify_plugin___default()(),
 	inlineToolbarPlugin
 ]
 
 var Textarea = {
-	plugins: plugins,
+	pluginsHTML: pluginsHTML,
 	Editor: __WEBPACK_IMPORTED_MODULE_0_draft_js_plugins_editor___default.a,
 	EditorState: __WEBPACK_IMPORTED_MODULE_4_draft_js__["EditorState"],
 	InlineToolbar: InlineToolbar,
@@ -28781,13 +28776,13 @@ class CaretakerFormInputTextareaHTML extends React.Component{
 		})
 		props.onChange = this.onChange.bind(this)
 		props.editorState = this.state.editorState
-		props.plugins = CaretakerTextareaDependency.plugins
+		props.plugins = CaretakerTextareaDependency.pluginsHTML
 		props.ref = (element) => { this.editor = element }
 		props.key = "textarea"
 		return props
 	}
 	getTextarea(){
-		return React.createElement(CaretakerTextareaDependency.Editor, this.getProps())
+		return [React.createElement(CaretakerTextareaDependency.Editor, this.getProps()), React.createElement(CaretakerTextareaDependency.InlineToolbar, {key:"toolbar"})]
 	}
 	render(){
 		return React.createElement('div',{className: "CaretakerFormInputTextareaHTML", onClick: this.focus.bind(this)}, (

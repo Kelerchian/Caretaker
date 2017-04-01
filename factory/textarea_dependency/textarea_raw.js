@@ -17,7 +17,7 @@ import { ItalicButton,
 	AlignBlockDefaultButton,
 	AlignBlockLeftButton,
 	AlignBlockRightButton
-} from 'draft-js-buttons'; // eslint-disable-line import/no-unresolved
+} from 'draft-js-buttons';
 var inlineToolbarPlugin = createInlineToolbarPlugin({
   structure: [
     BoldButton,
@@ -30,19 +30,18 @@ var inlineToolbarPlugin = createInlineToolbarPlugin({
     HeadlineThreeButton,
     UnorderedListButton,
     OrderedListButton,
-    BlockquoteButton,
-    CodeBlockButton,
+    BlockquoteButton
   ]
 });
 var {InlineToolbar} = inlineToolbarPlugin
-var plugins = [
+var pluginsHTML = [
 	undoPlugin(),
 	linkifyPlugin(),
 	inlineToolbarPlugin
 ]
 
 var Textarea = {
-	plugins: plugins,
+	pluginsHTML: pluginsHTML,
 	Editor: Editor,
 	EditorState: EditorState,
 	InlineToolbar: InlineToolbar,
