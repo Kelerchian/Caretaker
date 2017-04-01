@@ -22,6 +22,13 @@ class CaretakerFormObject extends React.Component{
 		this.loadValue(props)
 		this.setState(this.state)
 	}
+	assertValues(){
+		if(this.isMany() && !(Array.isArray(this.state.value) || this.state.value == null)){
+			throw "Value for manyObjects must be an array"
+		}else if(this.isObject() && !(typeof this.state.value == "object" || this.state.value == null)){
+			throw "Value for Object must be an object"
+		}
+	}
 	loadValue(props){
 
 		if(props.value != null){
@@ -33,6 +40,7 @@ class CaretakerFormObject extends React.Component{
 		if(props.name != null){
 			this.state.name = props.name
 		}
+		this.assertValues()
 	}
 	isMany(){
 		return this.props.quantity == "many"

@@ -55040,6 +55040,13 @@ class CaretakerFormObject extends React.Component{
 		this.loadValue(props)
 		this.setState(this.state)
 	}
+	assertValues(){
+		if(this.isMany() && !(Array.isArray(this.state.value) || this.state.value == null)){
+			throw "Value for manyObjects must be an array"
+		}else if(this.isObject() && !(typeof this.state.value == "object" || this.state.value == null)){
+			throw "Value for Object must be an object"
+		}
+	}
 	loadValue(props){
 
 		if(props.value != null){
@@ -55051,6 +55058,7 @@ class CaretakerFormObject extends React.Component{
 		if(props.name != null){
 			this.state.name = props.name
 		}
+		this.assertValues()
 	}
 	isMany(){
 		return this.props.quantity == "many"
@@ -55182,9 +55190,9 @@ class CaretakerFormObjectCollection extends React.Component{
 		if(this.state.maxCount < 1){ throw "max count of multiple object cannot be fewer than 1" }
 		if(this.state.minCount < 0){ throw "min count of multiple object cannot be fewer than 0" }
 		if(this.state.maxCount < this.state.minCount ){ throw "max count cannot be fewer than min count" }
-		this.state.childrenCount = this.state.minCount || 1
 		this.state.value = []
 		this.loadValue(props)
+		this.state.childrenCount = this.state.value || this.state.minCount || 1
 	}
 	componentDidMount(){
 		this.updateParent()

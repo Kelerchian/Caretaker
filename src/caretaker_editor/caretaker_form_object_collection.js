@@ -7,9 +7,9 @@ class CaretakerFormObjectCollection extends React.Component{
 		if(this.state.maxCount < 1){ throw "max count of multiple object cannot be fewer than 1" }
 		if(this.state.minCount < 0){ throw "min count of multiple object cannot be fewer than 0" }
 		if(this.state.maxCount < this.state.minCount ){ throw "max count cannot be fewer than min count" }
-		this.state.childrenCount = this.state.minCount || 1
 		this.state.value = []
 		this.loadValue(props)
+		this.state.childrenCount = this.state.value || this.state.minCount || 1
 	}
 	componentDidMount(){
 		this.updateParent()
