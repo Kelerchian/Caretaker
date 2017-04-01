@@ -17,15 +17,19 @@ class CaretakerFormObject extends React.Component{
 	isObject(){
 		return this.props.type == "object"
 	}
+	updateParent(){
+		if(this.props.onChange){
+			this.props.onChange(this.state.value, this.props.name)
+		}
+		this.setState(this.state)
+	}
 	onChange(value, name){
 		if(name){
 			this.state.value[name] = value
 		}else{
 			this.state.value = value
 		}
-		if(this.props.onChange){
-			this.props.onChange(this.state.value, this.props.name)
-		}
+		this.updateParent()
 	}
 	getValue(){
 		return this.state.value

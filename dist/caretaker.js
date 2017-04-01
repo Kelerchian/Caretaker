@@ -54892,10 +54892,12 @@ class CaretakerForm extends React.Component{
 	}
 	onChange(value){
 		this.state.value = value
+		this.setState(this.state)
 	}
 	render(){
 		var props = Object.assign({}, this.props.edit)
 		props.onChange = this.onChange.bind(this)
+		props.value = this.state.value
 		return React.createElement('form', {className: "CaretakerForm"}, (
 			React.createElement(CaretakerFormObject, props)
 		))
@@ -54957,15 +54959,14 @@ class CaretakerInput extends React.Component{
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
 		}
+		this.setState(this.state)
 	}
 	onCommonInputChange(event){
 		this.state.value = event.target.value
-		this.setState(this.state)
 		this.updateParent()
 	}
 	onChange(value){
 		this.state.value = value
-		this.setState(this.state)
 		this.updateParent()
 	}
 	renderSpecialInput(){
@@ -54988,7 +54989,6 @@ class CaretakerInput extends React.Component{
 		}
 	}
 	render(){
-
 		if(this.isCommonInput()){
 			return React.createElement('div',{className: "CaretakerInput"}, (
 				React.createElement('input', this.getProps())
@@ -55020,15 +55020,19 @@ class CaretakerFormObject extends React.Component{
 	isObject(){
 		return this.props.type == "object"
 	}
+	updateParent(){
+		if(this.props.onChange){
+			this.props.onChange(this.state.value, this.props.name)
+		}
+		this.setState(this.state)
+	}
 	onChange(value, name){
 		if(name){
 			this.state.value[name] = value
 		}else{
 			this.state.value = value
 		}
-		if(this.props.onChange){
-			this.props.onChange(this.state.value, this.props.name)
-		}
+		this.updateParent()
 	}
 	getValue(){
 		return this.state.value
@@ -55151,10 +55155,10 @@ class CaretakerFormObjectCollection extends React.Component{
 		return props
 	}
 	updateParent(){
-		this.setState(this.state)
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
 		}
+		this.setState(this.state)
 	}
 	onChange(value,name){
 		this.state.value[name] = value
@@ -55234,6 +55238,7 @@ class CaretakerFormInputCheckbox extends React.Component{
 		if(this.props.onChange){
 			this.props.onChange(Array.from(this.state.value))
 		}
+		this.setState(this.state)
 	}
 	onChange(index, value){
 
@@ -55242,8 +55247,6 @@ class CaretakerFormInputCheckbox extends React.Component{
 		}else{
 			this.state.value.add(index)
 		}
-
-		this.setState(this.state)
 		this.updateParent()
 	}
 	getNegativePropKeys(){
@@ -55305,15 +55308,14 @@ class CaretakerFormInputRadio extends React.Component{
 		super(props)
 		this.state = {}
 		this.state.value = this.props.value || ""
-		console.log(this.state)
 	}
 	updateParent(){
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
 		}
+		this.setState(this.state)
 	}
 	onChange(value){
-		console.log(value)
 		this.state.value = value
 		this.updateParent()
 	}
@@ -55370,10 +55372,10 @@ class CaretakerFormInputTextarea extends React.Component{
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
 		}
+		this.setState(this.state)
 	}
 	onChange(event){
 		this.state.value = event.target.value
-		this.setState(this.state)
 		this.updateParent()
 	}
 	getNegativePropKeys(){
@@ -55413,13 +55415,13 @@ class CaretakerFormInputTextareaHTML extends React.Component{
 		if(this.props.onChange){
 			this.props.onChange(value)
 		}
+		this.setState(this.state)
 	}
 	focus(){
 		this.editor.focus()
 	}
 	onChange(editorState){
 		this.state.editorState = editorState
-		this.setState(this.state)
 		this.updateParent()
 	}
 	getNegativePropKeys(){

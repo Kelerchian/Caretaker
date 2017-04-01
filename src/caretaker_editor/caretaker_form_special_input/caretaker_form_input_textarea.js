@@ -8,10 +8,10 @@ class CaretakerFormInputTextarea extends React.Component{
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
 		}
+		this.setState(this.state)
 	}
 	onChange(event){
 		this.state.value = event.target.value
-		this.setState(this.state)
 		this.updateParent()
 	}
 	getNegativePropKeys(){

@@ -53,15 +53,14 @@ class CaretakerInput extends React.Component{
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
 		}
+		this.setState(this.state)
 	}
 	onCommonInputChange(event){
 		this.state.value = event.target.value
-		this.setState(this.state)
 		this.updateParent()
 	}
 	onChange(value){
 		this.state.value = value
-		this.setState(this.state)
 		this.updateParent()
 	}
 	renderSpecialInput(){
@@ -84,7 +83,6 @@ class CaretakerInput extends React.Component{
 		}
 	}
 	render(){
-
 		if(this.isCommonInput()){
 			return React.createElement('div',{className: "CaretakerInput"}, (
 				React.createElement('input', this.getProps())

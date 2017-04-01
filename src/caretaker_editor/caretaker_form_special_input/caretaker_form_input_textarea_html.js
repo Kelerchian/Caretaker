@@ -13,13 +13,13 @@ class CaretakerFormInputTextareaHTML extends React.Component{
 		if(this.props.onChange){
 			this.props.onChange(value)
 		}
+		this.setState(this.state)
 	}
 	focus(){
 		this.editor.focus()
 	}
 	onChange(editorState){
 		this.state.editorState = editorState
-		this.setState(this.state)
 		this.updateParent()
 	}
 	getNegativePropKeys(){

@@ -30,6 +30,7 @@ class CaretakerFormInputCheckbox extends React.Component{
 		if(this.props.onChange){
 			this.props.onChange(Array.from(this.state.value))
 		}
+		this.setState(this.state)
 	}
 	onChange(index, value){
 
@@ -38,8 +39,6 @@ class CaretakerFormInputCheckbox extends React.Component{
 		}else{
 			this.state.value.add(index)
 		}
-
-		this.setState(this.state)
 		this.updateParent()
 	}
 	getNegativePropKeys(){

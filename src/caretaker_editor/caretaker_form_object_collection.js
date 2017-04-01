@@ -24,10 +24,10 @@ class CaretakerFormObjectCollection extends React.Component{
 		return props
 	}
 	updateParent(){
-		this.setState(this.state)
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
 		}
+		this.setState(this.state)
 	}
 	onChange(value,name){
 		this.state.value[name] = value
