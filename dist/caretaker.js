@@ -1,3 +1,177 @@
+var Caretaker = (function(){
+
+	/**
+	* Caretaker top window widget
+	*
+	*/
+	var Widget = (function(){
+
+		// default onclick listener to prevent widget from closing
+		var widgetOnClick = function(e){
+			console.log(e)
+			e.stopPropagation()
+		}
+
+		function getInterfaceWidget(){
+			const interfaceID = "CaretakerInterfaceWidget"
+			var theInterface = document.querySelector('div#'+interfaceID)
+
+			if(!theInterface){
+				theInterface = document.createElement('div')
+				theInterface.id = interfaceID
+				document.body.appendChild(theInterface)
+
+				theInterface.addEventListener('click', function(e){
+					if(e.target == theInterface){
+						e.stopPropagation();
+						e.preventDefault();
+						hideInterfaceWidget()
+					}
+				}, true)
+
+				theInterface.addEventListener('touchend', function(e){
+					if(e.target == theInterface){
+						e.stopPropagation();
+						e.preventDefault();
+						hideInterfaceWidget()
+					}
+				}, true)
+			}
+			return theInterface
+		}
+
+		function removeClassFrom(classAttribute, className){
+			classAttribute = classAttribute.trim().split(' ')
+			var classIndex = classAttribute.indexOf(className)
+			if(classIndex != -1){
+				classAttribute.splice(classIndex, 1)
+			}
+			return classAttribute.join(' ')
+		}
+		function addClassFrom(classAttribute, className){
+			classAttribute = classAttribute.trim().split(' ')
+			classAttribute.push(className)
+			return classAttribute.join(' ')
+		}
+
+		function hideInterfaceWidget(theInterface){
+			var theInterface = theInterface || getInterfaceWidget()
+			theInterface.className = removeClassFrom(theInterface.className, "active")
+			return theInterface
+		}
+
+		function callInterfaceWidget(){
+			var theInterface = getInterfaceWidget()
+			theInterface.className = addClassFrom(theInterface.className, "active")
+			return theInterface
+		}
+
+		function callDateInputWidget(onChange, value){
+			var theInterface = callInterfaceWidget()
+			var intermediateChange = function(newValue){
+				console.log("intermediateChange")
+				onChange(newValue)
+				hideInterfaceWidget(theInterface)
+			}
+			ReactDOM.render(React.createElement(CaretakerDateInputWidget, {onChange:intermediateChange, value: value}), theInterface)
+		}
+
+		return {
+			callDateInputWidget
+		}
+	}())
+
+	return {
+		Widget
+	}
+})();
+
+class CaretakerDateInputWidget extends React.Component{
+	constructor(props){
+		super(props)
+		this.state = {
+			oldValue : moment(props.value),
+			lastValidValue: moment(props.value),
+			value : moment(props.value)
+		}
+	}
+	submitChange(){
+		if(this.props.onChange){
+			this.props.onChange(this.state.value)
+		}
+	}
+	cancelChange(){
+		if(this.props.onChange){
+			this.props.onChange(this.state.oldValue)
+		}
+	}
+	checkValidity(){
+		if(this.state.value.isValid()){
+			this.state.lastValidValue = moment(this.state.value)
+		}else{
+			this.state.value = moment(this.state.lastValidValue)
+		}
+		this.setState(this.state)
+	}
+	changeDay(e){
+		var day = e.target.value
+		this.state.value.date(day)
+		this.checkValidity()
+	}
+	changeMonth(e){
+		var month = e.target.value
+		this.state.value.month(month)
+		this.checkValidity()
+	}
+	changeYear(e){
+		var year = e.target.value
+		this.state.value.year(year)
+		this.checkValidity()
+	}
+	appearanceGetInputs(){
+		var minDay = 1;
+		var maxDay = moment(this.state.value).endOf("month").date()
+		var minMonth = 0;
+		var maxMonth = 12;
+		var modifier = moment(this.state.value)
+		var widget = this
+
+		var day = React.createElement('select',{onChange: this.changeDay.bind(this),value:this.state.value.date(), key:"day"}, (function(){
+			var options = []
+			for(var i = minDay; i<=maxDay; i++){
+				modifier.date(i)
+				options.push( React.createElement('option',{value:i,key:i}, modifier.format("dddd Do")) )
+			}
+			return options
+		}()))
+
+		var month = React.createElement('select',{onChange: this.changeMonth.bind(this),value:this.state.value.month(), key:"month"}, (function(){
+			var options = []
+			modifier.date(1)
+			for(var i = minMonth; i<=maxMonth; i++){
+				modifier.month(i)
+				options.push( React.createElement('option',{value:i,key:i}, modifier.format("MMMM")) )
+			}
+			return options
+		}()))
+
+		var year = React.createElement('input',{onChange: this.changeYear.bind(this),type:"number",min:"1970", key:"year", value:this.state.value.year()})
+
+		return [day,month,year]
+	}
+	appearanceGetActions(){
+		var saveButton = React.createElement('button',{key:"save",className:"SaveButton",onClick: this.submitChange.bind(this)},"Save")
+		var cancelButton = React.createElement('button',{key:"cancel",className:"cancelButton",onClick: this.cancelChange.bind(this)},"Cancel")
+		return [saveButton, cancelButton]
+	}
+	render(){
+		return React.createElement('div',{onClick: this.props.widgetOnClick, className:"CaretakerWidget CaretakerDateInputWidget"}, [
+			React.createElement('div',{className:"CaretakerInputContainer", key:"container"}, this.appearanceGetInputs()),
+			React.createElement('div',{className:"CaretakerActionButtons", key:"actions"}, this.appearanceGetActions())
+		])
+	}
+}
+
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -54988,7 +55162,7 @@ class CaretakerInput extends React.Component{
 		switch (this.props.type) {
 			//need time interface
 			case "time"											: break;
-			case "date"											: break;
+			case "date"											: return React.createElement(CaretakerFormInputDate, this.getSpecialProps()); break;
 			case "week"											: break;
 			//need options
 			case "select"										: break;
@@ -55365,6 +55539,65 @@ class CaretakerFormInputCheckbox extends React.Component{
 	}
 }
 
+class CaretakerFormInputDate extends React.Component{
+	constructor(props){
+		super(props)
+		this.state = {}
+		this.loadValue(props)
+	}
+	componentDidMount(){
+		this.updateParent()
+	}
+	componentWillReceiveProps(props){
+		this.loadValue(props)
+		this.setState(this.state)
+	}
+	loadValue(props){
+		this.state.value = moment()
+		if(props.value != null){
+			var newValue = moment(props.value)
+			if(newValue.isValid()){
+				this.state.value = newValue
+			}
+		}else if(props.defaultValue != null){
+			var newValue = moment(props.defaultValue)
+			if(newValue.isValid()){
+				this.state.value = newValue
+			}
+		}
+	}
+	updateParent(){
+		if(this.props.onChange){
+			this.props.onChange(this.state.value.format("YYYY-MM-DD"))
+		}
+		this.setState(this.state)
+	}
+	onChange(value){
+		this.state.value = value
+		this.updateParent()
+	}
+	onFocus(){
+		Caretaker.Widget.callDateInputWidget(this.onChange.bind(this), this.state.value)
+	}
+	getNegativePropKeys(){
+		return ["type","values","value"]
+	}
+	getProps(){
+		var props = Object.assign({}, this.props)
+		this.getNegativePropKeys().forEach(function(key){
+			props[key] = null
+			delete props[key]
+		})
+		props.value = "text"
+		props.value = this.state.value.format("ddd DD MMM YYYY")
+		props.onFocus = this.onFocus.bind(this)
+		return props
+	}
+	render(){
+		return React.createElement('input',this.getProps())
+	}
+}
+
 /** Command example
 {
 	type:"type",
@@ -55462,7 +55695,7 @@ class CaretakerFormInputTextarea extends React.Component{
 		this.setState(this.state)
 	}
 	loadValue(props){
-		if(props.value){
+		if(props.value != null){
 			this.state.value = props.value
 		}
 	}
