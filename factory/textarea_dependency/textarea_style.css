@@ -1,0 +1,4 @@
+.CaretakerFormInputTextareaHTML>[class*="draftJsToolbar"]{
+	position: fixed;
+	top:0;
+}

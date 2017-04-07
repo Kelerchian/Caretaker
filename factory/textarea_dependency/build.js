@@ -24,6 +24,7 @@ var config = {
 //installing cssfile
 var cssFilePath = [
 	path.resolve("./node_modules/draft-js-inline-toolbar-plugin/lib/plugin.css"),
+	path.resolve("./factory/textarea_dependency/textarea_style.css"),
 	path.resolve("./node_modules/draft-js/dist/draft.css")
 ]
 gulp.src( cssFilePath )
