@@ -1,10 +1,16 @@
 class CaretakerDateInputWidget extends React.Component{
 	constructor(props){
 		super(props)
+
+		var currentValue = moment(props.value)
+		if(!moment(props.value).isValid()){
+			currentValue = moment()
+		}
+
 		this.state = {
-			oldValue : moment(props.value),
-			lastValidValue: moment(props.value),
-			value : moment(props.value)
+			oldValue : moment(currentValue),
+			lastValidValue: moment(currentValue),
+			value : moment(currentValue)
 		}
 	}
 	submitChange(){
@@ -52,7 +58,7 @@ class CaretakerDateInputWidget extends React.Component{
 			var options = []
 			for(var i = minDay; i<=maxDay; i++){
 				modifier.date(i)
-				options.push( React.createElement('option',{value:i,key:i}, modifier.format("dddd Do")) )
+				options.push( React.createElement('option',{value:i,key:i}, modifier.format("Do (dddd)")) )
 			}
 			return options
 		}()))
@@ -73,7 +79,7 @@ class CaretakerDateInputWidget extends React.Component{
 	}
 	appearanceGetActions(){
 		var saveButton = React.createElement('button',{key:"save",className:"SaveButton",onClick: this.submitChange.bind(this)},"Save")
-		var cancelButton = React.createElement('button',{key:"cancel",className:"cancelButton",onClick: this.cancelChange.bind(this)},"Cancel")
+		var cancelButton = React.createElement('button',{key:"cancel",className:"CancelButton",onClick: this.cancelChange.bind(this)},"Cancel")
 		return [saveButton, cancelButton]
 	}
 	render(){

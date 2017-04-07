@@ -4,7 +4,7 @@
 	width: 100%;
 	height: 0;
 	opacity: 0;
-	transition: opacity 0.2s ease;
+	transition: opacity 0.3s ease;
 }
 #CaretakerInterfaceWidget.active{
 	top:0;

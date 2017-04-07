@@ -12,7 +12,7 @@ class CaretakerFormInputDate extends React.Component{
 		this.setState(this.state)
 	}
 	loadValue(props){
-		this.state.value = moment()
+		this.state.value = ""
 		if(props.value != null){
 			var newValue = moment(props.value)
 			if(newValue.isValid()){
@@ -27,7 +27,11 @@ class CaretakerFormInputDate extends React.Component{
 	}
 	updateParent(){
 		if(this.props.onChange){
-			this.props.onChange(this.state.value.format("YYYY-MM-DD"))
+			if(this.state.value){
+				this.props.onChange(this.state.value.format("YYYY-MM-DD"))
+			}else{
+				this.props.onChange("")
+			}
 		}
 		this.setState(this.state)
 	}
@@ -47,8 +51,12 @@ class CaretakerFormInputDate extends React.Component{
 			props[key] = null
 			delete props[key]
 		})
-		props.value = "text"
-		props.value = this.state.value.format("ddd DD MMM YYYY")
+		props.type = "text"
+		if(this.state.value){
+			props.value = this.state.value.format("dddd, DD MMM YYYY")
+		}else{
+			props.value = ""
+		}
 		props.onFocus = this.onFocus.bind(this)
 		return props
 	}

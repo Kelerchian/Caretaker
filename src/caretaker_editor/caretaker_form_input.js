@@ -42,20 +42,20 @@ class CaretakerInput extends React.Component{
 	isCommonInput(){
 		switch (this.props.type) {
 			//need time interface
-			case "time"											:
-			case "date"											:
-			case "week"											:
+			case "time"											: return false;
+			case "date"											: return false;
+			case "week"											: return true; //not implemented
 			//need options
-			case "select"										:
-			case "select-multiple"					:
-			case "checkbox"									:
-			case "textarea"									:
-			case "textarea-text"						:
-			case "textarea-html"						:
-			case "radio"										:
+			case "select"										: return false;
+			case "select-multiple"					: return false;
+			case "checkbox"									: return false;
+			case "textarea"									: return false;
+			case "textarea-text"						: return false;
+			case "textarea-html"						: return false;
+			case "radio"										: return false;
 			//need select interface
-			case "select-object"						:
-			case "select-object-multiple"		:	return false;
+			case "select-object"						: return false;
+			case "select-object-multiple"		: return false;
 			default: return true;
 		}
 	}
@@ -89,7 +89,7 @@ class CaretakerInput extends React.Component{
 			case "radio"										:	return React.createElement(CaretakerFormInputRadio, this.getSpecialProps()); break;
 			//need select interface
 			case "select-object"						: break;
-			case "select-object-multiple"		:	return false; break;
+			case "select-object-multiple"		:	break;
 		}
 	}
 	render(){
