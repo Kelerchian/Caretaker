@@ -10,6 +10,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<!-- Latest compiled JavaScript -->
 		<script src="asset/bootstrap4/js/bootstrap.js"></script>
+		<script src="asset/moment/moment.js"></script>
     <script src="asset/react/build/react.js"></script>
     <script src="asset/react/build/react-dom.js"></script>
 		<script src="../dist/caretaker.js"></script>
@@ -48,37 +49,18 @@
 						type:"text",
 						label:"First Name",
 						name:"firstname",
-						defaultValue: "firstname"
+						label:"Your Name",
+						placeholder:""
 					},{
-						type:"checkbox",
-						name:"thecheckboxes",
-						values: {
-							one: "Checkbox one",
-							two: "Checkbox two"
-						},
-						defaultValue: ["one"]
-					},{
-						type:"radio",
-						label:"Gender",
-						name:"gender",
-						values:{
-							male: "Male",
-							female: "Female"
-						},
-						defaultValue:"female"
+						type:"date",
+						name:"birthday",
+						label:"Your birthday"
 					},{
 						type:"textarea-html",
 						name:"description",
 						label:"description",
 						description:"tell people about you",
 						placeholder: "write about yourselff"
-					}
-					,{
-						type:"textarea",
-						name:"description2",
-						label:"description2",
-						description:"tell people about you",
-						value: "<p>This is where it becomes <b>bold</b></p>"
 					}
 				],
 				label: "Users",
