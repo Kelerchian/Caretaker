@@ -89,10 +89,16 @@ var Caretaker = (function(){
 class CaretakerDateInputWidget extends React.Component{
 	constructor(props){
 		super(props)
+
+		var currentValue = moment(props.value)
+		if(!moment(props.value).isValid()){
+			currentValue = moment()
+		}
+
 		this.state = {
-			oldValue : moment(props.value),
-			lastValidValue: moment(props.value),
-			value : moment(props.value)
+			oldValue : moment(currentValue),
+			lastValidValue: moment(currentValue),
+			value : moment(currentValue)
 		}
 	}
 	submitChange(){
@@ -140,7 +146,7 @@ class CaretakerDateInputWidget extends React.Component{
 			var options = []
 			for(var i = minDay; i<=maxDay; i++){
 				modifier.date(i)
-				options.push( React.createElement('option',{value:i,key:i}, modifier.format("dddd Do")) )
+				options.push( React.createElement('option',{value:i,key:i}, modifier.format("Do (dddd)")) )
 			}
 			return options
 		}()))
@@ -161,7 +167,7 @@ class CaretakerDateInputWidget extends React.Component{
 	}
 	appearanceGetActions(){
 		var saveButton = React.createElement('button',{key:"save",className:"SaveButton",onClick: this.submitChange.bind(this)},"Save")
-		var cancelButton = React.createElement('button',{key:"cancel",className:"cancelButton",onClick: this.cancelChange.bind(this)},"Cancel")
+		var cancelButton = React.createElement('button',{key:"cancel",className:"CancelButton",onClick: this.cancelChange.bind(this)},"Cancel")
 		return [saveButton, cancelButton]
 	}
 	render(){
@@ -55127,20 +55133,20 @@ class CaretakerInput extends React.Component{
 	isCommonInput(){
 		switch (this.props.type) {
 			//need time interface
-			case "time"											:
-			case "date"											:
-			case "week"											:
+			case "time"											: return false;
+			case "date"											: return false;
+			case "week"											: return true; //not implemented
 			//need options
-			case "select"										:
-			case "select-multiple"					:
-			case "checkbox"									:
-			case "textarea"									:
-			case "textarea-text"						:
-			case "textarea-html"						:
-			case "radio"										:
+			case "select"										: return false;
+			case "select-multiple"					: return false;
+			case "checkbox"									: return false;
+			case "textarea"									: return false;
+			case "textarea-text"						: return false;
+			case "textarea-html"						: return false;
+			case "radio"										: return false;
 			//need select interface
-			case "select-object"						:
-			case "select-object-multiple"		:	return false;
+			case "select-object"						: return false;
+			case "select-object-multiple"		: return false;
 			default: return true;
 		}
 	}
@@ -55174,7 +55180,7 @@ class CaretakerInput extends React.Component{
 			case "radio"										:	return React.createElement(CaretakerFormInputRadio, this.getSpecialProps()); break;
 			//need select interface
 			case "select-object"						: break;
-			case "select-object-multiple"		:	return false; break;
+			case "select-object-multiple"		:	break;
 		}
 	}
 	render(){
@@ -55553,7 +55559,7 @@ class CaretakerFormInputDate extends React.Component{
 		this.setState(this.state)
 	}
 	loadValue(props){
-		this.state.value = moment()
+		this.state.value = ""
 		if(props.value != null){
 			var newValue = moment(props.value)
 			if(newValue.isValid()){
@@ -55568,7 +55574,11 @@ class CaretakerFormInputDate extends React.Component{
 	}
 	updateParent(){
 		if(this.props.onChange){
-			this.props.onChange(this.state.value.format("YYYY-MM-DD"))
+			if(this.state.value){
+				this.props.onChange(this.state.value.format("YYYY-MM-DD"))
+			}else{
+				this.props.onChange("")
+			}
 		}
 		this.setState(this.state)
 	}
@@ -55588,8 +55598,12 @@ class CaretakerFormInputDate extends React.Component{
 			props[key] = null
 			delete props[key]
 		})
-		props.value = "text"
-		props.value = this.state.value.format("ddd DD MMM YYYY")
+		props.type = "text"
+		if(this.state.value){
+			props.value = this.state.value.format("dddd, DD MMM YYYY")
+		}else{
+			props.value = ""
+		}
 		props.onFocus = this.onFocus.bind(this)
 		return props
 	}
