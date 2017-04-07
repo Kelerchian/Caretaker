@@ -13,7 +13,7 @@ class CaretakerFormInputTextarea extends React.Component{
 		this.setState(this.state)
 	}
 	loadValue(props){
-		if(props.value){
+		if(props.value != null){
 			this.state.value = props.value
 		}
 	}

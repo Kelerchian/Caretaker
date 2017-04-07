@@ -73,6 +73,11 @@
   margin-left: -6px;
 }
 
+.CaretakerFormInputTextareaHTML>[class*="draftJsToolbar"]{
+	position: fixed;
+	top:0;
+}
+
 /**
  * Draft v0.10.0
  *

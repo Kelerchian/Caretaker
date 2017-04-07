@@ -77,7 +77,7 @@ class CaretakerInput extends React.Component{
 		switch (this.props.type) {
 			//need time interface
 			case "time"											: break;
-			case "date"											: break;
+			case "date"											: return React.createElement(CaretakerFormInputDate, this.getSpecialProps()); break;
 			case "week"											: break;
 			//need options
 			case "select"										: break;
