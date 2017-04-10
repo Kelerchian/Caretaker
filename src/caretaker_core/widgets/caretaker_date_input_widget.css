@@ -25,8 +25,14 @@
 	flex: 1 1 auto;
 	margin:	0.25rem;
 	min-width: 0;
-	line-height: normal;
+}
+
+.CaretakerDateInputWidget>.CaretakerInputContainer>*>input,
+.CaretakerDateInputWidget>.CaretakerInputContainer>*>select{
+	min-width: 0;
+	width: 100%;
 	padding: 0.5rem;
+	line-height: normal;
 	background: white;
 }
 
@@ -37,7 +43,7 @@
 .CaretakerDateInputWidget>.CaretakerActionButtons>*{
 	flex: 1 1 auto;
 	margin: 0.25rem;
-	padding: 0.25rem;
+	padding: 0.5rem;
 }
 
 .CaretakerDateInputWidget>.CaretakerActionButtons>.SaveButton{

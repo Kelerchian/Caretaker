@@ -54,32 +54,41 @@ class CaretakerDateInputWidget extends React.Component{
 		var modifier = moment(this.state.value)
 		var widget = this
 
-		var day = React.createElement('select',{onChange: this.changeDay.bind(this),value:this.state.value.date(), key:"day"}, (function(){
-			var options = []
-			for(var i = minDay; i<=maxDay; i++){
-				modifier.date(i)
-				options.push( React.createElement('option',{value:i,key:i}, modifier.format("Do (dddd)")) )
-			}
-			return options
-		}()))
+		var day = React.createElement('div',{key:"day"},[
+			React.createElement('label',{key:"label", className:"CaretakerLabel"},"Day"),
+			React.createElement('select',{onChange: this.changeDay.bind(this),value:this.state.value.date(), key:"day"}, (function(){
+				var options = []
+				for(var i = minDay; i<=maxDay; i++){
+					modifier.date(i)
+					options.push( React.createElement('option',{value:i,key:i}, modifier.format("Do (dddd)")) )
+				}
+				return options
+			}()))
+		])
 
-		var month = React.createElement('select',{onChange: this.changeMonth.bind(this),value:this.state.value.month(), key:"month"}, (function(){
-			var options = []
-			modifier.date(1)
-			for(var i = minMonth; i<=maxMonth; i++){
-				modifier.month(i)
-				options.push( React.createElement('option',{value:i,key:i}, modifier.format("MMMM")) )
-			}
-			return options
-		}()))
+		var month = React.createElement('div',{key:"month"},[
+			React.createElement('label',{key:"label", className:"CaretakerLabel"},"Month"),
+			React.createElement('select',{onChange: this.changeMonth.bind(this),value:this.state.value.month(), key:"month"}, (function(){
+				var options = []
+				modifier.date(1)
+				for(var i = minMonth; i<=maxMonth; i++){
+					modifier.month(i)
+					options.push( React.createElement('option',{value:i,key:i}, modifier.format("MMMM")) )
+				}
+				return options
+			}()))
+		])
 
-		var year = React.createElement('input',{onChange: this.changeYear.bind(this),type:"number",min:"1970", key:"year", value:this.state.value.year()})
+		var year = React.createElement('div',{key:"year"}, [
+			React.createElement('label',{key:"label", className:"CaretakerLabel"},"Year"),
+			React.createElement('input',{onChange: this.changeYear.bind(this), key:"input" ,type:"number",min:"1970", value:this.state.value.year()})
+		])
 
 		return [day,month,year]
 	}
 	appearanceGetActions(){
-		var saveButton = React.createElement('button',{key:"save",className:"SaveButton",onClick: this.submitChange.bind(this)},"Save")
-		var cancelButton = React.createElement('button',{key:"cancel",className:"CancelButton",onClick: this.cancelChange.bind(this)},"Cancel")
+		var saveButton = React.createElement('button',{key:"save",className:"CaretakerButton SaveButton",onClick: this.submitChange.bind(this)},"Save")
+		var cancelButton = React.createElement('button',{key:"cancel",className:"CaretakerButton CancelButton",onClick: this.cancelChange.bind(this)},"Cancel")
 		return [saveButton, cancelButton]
 	}
 	render(){

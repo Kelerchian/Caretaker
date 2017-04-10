@@ -57,6 +57,7 @@ var Caretaker = (function(){
 		function hideInterfaceWidget(theInterface){
 			var theInterface = theInterface || getInterfaceWidget()
 			theInterface.className = removeClassFrom(theInterface.className, "active")
+			theInterface.innerHTML = ""
 			return theInterface
 		}
 
@@ -69,15 +70,24 @@ var Caretaker = (function(){
 		function callDateInputWidget(onChange, value){
 			var theInterface = callInterfaceWidget()
 			var intermediateChange = function(newValue){
-				console.log("intermediateChange")
 				onChange(newValue)
 				hideInterfaceWidget(theInterface)
 			}
 			ReactDOM.render(React.createElement(CaretakerDateInputWidget, {onChange:intermediateChange, value: value}), theInterface)
 		}
 
+		function callTimeInputWidget(onChange, value){
+			var theInterface = callInterfaceWidget()
+			var intermediateChange = function(newValue){
+				onChange(newValue)
+				hideInterfaceWidget(theInterface)
+			}
+			ReactDOM.render(React.createElement(CaretakerTimeInputWidget, {onChange:intermediateChange, value: value}), theInterface)
+		}
+
 		return {
-			callDateInputWidget
+			callDateInputWidget,
+			callTimeInputWidget
 		}
 	}())
 
