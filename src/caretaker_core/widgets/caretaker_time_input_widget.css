@@ -36,10 +36,6 @@
 	background: white;
 }
 
-.CaretakerTimeInputWidget>.CaretakerInputContainer>input{
-	flex: 1 10 auto;
-}
-
 .CaretakerTimeInputWidget>.CaretakerActionButtons>*{
 	flex: 1 1 auto;
 	margin: 0.25rem;

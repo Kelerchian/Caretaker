@@ -55928,7 +55928,6 @@ class CaretakerFormInputTime extends React.Component{
 	}
 	loadValue(props){
 		this.state.value = ""
-		console.log(props)
 		if(props.value != null){
 			var newValue = moment(props.value,"HH:mm:ss")
 			if(newValue.isValid()){
