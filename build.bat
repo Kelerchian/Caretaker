@@ -1,0 +1,1 @@
+nodemon -e css,js
