@@ -6,6 +6,7 @@ class CaretakerInput extends React.Component{
 			this.state.value = ""
 		}
 		this.loadValue(props)
+			console.log(props)
 	}
 	componentDidMount(){
 		this.updateParent()
@@ -76,7 +77,7 @@ class CaretakerInput extends React.Component{
 	renderSpecialInput(){
 		switch (this.props.type) {
 			//need time interface
-			case "time"											: break;
+			case "time"											: return React.createElement(CaretakerFormInputTime, this.getSpecialProps()); break;
 			case "date"											: return React.createElement(CaretakerFormInputDate, this.getSpecialProps()); break;
 			case "week"											: break;
 			//need options
