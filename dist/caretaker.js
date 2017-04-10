@@ -57,6 +57,7 @@ var Caretaker = (function(){
 		function hideInterfaceWidget(theInterface){
 			var theInterface = theInterface || getInterfaceWidget()
 			theInterface.className = removeClassFrom(theInterface.className, "active")
+			theInterface.innerHTML = ""
 			return theInterface
 		}
 
@@ -69,15 +70,24 @@ var Caretaker = (function(){
 		function callDateInputWidget(onChange, value){
 			var theInterface = callInterfaceWidget()
 			var intermediateChange = function(newValue){
-				console.log("intermediateChange")
 				onChange(newValue)
 				hideInterfaceWidget(theInterface)
 			}
 			ReactDOM.render(React.createElement(CaretakerDateInputWidget, {onChange:intermediateChange, value: value}), theInterface)
 		}
 
+		function callTimeInputWidget(onChange, value){
+			var theInterface = callInterfaceWidget()
+			var intermediateChange = function(newValue){
+				onChange(newValue)
+				hideInterfaceWidget(theInterface)
+			}
+			ReactDOM.render(React.createElement(CaretakerTimeInputWidget, {onChange:intermediateChange, value: value}), theInterface)
+		}
+
 		return {
-			callDateInputWidget
+			callDateInputWidget,
+			callTimeInputWidget
 		}
 	}())
 
@@ -142,36 +152,129 @@ class CaretakerDateInputWidget extends React.Component{
 		var modifier = moment(this.state.value)
 		var widget = this
 
-		var day = React.createElement('select',{onChange: this.changeDay.bind(this),value:this.state.value.date(), key:"day"}, (function(){
-			var options = []
-			for(var i = minDay; i<=maxDay; i++){
-				modifier.date(i)
-				options.push( React.createElement('option',{value:i,key:i}, modifier.format("Do (dddd)")) )
-			}
-			return options
-		}()))
+		var day = React.createElement('div',{key:"day"},[
+			React.createElement('label',{key:"label", className:"CaretakerLabel"},"Day"),
+			React.createElement('select',{onChange: this.changeDay.bind(this),value:this.state.value.date(), key:"day"}, (function(){
+				var options = []
+				for(var i = minDay; i<=maxDay; i++){
+					modifier.date(i)
+					options.push( React.createElement('option',{value:i,key:i}, modifier.format("Do (dddd)")) )
+				}
+				return options
+			}()))
+		])
 
-		var month = React.createElement('select',{onChange: this.changeMonth.bind(this),value:this.state.value.month(), key:"month"}, (function(){
-			var options = []
-			modifier.date(1)
-			for(var i = minMonth; i<=maxMonth; i++){
-				modifier.month(i)
-				options.push( React.createElement('option',{value:i,key:i}, modifier.format("MMMM")) )
-			}
-			return options
-		}()))
+		var month = React.createElement('div',{key:"month"},[
+			React.createElement('label',{key:"label", className:"CaretakerLabel"},"Month"),
+			React.createElement('select',{onChange: this.changeMonth.bind(this),value:this.state.value.month(), key:"month"}, (function(){
+				var options = []
+				modifier.date(1)
+				for(var i = minMonth; i<=maxMonth; i++){
+					modifier.month(i)
+					options.push( React.createElement('option',{value:i,key:i}, modifier.format("MMMM")) )
+				}
+				return options
+			}()))
+		])
 
-		var year = React.createElement('input',{onChange: this.changeYear.bind(this),type:"number",min:"1970", key:"year", value:this.state.value.year()})
+		var year = React.createElement('div',{key:"year"}, [
+			React.createElement('label',{key:"label", className:"CaretakerLabel"},"Year"),
+			React.createElement('input',{onChange: this.changeYear.bind(this), key:"input" ,type:"number",min:"1970", value:this.state.value.year()})
+		])
 
 		return [day,month,year]
 	}
 	appearanceGetActions(){
-		var saveButton = React.createElement('button',{key:"save",className:"SaveButton",onClick: this.submitChange.bind(this)},"Save")
-		var cancelButton = React.createElement('button',{key:"cancel",className:"CancelButton",onClick: this.cancelChange.bind(this)},"Cancel")
+		var saveButton = React.createElement('button',{key:"save",className:"CaretakerButton SaveButton",onClick: this.submitChange.bind(this)},"Save")
+		var cancelButton = React.createElement('button',{key:"cancel",className:"CaretakerButton CancelButton",onClick: this.cancelChange.bind(this)},"Cancel")
 		return [saveButton, cancelButton]
 	}
 	render(){
 		return React.createElement('div',{onClick: this.props.widgetOnClick, className:"CaretakerWidget CaretakerDateInputWidget"}, [
+			React.createElement('div',{className:"CaretakerInputContainer", key:"container"}, this.appearanceGetInputs()),
+			React.createElement('div',{className:"CaretakerActionButtons", key:"actions"}, this.appearanceGetActions())
+		])
+	}
+}
+
+class CaretakerTimeInputWidget extends React.Component{
+	constructor(props){
+		super(props)
+
+		var currentValue = moment(props.value)
+		if(!moment(props.value).isValid()){
+			currentValue = moment()
+		}
+
+		this.state = {
+			oldValue : moment(currentValue),
+			lastValidValue: moment(currentValue),
+			value : moment(currentValue)
+		}
+	}
+	submitChange(){
+		if(this.props.onChange){
+			this.props.onChange(this.state.value)
+		}
+	}
+	cancelChange(){
+		if(this.props.onChange){
+			this.props.onChange(this.state.oldValue)
+		}
+	}
+	checkValidity(){
+		if(this.state.value.isValid()){
+			this.state.lastValidValue = moment(this.state.value)
+		}else{
+			this.state.value = moment(this.state.lastValidValue)
+		}
+		this.setState(this.state)
+	}
+	changeHour(e){
+		var hour = e.target.value
+		this.state.value.hour(hour)
+		this.checkValidity()
+	}
+	changeMinute(e){
+		var minute = e.target.value
+		this.state.value.minute(minute)
+		this.checkValidity()
+	}
+	changeSecond(e){
+		var second = e.target.value
+		this.state.value.second(second)
+		this.checkValidity()
+	}
+	appearanceGetInputs(){
+		var minHour = 0;
+		var maxHour = 23;
+		var minMinute = 0;
+		var maxMinute = 59;
+		var minSecond = 0;
+		var maxSecond = 59;
+
+		var hour 	= React.createElement('div',{key:"hour"},[
+			React.createElement('label', { className:"CaretakerLabel", key:"label" }, "Hour"),
+			React.createElement('input', { onChange:this.changeHour.bind(this), value: this.state.value.hour(), key:"input" })
+		])
+		var minute 	= React.createElement('div',{key:"minute"},[
+			React.createElement('label', { className:"CaretakerLabel", key:"label" }, "Minute"),
+			React.createElement('input', { onChange:this.changeMinute.bind(this), value: this.state.value.minute(), key:"input" })
+		])
+		var second 	= React.createElement('div',{key:"second"},[
+			React.createElement('label', { className:"CaretakerLabel", key:"label" }, "Second"),
+			React.createElement('input', { onChange:this.changeSecond.bind(this), value:this.state.value.second(), key:"input" })
+		])
+
+		return [hour,minute,second]
+	}
+	appearanceGetActions(){
+		var saveButton = React.createElement('button',{key:"save",className:"CaretakerButton SaveButton",onClick: this.submitChange.bind(this)},"Save")
+		var cancelButton = React.createElement('button',{key:"cancel",className:"CaretakerButton CancelButton",onClick: this.cancelChange.bind(this)},"Cancel")
+		return [saveButton, cancelButton]
+	}
+	render(){
+		return React.createElement('div',{onClick: this.props.widgetOnClick, className:"CaretakerWidget CaretakerTimeInputWidget"}, [
 			React.createElement('div',{className:"CaretakerInputContainer", key:"container"}, this.appearanceGetInputs()),
 			React.createElement('div',{className:"CaretakerActionButtons", key:"actions"}, this.appearanceGetActions())
 		])
@@ -55097,6 +55200,7 @@ class CaretakerInput extends React.Component{
 			this.state.value = ""
 		}
 		this.loadValue(props)
+			console.log(props)
 	}
 	componentDidMount(){
 		this.updateParent()
@@ -55167,7 +55271,7 @@ class CaretakerInput extends React.Component{
 	renderSpecialInput(){
 		switch (this.props.type) {
 			//need time interface
-			case "time"											: break;
+			case "time"											: return React.createElement(CaretakerFormInputTime, this.getSpecialProps()); break;
 			case "date"											: return React.createElement(CaretakerFormInputDate, this.getSpecialProps()); break;
 			case "week"											: break;
 			//need options
@@ -55806,6 +55910,74 @@ class CaretakerFormInputTextareaHTML extends React.Component{
 		return React.createElement('div',{className: "CaretakerFormInputTextareaHTML", onClick: this.focus.bind(this)}, (
 			this.getTextarea()
 		))
+	}
+}
+
+class CaretakerFormInputTime extends React.Component{
+	constructor(props){
+		super(props)
+		this.state = {}
+		this.loadValue(props)
+	}
+	componentDidMount(){
+		this.updateParent()
+	}
+	componentWillReceiveProps(props){
+		this.loadValue(props)
+		this.setState(this.state)
+	}
+	loadValue(props){
+		this.state.value = ""
+		console.log(props)
+		if(props.value != null){
+			var newValue = moment(props.value,"HH:mm:ss")
+			if(newValue.isValid()){
+				this.state.value = newValue
+			}
+		}else if(props.defaultValue != null){
+			var newValue = moment(props.defaultValue,"HH:mm:ss")
+			if(newValue.isValid()){
+				this.state.value = newValue
+			}
+		}
+	}
+	updateParent(){
+		if(this.props.onChange){
+			if(this.state.value){
+				this.props.onChange(this.state.value.format("HH:mm:ss"))
+			}else{
+				this.props.onChange("")
+			}
+		}
+		this.setState(this.state)
+	}
+	onChange(value){
+		this.state.value = value
+		this.updateParent()
+	}
+	onFocus(){
+		Caretaker.Widget.callTimeInputWidget(this.onChange.bind(this), this.state.value)
+	}
+	getNegativePropKeys(){
+		return ["type","values","value"]
+	}
+	getProps(){
+		var props = Object.assign({}, this.props)
+		this.getNegativePropKeys().forEach(function(key){
+			props[key] = null
+			delete props[key]
+		})
+		props.type = "text"
+		if(this.state.value){
+			props.value = this.state.value.format("HH:mm:ss")
+		}else{
+			props.value = ""
+		}
+		props.onFocus = this.onFocus.bind(this)
+		return props
+	}
+	render(){
+		return React.createElement('input',this.getProps())
 	}
 }
 
