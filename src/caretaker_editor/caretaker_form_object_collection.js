@@ -9,7 +9,7 @@ class CaretakerFormObjectCollection extends React.Component{
 		if(this.state.maxCount < this.state.minCount ){ throw "max count cannot be fewer than min count" }
 		this.state.value = []
 		this.loadValue(props)
-		this.state.childrenCount = this.state.value || this.state.minCount || 1
+		this.state.childrenCount = this.state.value.count || this.state.minCount || 1
 	}
 	componentDidMount(){
 		this.updateParent()
@@ -24,7 +24,7 @@ class CaretakerFormObjectCollection extends React.Component{
 		}
 	}
 	getNegativeChildPropKeys(){
-		return ["min","max","value"]
+		return ["min","max","value","quantity"]
 	}
 	getProps(){
 		var props = Object.assign({}, this.props)
