@@ -91,8 +91,61 @@ var Caretaker = (function(){
 		}
 	}())
 
+
+	/**
+	* Caretaker UploadedFile and UploadedFileMap
+	*
+	*/
+	var globalInputFile
+	class UploadedFile{
+		static promptUpload(onChange, props){
+			var inputFile = document.createElement('input')
+			globalInputFile = inputFile
+			var reader = new FileReader()
+
+			//ready the props
+			for(var i in props){
+				inputFile.setAttribute(i, props[i])
+			}
+
+			//ready the render
+			inputFile.type = "file"
+			inputFile.onchange = function(e){
+				var file = inputFile.files[0]
+
+				reader.addEventListener('load', function(){
+					var uploadedFile = new Caretaker.UploadedFile(file,reader.result)
+					onChange(uploadedFile)
+				}, false)
+
+				if(file){
+					reader.readAsDataURL(file)
+				}
+			}
+			inputFile.click()
+		}
+		constructor(file, result){
+			this.fileData = {
+				_is_caretaker_uploaded_file: true,
+				name: file.name,
+				size: file.size,
+				data: result
+			}
+		}
+		getName(){
+			return this.fileData.name
+		}
+		getSize(){
+			return this.fileData.size
+		}
+		getFileData(){
+			return this.fileData
+		}
+	}
+
 	return {
-		Widget
+		Widget,
+		UploadedFile
 	}
 })();
 
@@ -55186,7 +55239,7 @@ class CaretakerForm extends React.Component{
 	}
 	render(){
 		var props = this.getProps()
-		return React.createElement('form', {className: "CaretakerForm"}, (
+		return React.createElement('form', {className: "CaretakerForm", encType:"multipart/form-data"}, (
 			React.createElement(CaretakerFormObject, props)
 		))
 	}
@@ -55243,13 +55296,15 @@ class CaretakerInput extends React.Component{
 			case "select"										: return false;
 			case "select-multiple"					: return true;
 			case "checkbox"									: return false;
-			case "textarea"									: 
+			case "textarea"									:
 			case "textarea-text"						: return false;
 			case "textarea-html"						: return false;
 			case "radio"										: return false;
 			//need select interface
 			case "select-object"						: return false;
 			case "select-object-multiple"		: return false;
+			//special treatment
+			case "file"											: return false;
 			default: return true;
 		}
 	}
@@ -55284,6 +55339,8 @@ class CaretakerInput extends React.Component{
 			//need select interface
 			case "select-object"						: break;
 			case "select-object-multiple"		:	break;
+			//special treatment
+			case "file"											: return React.createElement(CaretakerFormInputFile, this.getSpecialProps()); break;
 		}
 	}
 	render(){
@@ -55475,7 +55532,7 @@ class CaretakerFormObjectCollection extends React.Component{
 		if(this.state.maxCount < this.state.minCount ){ throw "max count cannot be fewer than min count" }
 		this.state.value = []
 		this.loadValue(props)
-		this.state.childrenCount = this.state.value || this.state.minCount || 1
+		this.state.childrenCount = this.state.value.count || this.state.minCount || 1
 	}
 	componentDidMount(){
 		this.updateParent()
@@ -55490,7 +55547,7 @@ class CaretakerFormObjectCollection extends React.Component{
 		}
 	}
 	getNegativeChildPropKeys(){
-		return ["min","max","value"]
+		return ["min","max","value","quantity"]
 	}
 	getProps(){
 		var props = Object.assign({}, this.props)
@@ -55587,7 +55644,7 @@ class CaretakerFormInputCheckbox extends React.Component{
 						value.add(props.value[i])
 					}catch(e){}
 				}
-			}catch(e){console.log(e)}
+			}catch(e){console.error(e)}
 		}
 		this.state.value = value
 	}
@@ -55694,7 +55751,7 @@ class CaretakerFormInputDate extends React.Component{
 		Caretaker.Widget.callDateInputWidget(this.onChange.bind(this), this.state.value)
 	}
 	getNegativePropKeys(){
-		return ["type","values","value"]
+		return ["type","values","value","defaultValue"]
 	}
 	getProps(){
 		var props = Object.assign({}, this.props)
@@ -55713,6 +55770,98 @@ class CaretakerFormInputDate extends React.Component{
 	}
 	render(){
 		return React.createElement('input',this.getProps())
+	}
+}
+
+/**
+* Usage example:
+* {
+* 	type: "file",
+* 	name: "attached_file",
+* 	value: {
+* 		link: "http://domain.me/fileURL",
+* 		name: "fileName.ext"
+* 	}
+* }
+*
+*/
+class CaretakerFormInputFile extends React.Component{
+	constructor(props){
+		super(props)
+		this.state = {}
+		this.loadValue(props)
+	}
+	loadValue(props){
+		this.state.value = null
+		if(props.value != null){
+			this.state.value = props.value
+		}
+	}
+	componentDidMount(){
+		this.updateParent()
+	}
+	componentWillReceiveProps(props){
+		this.loadValue(props)
+		this.setState(this.state)
+	}
+	updateParent(){
+		if(this.props.onChange){
+			this.props.onChange(this.state.value)
+		}
+		this.setState(this.state)
+	}
+	getNegativePropKeys(){
+		return ["value","values"]
+	}
+	getProps(){
+		var props = Object.assign({}, this.props)
+		this.getNegativePropKeys(function(key){
+			props[key] = null
+			delete props[key]
+		})
+		return props
+	}
+	onChange(value){
+		this.state.value = value
+		this.updateParent()
+	}
+	onRemove(){
+		this.state.value = null
+		this.updateParent()
+	}
+	onWillPrompt(){
+		Caretaker.UploadedFile.promptUpload(this.onChange.bind(this), this.getProps())
+	}
+	appearanceGetControl(){
+		if(this.state.value == null){
+			return React.createElement('button', {className:"CaretakerButton CaretakerFormInputFilePromptButton", type:"button", onClick: this.onWillPrompt.bind(this)}, "Select File...")
+		}else if(this.state.value instanceof Caretaker.UploadedFile){
+			return [
+				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileRemoveButton", type:"button", key:"removeButton", onClick: this.onRemove.bind(this)}, "Remove"),
+				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileChangeButton", type:"button", key:"changeButton", onClick: this.onWillPrompt.bind(this)}, "Change..."),
+				React.createElement('div', {className:"CaretakerFormInputFilePreview", key:"preview"}, this.state.value.getName() + "(" + this.state.value.getSize() + ")")
+			]
+		}else if(typeof this.state.value == "object"){
+			var previewLinkProp = {}
+			var name = ""
+			if(this.state.value.link){
+				previewLinkProp.href = this.state.value.link
+				previewLinkProp.target = "_blank"
+			}
+			if(this.state.value.name){
+				name = this.state.value.name
+			}
+			return [
+				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileRemoveButton", type:"button", key:"removeButton", onClick: this.onRemove.bind(this)}, "Remove" ),
+				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileChangeButton", type:"button", key:"changeButton", onClick: this.onWillPrompt.bind(this)}, "Change..." ),
+				React.createElement('div', {className:"CaretakerFormInputFilePreview", key:"preview"}, (
+					React.createElement('a', previewLinkProp, name)
+				))
+			]
+		}
+	}
+	render(){
+		return React.createElement('div',{className: "CaretakerFormInputFile "+(this.props.name || "")}, this.appearanceGetControl())
 	}
 }
 
@@ -55841,7 +55990,7 @@ class CaretakerFormInputSelect extends React.Component{
 		this.updateParent()
 	}
 	getNegativePropKeys(){
-		return ["value","values","multiple"]
+		return ["value","values","multiple","type"]
 	}
 	getProps(){
 		var props = Object.assign({}, this.props)
@@ -55870,7 +56019,6 @@ class CaretakerFormInputSelect extends React.Component{
 		}
 
 		var props = this.getProps()
-		console.log(props)
 		var select = React.createElement('select', props, optionElements)
 		return select
 	}
@@ -55908,7 +56056,7 @@ class CaretakerFormInputTextarea extends React.Component{
 		this.updateParent()
 	}
 	getNegativePropKeys(){
-		return []
+		return ["type"]
 	}
 	getProps(){
 		var props = Object.assign({}, this.props)
@@ -55969,7 +56117,7 @@ class CaretakerFormInputTextareaHTML extends React.Component{
 		this.updateParent()
 	}
 	getNegativePropKeys(){
-		return []
+		return ["type"]
 	}
 	getProps(){
 		var props = Object.assign({}, this.props)

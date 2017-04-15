@@ -43,37 +43,10 @@
 		<script async>
 			var UserModel = {
 				quantity: "many",
-				type: "object",
-				has: [
-					{
-						type:"text",
-						label:"First Name",
-						name:"firstname",
-						placeholder:""
-					},{
-						type:"select",
-						label:"select example",
-						description:"this is select example",
-						value:"bodo",
-						values:{
-							"":"pilih salah satu",
-							bodo:"fuck",
-							pintar:"yeah"
-						},
-						required:true
-					},{
-						type:"date",
-						name:"birthday",
-						label:"Your birthday",
-						placeholder:"Tell us your birthday"
-					},{
-						type:"time",
-						name:"wakeup-time",
-						label:"Your wakeup time",
-						placeholder:"When is your wakeup time"
-					}
-				],
-				label: "Users",
+				name: "important_file",
+				accept: "image/*",
+				type: "file",
+				label: "Important File",
 				description: "this is a panel to edit user[thedescription]"
 			}
 			var formCommand = {
