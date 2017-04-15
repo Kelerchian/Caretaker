@@ -31,7 +31,7 @@ class CaretakerFormInputCheckbox extends React.Component{
 						value.add(props.value[i])
 					}catch(e){}
 				}
-			}catch(e){console.log(e)}
+			}catch(e){console.error(e)}
 		}
 		this.state.value = value
 	}
