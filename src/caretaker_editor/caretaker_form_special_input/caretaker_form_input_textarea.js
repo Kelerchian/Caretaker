@@ -27,7 +27,7 @@ class CaretakerFormInputTextarea extends React.Component{
 		this.updateParent()
 	}
 	getNegativePropKeys(){
-		return []
+		return ["type"]
 	}
 	getProps(){
 		var props = Object.assign({}, this.props)
