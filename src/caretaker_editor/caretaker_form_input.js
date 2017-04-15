@@ -6,7 +6,6 @@ class CaretakerInput extends React.Component{
 			this.state.value = ""
 		}
 		this.loadValue(props)
-			console.log(props)
 	}
 	componentDidMount(){
 		this.updateParent()
@@ -48,9 +47,9 @@ class CaretakerInput extends React.Component{
 			case "week"											: return true; //not implemented
 			//need options
 			case "select"										: return false;
-			case "select-multiple"					: return false;
+			case "select-multiple"					: return true;
 			case "checkbox"									: return false;
-			case "textarea"									: return false;
+			case "textarea"									: 
 			case "textarea-text"						: return false;
 			case "textarea-html"						: return false;
 			case "radio"										: return false;
@@ -81,7 +80,7 @@ class CaretakerInput extends React.Component{
 			case "date"											: return React.createElement(CaretakerFormInputDate, this.getSpecialProps()); break;
 			case "week"											: break;
 			//need options
-			case "select"										: break;
+			case "select"										: return React.createElement(CaretakerFormInputSelect, this.getSpecialProps()); break;
 			case "select-multiple"					: break;
 			case "checkbox"									: return React.createElement(CaretakerFormInputCheckbox, this.getSpecialProps()); break;
 			case "textarea"									:

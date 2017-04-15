@@ -135,7 +135,7 @@ class CaretakerFormObject extends React.Component{
 					objects.push( React.createElement(CaretakerFormObject, childProps) )
 				}
 			}
-			return React.createElement('div',{className:"CaretakerFormObject", "key":"object"}, objects)
+			return objects
 		}else{
 			var props = this.getInputProps()
 			props.key = "object"
