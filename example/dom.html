@@ -49,8 +49,18 @@
 						type:"text",
 						label:"First Name",
 						name:"firstname",
-						label:"Your Name",
 						placeholder:""
+					},{
+						type:"select",
+						label:"select example",
+						description:"this is select example",
+						value:"bodo",
+						values:{
+							"":"pilih salah satu",
+							bodo:"fuck",
+							pintar:"yeah"
+						},
+						required:true
 					},{
 						type:"date",
 						name:"birthday",
@@ -61,12 +71,6 @@
 						name:"wakeup-time",
 						label:"Your wakeup time",
 						placeholder:"When is your wakeup time"
-					},{
-						type:"textarea-html",
-						name:"description",
-						label:"description",
-						description:"tell people about you",
-						placeholder: "write about yourselff"
 					}
 				],
 				label: "Users",
