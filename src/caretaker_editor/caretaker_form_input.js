@@ -49,13 +49,15 @@ class CaretakerInput extends React.Component{
 			case "select"										: return false;
 			case "select-multiple"					: return true;
 			case "checkbox"									: return false;
-			case "textarea"									: 
+			case "textarea"									:
 			case "textarea-text"						: return false;
 			case "textarea-html"						: return false;
 			case "radio"										: return false;
 			//need select interface
 			case "select-object"						: return false;
 			case "select-object-multiple"		: return false;
+			//special treatment
+			case "file"											: return false;
 			default: return true;
 		}
 	}
@@ -90,6 +92,8 @@ class CaretakerInput extends React.Component{
 			//need select interface
 			case "select-object"						: break;
 			case "select-object-multiple"		:	break;
+			//special treatment
+			case "file"											: return React.createElement(CaretakerFormInputFile, this.getSpecialProps()); break;
 		}
 	}
 	render(){
