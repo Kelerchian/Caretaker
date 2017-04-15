@@ -91,7 +91,60 @@ var Caretaker = (function(){
 		}
 	}())
 
+
+	/**
+	* Caretaker UploadedFile and UploadedFileMap
+	*
+	*/
+	var globalInputFile
+	class UploadedFile{
+		static promptUpload(onChange, props){
+			var inputFile = document.createElement('input')
+			globalInputFile = inputFile
+			var reader = new FileReader()
+
+			//ready the props
+			for(var i in props){
+				inputFile.setAttribute(i, props[i])
+			}
+
+			//ready the render
+			inputFile.type = "file"
+			inputFile.onchange = function(e){
+				var file = inputFile.files[0]
+
+				reader.addEventListener('load', function(){
+					var uploadedFile = new Caretaker.UploadedFile(file,reader.result)
+					onChange(uploadedFile)
+				}, false)
+
+				if(file){
+					reader.readAsDataURL(file)
+				}
+			}
+			inputFile.click()
+		}
+		constructor(file, result){
+			this.fileData = {
+				_is_caretaker_uploaded_file: true,
+				name: file.name,
+				size: file.size,
+				data: result
+			}
+		}
+		getName(){
+			return this.fileData.name
+		}
+		getSize(){
+			return this.fileData.size
+		}
+		getFileData(){
+			return this.fileData
+		}
+	}
+
 	return {
-		Widget
+		Widget,
+		UploadedFile
 	}
 })();
