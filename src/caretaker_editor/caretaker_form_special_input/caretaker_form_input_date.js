@@ -43,7 +43,7 @@ class CaretakerFormInputDate extends React.Component{
 		Caretaker.Widget.callDateInputWidget(this.onChange.bind(this), this.state.value)
 	}
 	getNegativePropKeys(){
-		return ["type","values","value"]
+		return ["type","values","value","defaultValue"]
 	}
 	getProps(){
 		var props = Object.assign({}, this.props)
