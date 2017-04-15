@@ -41,7 +41,7 @@ class CaretakerFormInputSelect extends React.Component{
 		this.updateParent()
 	}
 	getNegativePropKeys(){
-		return ["value","values","multiple"]
+		return ["value","values","multiple","type"]
 	}
 	getProps(){
 		var props = Object.assign({}, this.props)
@@ -70,7 +70,6 @@ class CaretakerFormInputSelect extends React.Component{
 		}
 
 		var props = this.getProps()
-		console.log(props)
 		var select = React.createElement('select', props, optionElements)
 		return select
 	}
