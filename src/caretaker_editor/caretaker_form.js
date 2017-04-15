@@ -17,7 +17,7 @@ class CaretakerForm extends React.Component{
 	}
 	render(){
 		var props = this.getProps()
-		return React.createElement('form', {className: "CaretakerForm"}, (
+		return React.createElement('form', {className: "CaretakerForm", encType:"multipart/form-data"}, (
 			React.createElement(CaretakerFormObject, props)
 		))
 	}
