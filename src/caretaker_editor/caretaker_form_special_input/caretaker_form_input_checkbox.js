@@ -92,3 +92,5 @@ class CaretakerFormInputCheckbox extends React.Component{
 		))
 	}
 }
+
+Caretaker.SpecialInput.register('checkbox',CaretakerFormInputCheckbox)

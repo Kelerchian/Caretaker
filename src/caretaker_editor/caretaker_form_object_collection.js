@@ -59,9 +59,8 @@ class CaretakerFormObjectCollection extends React.Component{
 		}
 	}
 	appearanceGetControl(){
-		var name = this.props.name || ""
-		return React.createElement('div',{className:"CaretakerFormObjectCollectionControl "+name, key:"control"}, (
-			React.createElement('button',{className:"CaretakerButton CaretakerAddObjectButton", "type":"button", onClick:this.onAddChild.bind(this)}, "Add New")
+		return React.createElement('div',{className:"CaretakerFormObjectCollectionControl", key:"control"}, (
+			React.createElement('button',{className:"CaretakerButton CaretakerAddButton", "type":"button", onClick:this.onAddChild.bind(this)}, [React.createElement('i',{className:"fa fa-plus", key:"icon"}), " New"])
 		))
 	}
 	appearanceGetChildren(){
@@ -77,13 +76,14 @@ class CaretakerFormObjectCollection extends React.Component{
 				props.value = this.state.value[i]
 			}
 			children.push( React.createElement('div', { className: "CaretakerFormObjectContainer", key: i}, [
-				React.createElement('button', { className:"CaretakerButton CaretakerRemoveObjectButton", onClick:this.onRemoveChild.bind(this,i), type:"button" , key:i+"-delete-button" }, "Delete"),
+				React.createElement('button', { className:"CaretakerButton CaretakerNegativeButton CaretakerRemoveButton", onClick:this.onRemoveChild.bind(this,i), type:"button" , key:i+"-delete-button" }, React.createElement('i',{className:"fa fa-trash"})),
 				React.createElement(CaretakerFormObject, props)
 			]) )
 		}
 		return React.createElement('div',{className:"CaretakerFormObjectCollectionChildren", key:"children"}, children);
 	}
 	render(){
-		return React.createElement('div',{className: "CaretakerFormObjectCollection"}, [this.appearanceGetControl(), this.appearanceGetChildren()] )
+		var name = this.props.name || ""
+		return React.createElement('div',{className: "CaretakerFormObjectCollection "+name}, [this.appearanceGetControl(), this.appearanceGetChildren()] )
 	}
 }

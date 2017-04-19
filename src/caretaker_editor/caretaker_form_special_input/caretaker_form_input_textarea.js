@@ -47,3 +47,6 @@ class CaretakerFormInputTextarea extends React.Component{
 		))
 	}
 }
+
+Caretaker.SpecialInput.register('textarea',CaretakerFormInputTextarea)
+Caretaker.SpecialInput.register('textarea-text',CaretakerFormInputTextarea)

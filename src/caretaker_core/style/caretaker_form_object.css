@@ -1,0 +1,32 @@
+.CaretakerFormObjectCollectionControl{
+	font-size: 0.7em;
+}
+
+.CaretakerFormObjectCollectionControl .CaretakerAddButton{
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.CaretakerFormObjectContainer{
+	position: relative;
+}
+
+.CaretakerFormObjectContainer > .CaretakerRemoveButton{
+	font-size: 0.7em;
+	top: 1rem;
+	right: 1rem;
+	position: absolute;
+	z-index: 1;
+}
+
+.CaretakerFormObject{
+	padding: 1rem;
+	position: relative;
+}
+.CaretakerFormObject:not(.CaretakerInputContainer){
+	box-shadow: 0 3px 3px rgba(0,0,0,0.3);
+}
+
+.CaretakerFormObject.CaretakerInputContainer{
+	border: 1px solid rgba(0,0,0,0.3);
+}

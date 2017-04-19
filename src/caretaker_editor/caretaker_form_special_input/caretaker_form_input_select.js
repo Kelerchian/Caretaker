@@ -77,3 +77,5 @@ class CaretakerFormInputSelect extends React.Component{
 		return this.appearanceGetSelect()
 	}
 }
+
+Caretaker.SpecialInput.register('select',CaretakerFormInputSelect)

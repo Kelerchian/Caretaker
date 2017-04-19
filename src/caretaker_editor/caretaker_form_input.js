@@ -40,26 +40,7 @@ class CaretakerInput extends React.Component{
 		return props
 	}
 	isCommonInput(){
-		switch (this.props.type) {
-			//need time interface
-			case "time"											: return false;
-			case "date"											: return false;
-			case "week"											: return true; //not implemented
-			//need options
-			case "select"										: return false;
-			case "select-multiple"					: return true;
-			case "checkbox"									: return false;
-			case "textarea"									:
-			case "textarea-text"						: return false;
-			case "textarea-html"						: return false;
-			case "radio"										: return false;
-			//need select interface
-			case "select-object"						: return false;
-			case "select-object-multiple"		: return false;
-			//special treatment
-			case "file"											: return false;
-			default: return true;
-		}
+		Caretaker.SpecialInput.isCommonInput(this.props.type)
 	}
 	updateParent(){
 		if(this.props.onChange){
@@ -76,25 +57,18 @@ class CaretakerInput extends React.Component{
 		this.updateParent()
 	}
 	renderSpecialInput(){
-		switch (this.props.type) {
-			//need time interface
-			case "time"											: return React.createElement(CaretakerFormInputTime, this.getSpecialProps()); break;
-			case "date"											: return React.createElement(CaretakerFormInputDate, this.getSpecialProps()); break;
-			case "week"											: break;
-			//need options
-			case "select"										: return React.createElement(CaretakerFormInputSelect, this.getSpecialProps()); break;
-			case "select-multiple"					: break;
-			case "checkbox"									: return React.createElement(CaretakerFormInputCheckbox, this.getSpecialProps()); break;
-			case "textarea"									:
-			case "textarea-text"						: return React.createElement(CaretakerFormInputTextarea, this.getSpecialProps()); break;
-			case "textarea-html"						: return React.createElement(CaretakerFormInputTextareaHTML, this.getSpecialProps()); break;
-			case "radio"										:	return React.createElement(CaretakerFormInputRadio, this.getSpecialProps()); break;
-			//need select interface
-			case "select-object"						: break;
-			case "select-object-multiple"		:	break;
-			//special treatment
-			case "file"											: return React.createElement(CaretakerFormInputFile, this.getSpecialProps()); break;
+
+		var specialInputClass = Caretaker.SpecialInput.getClass(this.props.type)
+		if(!specialInputClass){
+			return ""
 		}
+
+		var specialInput = React.createElement(specialInputClass, this.getSpecialProps())
+		if(!specialInput){
+			return ""
+		}
+
+		return specialInput
 	}
 	render(){
 		if(this.isCommonInput()){

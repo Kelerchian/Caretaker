@@ -48,6 +48,9 @@ class CaretakerFormObject extends React.Component{
 	isObject(){
 		return this.props.type == "object"
 	}
+	isInput(){
+		return !this.isObject() && !this.isMany()
+	}
 	updateParent(){
 		if(this.props.onChange){
 			this.props.onChange(this.state.value, this.state.name)
@@ -158,7 +161,7 @@ class CaretakerFormObject extends React.Component{
 	}
 	render(){
 		var props = {}
-		props.className = "CaretakerFormObject " + (this.state.name ? this.state.name : "")
+		props.className = "CaretakerFormObject " + (this.state.name ? this.state.name : "") + (this.isInput() ? " CaretakerInputContainer":"")
 		return React.createElement('div',props, this.appearanceGetInsideObjectContainer())
 	}
 }

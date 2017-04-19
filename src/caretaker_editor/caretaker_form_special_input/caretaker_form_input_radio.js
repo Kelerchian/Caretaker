@@ -79,3 +79,5 @@ class CaretakerFormInputRadio extends React.Component{
 		))
 	}
 }
+
+Caretaker.SpecialInput.register('radio',CaretakerFormInputRadio)

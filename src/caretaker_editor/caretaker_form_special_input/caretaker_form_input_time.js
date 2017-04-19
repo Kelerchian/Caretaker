@@ -64,3 +64,5 @@ class CaretakerFormInputTime extends React.Component{
 		return React.createElement('input',this.getProps())
 	}
 }
+
+Caretaker.SpecialInput.register('time',CaretakerFormInputTime)

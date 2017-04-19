@@ -138,13 +138,48 @@ var Caretaker = (function(){
 		getSize(){
 			return this.fileData.size
 		}
+		getData(){
+			return this.fileData.data
+		}
 		getFileData(){
 			return this.fileData
 		}
 	}
 
+
+	/**
+	* Special Input & Extensor Support
+	*
+	*/
+	var SpecialInputPrivate = {
+		inputMap : {}
+	}
+	var SpecialInputPublic = {
+		isSpecialInput: function(type){
+			if(SpecialInputPrivate.inputMap[type]){
+				return true
+			}else{
+				return false
+			}
+		},
+		isCommonInput: function(type){
+			return !SpecialInputPublic.isSpecialInput(type)
+		},
+		getClass: function(type){
+			return SpecialInputPrivate.inputMap[type]
+		},
+		register: function(type,className){
+			if(SpecialInputPrivate.inputMap[type]){
+				console.warn('SpecialInput '+type+' has been installed and cannot be replaced with '+className)
+			}else{
+				SpecialInputPrivate.inputMap[type] = className
+			}
+		}
+	}
+
 	return {
-		Widget,
-		UploadedFile
+		Widget:Widget,
+		UploadedFile:UploadedFile,
+		SpecialInput:SpecialInputPublic
 	}
 })();
