@@ -138,14 +138,49 @@ var Caretaker = (function(){
 		getSize(){
 			return this.fileData.size
 		}
+		getData(){
+			return this.fileData.data
+		}
 		getFileData(){
 			return this.fileData
 		}
 	}
 
+
+	/**
+	* Special Input & Extensor Support
+	*
+	*/
+	var SpecialInputPrivate = {
+		inputMap : {}
+	}
+	var SpecialInputPublic = {
+		isSpecialInput: function(type){
+			if(SpecialInputPrivate.inputMap[type]){
+				return true
+			}else{
+				return false
+			}
+		},
+		isCommonInput: function(type){
+			return !SpecialInputPublic.isSpecialInput(type)
+		},
+		getClass: function(type){
+			return SpecialInputPrivate.inputMap[type]
+		},
+		register: function(type,className){
+			if(SpecialInputPrivate.inputMap[type]){
+				console.warn('SpecialInput '+type+' has been installed and cannot be replaced with '+className)
+			}else{
+				SpecialInputPrivate.inputMap[type] = className
+			}
+		}
+	}
+
 	return {
-		Widget,
-		UploadedFile
+		Widget:Widget,
+		UploadedFile:UploadedFile,
+		SpecialInput:SpecialInputPublic
 	}
 })();
 
@@ -55287,26 +55322,7 @@ class CaretakerInput extends React.Component{
 		return props
 	}
 	isCommonInput(){
-		switch (this.props.type) {
-			//need time interface
-			case "time"											: return false;
-			case "date"											: return false;
-			case "week"											: return true; //not implemented
-			//need options
-			case "select"										: return false;
-			case "select-multiple"					: return true;
-			case "checkbox"									: return false;
-			case "textarea"									:
-			case "textarea-text"						: return false;
-			case "textarea-html"						: return false;
-			case "radio"										: return false;
-			//need select interface
-			case "select-object"						: return false;
-			case "select-object-multiple"		: return false;
-			//special treatment
-			case "file"											: return false;
-			default: return true;
-		}
+		Caretaker.SpecialInput.isCommonInput(this.props.type)
 	}
 	updateParent(){
 		if(this.props.onChange){
@@ -55323,25 +55339,18 @@ class CaretakerInput extends React.Component{
 		this.updateParent()
 	}
 	renderSpecialInput(){
-		switch (this.props.type) {
-			//need time interface
-			case "time"											: return React.createElement(CaretakerFormInputTime, this.getSpecialProps()); break;
-			case "date"											: return React.createElement(CaretakerFormInputDate, this.getSpecialProps()); break;
-			case "week"											: break;
-			//need options
-			case "select"										: return React.createElement(CaretakerFormInputSelect, this.getSpecialProps()); break;
-			case "select-multiple"					: break;
-			case "checkbox"									: return React.createElement(CaretakerFormInputCheckbox, this.getSpecialProps()); break;
-			case "textarea"									:
-			case "textarea-text"						: return React.createElement(CaretakerFormInputTextarea, this.getSpecialProps()); break;
-			case "textarea-html"						: return React.createElement(CaretakerFormInputTextareaHTML, this.getSpecialProps()); break;
-			case "radio"										:	return React.createElement(CaretakerFormInputRadio, this.getSpecialProps()); break;
-			//need select interface
-			case "select-object"						: break;
-			case "select-object-multiple"		:	break;
-			//special treatment
-			case "file"											: return React.createElement(CaretakerFormInputFile, this.getSpecialProps()); break;
+
+		var specialInputClass = Caretaker.SpecialInput.getClass(this.props.type)
+		if(!specialInputClass){
+			return ""
 		}
+
+		var specialInput = React.createElement(specialInputClass, this.getSpecialProps())
+		if(!specialInput){
+			return ""
+		}
+
+		return specialInput
 	}
 	render(){
 		if(this.isCommonInput()){
@@ -55405,6 +55414,9 @@ class CaretakerFormObject extends React.Component{
 	}
 	isObject(){
 		return this.props.type == "object"
+	}
+	isInput(){
+		return !this.isObject() && !this.isMany()
 	}
 	updateParent(){
 		if(this.props.onChange){
@@ -55516,7 +55528,7 @@ class CaretakerFormObject extends React.Component{
 	}
 	render(){
 		var props = {}
-		props.className = "CaretakerFormObject " + (this.state.name ? this.state.name : "")
+		props.className = "CaretakerFormObject " + (this.state.name ? this.state.name : "") + (this.isInput() ? " CaretakerInputContainer":"")
 		return React.createElement('div',props, this.appearanceGetInsideObjectContainer())
 	}
 }
@@ -55582,9 +55594,8 @@ class CaretakerFormObjectCollection extends React.Component{
 		}
 	}
 	appearanceGetControl(){
-		var name = this.props.name || ""
-		return React.createElement('div',{className:"CaretakerFormObjectCollectionControl "+name, key:"control"}, (
-			React.createElement('button',{className:"CaretakerButton CaretakerAddObjectButton", "type":"button", onClick:this.onAddChild.bind(this)}, "Add New")
+		return React.createElement('div',{className:"CaretakerFormObjectCollectionControl", key:"control"}, (
+			React.createElement('button',{className:"CaretakerButton CaretakerAddButton", "type":"button", onClick:this.onAddChild.bind(this)}, [React.createElement('i',{className:"fa fa-plus", key:"icon"}), " New"])
 		))
 	}
 	appearanceGetChildren(){
@@ -55600,14 +55611,15 @@ class CaretakerFormObjectCollection extends React.Component{
 				props.value = this.state.value[i]
 			}
 			children.push( React.createElement('div', { className: "CaretakerFormObjectContainer", key: i}, [
-				React.createElement('button', { className:"CaretakerButton CaretakerRemoveObjectButton", onClick:this.onRemoveChild.bind(this,i), type:"button" , key:i+"-delete-button" }, "Delete"),
+				React.createElement('button', { className:"CaretakerButton CaretakerNegativeButton CaretakerRemoveButton", onClick:this.onRemoveChild.bind(this,i), type:"button" , key:i+"-delete-button" }, React.createElement('i',{className:"fa fa-trash"})),
 				React.createElement(CaretakerFormObject, props)
 			]) )
 		}
 		return React.createElement('div',{className:"CaretakerFormObjectCollectionChildren", key:"children"}, children);
 	}
 	render(){
-		return React.createElement('div',{className: "CaretakerFormObjectCollection"}, [this.appearanceGetControl(), this.appearanceGetChildren()] )
+		var name = this.props.name || ""
+		return React.createElement('div',{className: "CaretakerFormObjectCollection "+name}, [this.appearanceGetControl(), this.appearanceGetChildren()] )
 	}
 }
 
@@ -55706,6 +55718,8 @@ class CaretakerFormInputCheckbox extends React.Component{
 	}
 }
 
+Caretaker.SpecialInput.register('checkbox',CaretakerFormInputCheckbox)
+
 class CaretakerFormInputDate extends React.Component{
 	constructor(props){
 		super(props)
@@ -55773,6 +55787,8 @@ class CaretakerFormInputDate extends React.Component{
 	}
 }
 
+Caretaker.SpecialInput.register('date',CaretakerFormInputDate)
+
 /**
 * Usage example:
 * {
@@ -55837,8 +55853,8 @@ class CaretakerFormInputFile extends React.Component{
 			return React.createElement('button', {className:"CaretakerButton CaretakerFormInputFilePromptButton", type:"button", onClick: this.onWillPrompt.bind(this)}, "Select File...")
 		}else if(this.state.value instanceof Caretaker.UploadedFile){
 			return [
-				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileRemoveButton", type:"button", key:"removeButton", onClick: this.onRemove.bind(this)}, "Remove"),
-				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileChangeButton", type:"button", key:"changeButton", onClick: this.onWillPrompt.bind(this)}, "Change..."),
+				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileRemoveButton", type:"button", key:"removeButton", onClick: this.onRemove.bind(this)}, [React.createElement('i', {className:"fa fa-remove", key:"icon"}),"Remove"]),
+				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileChangeButton", type:"button", key:"changeButton", onClick: this.onWillPrompt.bind(this)}, [React.createElement('i',{className:"fa fa-edit", key:"icon"}), "Change..."]),
 				React.createElement('div', {className:"CaretakerFormInputFilePreview", key:"preview"}, this.state.value.getName() + "(" + this.state.value.getSize() + ")")
 			]
 		}else if(typeof this.state.value == "object"){
@@ -55852,8 +55868,8 @@ class CaretakerFormInputFile extends React.Component{
 				name = this.state.value.name
 			}
 			return [
-				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileRemoveButton", type:"button", key:"removeButton", onClick: this.onRemove.bind(this)}, "Remove" ),
-				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileChangeButton", type:"button", key:"changeButton", onClick: this.onWillPrompt.bind(this)}, "Change..." ),
+				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileRemoveButton", type:"button", key:"removeButton", onClick: this.onRemove.bind(this)}, [React.createElement('i', {className:"fa fa-remove", key:"icon"}),"Remove"] ),
+				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileChangeButton", type:"button", key:"changeButton", onClick: this.onWillPrompt.bind(this)}, [React.createElement('i',{className:"fa fa-edit", key:"icon"}), "Change..."] ),
 				React.createElement('div', {className:"CaretakerFormInputFilePreview", key:"preview"}, (
 					React.createElement('a', previewLinkProp, name)
 				))
@@ -55862,6 +55878,68 @@ class CaretakerFormInputFile extends React.Component{
 	}
 	render(){
 		return React.createElement('div',{className: "CaretakerFormInputFile "+(this.props.name || "")}, this.appearanceGetControl())
+	}
+}
+
+Caretaker.SpecialInput.register('file',CaretakerFormInputFile)
+
+class CaretakerFormInputPrototype extends React.Component{
+	constructor(props){
+		super(props)
+		this.state = {}
+		this.loadValue(props)
+	}
+	loadValue(props){
+		this.state.value = this.getDefaultValue();
+		if(props.value != null){
+			if(this.valueIsValid(props.value)){
+				this.state.value = props.value
+			}
+		}else if(props.defaultValue != null){
+			if(this.valueIsValid(props.value)){
+				this.state.value = props.defaultValue
+			}
+		}
+	}
+	getNegativePropKeys(){
+		return ["value","values","defaultValue"]
+	}
+	getProps(){
+		var props = Object.assign({}, this.props)
+		this.getNegativePropKeys(function(key){
+			props[key] = null
+			delete props[key]
+		})
+		return props
+	}
+	componentDidMount(){
+		this.updateParent()
+	}
+	componentWillReceiveProps(props){
+		this.loadValue(props)
+		this.setState(this.state)
+	}
+	updateParent(){
+		if(this.props.onChange){
+			this.props.onChange(this.state.value)
+		}
+		this.setState(this.state)
+	}
+	//recommended to be extended
+	getDefaultValue(){
+		return null
+	}
+	valueIsValid(value){
+		return true
+	}
+	onChange(value){
+		if(this.valueIsValid(value)){
+			this.state.value = value
+		}
+		this.updateParent()
+	}
+	render(){
+
 	}
 }
 
@@ -55947,6 +56025,8 @@ class CaretakerFormInputRadio extends React.Component{
 	}
 }
 
+Caretaker.SpecialInput.register('radio',CaretakerFormInputRadio)
+
 /** Command example
 {
 	type:"select",
@@ -56027,6 +56107,8 @@ class CaretakerFormInputSelect extends React.Component{
 	}
 }
 
+Caretaker.SpecialInput.register('select',CaretakerFormInputSelect)
+
 class CaretakerFormInputTextarea extends React.Component{
 	constructor(props){
 		super(props)
@@ -56076,6 +56158,9 @@ class CaretakerFormInputTextarea extends React.Component{
 		))
 	}
 }
+
+Caretaker.SpecialInput.register('textarea',CaretakerFormInputTextarea)
+Caretaker.SpecialInput.register('textarea-text',CaretakerFormInputTextarea)
 
 class CaretakerFormInputTextareaHTML extends React.Component{
 	constructor(props){
@@ -56141,6 +56226,8 @@ class CaretakerFormInputTextareaHTML extends React.Component{
 		))
 	}
 }
+
+Caretaker.SpecialInput.register('textarea-html',CaretakerFormInputTextareaHTML)
 
 class CaretakerFormInputTime extends React.Component{
 	constructor(props){
@@ -56208,6 +56295,8 @@ class CaretakerFormInputTime extends React.Component{
 		return React.createElement('input',this.getProps())
 	}
 }
+
+Caretaker.SpecialInput.register('time',CaretakerFormInputTime)
 
 /**
  * Represents a book.

@@ -1,0 +1,14 @@
+.CaretakerFormInputFilePreview > img{
+	max-height: 50vh;
+	height: auto;
+	width: 100%;
+	object-fit: contain;
+	background: #111;
+	border: 1px solid rgba(0,0,0,0.3);
+}
+
+.CaretakerFormInputImage .CaretakerButton{
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	font-size: 0.9em;
+}

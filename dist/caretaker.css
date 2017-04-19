@@ -1,3 +1,5 @@
+@import "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
+
 #CaretakerInterfaceWidget{
 	position: fixed;
 	top:-100px;
@@ -12,6 +14,66 @@
 	opacity: 1;
 	z-index: 10000000000;
 	background: rgba(0,0,0,0.5);
+}
+
+.CaretakerButton{
+	padding: 0.2em 0.4em;
+	background: transparent;
+	border-radius: 4px;
+	border: 2px solid rgba(127,127,127,0.5);
+}
+
+.CaretakerButton:hover{
+	border: 2px solid rgba(127,127,127,0.8);
+}
+
+.CaretakerButton:click{
+	border: 2px solid rgba(127,127,127,1);
+}
+
+.CaretakerButton.CaretakerNegativeButton{
+	border: 2px solid #D62D2D;
+}
+
+.CaretakerButton.CaretakerNegativeButton:hover{
+	border: 2px solid #BD0300;
+}
+
+.CaretakerButton.CaretakerNegativeButton:click{
+	border: 2px solid #690200;
+}
+
+.CaretakerFormObjectCollectionControl{
+	font-size: 0.7em;
+}
+
+.CaretakerFormObjectCollectionControl .CaretakerAddButton{
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.CaretakerFormObjectContainer{
+	position: relative;
+}
+
+.CaretakerFormObjectContainer > .CaretakerRemoveButton{
+	font-size: 0.7em;
+	top: 1rem;
+	right: 1rem;
+	position: absolute;
+	z-index: 1;
+}
+
+.CaretakerFormObject{
+	padding: 1rem;
+	position: relative;
+}
+.CaretakerFormObject:not(.CaretakerInputContainer){
+	box-shadow: 0 3px 3px rgba(0,0,0,0.3);
+}
+
+.CaretakerFormObject.CaretakerInputContainer{
+	border: 1px solid rgba(0,0,0,0.3);
 }
 
 .CaretakerDateInputWidget{

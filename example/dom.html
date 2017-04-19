@@ -14,7 +14,9 @@
     <script src="asset/react/build/react.js"></script>
     <script src="asset/react/build/react-dom.js"></script>
 		<script src="../dist/caretaker.js"></script>
+		<script src="../dist/caretaker.extension.js"></script>
 		<link href="../dist/caretaker.css" rel="stylesheet"></link>
+		<link href="../dist/caretaker.extension.css" rel="stylesheet"></link>
 		<script>
 			var user = {name:"Alan Darmasaputra", subtext:"CareTaker Author", image:"asset/image/logo.svg"}
 		</script>
@@ -43,10 +45,9 @@
 		<script async>
 			var UserModel = {
 				quantity: "many",
-				name: "important_file",
-				accept: "image/*",
-				type: "file",
-				label: "Important File",
+				name: "profile_picture",
+				type: "image",
+				label: "Profile Picture",
 				description: "this is a panel to edit user[thedescription]"
 			}
 			var formCommand = {
