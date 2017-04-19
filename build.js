@@ -4,10 +4,8 @@ var gulp = require('gulp')
 var concat = require('gulp-concat')
 path.delimiter = "/"
 
-var javascriptSource = [];
-var cssSource = [];
-(function lookIntoFolder(dir){
-
+function lookIntoFolder(dir, intendedExtension){
+	var sources = []
 	var folderContent = fs.readdirSync( path.resolve(__dirname, dir) )
 	folderContent.forEach(function( filename ){
 		var filepath = "./"+ dir+"/"+ filename
@@ -15,19 +13,25 @@ var cssSource = [];
 		var stat = fs.lstatSync( filepath )
 		if(stat.isFile()){
 			var extension = filename.split('.')[1]
-			if(extension == "js"){
-				javascriptSource.push(filepath)
-			}else if(extension == "css"){
-				cssSource.push(filepath)
+			if(extension == intendedExtension){
+				sources.push(filepath)
 			}
 		}else if(stat.isDirectory()){
-			lookIntoFolder(dir+"/"+filename)
+			var sourcesInDirectory = lookIntoFolder(dir+"/"+filename, intendedExtension)
+			sources = sources.concat(sourcesInDirectory)
 		}
 	})
+	return sources
+}
 
-})("src")
+var javascriptSource = lookIntoFolder("src", "js")
+var cssSource = lookIntoFolder("src", "css")
 
-console.log(javascriptSource, cssSource)
+var javascriptExtensionSource = lookIntoFolder("src_extension", "js")
+var cssExtensionSource = lookIntoFolder("src_extension", "css")
+
+console.log("Main Files:", javascriptSource, cssSource)
+console.log("Extension Files:", javascriptExtensionSource, cssExtensionSource)
 
 gulp.src(javascriptSource)
 	.pipe(concat('caretaker.js'))
@@ -35,4 +39,12 @@ gulp.src(javascriptSource)
 
 gulp.src(cssSource)
 	.pipe(concat('caretaker.css'))
+	.pipe(gulp.dest("dist"))
+
+gulp.src(javascriptExtensionSource)
+	.pipe(concat('caretaker.extension.js'))
+	.pipe(gulp.dest("dist"))
+
+gulp.src(cssExtensionSource)
+	.pipe(concat('caretaker.extension.css'))
 	.pipe(gulp.dest("dist"))
