@@ -2,17 +2,6 @@ class CaretakerFormObject extends React.Component{
 	constructor(props){
 		super(props)
 		this.state = {}
-		if(this.isMany()){
-			this.state.value = []
-			this.state.name = "arr"
-		}
-		else if(this.isObject()){
-			this.state.value = {}
-			this.state.name = "obj"
-		}else{
-			this.state.value = null
-			this.state.name = "val"
-		}
 		this.loadValue(props)
 	}
 	componentDidMount(){
@@ -31,6 +20,18 @@ class CaretakerFormObject extends React.Component{
 	}
 	loadValue(props){
 
+		if(this.isMany()){
+			this.state.value = []
+			this.state.name = "arr"
+		}
+		else if(this.isObject()){
+			this.state.value = {}
+			this.state.name = "obj"
+		}else{
+			this.state.value = null
+			this.state.name = "val"
+		}
+
 		if(props.value != null){
 			this.state.value = props.value
 		}else if(props.defaultValue != null){
@@ -46,7 +47,7 @@ class CaretakerFormObject extends React.Component{
 		return this.props.quantity == "many"
 	}
 	isObject(){
-		return this.props.type == "object"
+		return this.props.type == "object" || this.props.type == null
 	}
 	isInput(){
 		return !this.isObject() && !this.isMany()
@@ -95,19 +96,12 @@ class CaretakerFormObject extends React.Component{
 		return props
 	}
 	appearanceGetLabel(){
-		if(this.props.label){
-			if(this.isObject()){
-				return React.createElement('h5', {className:"CaretakerObjectLabel", key:"label"}, this.props.label)
-			}else{
-				return React.createElement('label', {className:"CaretakerLabel", htmlFor: this.state.name, key:"label"}, this.props.label)
-			}
-		}
-		return false
+		return React.createElement('label', {className:"CaretakerLabel", htmlFor: this.state.name, key:"label"}, this.props.label)
 	}
 	appearanceGetDescription(){
 		if(this.props.description){
-			return React.createElement('p', {key:"description"}, (
-				React.createElement('small',{},this.props.description)
+			return React.createElement('p', {className:"CaretakerDescription",key:"description"}, (
+				this.props.description
 			))
 		}
 		return false;
