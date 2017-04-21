@@ -97,9 +97,9 @@ class CaretakerFormObject extends React.Component{
 	appearanceGetLabel(){
 		if(this.props.label){
 			if(this.isObject()){
-				return React.createElement('h5', {key:"label"}, this.props.label)
+				return React.createElement('h5', {className:"CaretakerObjectLabel", key:"label"}, this.props.label)
 			}else{
-				return React.createElement('label', {htmlFor: this.state.name, key:"label"}, this.props.label)
+				return React.createElement('label', {className:"CaretakerLabel", htmlFor: this.state.name, key:"label"}, this.props.label)
 			}
 		}
 		return false

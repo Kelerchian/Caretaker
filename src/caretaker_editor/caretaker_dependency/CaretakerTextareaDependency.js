@@ -406,7 +406,7 @@ module.exports = React;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -451,7 +451,7 @@ module.exports = reactProdInvariant;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule EditorState
- * 
+ *
  */
 
 
@@ -462,7 +462,7 @@ var _extends = _assign || function (target) { for (var i = 1; i < arguments.leng
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var BlockTree = __webpack_require__(100);
+var BlockTree = __webpack_require__(101);
 var ContentState = __webpack_require__(49);
 var EditorBidiService = __webpack_require__(212);
 var Immutable = __webpack_require__(6);
@@ -1394,7 +1394,7 @@ module.exports = EditorState;
       var array = this._array;
       var maxIndex = array.length - 1;
       var ii = 0;
-      return new Iterator(function() 
+      return new Iterator(function()
         {return ii > maxIndex ?
           iteratorDone() :
           iteratorValue(type, ii, array[reverse ? maxIndex - ii++ : ii++])}
@@ -1865,7 +1865,7 @@ module.exports = EditorState;
 
     Repeat.prototype.__iterator = function(type, reverse) {var this$0 = this;
       var ii = 0;
-      return new Iterator(function() 
+      return new Iterator(function()
         {return ii < this$0.size ? iteratorValue(type, ii++, this$0._value) : iteratorDone()}
       );
     };
@@ -4049,7 +4049,7 @@ module.exports = EditorState;
         return flipSequence;
       };
     }
-    reversedSequence.get = function(key, notSetValue) 
+    reversedSequence.get = function(key, notSetValue)
       {return iterable.get(useKeys ? key : -1 - key, notSetValue)};
     reversedSequence.has = function(key )
       {return iterable.has(useKeys ? key : -1 - key)};
@@ -4244,7 +4244,7 @@ module.exports = EditorState;
         return this.cacheResult().__iterate(fn, reverse);
       }
       var iterations = 0;
-      iterable.__iterate(function(v, k, c) 
+      iterable.__iterate(function(v, k, c)
         {return predicate.call(context, v, k, c) && ++iterations && fn(v, k, this$0)}
       );
       return iterations;
@@ -4435,7 +4435,7 @@ module.exports = EditorState;
     interposedSequence.size = iterable.size && iterable.size * 2 -1;
     interposedSequence.__iterateUncached = function(fn, reverse) {var this$0 = this;
       var iterations = 0;
-      iterable.__iterate(function(v, k) 
+      iterable.__iterate(function(v, k)
         {return (!iterations || fn(separator, iterations++, this$0) !== false) &&
         fn(v, iterations++, this$0) !== false},
         reverse
@@ -6346,7 +6346,7 @@ module.exports = ExecutionEnvironment;
  *
  * @providesModule DraftModifier
  * @typechecks
- * 
+ *
  */
 
 
@@ -6362,7 +6362,7 @@ var insertFragmentIntoContentState = __webpack_require__(243);
 var insertTextIntoContentState = __webpack_require__(244);
 var invariant = __webpack_require__(1);
 var modifyBlockForContentState = __webpack_require__(255);
-var removeEntitiesAtEdges = __webpack_require__(118);
+var removeEntitiesAtEdges = __webpack_require__(119);
 var removeRangeFromContentState = __webpack_require__(256);
 var splitBlockInContentState = __webpack_require__(258);
 
@@ -6490,7 +6490,7 @@ module.exports = DraftModifier;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 function makeEmptyFunction(arg) {
@@ -6543,23 +6543,23 @@ var CharacterMetadata = __webpack_require__(14);
 var CompositeDraftDecorator = __webpack_require__(200);
 var ContentBlock = __webpack_require__(24);
 var ContentState = __webpack_require__(49);
-var DefaultDraftBlockRenderMap = __webpack_require__(61);
-var DefaultDraftInlineStyle = __webpack_require__(101);
+var DefaultDraftBlockRenderMap = __webpack_require__(62);
+var DefaultDraftInlineStyle = __webpack_require__(102);
 var DraftEditor = __webpack_require__(202);
-var DraftEditorBlock = __webpack_require__(102);
+var DraftEditorBlock = __webpack_require__(103);
 var DraftEntity = __webpack_require__(50);
 var DraftModifier = __webpack_require__(10);
-var DraftEntityInstance = __webpack_require__(103);
+var DraftEntityInstance = __webpack_require__(104);
 var EditorState = __webpack_require__(5);
-var KeyBindingUtil = __webpack_require__(62);
+var KeyBindingUtil = __webpack_require__(63);
 var RichTextEditorUtil = __webpack_require__(213);
 var SelectionState = __webpack_require__(30);
 
 var convertFromDraftStateToRaw = __webpack_require__(218);
-var convertFromHTMLToContentBlocks = __webpack_require__(106);
+var convertFromHTMLToContentBlocks = __webpack_require__(107);
 var convertFromRawToDraftState = __webpack_require__(219);
 var generateRandomKey = __webpack_require__(16);
-var getDefaultKeyBinding = __webpack_require__(107);
+var getDefaultKeyBinding = __webpack_require__(108);
 var getVisibleSelectionRect = __webpack_require__(242);
 
 var DraftPublic = {
@@ -6610,7 +6610,7 @@ module.exports = DraftPublic;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 var nullthrows = function nullthrows(x) {
@@ -6637,7 +6637,7 @@ module.exports = nullthrows;
  *
  * @providesModule CharacterMetadata
  * @typechecks
- * 
+ *
  */
 
 
@@ -6753,7 +6753,7 @@ module.exports = CharacterMetadata;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -6785,7 +6785,7 @@ module.exports = { debugTool: debugTool };
  *
  * @providesModule generateRandomKey
  * @typechecks
- * 
+ *
  */
 
 
@@ -6825,7 +6825,7 @@ var UserAgentData = __webpack_require__(264);
 var VersionRange = __webpack_require__(265);
 
 var mapObject = __webpack_require__(278);
-var memoizeStringOnly = __webpack_require__(128);
+var memoizeStringOnly = __webpack_require__(129);
 
 /**
  * Checks to see whether `name` and `version` satisfy `query`.
@@ -7064,7 +7064,7 @@ module.exports = mapObject(UserAgent, memoizeStringOnly);
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -8021,7 +8021,7 @@ exports.default = function (_ref) {
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -8085,7 +8085,7 @@ module.exports = g;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule ContentBlock
- * 
+ *
  */
 
 
@@ -8528,7 +8528,7 @@ module.exports = UnicodeUtils;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -8655,7 +8655,7 @@ var _assign = __webpack_require__(60);
 var ReactCurrentOwner = __webpack_require__(22);
 
 var warning = __webpack_require__(2);
-var canDefineProperty = __webpack_require__(93);
+var canDefineProperty = __webpack_require__(94);
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
 var REACT_ELEMENT_TYPE = __webpack_require__(152);
@@ -8993,7 +8993,7 @@ module.exports = ReactElement;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -9039,7 +9039,7 @@ module.exports = reactProdInvariant;
  *
  * @providesModule SelectionState
  * @typechecks
- * 
+ *
  */
 
 
@@ -9321,7 +9321,7 @@ exports.default = function (_ref) {
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule BlockMapBuilder
- * 
+ *
  */
 
 
@@ -9355,7 +9355,7 @@ module.exports = BlockMapBuilder;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule removeTextWithStrategy
- * 
+ *
  */
 
 
@@ -9479,10 +9479,10 @@ module.exports = emptyObject;
 
 
 
-var DOMNamespaces = __webpack_require__(74);
-var setInnerHTML = __webpack_require__(88);
+var DOMNamespaces = __webpack_require__(75);
+var setInnerHTML = __webpack_require__(89);
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(83);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(84);
 var setTextContent = __webpack_require__(149);
 
 var ELEMENT_NODE_TYPE = 1;
@@ -9820,9 +9820,9 @@ module.exports = DOMProperty;
 
 var _prodInvariant = __webpack_require__(4);
 
-var EventPluginRegistry = __webpack_require__(75);
-var EventPluginUtils = __webpack_require__(76);
-var ReactErrorUtils = __webpack_require__(81);
+var EventPluginRegistry = __webpack_require__(76);
+var EventPluginUtils = __webpack_require__(77);
+var ReactErrorUtils = __webpack_require__(82);
 
 var accumulateInto = __webpack_require__(144);
 var forEachAccumulated = __webpack_require__(145);
@@ -10103,7 +10103,7 @@ module.exports = EventPluginHub;
 
 
 var EventPluginHub = __webpack_require__(39);
-var EventPluginUtils = __webpack_require__(76);
+var EventPluginUtils = __webpack_require__(77);
 
 var accumulateInto = __webpack_require__(144);
 var forEachAccumulated = __webpack_require__(145);
@@ -10418,7 +10418,7 @@ module.exports = ReactReconciler;
 
 var SyntheticEvent = __webpack_require__(20);
 
-var getEventTarget = __webpack_require__(86);
+var getEventTarget = __webpack_require__(87);
 
 /**
  * @interface UIEvent
@@ -10483,7 +10483,7 @@ module.exports = SyntheticUIEvent;
 var _assign = __webpack_require__(60);
 
 var ReactChildren = __webpack_require__(352);
-var ReactComponent = __webpack_require__(90);
+var ReactComponent = __webpack_require__(91);
 var ReactPureComponent = __webpack_require__(356);
 var ReactClass = __webpack_require__(353);
 var ReactDOMFactories = __webpack_require__(354);
@@ -10759,7 +10759,7 @@ function splitReactElement(element) {
  *
  * @providesModule ContentState
  * @typechecks
- * 
+ *
  */
 
 
@@ -10778,7 +10778,7 @@ var Immutable = __webpack_require__(6);
 var SelectionState = __webpack_require__(30);
 
 var generateRandomKey = __webpack_require__(16);
-var sanitizeDraftText = __webpack_require__(66);
+var sanitizeDraftText = __webpack_require__(67);
 
 var List = Immutable.List;
 var Record = Immutable.Record;
@@ -10963,10 +10963,10 @@ var _extends = _assign || function (target) { for (var i = 1; i < arguments.leng
  *
  * @providesModule DraftEntity
  * @typechecks
- * 
+ *
  */
 
-var DraftEntityInstance = __webpack_require__(103);
+var DraftEntityInstance = __webpack_require__(104);
 var Immutable = __webpack_require__(6);
 
 var invariant = __webpack_require__(1);
@@ -11157,7 +11157,7 @@ module.exports = DraftEntity;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule DraftOffsetKey
- * 
+ *
  */
 
 
@@ -11200,7 +11200,7 @@ module.exports = DraftOffsetKey;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule findRangesImmutable
- * 
+ *
  */
 
 
@@ -11251,13 +11251,13 @@ module.exports = findRangesImmutable;
  *
  * @providesModule getContentStateFragment
  * @typechecks
- * 
+ *
  */
 
 
 
 var generateRandomKey = __webpack_require__(16);
-var removeEntitiesAtEdges = __webpack_require__(118);
+var removeEntitiesAtEdges = __webpack_require__(119);
 
 function getContentStateFragment(contentState, selectionState) {
   var startKey = selectionState.getStartKey();
@@ -11328,7 +11328,7 @@ module.exports = getContentStateFragment;
  *
  * @providesModule isEventHandled
  * @typechecks
- * 
+ *
  */
 
 
@@ -11407,7 +11407,7 @@ module.exports = getActiveElement;
 var SyntheticUIEvent = __webpack_require__(42);
 var ViewportMetrics = __webpack_require__(143);
 
-var getEventModifierState = __webpack_require__(85);
+var getEventModifierState = __webpack_require__(86);
 
 /**
  * @interface MouseEvent
@@ -11477,7 +11477,7 @@ module.exports = SyntheticMouseEvent;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -11935,6 +11935,650 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Helpers
+
+// Merge objects
+//
+function assign(obj /*from1, from2, from3, ...*/) {
+  var sources = Array.prototype.slice.call(arguments, 1);
+
+  sources.forEach(function (source) {
+    if (!source) { return; }
+
+    Object.keys(source).forEach(function (key) {
+      obj[key] = source[key];
+    });
+  });
+
+  return obj;
+}
+
+function _class(obj) { return Object.prototype.toString.call(obj); }
+function isString(obj) { return _class(obj) === '[object String]'; }
+function isObject(obj) { return _class(obj) === '[object Object]'; }
+function isRegExp(obj) { return _class(obj) === '[object RegExp]'; }
+function isFunction(obj) { return _class(obj) === '[object Function]'; }
+
+
+function escapeRE(str) { return str.replace(/[.?*+^$[\]\\(){}|-]/g, '\\$&'); }
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+var defaultOptions = {
+  fuzzyLink: true,
+  fuzzyEmail: true,
+  fuzzyIP: false
+};
+
+
+function isOptionsObj(obj) {
+  return Object.keys(obj || {}).reduce(function (acc, k) {
+    return acc || defaultOptions.hasOwnProperty(k);
+  }, false);
+}
+
+
+var defaultSchemas = {
+  'http:': {
+    validate: function (text, pos, self) {
+      var tail = text.slice(pos);
+
+      if (!self.re.http) {
+        // compile lazily, because "host"-containing variables can change on tlds update.
+        self.re.http =  new RegExp(
+          '^\\/\\/' + self.re.src_auth + self.re.src_host_port_strict + self.re.src_path, 'i'
+        );
+      }
+      if (self.re.http.test(tail)) {
+        return tail.match(self.re.http)[0].length;
+      }
+      return 0;
+    }
+  },
+  'https:':  'http:',
+  'ftp:':    'http:',
+  '//':      {
+    validate: function (text, pos, self) {
+      var tail = text.slice(pos);
+
+      if (!self.re.no_http) {
+      // compile lazily, because "host"-containing variables can change on tlds update.
+        self.re.no_http =  new RegExp(
+          '^' +
+          self.re.src_auth +
+          // Don't allow single-level domains, because of false positives like '//test'
+          // with code comments
+          '(?:localhost|(?:(?:' + self.re.src_domain + ')\\.)+' + self.re.src_domain_root + ')' +
+          self.re.src_port +
+          self.re.src_host_terminator +
+          self.re.src_path,
+
+          'i'
+        );
+      }
+
+      if (self.re.no_http.test(tail)) {
+        // should not be `://` & `///`, that protects from errors in protocol name
+        if (pos >= 3 && text[pos - 3] === ':') { return 0; }
+        if (pos >= 3 && text[pos - 3] === '/') { return 0; }
+        return tail.match(self.re.no_http)[0].length;
+      }
+      return 0;
+    }
+  },
+  'mailto:': {
+    validate: function (text, pos, self) {
+      var tail = text.slice(pos);
+
+      if (!self.re.mailto) {
+        self.re.mailto =  new RegExp(
+          '^' + self.re.src_email_name + '@' + self.re.src_host_strict, 'i'
+        );
+      }
+      if (self.re.mailto.test(tail)) {
+        return tail.match(self.re.mailto)[0].length;
+      }
+      return 0;
+    }
+  }
+};
+
+/*eslint-disable max-len*/
+
+// RE pattern for 2-character tlds (autogenerated by ./support/tlds_2char_gen.js)
+var tlds_2ch_src_re = 'a[cdefgilmnoqrstuwxz]|b[abdefghijmnorstvwyz]|c[acdfghiklmnoruvwxyz]|d[ejkmoz]|e[cegrstu]|f[ijkmor]|g[abdefghilmnpqrstuwy]|h[kmnrtu]|i[delmnoqrst]|j[emop]|k[eghimnprwyz]|l[abcikrstuvy]|m[acdeghklmnopqrstuvwxyz]|n[acefgilopruz]|om|p[aefghklmnrstwy]|qa|r[eosuw]|s[abcdeghijklmnortuvxyz]|t[cdfghjklmnortvwz]|u[agksyz]|v[aceginu]|w[fs]|y[et]|z[amw]';
+
+// DON'T try to make PRs with changes. Extend TLDs with LinkifyIt.tlds() instead
+var tlds_default = 'biz|com|edu|gov|net|org|pro|web|xxx|aero|asia|coop|info|museum|name|shop|рф'.split('|');
+
+/*eslint-enable max-len*/
+
+////////////////////////////////////////////////////////////////////////////////
+
+function resetScanCache(self) {
+  self.__index__ = -1;
+  self.__text_cache__   = '';
+}
+
+function createValidator(re) {
+  return function (text, pos) {
+    var tail = text.slice(pos);
+
+    if (re.test(tail)) {
+      return tail.match(re)[0].length;
+    }
+    return 0;
+  };
+}
+
+function createNormalizer() {
+  return function (match, self) {
+    self.normalize(match);
+  };
+}
+
+// Schemas compiler. Build regexps.
+//
+function compile(self) {
+
+  // Load & clone RE patterns.
+  var re = self.re = __webpack_require__(282)(self.__opts__);
+
+  // Define dynamic patterns
+  var tlds = self.__tlds__.slice();
+
+  self.onCompile();
+
+  if (!self.__tlds_replaced__) {
+    tlds.push(tlds_2ch_src_re);
+  }
+  tlds.push(re.src_xn);
+
+  re.src_tlds = tlds.join('|');
+
+  function untpl(tpl) { return tpl.replace('%TLDS%', re.src_tlds); }
+
+  re.email_fuzzy      = RegExp(untpl(re.tpl_email_fuzzy), 'i');
+  re.link_fuzzy       = RegExp(untpl(re.tpl_link_fuzzy), 'i');
+  re.link_no_ip_fuzzy = RegExp(untpl(re.tpl_link_no_ip_fuzzy), 'i');
+  re.host_fuzzy_test  = RegExp(untpl(re.tpl_host_fuzzy_test), 'i');
+
+  //
+  // Compile each schema
+  //
+
+  var aliases = [];
+
+  self.__compiled__ = {}; // Reset compiled data
+
+  function schemaError(name, val) {
+    throw new Error('(LinkifyIt) Invalid schema "' + name + '": ' + val);
+  }
+
+  Object.keys(self.__schemas__).forEach(function (name) {
+    var val = self.__schemas__[name];
+
+    // skip disabled methods
+    if (val === null) { return; }
+
+    var compiled = { validate: null, link: null };
+
+    self.__compiled__[name] = compiled;
+
+    if (isObject(val)) {
+      if (isRegExp(val.validate)) {
+        compiled.validate = createValidator(val.validate);
+      } else if (isFunction(val.validate)) {
+        compiled.validate = val.validate;
+      } else {
+        schemaError(name, val);
+      }
+
+      if (isFunction(val.normalize)) {
+        compiled.normalize = val.normalize;
+      } else if (!val.normalize) {
+        compiled.normalize = createNormalizer();
+      } else {
+        schemaError(name, val);
+      }
+
+      return;
+    }
+
+    if (isString(val)) {
+      aliases.push(name);
+      return;
+    }
+
+    schemaError(name, val);
+  });
+
+  //
+  // Compile postponed aliases
+  //
+
+  aliases.forEach(function (alias) {
+    if (!self.__compiled__[self.__schemas__[alias]]) {
+      // Silently fail on missed schemas to avoid errons on disable.
+      // schemaError(alias, self.__schemas__[alias]);
+      return;
+    }
+
+    self.__compiled__[alias].validate =
+      self.__compiled__[self.__schemas__[alias]].validate;
+    self.__compiled__[alias].normalize =
+      self.__compiled__[self.__schemas__[alias]].normalize;
+  });
+
+  //
+  // Fake record for guessed links
+  //
+  self.__compiled__[''] = { validate: null, normalize: createNormalizer() };
+
+  //
+  // Build schema condition
+  //
+  var slist = Object.keys(self.__compiled__)
+                      .filter(function (name) {
+                        // Filter disabled & fake schemas
+                        return name.length > 0 && self.__compiled__[name];
+                      })
+                      .map(escapeRE)
+                      .join('|');
+  // (?!_) cause 1.5x slowdown
+  self.re.schema_test   = RegExp('(^|(?!_)(?:[><]|' + re.src_ZPCc + '))(' + slist + ')', 'i');
+  self.re.schema_search = RegExp('(^|(?!_)(?:[><]|' + re.src_ZPCc + '))(' + slist + ')', 'ig');
+
+  self.re.pretest       = RegExp(
+                            '(' + self.re.schema_test.source + ')|' +
+                            '(' + self.re.host_fuzzy_test.source + ')|' +
+                            '@',
+                            'i');
+
+  //
+  // Cleanup
+  //
+
+  resetScanCache(self);
+}
+
+/**
+ * class Match
+ *
+ * Match result. Single element of array, returned by [[LinkifyIt#match]]
+ **/
+function Match(self, shift) {
+  var start = self.__index__,
+      end   = self.__last_index__,
+      text  = self.__text_cache__.slice(start, end);
+
+  /**
+   * Match#schema -> String
+   *
+   * Prefix (protocol) for matched string.
+   **/
+  this.schema    = self.__schema__.toLowerCase();
+  /**
+   * Match#index -> Number
+   *
+   * First position of matched string.
+   **/
+  this.index     = start + shift;
+  /**
+   * Match#lastIndex -> Number
+   *
+   * Next position after matched string.
+   **/
+  this.lastIndex = end + shift;
+  /**
+   * Match#raw -> String
+   *
+   * Matched string.
+   **/
+  this.raw       = text;
+  /**
+   * Match#text -> String
+   *
+   * Notmalized text of matched string.
+   **/
+  this.text      = text;
+  /**
+   * Match#url -> String
+   *
+   * Normalized url of matched string.
+   **/
+  this.url       = text;
+}
+
+function createMatch(self, shift) {
+  var match = new Match(self, shift);
+
+  self.__compiled__[match.schema].normalize(match, self);
+
+  return match;
+}
+
+
+/**
+ * class LinkifyIt
+ **/
+
+/**
+ * new LinkifyIt(schemas, options)
+ * - schemas (Object): Optional. Additional schemas to validate (prefix/validator)
+ * - options (Object): { fuzzyLink|fuzzyEmail|fuzzyIP: true|false }
+ *
+ * Creates new linkifier instance with optional additional schemas.
+ * Can be called without `new` keyword for convenience.
+ *
+ * By default understands:
+ *
+ * - `http(s)://...` , `ftp://...`, `mailto:...` & `//...` links
+ * - "fuzzy" links and emails (example.com, foo@bar.com).
+ *
+ * `schemas` is an object, where each key/value describes protocol/rule:
+ *
+ * - __key__ - link prefix (usually, protocol name with `:` at the end, `skype:`
+ *   for example). `linkify-it` makes shure that prefix is not preceeded with
+ *   alphanumeric char and symbols. Only whitespaces and punctuation allowed.
+ * - __value__ - rule to check tail after link prefix
+ *   - _String_ - just alias to existing rule
+ *   - _Object_
+ *     - _validate_ - validator function (should return matched length on success),
+ *       or `RegExp`.
+ *     - _normalize_ - optional function to normalize text & url of matched result
+ *       (for example, for @twitter mentions).
+ *
+ * `options`:
+ *
+ * - __fuzzyLink__ - recognige URL-s without `http(s):` prefix. Default `true`.
+ * - __fuzzyIP__ - allow IPs in fuzzy links above. Can conflict with some texts
+ *   like version numbers. Default `false`.
+ * - __fuzzyEmail__ - recognize emails without `mailto:` prefix.
+ *
+ **/
+function LinkifyIt(schemas, options) {
+  if (!(this instanceof LinkifyIt)) {
+    return new LinkifyIt(schemas, options);
+  }
+
+  if (!options) {
+    if (isOptionsObj(schemas)) {
+      options = schemas;
+      schemas = {};
+    }
+  }
+
+  this.__opts__           = assign({}, defaultOptions, options);
+
+  // Cache last tested result. Used to skip repeating steps on next `match` call.
+  this.__index__          = -1;
+  this.__last_index__     = -1; // Next scan position
+  this.__schema__         = '';
+  this.__text_cache__     = '';
+
+  this.__schemas__        = assign({}, defaultSchemas, schemas);
+  this.__compiled__       = {};
+
+  this.__tlds__           = tlds_default;
+  this.__tlds_replaced__  = false;
+
+  this.re = {};
+
+  compile(this);
+}
+
+
+/** chainable
+ * LinkifyIt#add(schema, definition)
+ * - schema (String): rule name (fixed pattern prefix)
+ * - definition (String|RegExp|Object): schema definition
+ *
+ * Add new rule definition. See constructor description for details.
+ **/
+LinkifyIt.prototype.add = function add(schema, definition) {
+  this.__schemas__[schema] = definition;
+  compile(this);
+  return this;
+};
+
+
+/** chainable
+ * LinkifyIt#set(options)
+ * - options (Object): { fuzzyLink|fuzzyEmail|fuzzyIP: true|false }
+ *
+ * Set recognition options for links without schema.
+ **/
+LinkifyIt.prototype.set = function set(options) {
+  this.__opts__ = assign(this.__opts__, options);
+  return this;
+};
+
+
+/**
+ * LinkifyIt#test(text) -> Boolean
+ *
+ * Searches linkifiable pattern and returns `true` on success or `false` on fail.
+ **/
+LinkifyIt.prototype.test = function test(text) {
+  // Reset scan cache
+  this.__text_cache__ = text;
+  this.__index__      = -1;
+
+  if (!text.length) { return false; }
+
+  var m, ml, me, len, shift, next, re, tld_pos, at_pos;
+
+  // try to scan for link with schema - that's the most simple rule
+  if (this.re.schema_test.test(text)) {
+    re = this.re.schema_search;
+    re.lastIndex = 0;
+    while ((m = re.exec(text)) !== null) {
+      len = this.testSchemaAt(text, m[2], re.lastIndex);
+      if (len) {
+        this.__schema__     = m[2];
+        this.__index__      = m.index + m[1].length;
+        this.__last_index__ = m.index + m[0].length + len;
+        break;
+      }
+    }
+  }
+
+  if (this.__opts__.fuzzyLink && this.__compiled__['http:']) {
+    // guess schemaless links
+    tld_pos = text.search(this.re.host_fuzzy_test);
+    if (tld_pos >= 0) {
+      // if tld is located after found link - no need to check fuzzy pattern
+      if (this.__index__ < 0 || tld_pos < this.__index__) {
+        if ((ml = text.match(this.__opts__.fuzzyIP ? this.re.link_fuzzy : this.re.link_no_ip_fuzzy)) !== null) {
+
+          shift = ml.index + ml[1].length;
+
+          if (this.__index__ < 0 || shift < this.__index__) {
+            this.__schema__     = '';
+            this.__index__      = shift;
+            this.__last_index__ = ml.index + ml[0].length;
+          }
+        }
+      }
+    }
+  }
+
+  if (this.__opts__.fuzzyEmail && this.__compiled__['mailto:']) {
+    // guess schemaless emails
+    at_pos = text.indexOf('@');
+    if (at_pos >= 0) {
+      // We can't skip this check, because this cases are possible:
+      // 192.168.1.1@gmail.com, my.in@example.com
+      if ((me = text.match(this.re.email_fuzzy)) !== null) {
+
+        shift = me.index + me[1].length;
+        next  = me.index + me[0].length;
+
+        if (this.__index__ < 0 || shift < this.__index__ ||
+            (shift === this.__index__ && next > this.__last_index__)) {
+          this.__schema__     = 'mailto:';
+          this.__index__      = shift;
+          this.__last_index__ = next;
+        }
+      }
+    }
+  }
+
+  return this.__index__ >= 0;
+};
+
+
+/**
+ * LinkifyIt#pretest(text) -> Boolean
+ *
+ * Very quick check, that can give false positives. Returns true if link MAY BE
+ * can exists. Can be used for speed optimization, when you need to check that
+ * link NOT exists.
+ **/
+LinkifyIt.prototype.pretest = function pretest(text) {
+  return this.re.pretest.test(text);
+};
+
+
+/**
+ * LinkifyIt#testSchemaAt(text, name, position) -> Number
+ * - text (String): text to scan
+ * - name (String): rule (schema) name
+ * - position (Number): text offset to check from
+ *
+ * Similar to [[LinkifyIt#test]] but checks only specific protocol tail exactly
+ * at given position. Returns length of found pattern (0 on fail).
+ **/
+LinkifyIt.prototype.testSchemaAt = function testSchemaAt(text, schema, pos) {
+  // If not supported schema check requested - terminate
+  if (!this.__compiled__[schema.toLowerCase()]) {
+    return 0;
+  }
+  return this.__compiled__[schema.toLowerCase()].validate(text, pos, this);
+};
+
+
+/**
+ * LinkifyIt#match(text) -> Array|null
+ *
+ * Returns array of found link descriptions or `null` on fail. We strongly
+ * recommend to use [[LinkifyIt#test]] first, for best speed.
+ *
+ * ##### Result match description
+ *
+ * - __schema__ - link schema, can be empty for fuzzy links, or `//` for
+ *   protocol-neutral  links.
+ * - __index__ - offset of matched text
+ * - __lastIndex__ - index of next char after mathch end
+ * - __raw__ - matched text
+ * - __text__ - normalized text
+ * - __url__ - link, generated from matched text
+ **/
+LinkifyIt.prototype.match = function match(text) {
+  var shift = 0, result = [];
+
+  // Try to take previous element from cache, if .test() called before
+  if (this.__index__ >= 0 && this.__text_cache__ === text) {
+    result.push(createMatch(this, shift));
+    shift = this.__last_index__;
+  }
+
+  // Cut head if cache was used
+  var tail = shift ? text.slice(shift) : text;
+
+  // Scan string until end reached
+  while (this.test(tail)) {
+    result.push(createMatch(this, shift));
+
+    tail = tail.slice(this.__last_index__);
+    shift += this.__last_index__;
+  }
+
+  if (result.length) {
+    return result;
+  }
+
+  return null;
+};
+
+
+/** chainable
+ * LinkifyIt#tlds(list [, keepOld]) -> this
+ * - list (Array): list of tlds
+ * - keepOld (Boolean): merge with current list if `true` (`false` by default)
+ *
+ * Load (or merge) new tlds list. Those are user for fuzzy links (without prefix)
+ * to avoid false positives. By default this algorythm used:
+ *
+ * - hostname with any 2-letter root zones are ok.
+ * - biz|com|edu|gov|net|org|pro|web|xxx|aero|asia|coop|info|museum|name|shop|рф
+ *   are ok.
+ * - encoded (`xn--...`) root zones are ok.
+ *
+ * If list is replaced, then exact match for 2-chars root zones will be checked.
+ **/
+LinkifyIt.prototype.tlds = function tlds(list, keepOld) {
+  list = Array.isArray(list) ? list : [ list ];
+
+  if (!keepOld) {
+    this.__tlds__ = list.slice();
+    this.__tlds_replaced__ = true;
+    compile(this);
+    return this;
+  }
+
+  this.__tlds__ = this.__tlds__.concat(list)
+                                  .sort()
+                                  .filter(function (el, idx, arr) {
+                                    return el !== arr[idx - 1];
+                                  })
+                                  .reverse();
+
+  compile(this);
+  return this;
+};
+
+/**
+ * LinkifyIt#normalize(match)
+ *
+ * Default normalizer (if schema does not define it's own).
+ **/
+LinkifyIt.prototype.normalize = function normalize(match) {
+
+  // Do minimal possible changes by default. Need to collect feedback prior
+  // to move forward https://github.com/markdown-it/linkify-it/issues/1
+
+  if (!match.schema) { match.url = 'http://' + match.url; }
+
+  if (match.schema === 'mailto:' && !/^mailto:/i.test(match.url)) {
+    match.url = 'mailto:' + match.url;
+  }
+};
+
+
+/**
+ * LinkifyIt#onCompile()
+ *
+ * Override to modify basic RegExp-s.
+ **/
+LinkifyIt.prototype.onCompile = function onCompile() {
+};
+
+
+module.exports = LinkifyIt;
+
+
+/***/ }),
+/* 62 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -11944,7 +12588,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule DefaultDraftBlockRenderMap
- * 
+ *
  */
 
 
@@ -12007,7 +12651,7 @@ var DefaultDraftBlockRenderMap = Map({
 module.exports = DefaultDraftBlockRenderMap;
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12021,7 +12665,7 @@ module.exports = DefaultDraftBlockRenderMap;
  *
  * @providesModule KeyBindingUtil
  * @typechecks
- * 
+ *
  */
 
 
@@ -12052,7 +12696,7 @@ var KeyBindingUtil = {
 module.exports = KeyBindingUtil;
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12066,12 +12710,12 @@ module.exports = KeyBindingUtil;
  *
  * @providesModule findAncestorOffsetKey
  * @typechecks
- * 
+ *
  */
 
 
 
-var getSelectionOffsetKeyForNode = __webpack_require__(112);
+var getSelectionOffsetKeyForNode = __webpack_require__(113);
 
 /**
  * Get the key from the node's nearest offset-aware ancestor.
@@ -12091,7 +12735,7 @@ function findAncestorOffsetKey(node) {
 module.exports = findAncestorOffsetKey;
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12105,7 +12749,7 @@ module.exports = findAncestorOffsetKey;
  *
  * @providesModule getEntityKeyForSelection
  * @typechecks
- * 
+ *
  */
 
 
@@ -12152,7 +12796,7 @@ function filterKey(entityMap, entityKey) {
 module.exports = getEntityKeyForSelection;
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12165,7 +12809,7 @@ module.exports = getEntityKeyForSelection;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule moveSelectionBackward
- * 
+ *
  */
 
 
@@ -12210,7 +12854,7 @@ function moveSelectionBackward(editorState, maxDistance) {
 module.exports = moveSelectionBackward;
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12223,7 +12867,7 @@ module.exports = moveSelectionBackward;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule sanitizeDraftText
- * 
+ *
  */
 
 
@@ -12237,7 +12881,7 @@ function sanitizeDraftText(input) {
 module.exports = sanitizeDraftText;
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12279,7 +12923,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12349,7 +12993,7 @@ var Style = {
 module.exports = Style;
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12362,7 +13006,7 @@ module.exports = Style;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @typechecks
- * 
+ *
  */
 
 /**
@@ -12464,7 +13108,7 @@ module.exports = UnicodeBidiDirection;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12478,7 +13122,7 @@ module.exports = UnicodeBidiDirection;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 var isTextNode = __webpack_require__(276);
@@ -12509,7 +13153,7 @@ function containsNode(outerNode, innerNode) {
 module.exports = containsNode;
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12527,7 +13171,7 @@ module.exports = containsNode;
 
 
 var getDocumentScrollElement = __webpack_require__(268);
-var getUnboundedScrollPosition = __webpack_require__(126);
+var getUnboundedScrollPosition = __webpack_require__(127);
 
 /**
  * Gets the scroll position of the supplied element or window.
@@ -12562,7 +13206,7 @@ function getScrollPosition(scrollable) {
 module.exports = getScrollPosition;
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12575,7 +13219,7 @@ module.exports = getScrollPosition;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @typechecks
- * 
+ *
  */
 
 /*eslint-disable no-self-compare */
@@ -12635,7 +13279,7 @@ function shallowEqual(objA, objB) {
 module.exports = shallowEqual;
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12656,8 +13300,8 @@ var Danger = __webpack_require__(288);
 var ReactDOMComponentTree = __webpack_require__(8);
 var ReactInstrumentation = __webpack_require__(15);
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(83);
-var setInnerHTML = __webpack_require__(88);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(84);
+var setInnerHTML = __webpack_require__(89);
 var setTextContent = __webpack_require__(149);
 
 function getNodeAfter(parentNode, node) {
@@ -12866,7 +13510,7 @@ module.exports = DOMChildrenOperations;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12891,7 +13535,7 @@ var DOMNamespaces = {
 module.exports = DOMNamespaces;
 
 /***/ }),
-/* 75 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12903,7 +13547,7 @@ module.exports = DOMNamespaces;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -13152,7 +13796,7 @@ module.exports = EventPluginRegistry;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 76 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13170,7 +13814,7 @@ module.exports = EventPluginRegistry;
 
 var _prodInvariant = __webpack_require__(4);
 
-var ReactErrorUtils = __webpack_require__(81);
+var ReactErrorUtils = __webpack_require__(82);
 
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -13384,7 +14028,7 @@ module.exports = EventPluginUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 77 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13396,7 +14040,7 @@ module.exports = EventPluginUtils;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -13448,7 +14092,7 @@ var KeyEscapeUtils = {
 module.exports = KeyEscapeUtils;
 
 /***/ }),
-/* 78 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13589,7 +14233,7 @@ module.exports = LinkedValueUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 79 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13607,12 +14251,12 @@ module.exports = LinkedValueUtils;
 
 var _assign = __webpack_require__(7);
 
-var EventPluginRegistry = __webpack_require__(75);
+var EventPluginRegistry = __webpack_require__(76);
 var ReactEventEmitterMixin = __webpack_require__(310);
 var ViewportMetrics = __webpack_require__(143);
 
 var getVendorPrefixedEventName = __webpack_require__(348);
-var isEventSupported = __webpack_require__(87);
+var isEventSupported = __webpack_require__(88);
 
 /**
  * Summary of `ReactBrowserEventEmitter` event handling:
@@ -13922,7 +14566,7 @@ var ReactBrowserEventEmitter = _assign({}, ReactEventEmitterMixin, {
 module.exports = ReactBrowserEventEmitter;
 
 /***/ }),
-/* 80 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13934,7 +14578,7 @@ module.exports = ReactBrowserEventEmitter;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -13974,7 +14618,7 @@ module.exports = ReactComponentEnvironment;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13986,7 +14630,7 @@ module.exports = ReactComponentEnvironment;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -14057,7 +14701,7 @@ module.exports = ReactErrorUtils;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14110,7 +14754,7 @@ var ReactInstanceMap = {
 module.exports = ReactInstanceMap;
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14147,7 +14791,7 @@ var createMicrosoftUnsafeLocalFunction = function (func) {
 module.exports = createMicrosoftUnsafeLocalFunction;
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14202,7 +14846,7 @@ function getEventCharCode(nativeEvent) {
 module.exports = getEventCharCode;
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14250,7 +14894,7 @@ function getEventModifierState(nativeEvent) {
 module.exports = getEventModifierState;
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14290,7 +14934,7 @@ function getEventTarget(nativeEvent) {
 module.exports = getEventTarget;
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14355,7 +14999,7 @@ function isEventSupported(eventNameSuffix, capture) {
 module.exports = isEventSupported;
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14372,12 +15016,12 @@ module.exports = isEventSupported;
 
 
 var ExecutionEnvironment = __webpack_require__(9);
-var DOMNamespaces = __webpack_require__(74);
+var DOMNamespaces = __webpack_require__(75);
 
 var WHITESPACE_TEST = /^[ \r\n\t\f]/;
 var NONVISIBLE_TEST = /<(!--|link|noscript|meta|script|style)[ \r\n\t\f\/>]/;
 
-var createMicrosoftUnsafeLocalFunction = __webpack_require__(83);
+var createMicrosoftUnsafeLocalFunction = __webpack_require__(84);
 
 // SVG temp container for IE lacking innerHTML
 var reusableSVGContainer;
@@ -14458,7 +15102,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = setInnerHTML;
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14846,7 +15490,7 @@ module.exports = validateDOMNesting;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14864,9 +15508,9 @@ module.exports = validateDOMNesting;
 
 var _prodInvariant = __webpack_require__(29);
 
-var ReactNoopUpdateQueue = __webpack_require__(91);
+var ReactNoopUpdateQueue = __webpack_require__(92);
 
-var canDefineProperty = __webpack_require__(93);
+var canDefineProperty = __webpack_require__(94);
 var emptyObject = __webpack_require__(36);
 var invariant = __webpack_require__(1);
 var warning = __webpack_require__(2);
@@ -14970,7 +15614,7 @@ module.exports = ReactComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15072,7 +15716,7 @@ module.exports = ReactNoopUpdateQueue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15084,7 +15728,7 @@ module.exports = ReactNoopUpdateQueue;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -15103,7 +15747,7 @@ module.exports = ReactPropTypeLocationNames;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15115,7 +15759,7 @@ module.exports = ReactPropTypeLocationNames;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -15135,7 +15779,7 @@ module.exports = canDefineProperty;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 94 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15147,7 +15791,7 @@ module.exports = canDefineProperty;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -15181,7 +15825,7 @@ function getIteratorFn(maybeIterable) {
 module.exports = getIteratorFn;
 
 /***/ }),
-/* 95 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15261,7 +15905,7 @@ exports.BlockquoteButton = _BlockquoteButton2.default;
 exports.CodeBlockButton = _CodeBlockButton2.default;
 
 /***/ }),
-/* 96 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15283,7 +15927,7 @@ exports.default = function (newFn, rest) {
 };
 
 /***/ }),
-/* 97 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15357,7 +16001,7 @@ function getElementHTML(element) {
 }
 
 /***/ }),
-/* 98 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15388,7 +16032,7 @@ function parseHTML(html) {
 }
 
 /***/ }),
-/* 99 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15425,7 +16069,7 @@ function updateMutation(mutation, originalOffset, originalLength, newLength, pre
 }
 
 /***/ }),
-/* 100 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15438,7 +16082,7 @@ function updateMutation(mutation, originalOffset, originalLength, newLength, pre
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule BlockTree
- * 
+ *
  */
 
 
@@ -15543,7 +16187,7 @@ function areEqual(a, b) {
 module.exports = BlockTree;
 
 /***/ }),
-/* 101 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15556,7 +16200,7 @@ module.exports = BlockTree;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule DefaultDraftInlineStyle
- * 
+ *
  */
 
 
@@ -15585,7 +16229,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 102 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15599,7 +16243,7 @@ module.exports = {
  *
  * @providesModule DraftEditorBlock.react
  * @typechecks
- * 
+ *
  */
 
 
@@ -15620,15 +16264,15 @@ var DraftEditorLeaf = __webpack_require__(207);
 var DraftOffsetKey = __webpack_require__(51);
 var React = __webpack_require__(3);
 var ReactDOM = __webpack_require__(45);
-var Scroll = __webpack_require__(121);
+var Scroll = __webpack_require__(122);
 var SelectionState = __webpack_require__(30);
-var Style = __webpack_require__(68);
-var UnicodeBidi = __webpack_require__(122);
-var UnicodeBidiDirection = __webpack_require__(69);
+var Style = __webpack_require__(69);
+var UnicodeBidi = __webpack_require__(123);
+var UnicodeBidiDirection = __webpack_require__(70);
 
 var cx = __webpack_require__(35);
 var getElementPosition = __webpack_require__(269);
-var getScrollPosition = __webpack_require__(71);
+var getScrollPosition = __webpack_require__(72);
 var getViewportDimensions = __webpack_require__(273);
 var nullthrows = __webpack_require__(13);
 
@@ -15799,7 +16443,7 @@ function isBlockOnSelectionEdge(selection, key) {
 module.exports = DraftEditorBlock;
 
 /***/ }),
-/* 103 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15812,7 +16456,7 @@ module.exports = DraftEditorBlock;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule DraftEntityInstance
- * 
+ *
  */
 
 
@@ -15873,7 +16517,7 @@ var DraftEntityInstance = function (_DraftEntityInstanceR) {
 module.exports = DraftEntityInstance;
 
 /***/ }),
-/* 104 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15887,7 +16531,7 @@ module.exports = DraftEntityInstance;
  *
  * @providesModule DraftRemovableWord
  * @typechecks
- * 
+ *
  */
 
 
@@ -15930,7 +16574,7 @@ var DraftRemovableWord = {
 module.exports = DraftRemovableWord;
 
 /***/ }),
-/* 105 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15944,7 +16588,7 @@ module.exports = DraftRemovableWord;
  *
  * @providesModule DraftStringKey
  * @typechecks
- * 
+ *
  */
 
 
@@ -15962,7 +16606,7 @@ var DraftStringKey = {
 module.exports = DraftStringKey;
 
 /***/ }),
-/* 106 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15976,23 +16620,23 @@ module.exports = DraftStringKey;
  *
  * @providesModule convertFromHTMLToContentBlocks
  * @typechecks
- * 
+ *
  */
 
 
 
 var CharacterMetadata = __webpack_require__(14);
 var ContentBlock = __webpack_require__(24);
-var DefaultDraftBlockRenderMap = __webpack_require__(61);
+var DefaultDraftBlockRenderMap = __webpack_require__(62);
 var DraftEntity = __webpack_require__(50);
 var Immutable = __webpack_require__(6);
 var URI = __webpack_require__(262);
 
 var generateRandomKey = __webpack_require__(16);
-var getSafeBodyFromHTML = __webpack_require__(111);
+var getSafeBodyFromHTML = __webpack_require__(112);
 var invariant = __webpack_require__(1);
 var nullthrows = __webpack_require__(13);
-var sanitizeDraftText = __webpack_require__(66);
+var sanitizeDraftText = __webpack_require__(67);
 
 var _require = __webpack_require__(6);
 
@@ -16484,7 +17128,7 @@ module.exports = convertFromHTMLtoContentBlocks;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 107 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16498,13 +17142,13 @@ module.exports = convertFromHTMLtoContentBlocks;
  *
  * @providesModule getDefaultKeyBinding
  * @typechecks
- * 
+ *
  */
 
 
 
-var KeyBindingUtil = __webpack_require__(62);
-var Keys = __webpack_require__(67);
+var KeyBindingUtil = __webpack_require__(63);
+var Keys = __webpack_require__(68);
 var UserAgent = __webpack_require__(17);
 
 var isOSX = UserAgent.isPlatform('Mac OS X');
@@ -16614,7 +17258,7 @@ function getDefaultKeyBinding(e) {
 module.exports = getDefaultKeyBinding;
 
 /***/ }),
-/* 108 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16628,14 +17272,14 @@ module.exports = getDefaultKeyBinding;
  *
  * @providesModule getDraftEditorSelectionWithNodes
  * @typechecks
- * 
+ *
  */
 
 
 
-var findAncestorOffsetKey = __webpack_require__(63);
-var getSelectionOffsetKeyForNode = __webpack_require__(112);
-var getUpdatedSelectionState = __webpack_require__(114);
+var findAncestorOffsetKey = __webpack_require__(64);
+var getSelectionOffsetKeyForNode = __webpack_require__(113);
+var getUpdatedSelectionState = __webpack_require__(115);
 var invariant = __webpack_require__(1);
 var nullthrows = __webpack_require__(13);
 
@@ -16800,7 +17444,7 @@ module.exports = getDraftEditorSelectionWithNodes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 109 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16813,7 +17457,7 @@ module.exports = getDraftEditorSelectionWithNodes;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule getFragmentFromSelection
- * 
+ *
  */
 
 
@@ -16833,7 +17477,7 @@ function getFragmentFromSelection(editorState) {
 module.exports = getFragmentFromSelection;
 
 /***/ }),
-/* 110 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16847,7 +17491,7 @@ module.exports = getFragmentFromSelection;
  *
  * @providesModule getRangeClientRects
  * @typechecks
- * 
+ *
  */
 
 
@@ -16903,7 +17547,7 @@ module.exports = getRangeClientRects;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 111 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16916,7 +17560,7 @@ module.exports = getRangeClientRects;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule getSafeBodyFromHTML
- * 
+ *
  */
 
 
@@ -16944,7 +17588,7 @@ function getSafeBodyFromHTML(html) {
 module.exports = getSafeBodyFromHTML;
 
 /***/ }),
-/* 112 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16958,7 +17602,7 @@ module.exports = getSafeBodyFromHTML;
  *
  * @providesModule getSelectionOffsetKeyForNode
  * @typechecks
- * 
+ *
  */
 
 
@@ -16987,7 +17631,7 @@ function getSelectionOffsetKeyForNode(node) {
 module.exports = getSelectionOffsetKeyForNode;
 
 /***/ }),
-/* 113 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17000,7 +17644,7 @@ module.exports = getSelectionOffsetKeyForNode;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule getTextContentFromFiles
- * 
+ *
  */
 
 
@@ -17069,7 +17713,7 @@ module.exports = getTextContentFromFiles;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)))
 
 /***/ }),
-/* 114 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17082,7 +17726,7 @@ module.exports = getTextContentFromFiles;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule getUpdatedSelectionState
- * 
+ *
  */
 
 
@@ -17151,7 +17795,7 @@ module.exports = getUpdatedSelectionState;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 115 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17164,7 +17808,7 @@ module.exports = getUpdatedSelectionState;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule insertIntoList
- * 
+ *
  */
 
 
@@ -17192,7 +17836,7 @@ function insertIntoList(targetList, toInsert, offset) {
 module.exports = insertIntoList;
 
 /***/ }),
-/* 116 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17206,7 +17850,7 @@ module.exports = insertIntoList;
  *
  * @providesModule isSelectionAtLeafStart
  * @typechecks
- * 
+ *
  */
 
 
@@ -17246,7 +17890,7 @@ function isSelectionAtLeafStart(editorState) {
 module.exports = isSelectionAtLeafStart;
 
 /***/ }),
-/* 117 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17259,7 +17903,7 @@ module.exports = isSelectionAtLeafStart;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule moveSelectionForward
- * 
+ *
  */
 
 
@@ -17296,7 +17940,7 @@ function moveSelectionForward(editorState, maxDistance) {
 module.exports = moveSelectionForward;
 
 /***/ }),
-/* 118 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17309,7 +17953,7 @@ module.exports = moveSelectionForward;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule removeEntitiesAtEdges
- * 
+ *
  */
 
 
@@ -17404,7 +18048,7 @@ module.exports = removeEntitiesAtEdges;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 119 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17425,7 +18069,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var PhotosMimeType = __webpack_require__(260);
 
-var createArrayFromMixed = __webpack_require__(124);
+var createArrayFromMixed = __webpack_require__(125);
 var emptyFunction = __webpack_require__(11);
 
 var CR_LF_REGEX = new RegExp('\r\n', 'g');
@@ -17631,7 +18275,7 @@ var DataTransfer = function () {
 module.exports = DataTransfer;
 
 /***/ }),
-/* 120 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17721,7 +18365,7 @@ module.exports = EventListener;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 121 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17812,7 +18456,7 @@ var Scroll = {
 module.exports = Scroll;
 
 /***/ }),
-/* 122 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17825,7 +18469,7 @@ module.exports = Scroll;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @typechecks
- * 
+ *
  */
 
 /**
@@ -17838,7 +18482,7 @@ module.exports = Scroll;
 
 
 
-var UnicodeBidiDirection = __webpack_require__(69);
+var UnicodeBidiDirection = __webpack_require__(70);
 
 var invariant = __webpack_require__(1);
 
@@ -17975,7 +18619,7 @@ module.exports = UnicodeBidi;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 123 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18012,7 +18656,7 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 124 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18145,7 +18789,7 @@ module.exports = createArrayFromMixed;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 125 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18177,7 +18821,7 @@ function focusNode(node) {
 module.exports = focusNode;
 
 /***/ }),
-/* 126 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18221,7 +18865,7 @@ function getUnboundedScrollPosition(scrollable) {
 module.exports = getUnboundedScrollPosition;
 
 /***/ }),
-/* 127 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18259,7 +18903,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 128 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18271,7 +18915,7 @@ module.exports = hyphenate;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  * @typechecks static-only
  */
 
@@ -18294,7 +18938,7 @@ function memoizeStringOnly(callback) {
 module.exports = memoizeStringOnly;
 
 /***/ }),
-/* 129 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -18682,7 +19326,7 @@ module.exports = memoizeStringOnly;
       var array = this._array;
       var maxIndex = array.length - 1;
       var ii = 0;
-      return new Iterator(function() 
+      return new Iterator(function()
         {return ii > maxIndex ?
           iteratorDone() :
           iteratorValue(type, ii, array[reverse ? maxIndex - ii++ : ii++])}
@@ -19153,7 +19797,7 @@ module.exports = memoizeStringOnly;
 
     Repeat.prototype.__iterator = function(type, reverse) {var this$0 = this;
       var ii = 0;
-      return new Iterator(function() 
+      return new Iterator(function()
         {return ii < this$0.size ? iteratorValue(type, ii++, this$0._value) : iteratorDone()}
       );
     };
@@ -21351,7 +21995,7 @@ module.exports = memoizeStringOnly;
         return flipSequence;
       };
     }
-    reversedSequence.get = function(key, notSetValue) 
+    reversedSequence.get = function(key, notSetValue)
       {return iterable.get(useKeys ? key : -1 - key, notSetValue)};
     reversedSequence.has = function(key )
       {return iterable.has(useKeys ? key : -1 - key)};
@@ -21550,7 +22194,7 @@ module.exports = memoizeStringOnly;
         return this.cacheResult().__iterate(fn, reverse);
       }
       var iterations = 0;
-      iterable.__iterate(function(v, k, c) 
+      iterable.__iterate(function(v, k, c)
         {return predicate.call(context, v, k, c) && ++iterations && fn(v, k, this$0)}
       );
       return iterations;
@@ -21741,7 +22385,7 @@ module.exports = memoizeStringOnly;
     interposedSequence.size = iterable.size && iterable.size * 2 -1;
     interposedSequence.__iterateUncached = function(fn, reverse) {var this$0 = this;
       var iterations = 0;
-      iterable.__iterate(function(v, k) 
+      iterable.__iterate(function(v, k)
         {return (!iterations || fn(separator, iterations++, this$0) !== false) &&
         fn(v, iterations++, this$0) !== false},
         reverse
@@ -23278,650 +23922,6 @@ module.exports = memoizeStringOnly;
 }));
 
 /***/ }),
-/* 130 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-
-////////////////////////////////////////////////////////////////////////////////
-// Helpers
-
-// Merge objects
-//
-function assign(obj /*from1, from2, from3, ...*/) {
-  var sources = Array.prototype.slice.call(arguments, 1);
-
-  sources.forEach(function (source) {
-    if (!source) { return; }
-
-    Object.keys(source).forEach(function (key) {
-      obj[key] = source[key];
-    });
-  });
-
-  return obj;
-}
-
-function _class(obj) { return Object.prototype.toString.call(obj); }
-function isString(obj) { return _class(obj) === '[object String]'; }
-function isObject(obj) { return _class(obj) === '[object Object]'; }
-function isRegExp(obj) { return _class(obj) === '[object RegExp]'; }
-function isFunction(obj) { return _class(obj) === '[object Function]'; }
-
-
-function escapeRE(str) { return str.replace(/[.?*+^$[\]\\(){}|-]/g, '\\$&'); }
-
-////////////////////////////////////////////////////////////////////////////////
-
-
-var defaultOptions = {
-  fuzzyLink: true,
-  fuzzyEmail: true,
-  fuzzyIP: false
-};
-
-
-function isOptionsObj(obj) {
-  return Object.keys(obj || {}).reduce(function (acc, k) {
-    return acc || defaultOptions.hasOwnProperty(k);
-  }, false);
-}
-
-
-var defaultSchemas = {
-  'http:': {
-    validate: function (text, pos, self) {
-      var tail = text.slice(pos);
-
-      if (!self.re.http) {
-        // compile lazily, because "host"-containing variables can change on tlds update.
-        self.re.http =  new RegExp(
-          '^\\/\\/' + self.re.src_auth + self.re.src_host_port_strict + self.re.src_path, 'i'
-        );
-      }
-      if (self.re.http.test(tail)) {
-        return tail.match(self.re.http)[0].length;
-      }
-      return 0;
-    }
-  },
-  'https:':  'http:',
-  'ftp:':    'http:',
-  '//':      {
-    validate: function (text, pos, self) {
-      var tail = text.slice(pos);
-
-      if (!self.re.no_http) {
-      // compile lazily, because "host"-containing variables can change on tlds update.
-        self.re.no_http =  new RegExp(
-          '^' +
-          self.re.src_auth +
-          // Don't allow single-level domains, because of false positives like '//test'
-          // with code comments
-          '(?:localhost|(?:(?:' + self.re.src_domain + ')\\.)+' + self.re.src_domain_root + ')' +
-          self.re.src_port +
-          self.re.src_host_terminator +
-          self.re.src_path,
-
-          'i'
-        );
-      }
-
-      if (self.re.no_http.test(tail)) {
-        // should not be `://` & `///`, that protects from errors in protocol name
-        if (pos >= 3 && text[pos - 3] === ':') { return 0; }
-        if (pos >= 3 && text[pos - 3] === '/') { return 0; }
-        return tail.match(self.re.no_http)[0].length;
-      }
-      return 0;
-    }
-  },
-  'mailto:': {
-    validate: function (text, pos, self) {
-      var tail = text.slice(pos);
-
-      if (!self.re.mailto) {
-        self.re.mailto =  new RegExp(
-          '^' + self.re.src_email_name + '@' + self.re.src_host_strict, 'i'
-        );
-      }
-      if (self.re.mailto.test(tail)) {
-        return tail.match(self.re.mailto)[0].length;
-      }
-      return 0;
-    }
-  }
-};
-
-/*eslint-disable max-len*/
-
-// RE pattern for 2-character tlds (autogenerated by ./support/tlds_2char_gen.js)
-var tlds_2ch_src_re = 'a[cdefgilmnoqrstuwxz]|b[abdefghijmnorstvwyz]|c[acdfghiklmnoruvwxyz]|d[ejkmoz]|e[cegrstu]|f[ijkmor]|g[abdefghilmnpqrstuwy]|h[kmnrtu]|i[delmnoqrst]|j[emop]|k[eghimnprwyz]|l[abcikrstuvy]|m[acdeghklmnopqrstuvwxyz]|n[acefgilopruz]|om|p[aefghklmnrstwy]|qa|r[eosuw]|s[abcdeghijklmnortuvxyz]|t[cdfghjklmnortvwz]|u[agksyz]|v[aceginu]|w[fs]|y[et]|z[amw]';
-
-// DON'T try to make PRs with changes. Extend TLDs with LinkifyIt.tlds() instead
-var tlds_default = 'biz|com|edu|gov|net|org|pro|web|xxx|aero|asia|coop|info|museum|name|shop|рф'.split('|');
-
-/*eslint-enable max-len*/
-
-////////////////////////////////////////////////////////////////////////////////
-
-function resetScanCache(self) {
-  self.__index__ = -1;
-  self.__text_cache__   = '';
-}
-
-function createValidator(re) {
-  return function (text, pos) {
-    var tail = text.slice(pos);
-
-    if (re.test(tail)) {
-      return tail.match(re)[0].length;
-    }
-    return 0;
-  };
-}
-
-function createNormalizer() {
-  return function (match, self) {
-    self.normalize(match);
-  };
-}
-
-// Schemas compiler. Build regexps.
-//
-function compile(self) {
-
-  // Load & clone RE patterns.
-  var re = self.re = __webpack_require__(282)(self.__opts__);
-
-  // Define dynamic patterns
-  var tlds = self.__tlds__.slice();
-
-  self.onCompile();
-
-  if (!self.__tlds_replaced__) {
-    tlds.push(tlds_2ch_src_re);
-  }
-  tlds.push(re.src_xn);
-
-  re.src_tlds = tlds.join('|');
-
-  function untpl(tpl) { return tpl.replace('%TLDS%', re.src_tlds); }
-
-  re.email_fuzzy      = RegExp(untpl(re.tpl_email_fuzzy), 'i');
-  re.link_fuzzy       = RegExp(untpl(re.tpl_link_fuzzy), 'i');
-  re.link_no_ip_fuzzy = RegExp(untpl(re.tpl_link_no_ip_fuzzy), 'i');
-  re.host_fuzzy_test  = RegExp(untpl(re.tpl_host_fuzzy_test), 'i');
-
-  //
-  // Compile each schema
-  //
-
-  var aliases = [];
-
-  self.__compiled__ = {}; // Reset compiled data
-
-  function schemaError(name, val) {
-    throw new Error('(LinkifyIt) Invalid schema "' + name + '": ' + val);
-  }
-
-  Object.keys(self.__schemas__).forEach(function (name) {
-    var val = self.__schemas__[name];
-
-    // skip disabled methods
-    if (val === null) { return; }
-
-    var compiled = { validate: null, link: null };
-
-    self.__compiled__[name] = compiled;
-
-    if (isObject(val)) {
-      if (isRegExp(val.validate)) {
-        compiled.validate = createValidator(val.validate);
-      } else if (isFunction(val.validate)) {
-        compiled.validate = val.validate;
-      } else {
-        schemaError(name, val);
-      }
-
-      if (isFunction(val.normalize)) {
-        compiled.normalize = val.normalize;
-      } else if (!val.normalize) {
-        compiled.normalize = createNormalizer();
-      } else {
-        schemaError(name, val);
-      }
-
-      return;
-    }
-
-    if (isString(val)) {
-      aliases.push(name);
-      return;
-    }
-
-    schemaError(name, val);
-  });
-
-  //
-  // Compile postponed aliases
-  //
-
-  aliases.forEach(function (alias) {
-    if (!self.__compiled__[self.__schemas__[alias]]) {
-      // Silently fail on missed schemas to avoid errons on disable.
-      // schemaError(alias, self.__schemas__[alias]);
-      return;
-    }
-
-    self.__compiled__[alias].validate =
-      self.__compiled__[self.__schemas__[alias]].validate;
-    self.__compiled__[alias].normalize =
-      self.__compiled__[self.__schemas__[alias]].normalize;
-  });
-
-  //
-  // Fake record for guessed links
-  //
-  self.__compiled__[''] = { validate: null, normalize: createNormalizer() };
-
-  //
-  // Build schema condition
-  //
-  var slist = Object.keys(self.__compiled__)
-                      .filter(function (name) {
-                        // Filter disabled & fake schemas
-                        return name.length > 0 && self.__compiled__[name];
-                      })
-                      .map(escapeRE)
-                      .join('|');
-  // (?!_) cause 1.5x slowdown
-  self.re.schema_test   = RegExp('(^|(?!_)(?:[><]|' + re.src_ZPCc + '))(' + slist + ')', 'i');
-  self.re.schema_search = RegExp('(^|(?!_)(?:[><]|' + re.src_ZPCc + '))(' + slist + ')', 'ig');
-
-  self.re.pretest       = RegExp(
-                            '(' + self.re.schema_test.source + ')|' +
-                            '(' + self.re.host_fuzzy_test.source + ')|' +
-                            '@',
-                            'i');
-
-  //
-  // Cleanup
-  //
-
-  resetScanCache(self);
-}
-
-/**
- * class Match
- *
- * Match result. Single element of array, returned by [[LinkifyIt#match]]
- **/
-function Match(self, shift) {
-  var start = self.__index__,
-      end   = self.__last_index__,
-      text  = self.__text_cache__.slice(start, end);
-
-  /**
-   * Match#schema -> String
-   *
-   * Prefix (protocol) for matched string.
-   **/
-  this.schema    = self.__schema__.toLowerCase();
-  /**
-   * Match#index -> Number
-   *
-   * First position of matched string.
-   **/
-  this.index     = start + shift;
-  /**
-   * Match#lastIndex -> Number
-   *
-   * Next position after matched string.
-   **/
-  this.lastIndex = end + shift;
-  /**
-   * Match#raw -> String
-   *
-   * Matched string.
-   **/
-  this.raw       = text;
-  /**
-   * Match#text -> String
-   *
-   * Notmalized text of matched string.
-   **/
-  this.text      = text;
-  /**
-   * Match#url -> String
-   *
-   * Normalized url of matched string.
-   **/
-  this.url       = text;
-}
-
-function createMatch(self, shift) {
-  var match = new Match(self, shift);
-
-  self.__compiled__[match.schema].normalize(match, self);
-
-  return match;
-}
-
-
-/**
- * class LinkifyIt
- **/
-
-/**
- * new LinkifyIt(schemas, options)
- * - schemas (Object): Optional. Additional schemas to validate (prefix/validator)
- * - options (Object): { fuzzyLink|fuzzyEmail|fuzzyIP: true|false }
- *
- * Creates new linkifier instance with optional additional schemas.
- * Can be called without `new` keyword for convenience.
- *
- * By default understands:
- *
- * - `http(s)://...` , `ftp://...`, `mailto:...` & `//...` links
- * - "fuzzy" links and emails (example.com, foo@bar.com).
- *
- * `schemas` is an object, where each key/value describes protocol/rule:
- *
- * - __key__ - link prefix (usually, protocol name with `:` at the end, `skype:`
- *   for example). `linkify-it` makes shure that prefix is not preceeded with
- *   alphanumeric char and symbols. Only whitespaces and punctuation allowed.
- * - __value__ - rule to check tail after link prefix
- *   - _String_ - just alias to existing rule
- *   - _Object_
- *     - _validate_ - validator function (should return matched length on success),
- *       or `RegExp`.
- *     - _normalize_ - optional function to normalize text & url of matched result
- *       (for example, for @twitter mentions).
- *
- * `options`:
- *
- * - __fuzzyLink__ - recognige URL-s without `http(s):` prefix. Default `true`.
- * - __fuzzyIP__ - allow IPs in fuzzy links above. Can conflict with some texts
- *   like version numbers. Default `false`.
- * - __fuzzyEmail__ - recognize emails without `mailto:` prefix.
- *
- **/
-function LinkifyIt(schemas, options) {
-  if (!(this instanceof LinkifyIt)) {
-    return new LinkifyIt(schemas, options);
-  }
-
-  if (!options) {
-    if (isOptionsObj(schemas)) {
-      options = schemas;
-      schemas = {};
-    }
-  }
-
-  this.__opts__           = assign({}, defaultOptions, options);
-
-  // Cache last tested result. Used to skip repeating steps on next `match` call.
-  this.__index__          = -1;
-  this.__last_index__     = -1; // Next scan position
-  this.__schema__         = '';
-  this.__text_cache__     = '';
-
-  this.__schemas__        = assign({}, defaultSchemas, schemas);
-  this.__compiled__       = {};
-
-  this.__tlds__           = tlds_default;
-  this.__tlds_replaced__  = false;
-
-  this.re = {};
-
-  compile(this);
-}
-
-
-/** chainable
- * LinkifyIt#add(schema, definition)
- * - schema (String): rule name (fixed pattern prefix)
- * - definition (String|RegExp|Object): schema definition
- *
- * Add new rule definition. See constructor description for details.
- **/
-LinkifyIt.prototype.add = function add(schema, definition) {
-  this.__schemas__[schema] = definition;
-  compile(this);
-  return this;
-};
-
-
-/** chainable
- * LinkifyIt#set(options)
- * - options (Object): { fuzzyLink|fuzzyEmail|fuzzyIP: true|false }
- *
- * Set recognition options for links without schema.
- **/
-LinkifyIt.prototype.set = function set(options) {
-  this.__opts__ = assign(this.__opts__, options);
-  return this;
-};
-
-
-/**
- * LinkifyIt#test(text) -> Boolean
- *
- * Searches linkifiable pattern and returns `true` on success or `false` on fail.
- **/
-LinkifyIt.prototype.test = function test(text) {
-  // Reset scan cache
-  this.__text_cache__ = text;
-  this.__index__      = -1;
-
-  if (!text.length) { return false; }
-
-  var m, ml, me, len, shift, next, re, tld_pos, at_pos;
-
-  // try to scan for link with schema - that's the most simple rule
-  if (this.re.schema_test.test(text)) {
-    re = this.re.schema_search;
-    re.lastIndex = 0;
-    while ((m = re.exec(text)) !== null) {
-      len = this.testSchemaAt(text, m[2], re.lastIndex);
-      if (len) {
-        this.__schema__     = m[2];
-        this.__index__      = m.index + m[1].length;
-        this.__last_index__ = m.index + m[0].length + len;
-        break;
-      }
-    }
-  }
-
-  if (this.__opts__.fuzzyLink && this.__compiled__['http:']) {
-    // guess schemaless links
-    tld_pos = text.search(this.re.host_fuzzy_test);
-    if (tld_pos >= 0) {
-      // if tld is located after found link - no need to check fuzzy pattern
-      if (this.__index__ < 0 || tld_pos < this.__index__) {
-        if ((ml = text.match(this.__opts__.fuzzyIP ? this.re.link_fuzzy : this.re.link_no_ip_fuzzy)) !== null) {
-
-          shift = ml.index + ml[1].length;
-
-          if (this.__index__ < 0 || shift < this.__index__) {
-            this.__schema__     = '';
-            this.__index__      = shift;
-            this.__last_index__ = ml.index + ml[0].length;
-          }
-        }
-      }
-    }
-  }
-
-  if (this.__opts__.fuzzyEmail && this.__compiled__['mailto:']) {
-    // guess schemaless emails
-    at_pos = text.indexOf('@');
-    if (at_pos >= 0) {
-      // We can't skip this check, because this cases are possible:
-      // 192.168.1.1@gmail.com, my.in@example.com
-      if ((me = text.match(this.re.email_fuzzy)) !== null) {
-
-        shift = me.index + me[1].length;
-        next  = me.index + me[0].length;
-
-        if (this.__index__ < 0 || shift < this.__index__ ||
-            (shift === this.__index__ && next > this.__last_index__)) {
-          this.__schema__     = 'mailto:';
-          this.__index__      = shift;
-          this.__last_index__ = next;
-        }
-      }
-    }
-  }
-
-  return this.__index__ >= 0;
-};
-
-
-/**
- * LinkifyIt#pretest(text) -> Boolean
- *
- * Very quick check, that can give false positives. Returns true if link MAY BE
- * can exists. Can be used for speed optimization, when you need to check that
- * link NOT exists.
- **/
-LinkifyIt.prototype.pretest = function pretest(text) {
-  return this.re.pretest.test(text);
-};
-
-
-/**
- * LinkifyIt#testSchemaAt(text, name, position) -> Number
- * - text (String): text to scan
- * - name (String): rule (schema) name
- * - position (Number): text offset to check from
- *
- * Similar to [[LinkifyIt#test]] but checks only specific protocol tail exactly
- * at given position. Returns length of found pattern (0 on fail).
- **/
-LinkifyIt.prototype.testSchemaAt = function testSchemaAt(text, schema, pos) {
-  // If not supported schema check requested - terminate
-  if (!this.__compiled__[schema.toLowerCase()]) {
-    return 0;
-  }
-  return this.__compiled__[schema.toLowerCase()].validate(text, pos, this);
-};
-
-
-/**
- * LinkifyIt#match(text) -> Array|null
- *
- * Returns array of found link descriptions or `null` on fail. We strongly
- * recommend to use [[LinkifyIt#test]] first, for best speed.
- *
- * ##### Result match description
- *
- * - __schema__ - link schema, can be empty for fuzzy links, or `//` for
- *   protocol-neutral  links.
- * - __index__ - offset of matched text
- * - __lastIndex__ - index of next char after mathch end
- * - __raw__ - matched text
- * - __text__ - normalized text
- * - __url__ - link, generated from matched text
- **/
-LinkifyIt.prototype.match = function match(text) {
-  var shift = 0, result = [];
-
-  // Try to take previous element from cache, if .test() called before
-  if (this.__index__ >= 0 && this.__text_cache__ === text) {
-    result.push(createMatch(this, shift));
-    shift = this.__last_index__;
-  }
-
-  // Cut head if cache was used
-  var tail = shift ? text.slice(shift) : text;
-
-  // Scan string until end reached
-  while (this.test(tail)) {
-    result.push(createMatch(this, shift));
-
-    tail = tail.slice(this.__last_index__);
-    shift += this.__last_index__;
-  }
-
-  if (result.length) {
-    return result;
-  }
-
-  return null;
-};
-
-
-/** chainable
- * LinkifyIt#tlds(list [, keepOld]) -> this
- * - list (Array): list of tlds
- * - keepOld (Boolean): merge with current list if `true` (`false` by default)
- *
- * Load (or merge) new tlds list. Those are user for fuzzy links (without prefix)
- * to avoid false positives. By default this algorythm used:
- *
- * - hostname with any 2-letter root zones are ok.
- * - biz|com|edu|gov|net|org|pro|web|xxx|aero|asia|coop|info|museum|name|shop|рф
- *   are ok.
- * - encoded (`xn--...`) root zones are ok.
- *
- * If list is replaced, then exact match for 2-chars root zones will be checked.
- **/
-LinkifyIt.prototype.tlds = function tlds(list, keepOld) {
-  list = Array.isArray(list) ? list : [ list ];
-
-  if (!keepOld) {
-    this.__tlds__ = list.slice();
-    this.__tlds_replaced__ = true;
-    compile(this);
-    return this;
-  }
-
-  this.__tlds__ = this.__tlds__.concat(list)
-                                  .sort()
-                                  .filter(function (el, idx, arr) {
-                                    return el !== arr[idx - 1];
-                                  })
-                                  .reverse();
-
-  compile(this);
-  return this;
-};
-
-/**
- * LinkifyIt#normalize(match)
- *
- * Default normalizer (if schema does not define it's own).
- **/
-LinkifyIt.prototype.normalize = function normalize(match) {
-
-  // Do minimal possible changes by default. Need to collect feedback prior
-  // to move forward https://github.com/markdown-it/linkify-it/issues/1
-
-  if (!match.schema) { match.url = 'http://' + match.url; }
-
-  if (match.schema === 'mailto:' && !/^mailto:/i.test(match.url)) {
-    match.url = 'mailto:' + match.url;
-  }
-};
-
-
-/**
- * LinkifyIt#onCompile()
- *
- * Override to modify basic RegExp-s.
- **/
-LinkifyIt.prototype.onCompile = function onCompile() {
-};
-
-
-module.exports = LinkifyIt;
-
-
-/***/ }),
 /* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24087,7 +24087,7 @@ module.exports = CSSProperty;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -24484,7 +24484,7 @@ module.exports = ReactDOMComponentFlags;
 
 var _assign = __webpack_require__(7);
 
-var LinkedValueUtils = __webpack_require__(78);
+var LinkedValueUtils = __webpack_require__(79);
 var ReactDOMComponentTree = __webpack_require__(8);
 var ReactUpdates = __webpack_require__(19);
 
@@ -24872,8 +24872,8 @@ module.exports = ReactHostComponent;
 
 var ReactDOMSelection = __webpack_require__(302);
 
-var containsNode = __webpack_require__(70);
-var focusNode = __webpack_require__(125);
+var containsNode = __webpack_require__(71);
+var focusNode = __webpack_require__(126);
 var getActiveElement = __webpack_require__(55);
 
 function isInDocument(node) {
@@ -24995,7 +24995,7 @@ module.exports = ReactInputSelection;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -25120,7 +25120,7 @@ module.exports = ReactServerRenderingTransaction;
 var _prodInvariant = __webpack_require__(4);
 
 var ReactCurrentOwner = __webpack_require__(22);
-var ReactInstanceMap = __webpack_require__(82);
+var ReactInstanceMap = __webpack_require__(83);
 var ReactInstrumentation = __webpack_require__(15);
 var ReactUpdates = __webpack_require__(19);
 
@@ -25377,7 +25377,7 @@ module.exports = ViewportMetrics;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -25441,7 +25441,7 @@ module.exports = accumulateInto;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -25649,7 +25649,7 @@ module.exports = instantiateReactComponent;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -25711,7 +25711,7 @@ module.exports = isTextInputElement;
 
 var ExecutionEnvironment = __webpack_require__(9);
 var escapeTextContentForBrowser = __webpack_require__(58);
-var setInnerHTML = __webpack_require__(88);
+var setInnerHTML = __webpack_require__(89);
 
 /**
  * Set the textContent property of a node, ensuring that whitespace is preserved
@@ -25820,7 +25820,7 @@ var REACT_ELEMENT_TYPE = __webpack_require__(309);
 
 var getIteratorFn = __webpack_require__(345);
 var invariant = __webpack_require__(1);
-var KeyEscapeUtils = __webpack_require__(77);
+var KeyEscapeUtils = __webpack_require__(78);
 var warning = __webpack_require__(2);
 
 var SEPARATOR = '.';
@@ -25991,7 +25991,7 @@ module.exports = traverseAllChildren;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -26033,8 +26033,8 @@ var ReactElement = __webpack_require__(28);
 
 var checkReactTypeSpec = __webpack_require__(358);
 
-var canDefineProperty = __webpack_require__(93);
-var getIteratorFn = __webpack_require__(94);
+var canDefineProperty = __webpack_require__(94);
+var getIteratorFn = __webpack_require__(95);
 var warning = __webpack_require__(2);
 
 function getDeclarationErrorAddendum() {
@@ -26256,7 +26256,7 @@ module.exports = ReactElementValidator;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -27656,7 +27656,7 @@ var _convertFromHTML = __webpack_require__(164);
 
 var _convertFromHTML2 = _interopRequireDefault(_convertFromHTML);
 
-var _parseHTML = __webpack_require__(98);
+var _parseHTML = __webpack_require__(99);
 
 var _parseHTML2 = _interopRequireDefault(_parseHTML);
 
@@ -27682,7 +27682,7 @@ var _decorateComponentWithProps = __webpack_require__(46);
 
 var _decorateComponentWithProps2 = _interopRequireDefault(_decorateComponentWithProps);
 
-var _draftJsButtons = __webpack_require__(95);
+var _draftJsButtons = __webpack_require__(96);
 
 var _createStore = __webpack_require__(188);
 
@@ -27912,12 +27912,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_draft_js_linkify_plugin___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_draft_js_linkify_plugin__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_draft_js_inline_toolbar_plugin__ = __webpack_require__(157);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_draft_js_inline_toolbar_plugin___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_draft_js_inline_toolbar_plugin__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_draft_js__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_draft_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_draft_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_draft_convert__ = __webpack_require__(156);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_draft_convert___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_draft_convert__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_draft_js_buttons__ = __webpack_require__(95);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_draft_js_buttons___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_draft_js_buttons__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_linkify_it__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_linkify_it___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_linkify_it__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_draft_js__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_draft_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_draft_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_draft_convert__ = __webpack_require__(156);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_draft_convert___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_draft_convert__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_draft_js_buttons__ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_draft_js_buttons___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_draft_js_buttons__);
+
 
 
 
@@ -27927,17 +27930,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 var inlineToolbarPlugin = __WEBPACK_IMPORTED_MODULE_3_draft_js_inline_toolbar_plugin___default()({
   structure: [
-    __WEBPACK_IMPORTED_MODULE_6_draft_js_buttons__["BoldButton"],
-    __WEBPACK_IMPORTED_MODULE_6_draft_js_buttons__["ItalicButton"],
-    __WEBPACK_IMPORTED_MODULE_6_draft_js_buttons__["UnderlineButton"],
-    __WEBPACK_IMPORTED_MODULE_6_draft_js_buttons__["CodeButton"],
+    __WEBPACK_IMPORTED_MODULE_7_draft_js_buttons__["BoldButton"],
+    __WEBPACK_IMPORTED_MODULE_7_draft_js_buttons__["ItalicButton"],
+    __WEBPACK_IMPORTED_MODULE_7_draft_js_buttons__["UnderlineButton"],
+    __WEBPACK_IMPORTED_MODULE_7_draft_js_buttons__["CodeButton"],
     __WEBPACK_IMPORTED_MODULE_3_draft_js_inline_toolbar_plugin__["Separator"],
-    __WEBPACK_IMPORTED_MODULE_6_draft_js_buttons__["HeadlineOneButton"],
-    __WEBPACK_IMPORTED_MODULE_6_draft_js_buttons__["HeadlineTwoButton"],
-    __WEBPACK_IMPORTED_MODULE_6_draft_js_buttons__["HeadlineThreeButton"],
-    __WEBPACK_IMPORTED_MODULE_6_draft_js_buttons__["UnorderedListButton"],
-    __WEBPACK_IMPORTED_MODULE_6_draft_js_buttons__["OrderedListButton"],
-    __WEBPACK_IMPORTED_MODULE_6_draft_js_buttons__["BlockquoteButton"]
+    __WEBPACK_IMPORTED_MODULE_7_draft_js_buttons__["HeadlineOneButton"],
+    __WEBPACK_IMPORTED_MODULE_7_draft_js_buttons__["HeadlineTwoButton"],
+    __WEBPACK_IMPORTED_MODULE_7_draft_js_buttons__["HeadlineThreeButton"],
+    __WEBPACK_IMPORTED_MODULE_7_draft_js_buttons__["UnorderedListButton"],
+    __WEBPACK_IMPORTED_MODULE_7_draft_js_buttons__["OrderedListButton"],
+    __WEBPACK_IMPORTED_MODULE_7_draft_js_buttons__["BlockquoteButton"]
   ]
 });
 var {InlineToolbar} = inlineToolbarPlugin
@@ -27950,12 +27953,13 @@ var pluginsHTML = [
 var Textarea = {
 	pluginsHTML: pluginsHTML,
 	Editor: __WEBPACK_IMPORTED_MODULE_0_draft_js_plugins_editor___default.a,
-	EditorState: __WEBPACK_IMPORTED_MODULE_4_draft_js__["EditorState"],
+	EditorState: __WEBPACK_IMPORTED_MODULE_5_draft_js__["EditorState"],
 	InlineToolbar: InlineToolbar,
-	ContentState: __WEBPACK_IMPORTED_MODULE_4_draft_js__["ContentState"],
-	convertToRaw: __WEBPACK_IMPORTED_MODULE_4_draft_js__["convertToRaw"],
-	convertFromHTML: __WEBPACK_IMPORTED_MODULE_4_draft_js__["convertFromHTML"],
-	convertToHTML: __WEBPACK_IMPORTED_MODULE_5_draft_convert__["convertToHTML"]
+	ContentState: __WEBPACK_IMPORTED_MODULE_5_draft_js__["ContentState"],
+	convertToRaw: __WEBPACK_IMPORTED_MODULE_5_draft_js__["convertToRaw"],
+	convertFromHTML: __WEBPACK_IMPORTED_MODULE_5_draft_js__["convertFromHTML"],
+	convertToHTML: __WEBPACK_IMPORTED_MODULE_6_draft_convert__["convertToHTML"],
+	linkifyIt: __WEBPACK_IMPORTED_MODULE_4_linkify_it___default.a
 }
 window.CaretakerTextareaDependency = Textarea
 
@@ -27971,7 +27975,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _updateMutation = __webpack_require__(99);
+var _updateMutation = __webpack_require__(100);
 
 var _updateMutation2 = _interopRequireDefault(_updateMutation);
 
@@ -27979,7 +27983,7 @@ var _rangeSort = __webpack_require__(47);
 
 var _rangeSort2 = _interopRequireDefault(_rangeSort);
 
-var _getElementHTML = __webpack_require__(97);
+var _getElementHTML = __webpack_require__(98);
 
 var _getElementHTML2 = _interopRequireDefault(_getElementHTML);
 
@@ -28069,11 +28073,11 @@ var _styleObjectFunction = __webpack_require__(173);
 
 var _styleObjectFunction2 = _interopRequireDefault(_styleObjectFunction);
 
-var _accumulateFunction = __webpack_require__(96);
+var _accumulateFunction = __webpack_require__(97);
 
 var _accumulateFunction2 = _interopRequireDefault(_accumulateFunction);
 
-var _getElementHTML = __webpack_require__(97);
+var _getElementHTML = __webpack_require__(98);
 
 var _getElementHTML2 = _interopRequireDefault(_getElementHTML);
 
@@ -28230,7 +28234,7 @@ var _immutable = __webpack_require__(174);
 
 var _draftJs = __webpack_require__(12);
 
-var _parseHTML = __webpack_require__(98);
+var _parseHTML = __webpack_require__(99);
 
 var _parseHTML2 = _interopRequireDefault(_parseHTML);
 
@@ -28810,7 +28814,7 @@ var _blockInlineStyles = __webpack_require__(163);
 
 var _blockInlineStyles2 = _interopRequireDefault(_blockInlineStyles);
 
-var _accumulateFunction = __webpack_require__(96);
+var _accumulateFunction = __webpack_require__(97);
 
 var _accumulateFunction2 = _interopRequireDefault(_accumulateFunction);
 
@@ -29022,7 +29026,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _updateMutation = __webpack_require__(99);
+var _updateMutation = __webpack_require__(100);
 
 var _updateMutation2 = _interopRequireDefault(_updateMutation);
 
@@ -29647,7 +29651,7 @@ exports.default = function (object) {
       var array = this._array;
       var maxIndex = array.length - 1;
       var ii = 0;
-      return new Iterator(function() 
+      return new Iterator(function()
         {return ii > maxIndex ?
           iteratorDone() :
           iteratorValue(type, ii, array[reverse ? maxIndex - ii++ : ii++])}
@@ -30118,7 +30122,7 @@ exports.default = function (object) {
 
     Repeat.prototype.__iterator = function(type, reverse) {var this$0 = this;
       var ii = 0;
-      return new Iterator(function() 
+      return new Iterator(function()
         {return ii < this$0.size ? iteratorValue(type, ii++, this$0._value) : iteratorDone()}
       );
     };
@@ -32302,7 +32306,7 @@ exports.default = function (object) {
         return flipSequence;
       };
     }
-    reversedSequence.get = function(key, notSetValue) 
+    reversedSequence.get = function(key, notSetValue)
       {return iterable.get(useKeys ? key : -1 - key, notSetValue)};
     reversedSequence.has = function(key )
       {return iterable.has(useKeys ? key : -1 - key)};
@@ -32497,7 +32501,7 @@ exports.default = function (object) {
         return this.cacheResult().__iterate(fn, reverse);
       }
       var iterations = 0;
-      iterable.__iterate(function(v, k, c) 
+      iterable.__iterate(function(v, k, c)
         {return predicate.call(context, v, k, c) && ++iterations && fn(v, k, this$0)}
       );
       return iterations;
@@ -32688,7 +32692,7 @@ exports.default = function (object) {
     interposedSequence.size = iterable.size && iterable.size * 2 -1;
     interposedSequence.__iterateUncached = function(fn, reverse) {var this$0 = this;
       var iterations = 0;
-      iterable.__iterate(function(v, k) 
+      iterable.__iterate(function(v, k)
         {return (!iterations || fn(separator, iterations++, this$0) !== false) &&
         fn(v, iterations++, this$0) !== false},
         reverse
@@ -34756,7 +34760,7 @@ var _unionClassNames = __webpack_require__(44);
 
 var _unionClassNames2 = _interopRequireDefault(_unionClassNames);
 
-var _linkifyIt = __webpack_require__(130);
+var _linkifyIt = __webpack_require__(61);
 
 var _linkifyIt2 = _interopRequireDefault(_linkifyIt);
 
@@ -34832,7 +34836,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _linkifyIt = __webpack_require__(130);
+var _linkifyIt = __webpack_require__(61);
 
 var _linkifyIt2 = _interopRequireDefault(_linkifyIt);
 
@@ -34872,7 +34876,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                                                                                                                                                                                                                                                                    * Creates a composite decorator based on the provided plugins
                                                                                                                                                                                                                                                                    */
 
-var _immutable = __webpack_require__(129);
+var _immutable = __webpack_require__(130);
 
 var _draftJs = __webpack_require__(12);
 
@@ -34953,7 +34957,7 @@ var _defaultKeyBindingPlugin = __webpack_require__(192);
 
 var defaultKeyBindingPlugin = _interopRequireWildcard(_defaultKeyBindingPlugin);
 
-var _immutable = __webpack_require__(129);
+var _immutable = __webpack_require__(130);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -35687,7 +35691,7 @@ exports.default = UndoButton;
  *
  * @providesModule AtomicBlockUtils
  * @typechecks
- * 
+ *
  */
 
 
@@ -35762,7 +35766,7 @@ module.exports = AtomicBlockUtils;
  *
  * @providesModule CompositeDraftDecorator
  * @typechecks
- * 
+ *
  */
 
 
@@ -35882,7 +35886,7 @@ module.exports = CompositeDraftDecorator;
  *
  * @providesModule ContentStateInlineStyle
  * @typechecks
- * 
+ *
  */
 
 
@@ -35962,7 +35966,7 @@ module.exports = ContentStateInlineStyle;
  *
  * @providesModule DraftEditor.react
  * @typechecks
- * 
+ *
  * @preventMunge
  */
 
@@ -35978,8 +35982,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var DefaultDraftBlockRenderMap = __webpack_require__(61);
-var DefaultDraftInlineStyle = __webpack_require__(101);
+var DefaultDraftBlockRenderMap = __webpack_require__(62);
+var DefaultDraftInlineStyle = __webpack_require__(102);
 var DraftEditorCompositionHandler = __webpack_require__(203);
 var DraftEditorContents = __webpack_require__(204);
 var DraftEditorDragHandler = __webpack_require__(205);
@@ -35988,16 +35992,16 @@ var DraftEditorPlaceholder = __webpack_require__(208);
 var EditorState = __webpack_require__(5);
 var React = __webpack_require__(3);
 var ReactDOM = __webpack_require__(45);
-var Scroll = __webpack_require__(121);
-var Style = __webpack_require__(68);
+var Scroll = __webpack_require__(122);
+var Style = __webpack_require__(69);
 var UserAgent = __webpack_require__(17);
 
 var cx = __webpack_require__(35);
 var emptyFunction = __webpack_require__(11);
 var generateRandomKey = __webpack_require__(16);
-var getDefaultKeyBinding = __webpack_require__(107);
+var getDefaultKeyBinding = __webpack_require__(108);
 var nullthrows = __webpack_require__(13);
-var getScrollPosition = __webpack_require__(71);
+var getScrollPosition = __webpack_require__(72);
 
 var isIE = UserAgent.isBrowser('IE');
 
@@ -36403,17 +36407,17 @@ module.exports = DraftEditor;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule DraftEditorCompositionHandler
- * 
+ *
  */
 
 
 
 var DraftModifier = __webpack_require__(10);
 var EditorState = __webpack_require__(5);
-var Keys = __webpack_require__(67);
+var Keys = __webpack_require__(68);
 
-var getEntityKeyForSelection = __webpack_require__(64);
-var isSelectionAtLeafStart = __webpack_require__(116);
+var getEntityKeyForSelection = __webpack_require__(65);
+var isSelectionAtLeafStart = __webpack_require__(117);
 
 /**
  * Millisecond delay to allow `compositionstart` to fire again upon
@@ -36579,7 +36583,7 @@ module.exports = DraftEditorCompositionHandler;
  *
  * @providesModule DraftEditorContents.react
  * @typechecks
- * 
+ *
  */
 
 
@@ -36594,7 +36598,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var DraftEditorBlock = __webpack_require__(102);
+var DraftEditorBlock = __webpack_require__(103);
 var DraftOffsetKey = __webpack_require__(51);
 var EditorState = __webpack_require__(5);
 var React = __webpack_require__(3);
@@ -36828,18 +36832,18 @@ module.exports = DraftEditorContents;
  *
  * @providesModule DraftEditorDragHandler
  * @typechecks
- * 
+ *
  */
 
 
 
-var DataTransfer = __webpack_require__(119);
+var DataTransfer = __webpack_require__(120);
 var DraftModifier = __webpack_require__(10);
 var EditorState = __webpack_require__(5);
 
-var findAncestorOffsetKey = __webpack_require__(63);
-var getTextContentFromFiles = __webpack_require__(113);
-var getUpdatedSelectionState = __webpack_require__(114);
+var findAncestorOffsetKey = __webpack_require__(64);
+var getTextContentFromFiles = __webpack_require__(114);
+var getUpdatedSelectionState = __webpack_require__(115);
 var nullthrows = __webpack_require__(13);
 
 var isEventHandled = __webpack_require__(54);
@@ -36950,7 +36954,7 @@ module.exports = DraftEditorDragHandler;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule DraftEditorEditHandler
- * 
+ *
  */
 
 
@@ -37000,7 +37004,7 @@ module.exports = DraftEditorEditHandler;
  *
  * @providesModule DraftEditorLeaf.react
  * @typechecks
- * 
+ *
  */
 
 
@@ -37165,7 +37169,7 @@ module.exports = DraftEditorLeaf;
  *
  * @providesModule DraftEditorPlaceholder.react
  * @typechecks
- * 
+ *
  */
 
 
@@ -37240,7 +37244,7 @@ module.exports = DraftEditorPlaceholder;
  *
  * @providesModule DraftEditorTextNode.react
  * @typechecks
- * 
+ *
  */
 
 
@@ -37354,7 +37358,7 @@ module.exports = DraftEditorTextNode;
  *
  * @providesModule DraftEntitySegments
  * @typechecks
- * 
+ *
  */
 
 
@@ -37459,7 +37463,7 @@ module.exports = DraftEntitySegments;
  *
  * @providesModule DraftPasteProcessor
  * @typechecks
- * 
+ *
  */
 
 
@@ -37468,10 +37472,10 @@ var CharacterMetadata = __webpack_require__(14);
 var ContentBlock = __webpack_require__(24);
 var Immutable = __webpack_require__(6);
 
-var convertFromHTMLtoContentBlocks = __webpack_require__(106);
+var convertFromHTMLtoContentBlocks = __webpack_require__(107);
 var generateRandomKey = __webpack_require__(16);
-var getSafeBodyFromHTML = __webpack_require__(111);
-var sanitizeDraftText = __webpack_require__(66);
+var getSafeBodyFromHTML = __webpack_require__(112);
+var sanitizeDraftText = __webpack_require__(67);
 
 var List = Immutable.List;
 var Repeat = Immutable.Repeat;
@@ -37511,7 +37515,7 @@ module.exports = DraftPasteProcessor;
  *
  * @providesModule EditorBidiService
  * @typechecks
- * 
+ *
  */
 
 
@@ -37565,7 +37569,7 @@ module.exports = EditorBidiService;
  *
  * @providesModule RichTextEditorUtil
  * @typechecks
- * 
+ *
  */
 
 
@@ -37875,7 +37879,7 @@ module.exports = RichTextEditorUtil;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule SecondaryClipboard
- * 
+ *
  */
 
 
@@ -37951,7 +37955,7 @@ module.exports = SecondaryClipboard;
  *
  * @providesModule adjustBlockDepthForContentState
  * @typechecks
- * 
+ *
  */
 
 
@@ -37996,7 +38000,7 @@ module.exports = adjustBlockDepthForContentState;
  *
  * @providesModule applyEntityToContentBlock
  * @typechecks
- * 
+ *
  */
 
 
@@ -38029,7 +38033,7 @@ module.exports = applyEntityToContentBlock;
  *
  * @providesModule applyEntityToContentState
  * @typechecks
- * 
+ *
  */
 
 
@@ -38078,12 +38082,12 @@ module.exports = applyEntityToContentState;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule convertFromDraftStateToRaw
- * 
+ *
  */
 
 
 
-var DraftStringKey = __webpack_require__(105);
+var DraftStringKey = __webpack_require__(106);
 
 var encodeEntityRanges = __webpack_require__(235);
 var encodeInlineStyleRanges = __webpack_require__(236);
@@ -38150,7 +38154,7 @@ module.exports = convertFromDraftStateToRaw;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule convertFromRawToDraftState
- * 
+ *
  */
 
 
@@ -38240,7 +38244,7 @@ module.exports = convertFromRawToDraftState;
  *
  * @providesModule createCharacterList
  * @typechecks
- * 
+ *
  */
 
 
@@ -38276,7 +38280,7 @@ module.exports = createCharacterList;
  *
  * @providesModule decodeEntityRanges
  * @typechecks
- * 
+ *
  */
 
 
@@ -38322,7 +38326,7 @@ module.exports = decodeEntityRanges;
  *
  * @providesModule decodeInlineStyleRanges
  * @typechecks
- * 
+ *
  */
 
 
@@ -38371,18 +38375,18 @@ module.exports = decodeInlineStyleRanges;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnBeforeInput
- * 
+ *
  */
 
 
 
-var BlockTree = __webpack_require__(100);
+var BlockTree = __webpack_require__(101);
 var DraftModifier = __webpack_require__(10);
 var EditorState = __webpack_require__(5);
 var UserAgent = __webpack_require__(17);
 
-var getEntityKeyForSelection = __webpack_require__(64);
-var isSelectionAtLeafStart = __webpack_require__(116);
+var getEntityKeyForSelection = __webpack_require__(65);
+var isSelectionAtLeafStart = __webpack_require__(117);
 var nullthrows = __webpack_require__(13);
 var setImmediate = __webpack_require__(281);
 
@@ -38512,7 +38516,7 @@ module.exports = editOnBeforeInput;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnBlur
- * 
+ *
  */
 
 
@@ -38563,7 +38567,7 @@ module.exports = editOnBlur;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnCompositionStart
- * 
+ *
  */
 
 
@@ -38597,12 +38601,12 @@ module.exports = editOnCompositionStart;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnCopy
- * 
+ *
  */
 
 
 
-var getFragmentFromSelection = __webpack_require__(109);
+var getFragmentFromSelection = __webpack_require__(110);
 
 /**
  * If we have a selection, create a ContentState fragment and store
@@ -38638,17 +38642,17 @@ module.exports = editOnCopy;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnCut
- * 
+ *
  */
 
 
 
 var DraftModifier = __webpack_require__(10);
 var EditorState = __webpack_require__(5);
-var Style = __webpack_require__(68);
+var Style = __webpack_require__(69);
 
-var getFragmentFromSelection = __webpack_require__(109);
-var getScrollPosition = __webpack_require__(71);
+var getFragmentFromSelection = __webpack_require__(110);
+var getScrollPosition = __webpack_require__(72);
 
 /**
  * On `cut` events, native behavior is allowed to occur so that the system
@@ -38714,7 +38718,7 @@ module.exports = editOnCut;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnDragOver
- * 
+ *
  */
 
 
@@ -38744,7 +38748,7 @@ module.exports = editOnDragOver;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnDragStart
- * 
+ *
  */
 
 
@@ -38773,7 +38777,7 @@ module.exports = editOnDragStart;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnFocus
- * 
+ *
  */
 
 
@@ -38815,7 +38819,7 @@ module.exports = editOnFocus;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnInput
- * 
+ *
  */
 
 
@@ -38825,7 +38829,7 @@ var DraftOffsetKey = __webpack_require__(51);
 var EditorState = __webpack_require__(5);
 var UserAgent = __webpack_require__(17);
 
-var findAncestorOffsetKey = __webpack_require__(63);
+var findAncestorOffsetKey = __webpack_require__(64);
 var nullthrows = __webpack_require__(13);
 
 var isGecko = UserAgent.isEngine('Gecko');
@@ -38967,15 +38971,15 @@ module.exports = editOnInput;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnKeyDown
- * 
+ *
  */
 
 
 
 var DraftModifier = __webpack_require__(10);
 var EditorState = __webpack_require__(5);
-var KeyBindingUtil = __webpack_require__(62);
-var Keys = __webpack_require__(67);
+var KeyBindingUtil = __webpack_require__(63);
+var Keys = __webpack_require__(68);
 var SecondaryClipboard = __webpack_require__(214);
 var UserAgent = __webpack_require__(17);
 
@@ -39121,20 +39125,20 @@ module.exports = editOnKeyDown;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnPaste
- * 
+ *
  */
 
 
 
 var BlockMapBuilder = __webpack_require__(33);
 var CharacterMetadata = __webpack_require__(14);
-var DataTransfer = __webpack_require__(119);
+var DataTransfer = __webpack_require__(120);
 var DraftModifier = __webpack_require__(10);
 var DraftPasteProcessor = __webpack_require__(211);
 var EditorState = __webpack_require__(5);
 
-var getEntityKeyForSelection = __webpack_require__(64);
-var getTextContentFromFiles = __webpack_require__(113);
+var getEntityKeyForSelection = __webpack_require__(65);
+var getTextContentFromFiles = __webpack_require__(114);
 var isEventHandled = __webpack_require__(54);
 var splitTextIntoTextBlocks = __webpack_require__(259);
 
@@ -39287,7 +39291,7 @@ module.exports = editOnPaste;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnSelect
- * 
+ *
  */
 
 
@@ -39333,12 +39337,12 @@ module.exports = editOnSelect;
  *
  * @providesModule encodeEntityRanges
  * @typechecks
- * 
+ *
  */
 
 
 
-var DraftStringKey = __webpack_require__(105);
+var DraftStringKey = __webpack_require__(106);
 var UnicodeUtils = __webpack_require__(26);
 
 var strlen = UnicodeUtils.strlen;
@@ -39380,7 +39384,7 @@ module.exports = encodeEntityRanges;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule encodeInlineStyleRanges
- * 
+ *
  */
 
 
@@ -39457,12 +39461,12 @@ module.exports = encodeInlineStyleRanges;
  *
  * @providesModule expandRangeToStartOfLine
  * @typechecks
- * 
+ *
  */
 
 var UnicodeUtils = __webpack_require__(26);
 
-var getRangeClientRects = __webpack_require__(110);
+var getRangeClientRects = __webpack_require__(111);
 var invariant = __webpack_require__(1);
 
 /**
@@ -39651,7 +39655,7 @@ module.exports = expandRangeToStartOfLine;
  *
  * @providesModule getCharacterRemovalRange
  * @typechecks
- * 
+ *
  */
 
 
@@ -39734,12 +39738,12 @@ module.exports = getCharacterRemovalRange;
  *
  * @providesModule getDraftEditorSelection
  * @typechecks
- * 
+ *
  */
 
 
 
-var getDraftEditorSelectionWithNodes = __webpack_require__(108);
+var getDraftEditorSelectionWithNodes = __webpack_require__(109);
 
 /**
  * Convert the current selection range to an anchor/focus pair of offset keys
@@ -39777,12 +39781,12 @@ module.exports = getDraftEditorSelection;
  *
  * @providesModule getRangeBoundingClientRect
  * @typechecks
- * 
+ *
  */
 
 
 
-var getRangeClientRects = __webpack_require__(110);
+var getRangeClientRects = __webpack_require__(111);
 
 /**
  * Like range.getBoundingClientRect() but normalizes for browser bugs.
@@ -39843,7 +39847,7 @@ module.exports = getRangeBoundingClientRect;
  *
  * @providesModule getRangesForDraftEntity
  * @typechecks
- * 
+ *
  */
 
 
@@ -39889,7 +39893,7 @@ module.exports = getRangesForDraftEntity;
  *
  * @providesModule getVisibleSelectionRect
  * @typechecks
- * 
+ *
  */
 
 
@@ -39942,7 +39946,7 @@ module.exports = getVisibleSelectionRect;
  *
  * @providesModule insertFragmentIntoContentState
  * @typechecks
- * 
+ *
  */
 
 
@@ -39950,7 +39954,7 @@ module.exports = getVisibleSelectionRect;
 var BlockMapBuilder = __webpack_require__(33);
 
 var generateRandomKey = __webpack_require__(16);
-var insertIntoList = __webpack_require__(115);
+var insertIntoList = __webpack_require__(116);
 var invariant = __webpack_require__(1);
 
 function insertFragmentIntoContentState(contentState, selectionState, fragment) {
@@ -40075,14 +40079,14 @@ module.exports = insertFragmentIntoContentState;
  *
  * @providesModule insertTextIntoContentState
  * @typechecks
- * 
+ *
  */
 
 
 
 var Immutable = __webpack_require__(6);
 
-var insertIntoList = __webpack_require__(115);
+var insertIntoList = __webpack_require__(116);
 var invariant = __webpack_require__(1);
 
 var Repeat = Immutable.Repeat;
@@ -40135,7 +40139,7 @@ module.exports = insertTextIntoContentState;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandBackspaceToStartOfLine
- * 
+ *
  */
 
 
@@ -40143,8 +40147,8 @@ module.exports = insertTextIntoContentState;
 var EditorState = __webpack_require__(5);
 
 var expandRangeToStartOfLine = __webpack_require__(237);
-var getDraftEditorSelectionWithNodes = __webpack_require__(108);
-var moveSelectionBackward = __webpack_require__(65);
+var getDraftEditorSelectionWithNodes = __webpack_require__(109);
+var moveSelectionBackward = __webpack_require__(66);
 var removeTextWithStrategy = __webpack_require__(34);
 
 function keyCommandBackspaceToStartOfLine(editorState) {
@@ -40185,15 +40189,15 @@ module.exports = keyCommandBackspaceToStartOfLine;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandBackspaceWord
- * 
+ *
  */
 
 
 
-var DraftRemovableWord = __webpack_require__(104);
+var DraftRemovableWord = __webpack_require__(105);
 var EditorState = __webpack_require__(5);
 
-var moveSelectionBackward = __webpack_require__(65);
+var moveSelectionBackward = __webpack_require__(66);
 var removeTextWithStrategy = __webpack_require__(34);
 
 /**
@@ -40238,15 +40242,15 @@ module.exports = keyCommandBackspaceWord;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandDeleteWord
- * 
+ *
  */
 
 
 
-var DraftRemovableWord = __webpack_require__(104);
+var DraftRemovableWord = __webpack_require__(105);
 var EditorState = __webpack_require__(5);
 
-var moveSelectionForward = __webpack_require__(117);
+var moveSelectionForward = __webpack_require__(118);
 var removeTextWithStrategy = __webpack_require__(34);
 
 /**
@@ -40289,7 +40293,7 @@ module.exports = keyCommandDeleteWord;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandInsertNewline
- * 
+ *
  */
 
 
@@ -40318,7 +40322,7 @@ module.exports = keyCommandInsertNewline;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandMoveSelectionToEndOfBlock
- * 
+ *
  */
 
 
@@ -40361,7 +40365,7 @@ module.exports = keyCommandMoveSelectionToEndOfBlock;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandMoveSelectionToStartOfBlock
- * 
+ *
  */
 
 
@@ -40404,7 +40408,7 @@ module.exports = keyCommandMoveSelectionToStartOfBlock;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandPlainBackspace
- * 
+ *
  */
 
 
@@ -40412,7 +40416,7 @@ module.exports = keyCommandMoveSelectionToStartOfBlock;
 var EditorState = __webpack_require__(5);
 var UnicodeUtils = __webpack_require__(26);
 
-var moveSelectionBackward = __webpack_require__(65);
+var moveSelectionBackward = __webpack_require__(66);
 var removeTextWithStrategy = __webpack_require__(34);
 
 /**
@@ -40454,7 +40458,7 @@ module.exports = keyCommandPlainBackspace;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandPlainDelete
- * 
+ *
  */
 
 
@@ -40462,7 +40466,7 @@ module.exports = keyCommandPlainBackspace;
 var EditorState = __webpack_require__(5);
 var UnicodeUtils = __webpack_require__(26);
 
-var moveSelectionForward = __webpack_require__(117);
+var moveSelectionForward = __webpack_require__(118);
 var removeTextWithStrategy = __webpack_require__(34);
 
 /**
@@ -40505,7 +40509,7 @@ module.exports = keyCommandPlainDelete;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandTransposeCharacters
- * 
+ *
  */
 
 
@@ -40589,7 +40593,7 @@ module.exports = keyCommandTransposeCharacters;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandUndo
- * 
+ *
  */
 
 
@@ -40644,7 +40648,7 @@ module.exports = keyCommandUndo;
  *
  * @providesModule modifyBlockForContentState
  * @typechecks
- * 
+ *
  */
 
 
@@ -40687,7 +40691,7 @@ module.exports = modifyBlockForContentState;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule removeRangeFromContentState
- * 
+ *
  */
 
 
@@ -40785,12 +40789,12 @@ module.exports = removeRangeFromContentState;
  *
  * @providesModule setDraftEditorSelection
  * @typechecks
- * 
+ *
  */
 
 
 
-var containsNode = __webpack_require__(70);
+var containsNode = __webpack_require__(71);
 var getActiveElement = __webpack_require__(55);
 
 /**
@@ -40925,7 +40929,7 @@ module.exports = setDraftEditorSelection;
  *
  * @providesModule splitBlockInContentState
  * @typechecks
- * 
+ *
  */
 
 
@@ -41000,7 +41004,7 @@ module.exports = splitBlockInContentState;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule splitTextIntoTextBlocks
- * 
+ *
  */
 
 
@@ -41062,7 +41066,7 @@ module.exports = PhotosMimeType;
  *
  * @typechecks
  * @stub
- * 
+ *
  */
 
 
@@ -41103,7 +41107,7 @@ module.exports = {
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -41140,7 +41144,7 @@ module.exports = URI;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @typechecks
- * 
+ *
  */
 
 /**
@@ -41177,8 +41181,8 @@ module.exports = URI;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var UnicodeBidi = __webpack_require__(122);
-var UnicodeBidiDirection = __webpack_require__(69);
+var UnicodeBidi = __webpack_require__(123);
+var UnicodeBidiDirection = __webpack_require__(70);
 
 var invariant = __webpack_require__(1);
 
@@ -41728,7 +41732,7 @@ module.exports = VersionRange;
 
 
 
-var camelize = __webpack_require__(123);
+var camelize = __webpack_require__(124);
 
 var msPattern = /^-ms-/;
 
@@ -41777,7 +41781,7 @@ module.exports = camelizeStyleName;
 
 var ExecutionEnvironment = __webpack_require__(9);
 
-var createArrayFromMixed = __webpack_require__(124);
+var createArrayFromMixed = __webpack_require__(125);
 var getMarkupWrap = __webpack_require__(271);
 var invariant = __webpack_require__(1);
 
@@ -41938,7 +41942,7 @@ module.exports = getElementPosition;
  * @typechecks
  */
 
-var containsNode = __webpack_require__(70);
+var containsNode = __webpack_require__(71);
 
 /**
  * Gets an element's bounding rect in pixels relative to the viewport.
@@ -42095,8 +42099,8 @@ module.exports = getMarkupWrap;
  * @typechecks
  */
 
-var camelize = __webpack_require__(123);
-var hyphenate = __webpack_require__(127);
+var camelize = __webpack_require__(124);
+var hyphenate = __webpack_require__(128);
 
 function asString(value) /*?string*/{
   return value == null ? value : String(value);
@@ -42162,7 +42166,7 @@ function getViewportWidth() {
    * LICENSE file in the root directory of this source tree. An additional grant
    * of patent rights can be found in the PATENTS file in the same directory.
    *
-   * 
+   *
    * @typechecks
    */
 
@@ -42219,7 +42223,7 @@ module.exports = getViewportDimensions;
 
 
 
-var hyphenate = __webpack_require__(127);
+var hyphenate = __webpack_require__(128);
 
 var msPattern = /^ms-/;
 
@@ -42775,7 +42779,7 @@ module.exports = ARIADOMPropertyConfig;
 
 var ReactDOMComponentTree = __webpack_require__(8);
 
-var focusNode = __webpack_require__(125);
+var focusNode = __webpack_require__(126);
 
 var AutoFocusUtils = {
   focusDOMComponent: function () {
@@ -43199,7 +43203,7 @@ var ReactInstrumentation = __webpack_require__(15);
 var camelizeStyleName = __webpack_require__(266);
 var dangerousStyleValue = __webpack_require__(342);
 var hyphenateStyleName = __webpack_require__(274);
-var memoizeStringOnly = __webpack_require__(128);
+var memoizeStringOnly = __webpack_require__(129);
 var warning = __webpack_require__(2);
 
 var processStyleName = memoizeStringOnly(function (styleName) {
@@ -43414,8 +43418,8 @@ var ReactDOMComponentTree = __webpack_require__(8);
 var ReactUpdates = __webpack_require__(19);
 var SyntheticEvent = __webpack_require__(20);
 
-var getEventTarget = __webpack_require__(86);
-var isEventSupported = __webpack_require__(87);
+var getEventTarget = __webpack_require__(87);
+var isEventSupported = __webpack_require__(88);
 var isTextInputElement = __webpack_require__(148);
 
 var eventTypes = {
@@ -44243,7 +44247,7 @@ module.exports = HTMLDOMPropertyConfig;
 var ReactReconciler = __webpack_require__(41);
 
 var instantiateReactComponent = __webpack_require__(147);
-var KeyEscapeUtils = __webpack_require__(77);
+var KeyEscapeUtils = __webpack_require__(78);
 var shouldUpdateReactComponent = __webpack_require__(150);
 var traverseAllChildren = __webpack_require__(151);
 var warning = __webpack_require__(2);
@@ -44400,7 +44404,7 @@ module.exports = ReactChildReconciler;
 
 
 
-var DOMChildrenOperations = __webpack_require__(73);
+var DOMChildrenOperations = __webpack_require__(74);
 var ReactDOMIDOperations = __webpack_require__(299);
 
 /**
@@ -44439,10 +44443,10 @@ var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(7);
 
 var React = __webpack_require__(43);
-var ReactComponentEnvironment = __webpack_require__(80);
+var ReactComponentEnvironment = __webpack_require__(81);
 var ReactCurrentOwner = __webpack_require__(22);
-var ReactErrorUtils = __webpack_require__(81);
-var ReactInstanceMap = __webpack_require__(82);
+var ReactErrorUtils = __webpack_require__(82);
+var ReactInstanceMap = __webpack_require__(83);
 var ReactInstrumentation = __webpack_require__(15);
 var ReactNodeTypes = __webpack_require__(318);
 var ReactReconciler = __webpack_require__(41);
@@ -44453,7 +44457,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 var emptyObject = __webpack_require__(36);
 var invariant = __webpack_require__(1);
-var shallowEqual = __webpack_require__(72);
+var shallowEqual = __webpack_require__(73);
 var shouldUpdateReactComponent = __webpack_require__(150);
 var warning = __webpack_require__(2);
 
@@ -45351,12 +45355,12 @@ var _prodInvariant = __webpack_require__(4),
 var AutoFocusUtils = __webpack_require__(284);
 var CSSPropertyOperations = __webpack_require__(286);
 var DOMLazyTree = __webpack_require__(37);
-var DOMNamespaces = __webpack_require__(74);
+var DOMNamespaces = __webpack_require__(75);
 var DOMProperty = __webpack_require__(38);
 var DOMPropertyOperations = __webpack_require__(133);
 var EventPluginHub = __webpack_require__(39);
-var EventPluginRegistry = __webpack_require__(75);
-var ReactBrowserEventEmitter = __webpack_require__(79);
+var EventPluginRegistry = __webpack_require__(76);
+var ReactBrowserEventEmitter = __webpack_require__(80);
 var ReactDOMComponentFlags = __webpack_require__(134);
 var ReactDOMComponentTree = __webpack_require__(8);
 var ReactDOMInput = __webpack_require__(300);
@@ -45370,9 +45374,9 @@ var ReactServerRenderingTransaction = __webpack_require__(141);
 var emptyFunction = __webpack_require__(11);
 var escapeTextContentForBrowser = __webpack_require__(58);
 var invariant = __webpack_require__(1);
-var isEventSupported = __webpack_require__(87);
-var shallowEqual = __webpack_require__(72);
-var validateDOMNesting = __webpack_require__(89);
+var isEventSupported = __webpack_require__(88);
+var shallowEqual = __webpack_require__(73);
+var validateDOMNesting = __webpack_require__(90);
 var warning = __webpack_require__(2);
 
 var Flags = ReactDOMComponentFlags;
@@ -46350,7 +46354,7 @@ module.exports = ReactDOMComponent;
 
 
 
-var validateDOMNesting = __webpack_require__(89);
+var validateDOMNesting = __webpack_require__(90);
 
 var DOC_NODE_TYPE = 9;
 
@@ -46454,7 +46458,7 @@ module.exports = ReactDOMEmptyComponent;
 
 
 
-var DOMChildrenOperations = __webpack_require__(73);
+var DOMChildrenOperations = __webpack_require__(74);
 var ReactDOMComponentTree = __webpack_require__(8);
 
 /**
@@ -46497,7 +46501,7 @@ var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(7);
 
 var DOMPropertyOperations = __webpack_require__(133);
-var LinkedValueUtils = __webpack_require__(78);
+var LinkedValueUtils = __webpack_require__(79);
 var ReactDOMComponentTree = __webpack_require__(8);
 var ReactUpdates = __webpack_require__(19);
 
@@ -47157,13 +47161,13 @@ module.exports = ReactDOMServer;
 var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(7);
 
-var DOMChildrenOperations = __webpack_require__(73);
+var DOMChildrenOperations = __webpack_require__(74);
 var DOMLazyTree = __webpack_require__(37);
 var ReactDOMComponentTree = __webpack_require__(8);
 
 var escapeTextContentForBrowser = __webpack_require__(58);
 var invariant = __webpack_require__(1);
-var validateDOMNesting = __webpack_require__(89);
+var validateDOMNesting = __webpack_require__(90);
 
 /**
  * Text nodes violate a couple assumptions that React makes about components:
@@ -47327,7 +47331,7 @@ module.exports = ReactDOMTextComponent;
 var _prodInvariant = __webpack_require__(4),
     _assign = __webpack_require__(7);
 
-var LinkedValueUtils = __webpack_require__(78);
+var LinkedValueUtils = __webpack_require__(79);
 var ReactDOMComponentTree = __webpack_require__(8);
 var ReactUpdates = __webpack_require__(19);
 
@@ -47628,7 +47632,7 @@ module.exports = {
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -48086,7 +48090,7 @@ module.exports = {
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -48155,14 +48159,14 @@ module.exports = ReactEventEmitterMixin;
 
 var _assign = __webpack_require__(7);
 
-var EventListener = __webpack_require__(120);
+var EventListener = __webpack_require__(121);
 var ExecutionEnvironment = __webpack_require__(9);
 var PooledClass = __webpack_require__(27);
 var ReactDOMComponentTree = __webpack_require__(8);
 var ReactUpdates = __webpack_require__(19);
 
-var getEventTarget = __webpack_require__(86);
-var getUnboundedScrollPosition = __webpack_require__(126);
+var getEventTarget = __webpack_require__(87);
+var getUnboundedScrollPosition = __webpack_require__(127);
 
 /**
  * Find the deepest React component completely containing the root of the
@@ -48309,7 +48313,7 @@ module.exports = ReactEventListener;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -48336,7 +48340,7 @@ module.exports = ReactFeatureFlags;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -48381,10 +48385,10 @@ module.exports = ReactHostOperationHistoryHook;
 
 var DOMProperty = __webpack_require__(38);
 var EventPluginHub = __webpack_require__(39);
-var EventPluginUtils = __webpack_require__(76);
-var ReactComponentEnvironment = __webpack_require__(80);
+var EventPluginUtils = __webpack_require__(77);
+var ReactComponentEnvironment = __webpack_require__(81);
 var ReactEmptyComponent = __webpack_require__(137);
-var ReactBrowserEventEmitter = __webpack_require__(79);
+var ReactBrowserEventEmitter = __webpack_require__(80);
 var ReactHostComponent = __webpack_require__(138);
 var ReactUpdates = __webpack_require__(19);
 
@@ -48414,7 +48418,7 @@ module.exports = ReactInjection;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -48518,8 +48522,8 @@ module.exports = ReactMarkupChecksum;
 
 var _prodInvariant = __webpack_require__(4);
 
-var ReactComponentEnvironment = __webpack_require__(80);
-var ReactInstanceMap = __webpack_require__(82);
+var ReactComponentEnvironment = __webpack_require__(81);
+var ReactInstanceMap = __webpack_require__(83);
 var ReactInstrumentation = __webpack_require__(15);
 
 var ReactCurrentOwner = __webpack_require__(22);
@@ -48968,7 +48972,7 @@ module.exports = ReactMultiChild;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -49014,7 +49018,7 @@ module.exports = ReactNodeTypes;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -49114,7 +49118,7 @@ module.exports = ReactOwner;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -49153,7 +49157,7 @@ var _assign = __webpack_require__(7);
 
 var CallbackQueue = __webpack_require__(132);
 var PooledClass = __webpack_require__(27);
-var ReactBrowserEventEmitter = __webpack_require__(79);
+var ReactBrowserEventEmitter = __webpack_require__(80);
 var ReactInputSelection = __webpack_require__(139);
 var ReactInstrumentation = __webpack_require__(15);
 var Transaction = __webpack_require__(57);
@@ -49329,7 +49333,7 @@ module.exports = ReactReconcileTransaction;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -49546,7 +49550,7 @@ module.exports = {
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -50029,7 +50033,7 @@ var SyntheticEvent = __webpack_require__(20);
 
 var getActiveElement = __webpack_require__(55);
 var isTextInputElement = __webpack_require__(148);
-var shallowEqual = __webpack_require__(72);
+var shallowEqual = __webpack_require__(73);
 
 var skipSelectionChangeEvent = ExecutionEnvironment.canUseDOM && 'documentMode' in document && document.documentMode <= 11;
 
@@ -50213,14 +50217,14 @@ module.exports = SelectEventPlugin;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
 
 var _prodInvariant = __webpack_require__(4);
 
-var EventListener = __webpack_require__(120);
+var EventListener = __webpack_require__(121);
 var EventPropagators = __webpack_require__(40);
 var ReactDOMComponentTree = __webpack_require__(8);
 var SyntheticAnimationEvent = __webpack_require__(330);
@@ -50236,7 +50240,7 @@ var SyntheticUIEvent = __webpack_require__(42);
 var SyntheticWheelEvent = __webpack_require__(339);
 
 var emptyFunction = __webpack_require__(11);
-var getEventCharCode = __webpack_require__(84);
+var getEventCharCode = __webpack_require__(85);
 var invariant = __webpack_require__(1);
 
 /**
@@ -50705,9 +50709,9 @@ module.exports = SyntheticInputEvent;
 
 var SyntheticUIEvent = __webpack_require__(42);
 
-var getEventCharCode = __webpack_require__(84);
+var getEventCharCode = __webpack_require__(85);
 var getEventKey = __webpack_require__(344);
-var getEventModifierState = __webpack_require__(85);
+var getEventModifierState = __webpack_require__(86);
 
 /**
  * @interface KeyboardEvent
@@ -50794,7 +50798,7 @@ module.exports = SyntheticKeyboardEvent;
 
 var SyntheticUIEvent = __webpack_require__(42);
 
-var getEventModifierState = __webpack_require__(85);
+var getEventModifierState = __webpack_require__(86);
 
 /**
  * @interface TouchEvent
@@ -50941,7 +50945,7 @@ module.exports = SyntheticWheelEvent;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -51168,12 +51172,12 @@ module.exports = dangerousStyleValue;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
 
-var KeyEscapeUtils = __webpack_require__(77);
+var KeyEscapeUtils = __webpack_require__(78);
 var traverseAllChildren = __webpack_require__(151);
 var warning = __webpack_require__(2);
 
@@ -51254,7 +51258,7 @@ module.exports = flattenChildren;
 
 
 
-var getEventCharCode = __webpack_require__(84);
+var getEventCharCode = __webpack_require__(85);
 
 /**
  * Normalization of deprecated HTML5 `key` values
@@ -51357,7 +51361,7 @@ module.exports = getEventKey;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -51403,7 +51407,7 @@ module.exports = getIteratorFn;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -51645,7 +51649,7 @@ module.exports = quoteAttributeValueForBrowser;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -51709,7 +51713,7 @@ module.exports = KeyEscapeUtils;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * 
+ *
  */
 
 
@@ -52030,10 +52034,10 @@ module.exports = ReactChildren;
 var _prodInvariant = __webpack_require__(29),
     _assign = __webpack_require__(60);
 
-var ReactComponent = __webpack_require__(90);
+var ReactComponent = __webpack_require__(91);
 var ReactElement = __webpack_require__(28);
-var ReactPropTypeLocationNames = __webpack_require__(92);
-var ReactNoopUpdateQueue = __webpack_require__(91);
+var ReactPropTypeLocationNames = __webpack_require__(93);
+var ReactNoopUpdateQueue = __webpack_require__(92);
 
 var emptyObject = __webpack_require__(36);
 var invariant = __webpack_require__(1);
@@ -52927,11 +52931,11 @@ module.exports = ReactDOMFactories;
 
 
 var ReactElement = __webpack_require__(28);
-var ReactPropTypeLocationNames = __webpack_require__(92);
+var ReactPropTypeLocationNames = __webpack_require__(93);
 var ReactPropTypesSecret = __webpack_require__(154);
 
 var emptyFunction = __webpack_require__(11);
-var getIteratorFn = __webpack_require__(94);
+var getIteratorFn = __webpack_require__(95);
 var warning = __webpack_require__(2);
 
 /**
@@ -53368,8 +53372,8 @@ module.exports = ReactPropTypes;
 
 var _assign = __webpack_require__(60);
 
-var ReactComponent = __webpack_require__(90);
-var ReactNoopUpdateQueue = __webpack_require__(91);
+var ReactComponent = __webpack_require__(91);
+var ReactNoopUpdateQueue = __webpack_require__(92);
 
 var emptyObject = __webpack_require__(36);
 
@@ -53434,7 +53438,7 @@ module.exports = '15.4.2';
 
 var _prodInvariant = __webpack_require__(29);
 
-var ReactPropTypeLocationNames = __webpack_require__(92);
+var ReactPropTypeLocationNames = __webpack_require__(93);
 var ReactPropTypesSecret = __webpack_require__(154);
 
 var invariant = __webpack_require__(1);
@@ -53574,7 +53578,7 @@ var _prodInvariant = __webpack_require__(29);
 var ReactCurrentOwner = __webpack_require__(22);
 var REACT_ELEMENT_TYPE = __webpack_require__(152);
 
-var getIteratorFn = __webpack_require__(94);
+var getIteratorFn = __webpack_require__(95);
 var invariant = __webpack_require__(1);
 var KeyEscapeUtils = __webpack_require__(350);
 var warning = __webpack_require__(2);

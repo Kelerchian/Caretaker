@@ -19,14 +19,24 @@
 	z-index: 1;
 }
 
-.CaretakerFormObject{
-	padding: 1rem;
+.CaretakerFormObject,
+.CaretakerFormActions{
+	padding: 0.6rem;
 	position: relative;
 }
-.CaretakerFormObject:not(.CaretakerInputContainer){
+.CaretakerFormObject:not(.CaretakerInputContainer),
+.CaretakerFormActions{
 	box-shadow: 0 3px 3px rgba(0,0,0,0.3);
 }
 
 .CaretakerFormObject.CaretakerInputContainer{
-	border: 1px solid rgba(0,0,0,0.3);
+	border: 1px solid rgba(127,127,127,0.1);
+}
+
+.CaretakerFormActions{
+	padding-top: 1.4rem;
+}
+
+.CaretakerObjectLabel{
+	padding: 0.6rem 0.3rem;;
 }

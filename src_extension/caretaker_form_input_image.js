@@ -102,7 +102,15 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 	appearanceGetControl(){
 		//Don't forget to handle all your state
 		if(this.state.value == null){
-			return React.createElement('button', {className:"CaretakerButton CaretakerFormInputFilePromptButton", type:"button", onClick: this.onWillPrompt.bind(this)}, "Select Image...")
+			var control = []
+			control.push(React.createElement('button', {className:"CaretakerButton CaretakerFormInputFilePromptButton", key:"selectButton", type:"button", onClick: this.onWillPrompt.bind(this)}, "Select Image..."))
+			if(this.props.placeholder){
+				control.push(React.createElement('div', {className:"CaretakerFormInputFilePreview", key:"preview"}, (
+					React.createElement('img', {src:this.props.placeholder, title:"placeholder", alt:"placeholder"})
+				)))
+			}
+			return control
+
 		}else if(this.state.value instanceof Caretaker.UploadedFile){
 			return [
 				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileRemoveButton", type:"button", key:"removeButton", onClick: this.onRemove.bind(this)}, [React.createElement('i', {className:"fa fa-remove", key:"icon"}),"Remove"]),

@@ -3,14 +3,34 @@
 	background: transparent;
 	border-radius: 4px;
 	border: 2px solid rgba(127,127,127,0.5);
+	cursor: pointer;
 }
 
 .CaretakerButton:hover{
 	border: 2px solid rgba(127,127,127,0.8);
+	cursor: pointer;
 }
 
 .CaretakerButton:click{
 	border: 2px solid rgba(127,127,127,1);
+}
+
+.CaretakerButton.CaretakerGreenButton,
+.CaretakerButton.CaretakerPositiveButton
+{
+	border: 2px solid #97FF61;
+}
+
+.CaretakerButton.CaretakerGreenButton:hover,
+.CaretakerButton.CaretakerPositiveButton:hover
+{
+	border: 2px solid #6AFF1C;
+}
+
+.CaretakerButton.CaretakerGreenButton:click,
+.CaretakerButton.CaretakerPositiveButton:click
+{
+	border: 2px solid #329100;
 }
 
 .CaretakerButton.CaretakerNegativeButton{

@@ -41,15 +41,3 @@
 	margin: 0.25rem;
 	padding: 0.5rem;
 }
-
-.CaretakerTimeInputWidget>.CaretakerActionButtons>.SaveButton{
-	background: green;
-	border: none;
-	color: white;
-}
-
-.CaretakerTimeInputWidget>.CaretakerActionButtons>.CancelButton{
-	background: red;
-	border: none;
-	color: white;
-}

@@ -2,9 +2,6 @@ class CaretakerInput extends React.Component{
 	constructor(props){
 		super(props)
 		this.state = {}
-		if(this.isCommonInput()){
-			this.state.value = ""
-		}
 		this.loadValue(props)
 	}
 	componentDidMount(){
@@ -15,6 +12,7 @@ class CaretakerInput extends React.Component{
 		this.setState(this.state)
 	}
 	loadValue(props){
+		this.state.value = ""
 		if(props.value != null){
 			this.state.value = props.value
 		}
@@ -40,7 +38,7 @@ class CaretakerInput extends React.Component{
 		return props
 	}
 	isCommonInput(){
-		Caretaker.SpecialInput.isCommonInput(this.props.type)
+		return Caretaker.SpecialInput.isCommonInput(this.props.type)
 	}
 	updateParent(){
 		if(this.props.onChange){

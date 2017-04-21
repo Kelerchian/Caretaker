@@ -2,6 +2,7 @@ import Editor from 'draft-js-plugins-editor';
 import undoPlugin from 'draft-js-undo-plugin';
 import linkifyPlugin from 'draft-js-linkify-plugin';
 import createInlineToolbarPlugin, {Separator} from 'draft-js-inline-toolbar-plugin';
+import linkifyIt from 'linkify-it'
 import { EditorState, ContentState, convertToRaw, convertFromHTML } from 'draft-js';
 import { convertToHTML } from 'draft-convert';
 import { ItalicButton,
@@ -49,6 +50,7 @@ var Textarea = {
 	ContentState: ContentState,
 	convertToRaw: convertToRaw,
 	convertFromHTML: convertFromHTML,
-	convertToHTML: convertToHTML
+	convertToHTML: convertToHTML,
+	linkifyIt: linkifyIt
 }
 window.CaretakerTextareaDependency = Textarea

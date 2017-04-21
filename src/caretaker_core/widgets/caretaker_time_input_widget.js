@@ -70,8 +70,8 @@ class CaretakerTimeInputWidget extends React.Component{
 		return [hour,minute,second]
 	}
 	appearanceGetActions(){
-		var saveButton = React.createElement('button',{key:"save",className:"CaretakerButton SaveButton",onClick: this.submitChange.bind(this)},"Save")
-		var cancelButton = React.createElement('button',{key:"cancel",className:"CaretakerButton CancelButton",onClick: this.cancelChange.bind(this)},"Cancel")
+		var saveButton = React.createElement('button',{key:"save",className:"CaretakerButton CaretakerPositiveButton",onClick: this.submitChange.bind(this)},"Save")
+		var cancelButton = React.createElement('button',{key:"cancel",className:"CaretakerButton CaretakerNegativeButton",onClick: this.cancelChange.bind(this)},"Cancel")
 		return [saveButton, cancelButton]
 	}
 	render(){
