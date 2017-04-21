@@ -44,11 +44,46 @@
 
 		<script async>
 			var UserModel = {
-				quantity: "many",
-				name: "profile_picture",
-				type: "image",
-				label: "Profile Picture",
-				description: "this is a panel to edit user[thedescription]"
+				name: "user",
+				type: "object",
+				has: [
+					{
+						name: "fullname",
+						type: "text",
+						label: "Full name"
+					},
+					{
+						name: "profile_picture",
+						type: "image",
+						label: "Profile picture",
+						placeholder: "asset/image/logo.svg"
+					},
+					{
+						name: "number_of_siblings",
+						type: "number",
+						label: "Number of Siblings",
+						placeholder: "Number of Siblings"
+					},
+					{
+						name: "Textarea test",
+						type: "textarea",
+						label: "Textarea test",
+						defaultValue: "This is textarea test default value"
+					},
+					{
+						name: "HTML test",
+						type: "textarea-html",
+						label: "Textarea HTML",
+						defaultValue: "<a href='www.google.com'>www.googe.com</a>",
+						linkify: true
+					},
+					{
+						name: "the Date",
+						type: "date",
+						label: "The Date"
+					}
+				],
+				label: "Edit User"
 			}
 			var formCommand = {
 				edit: UserModel,
