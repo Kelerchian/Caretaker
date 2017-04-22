@@ -1,5 +1,6 @@
 .CaretakerInput input,
 .CaretakerInput textarea,
+.CaretakerInput select,
 .CaretakerInput .CaretakerFormInputTextareaHTML{
 	width: 100%;
 	padding: 0.3rem;
@@ -7,6 +8,18 @@
 	border: 1px solid rgb(169, 169, 169);
 }
 
+.CaretakerInput textarea,
+.CaretakerInput select,
+.CaretakerInput .CaretakerFormInputTextareaHTML{
+	padding-bottom: 0.4rem;
+}
+
 .CaretakerInput .CaretakerFormInputTextareaHTML{
 	position: relative;
+}
+
+.CaretakerInput input[type="radio"],
+.CaretakerInput input[type="checkbox"]{
+	width: auto;
+	margin-right: 2px;
 }
