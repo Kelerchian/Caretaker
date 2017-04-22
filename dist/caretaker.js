@@ -210,6 +210,7 @@ class CaretakerDateInputWidget extends React.Component{
 		}
 	}
 	checkValidity(){
+		this.state.value = moment(this.state.value)
 		if(this.state.value.isValid()){
 			this.state.lastValidValue = moment(this.state.value)
 		}else{
@@ -311,6 +312,7 @@ class CaretakerTimeInputWidget extends React.Component{
 		}
 	}
 	checkValidity(){
+		this.state.value = moment(this.state.value)
 		if(this.state.value.isValid()){
 			this.state.lastValidValue = moment(this.state.value)
 		}else{
@@ -324,11 +326,13 @@ class CaretakerTimeInputWidget extends React.Component{
 		this.checkValidity()
 	}
 	changeMinute(e){
+		console.log("changeMinute")
 		var minute = e.target.value
 		this.state.value.minute(minute)
 		this.checkValidity()
 	}
 	changeSecond(e){
+		console.log("changeSecond")
 		var second = e.target.value
 		this.state.value.second(second)
 		this.checkValidity()
@@ -55390,17 +55394,6 @@ class CaretakerFormObject extends React.Component{
 	constructor(props){
 		super(props)
 		this.state = {}
-		if(this.isMany()){
-			this.state.value = []
-			this.state.name = "arr"
-		}
-		else if(this.isObject()){
-			this.state.value = {}
-			this.state.name = "obj"
-		}else{
-			this.state.value = null
-			this.state.name = "val"
-		}
 		this.loadValue(props)
 	}
 	componentDidMount(){
@@ -55419,6 +55412,18 @@ class CaretakerFormObject extends React.Component{
 	}
 	loadValue(props){
 
+		if(this.isMany()){
+			this.state.value = []
+			this.state.name = "arr"
+		}
+		else if(this.isObject()){
+			this.state.value = {}
+			this.state.name = "obj"
+		}else{
+			this.state.value = null
+			this.state.name = "val"
+		}
+
 		if(props.value != null){
 			this.state.value = props.value
 		}else if(props.defaultValue != null){
@@ -55434,7 +55439,7 @@ class CaretakerFormObject extends React.Component{
 		return this.props.quantity == "many"
 	}
 	isObject(){
-		return this.props.type == "object"
+		return this.props.type == "object" || this.props.type == null
 	}
 	isInput(){
 		return !this.isObject() && !this.isMany()
@@ -55483,19 +55488,12 @@ class CaretakerFormObject extends React.Component{
 		return props
 	}
 	appearanceGetLabel(){
-		if(this.props.label){
-			if(this.isObject()){
-				return React.createElement('h5', {className:"CaretakerObjectLabel", key:"label"}, this.props.label)
-			}else{
-				return React.createElement('label', {className:"CaretakerLabel", htmlFor: this.state.name, key:"label"}, this.props.label)
-			}
-		}
-		return false
+		return React.createElement('label', {className:"CaretakerLabel", htmlFor: this.state.name, key:"label"}, this.props.label)
 	}
 	appearanceGetDescription(){
 		if(this.props.description){
-			return React.createElement('p', {key:"description"}, (
-				React.createElement('small',{},this.props.description)
+			return React.createElement('p', {className:"CaretakerDescription",key:"description"}, (
+				this.props.description
 			))
 		}
 		return false;
@@ -56145,6 +56143,7 @@ class CaretakerFormInputTextarea extends React.Component{
 		this.setState(this.state)
 	}
 	loadValue(props){
+		this.state.value = ""
 		if(props.value != null){
 			this.state.value = props.value
 		}
@@ -56153,6 +56152,7 @@ class CaretakerFormInputTextarea extends React.Component{
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
 		}
+		this.setState(this.state)
 	}
 	onChange(event){
 		this.state.value = event.target.value
@@ -56168,6 +56168,7 @@ class CaretakerFormInputTextarea extends React.Component{
 			delete props[key]
 		})
 		props.onChange = this.onChange.bind(this)
+		props.value = this.state.value
 		return props
 	}
 	getTextarea(){

@@ -65,6 +65,7 @@
 
 .CaretakerInput input,
 .CaretakerInput textarea,
+.CaretakerInput select,
 .CaretakerInput .CaretakerFormInputTextareaHTML{
 	width: 100%;
 	padding: 0.3rem;
@@ -72,8 +73,24 @@
 	border: 1px solid rgb(169, 169, 169);
 }
 
+.CaretakerInput textarea,
+.CaretakerInput select,
+.CaretakerInput .CaretakerFormInputTextareaHTML{
+	padding-bottom: 0.4rem;
+}
+
 .CaretakerInput .CaretakerFormInputTextareaHTML{
 	position: relative;
+}
+
+.CaretakerInput input[type="radio"],
+.CaretakerInput input[type="checkbox"]{
+	width: auto;
+	margin-right: 2px;
+}
+
+.CaretakerFormInputFilePromptButton{
+	width: 100%;
 }
 
 .CaretakerFormObjectCollectionControl{
@@ -101,13 +118,17 @@
 .CaretakerFormActions{
 	padding: 0.6rem;
 	position: relative;
+	background: white;
+	z-index: 1;
 }
-.CaretakerFormObject:not(.CaretakerInputContainer),
+.CaretakerFormObject,
 .CaretakerFormActions{
 	box-shadow: 0 3px 3px rgba(0,0,0,0.3);
+	border: none;
 }
 
-.CaretakerFormObject.CaretakerInputContainer{
+.CaretakerFormObject .CaretakerFormObject{
+	box-shadow: none;
 	border: 1px solid rgba(127,127,127,0.1);
 }
 
@@ -115,8 +136,15 @@
 	padding-top: 1.4rem;
 }
 
-.CaretakerObjectLabel{
-	padding: 0.6rem 0.3rem;;
+.CaretakerFormObject>.CaretakerLabel{
+	font-weight: bold;
+	margin-bottom: 0.2rem;
+}
+
+.CaretakerFormObject>.CaretakerDescription{
+	margin: 0;
+	margin-bottom: 0.2rem;
+	font-size: 0.8em;
 }
 
 .CaretakerDateInputWidget{
