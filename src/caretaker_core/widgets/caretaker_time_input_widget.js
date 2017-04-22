@@ -24,6 +24,7 @@ class CaretakerTimeInputWidget extends React.Component{
 		}
 	}
 	checkValidity(){
+		this.state.value = moment(this.state.value)
 		if(this.state.value.isValid()){
 			this.state.lastValidValue = moment(this.state.value)
 		}else{
@@ -37,11 +38,13 @@ class CaretakerTimeInputWidget extends React.Component{
 		this.checkValidity()
 	}
 	changeMinute(e){
+		console.log("changeMinute")
 		var minute = e.target.value
 		this.state.value.minute(minute)
 		this.checkValidity()
 	}
 	changeSecond(e){
+		console.log("changeSecond")
 		var second = e.target.value
 		this.state.value.second(second)
 		this.checkValidity()

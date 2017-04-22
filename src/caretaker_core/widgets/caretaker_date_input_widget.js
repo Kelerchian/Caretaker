@@ -24,6 +24,7 @@ class CaretakerDateInputWidget extends React.Component{
 		}
 	}
 	checkValidity(){
+		this.state.value = moment(this.state.value)
 		if(this.state.value.isValid()){
 			this.state.lastValidValue = moment(this.state.value)
 		}else{
