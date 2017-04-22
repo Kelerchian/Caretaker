@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Caretaker - Types</title>
+
+	<link rel="stylesheet" href="asset/bootstrap4/css/bootstrap.css">
+	<link rel="stylesheet" href="asset/bootstrap-override.css">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="asset/bootstrap4/js/bootstrap.js"></script>
+	<script src="asset/moment/moment.js"></script>
+	<script src="asset/react/build/react.js"></script>
+	<script src="asset/react/build/react-dom.js"></script>
+	<script src="../dist/caretaker.js"></script>
+	<script src="../dist/caretaker.extension.js"></script>
+	<link href="../dist/caretaker.css" rel="stylesheet"></link>
+	<link href="../dist/caretaker.extension.css" rel="stylesheet"></link>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-4 text-center">
+				<img src="asset/image/logo.svg" style="width: 100%; height:auto; object-fit: cover;"/>
+				<h6>Example of Caretaker Form Input Types</h6>
+			</div>
+			<div class="col-md-8">
+				<div id="form-container">
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<script async>
+		var typesModel = {
+			label: "Types Examples",
+			description: "These are the examples of Caretaker input types",
+			has: [
+				{
+					type: "text",
+					name: "text",
+					label: "Text",
+					description: "Ordinary text input",
+					placeholder: "Place text here...",
+					pattern: "[a-zA-Z0-9]"
+				},
+				{
+					type: "number",
+					name: "number",
+					label: "Number",
+					description: "Ordinary number input",
+					placeholder: "Input number here..."
+				},
+				{
+					type: "select",
+					name: "select",
+					label: "Select",
+					values:{
+						"option_1": "Option 1",
+						"option_2": "Option 2",
+						"option_3": "Option 3"
+					}
+				},
+				{
+					type: "radio",
+					name: "radio",
+					label: "Radio",
+					values: {
+						"option_1": "Option 1",
+						"option_2": "Option 2",
+						"option_3": "Option 3"
+					}
+				},
+				{
+					type: "checkbox",
+					name: "checkbox",
+					label: "Checkbox",
+					values: {
+						"option_1": "Option 1",
+						"option_2": "Option 2",
+						"option_3": "Option 3"
+					}
+				},
+				{
+					type: "date",
+					name: "date",
+					label: "Date",
+					placeholder: "Date"
+				},
+				{
+					type: "time",
+					name: "time",
+					label: "Time",
+					placeholder: "Time"
+				},
+				{
+					type: "textarea",
+					name: "textarea",
+					label: "Textarea",
+					placeholder: "Textarea"
+				},
+				{
+					type: "textarea-html",
+					name: "textarea-html",
+					label: "Textarea-Html",
+					placeholder: "Textarea-Html"
+				},
+				{
+					type: "file",
+					name: "file",
+					label: "File",
+					placeholder: "File"
+				},
+				{
+					type: "image",
+					name: "image",
+					label: "image (extension)"
+				}
+			]
+		}
+		var formCommand = {
+			edit: typesModel,
+			action: "",
+			submittable: true,
+			resettable: true,
+		}
+		var theForm = ReactDOM.render(React.createElement(CaretakerForm, formCommand), window['form-container'])
+	</script>
+</body>
+</html>
