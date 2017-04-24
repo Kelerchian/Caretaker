@@ -1,39 +1,25 @@
-class CaretakerFormInputTime extends React.Component{
-	constructor(props){
-		super(props)
-		this.state = {}
-		this.loadValue(props)
+class CaretakerFormInputTime extends CaretakerFormInputPrototype{
+	getDefaultValue(value){
+		return ""
 	}
-	componentDidMount(){
-		this.updateParent()
-	}
-	componentWillReceiveProps(props){
-		this.loadValue(props)
-		this.setState(this.state)
-	}
-	loadValue(props){
-		this.state.value = ""
-		if(props.value != null){
-			var newValue = moment(props.value,"HH:mm:ss")
-			if(newValue.isValid()){
-				this.state.value = newValue
-			}
-		}else if(props.defaultValue != null){
-			var newValue = moment(props.defaultValue,"HH:mm:ss")
-			if(newValue.isValid()){
-				this.state.value = newValue
-			}
+	checkValidity(value){
+		if(this.isRequired() && value == ""){
+			return false
 		}
+		return true
 	}
-	updateParent(){
-		if(this.props.onChange){
-			if(this.state.value){
-				this.props.onChange(this.state.value.format("HH:mm:ss"))
-			}else{
-				this.props.onChange("")
-			}
+	transformValueBeforeLoad(value){
+		return moment(value, "HH:mm:ss")
+	}
+	loadedValueIsValid(value){
+		return moment(value).isValid()
+	}
+	transformValueBeforeSave(value){
+		if(value){
+			return value.format("HH:mm:ss")
+		}else{
+			return ""
 		}
-		this.setState(this.state)
 	}
 	onChange(value){
 		this.state.value = value
@@ -42,15 +28,10 @@ class CaretakerFormInputTime extends React.Component{
 	onFocus(){
 		Caretaker.Widget.callTimeInputWidget(this.onChange.bind(this), this.state.value)
 	}
-	getNegativePropKeys(){
+	removePropKeys(){
 		return ["type","values","value"]
 	}
-	getProps(){
-		var props = Object.assign({}, this.props)
-		this.getNegativePropKeys().forEach(function(key){
-			props[key] = null
-			delete props[key]
-		})
+	modifyProps(props){
 		props.type = "text"
 		if(this.state.value){
 			props.value = this.state.value.format("HH:mm:ss")

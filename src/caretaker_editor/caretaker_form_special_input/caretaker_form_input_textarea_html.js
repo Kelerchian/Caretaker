@@ -1,8 +1,9 @@
-class CaretakerFormInputTextareaHTML extends React.Component{
-	constructor(props){
-		super(props)
-		this.state = { editorState:CaretakerTextareaDependency.EditorState.createEmpty() }
-		this.loadValue(props)
+class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
+	getDefaultValue(){
+		return CaretakerTextareaDependency.EditorState.createEmpty()
+	}
+	loadedValueIsValid(){
+		return true
 	}
 	getLinkifier(){
 		if(!this.linkifier){
@@ -54,55 +55,50 @@ class CaretakerFormInputTextareaHTML extends React.Component{
 		}
 		return text
 	}
-	componentDidMount(){
-		this.updateParent()
-	}
-	componentWillReceiveProps(props){
-		this.loadValue(props)
-		this.setState(this.state)
-	}
-	loadValue(props){
-		if(props.value){
-			var currentValue = CaretakerTextareaDependency.convertToHTML(this.state.editorState.getCurrentContent())
-			var value = props.value || ""
-			if(props.linkify == true){
-				value = this.normalize(value)
-			}
-			if(currentValue != value){
-				var blocksFromHTML = CaretakerTextareaDependency.convertFromHTML(value)
-				var state = CaretakerTextareaDependency.ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap)
-				this.state = {
-					editorState: CaretakerTextareaDependency.EditorState.createWithContent(state)
-				}
-			}
+	getCurrentValue(){
+		if(!this.state.value){
+			return this.getDefaultValue()
+		}else{
+			return this.state.value
 		}
 	}
-	updateParent(){
-		var value = CaretakerTextareaDependency.convertToHTML(this.state.editorState.getCurrentContent())
-		if(this.props.onChange){
-			this.props.onChange( this.linkify(value) )
+	checkValidity(value){
+		var currentValueHTML = CaretakerTextareaDependency.convertToHTML(value)
+		if(this.isRequired() && currentValueHTML == ""){
+			return false
 		}
+		return true
+	}
+	transformValueBeforeLoad(value){
+		var currentValue = this.getCurrentValue()
+		var currentValueHTML = CaretakerTextareaDependency.convertToHTML(currentValue)
+		value = value || ""
+		value = this.normalize(value)
+		if(currentValue != value){
+			var blocksFromHTML = CaretakerTextareaDependency.convertFromHTML(value)
+			var contentState = CaretakerTextareaDependency.ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap)
+			currentValue = CaretakerTextareaDependency.EditorState.createWithContent(contentState)
+		}
+		return currentValue
+	}
+	transformValueBeforeSave(value){
+		return this.linkify(CaretakerTextareaDependency.convertToHTML(value.getCurrentContent()))
 	}
 	focus(){
 		this.editor.focus()
 	}
 	onChange(editorState){
-		this.state.editorState = editorState
+		this.state.value = editorState
 		this.updateParent()
 	}
-	getNegativePropKeys(){
+	removePropKeys(){
 		return ["type"]
 	}
-	getProps(){
-		var props = Object.assign({}, this.props)
-		this.getNegativePropKeys().forEach(function(key){
-			props[key] = null
-			delete props[key]
-		})
+	modifyProps(props){
 		props.onChange = this.onChange.bind(this)
-		props.editorState = this.state.editorState
+		props.editorState = this.state.value
 		props.plugins = CaretakerTextareaDependency.pluginsHTML
-		props.ref = (element) => { this.editor = element }
+		props.ref = (element) => {this.editor = element}
 		props.key = "textarea_html"
 		return props
 	}

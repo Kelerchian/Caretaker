@@ -9,6 +9,10 @@ class CaretakerInput extends React.Component{
 	}
 	componentWillReceiveProps(props){
 		this.loadValue(props)
+		this.state.isValidating = props.isValidating
+		if(this.isCommonInput()){
+			this.reportValidity()
+		}
 		this.setState(this.state)
 	}
 	loadValue(props){
@@ -17,8 +21,30 @@ class CaretakerInput extends React.Component{
 			this.state.value = props.value
 		}
 	}
+	checkValidity(){
+		if(this.isCommonInput()){
+			if(this.textInput){
+				this.state.isValid = this.textInput.checkValidity()
+			}else{
+				this.state.isValid = false
+			}
+		}
+	}
+	onReportValidity(isValid){
+		this.state.isValid = isValid == true
+		this.reportValidity()
+	}
+	reportValidity(){
+		if(this.props.onReportValidity && this.state.isValidating){
+			this.checkValidity()
+			this.props.onReportValidity(this.state.isValid)
+		}
+	}
 	getNegativeCommonPropKeys(){
-		return ["options","value"]
+		return ["options","value","isValidating","onReportValidity"]
+	}
+	bindInput(input){
+		this.textInput = input
 	}
 	getProps(){
 		var props = Object.assign({}, this.props)
@@ -30,11 +56,14 @@ class CaretakerInput extends React.Component{
 		}
 		props.onChange = this.onCommonInputChange.bind(this)
 		props.value = this.state.value
+		props.ref = this.bindInput.bind(this)
 		return props
 	}
 	getSpecialProps(){
 		var props = Object.assign({}, this.props)
 		props.onChange = this.onChange.bind(this)
+		props.onReportValidity = this.onReportValidity.bind(this)
+		props.isValidating = this.state.isValidating
 		return props
 	}
 	isCommonInput(){

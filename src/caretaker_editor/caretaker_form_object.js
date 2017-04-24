@@ -4,12 +4,50 @@ class CaretakerFormObject extends React.Component{
 		this.state = {}
 		this.loadValue(props)
 	}
+	onReportValidity(isValid, name){
+		if(this.isObject() && !this.isMany() && !this.isChildless()){
+			//if validity node is null or not an object, make new validity node
+			if(typeof this.state.isValid != "object" || this.state.isValid == null){
+				this.state.isValid = {}
+				if(typeof this.props.has == "object"){
+					for(var i in this.props.has){
+						this.state.isValid[i] = false
+					}
+				}
+			}
+
+			this.state.isValid[name] = isValid
+		}else{
+			this.state.isValid = isValid
+		}
+		this.reportValidity()
+	}
+	reportValidity(){
+		if(this.props.onReportValidity && this.state.isValidating){
+			if(this.isObject() && !this.isMany()){
+				var isValid = true
+				for(var i in this.state.isValid){
+					if(this.state.isValid[i] == false){
+						isValid = false
+						break
+					}
+				}
+				this.props.onReportValidity(isValid, this.props.name)
+			}else{
+				this.props.onReportValidity(this.state.isValid, this.props.name)
+			}
+		}
+	}
 	componentDidMount(){
 		this.updateParent()
 	}
 	componentWillReceiveProps(props){
 		this.loadValue(props)
+		this.state.isValidating = props.isValidating
 		this.setState(this.state)
+		if(this.isChildless()){
+			this.onReportValidity(true)
+		}
 	}
 	assertValues(){
 		if(this.isMany() && !(Array.isArray(this.state.value) || this.state.value == null)){
@@ -52,6 +90,9 @@ class CaretakerFormObject extends React.Component{
 	isInput(){
 		return !this.isObject() && !this.isMany()
 	}
+	isChildless(){
+		return this.isObject() && (this.props.has == null || (typeof this.props.has == "object" && Object.keys(this.props.has).length == 0 ))
+	}
 	updateParent(){
 		if(this.props.onChange){
 			this.props.onChange(this.state.value, this.state.name)
@@ -82,6 +123,8 @@ class CaretakerFormObject extends React.Component{
 			delete props[key]
 		})
 		props.onChange = this.getOnChangeListener()
+		props.onReportValidity = this.onReportValidity.bind(this)
+		props.isValidating = this.state.isValidating
 		props.value = this.state.value
 		return props
 	}
@@ -92,6 +135,8 @@ class CaretakerFormObject extends React.Component{
 			delete props[key]
 		})
 		props.onChange = this.getOnChangeListener()
+		props.onReportValidity = this.onReportValidity.bind(this)
+		props.isValidating = this.state.isValidating
 		props.value = this.state.value
 		return props
 	}
@@ -129,6 +174,8 @@ class CaretakerFormObject extends React.Component{
 						}
 					}
 					childProps.onChange = this.getOnChangeListener()
+					childProps.onReportValidity = this.onReportValidity.bind(this)
+					childProps.isValidating = this.state.isValidating
 					objects.push( React.createElement(CaretakerFormObject, childProps) )
 				}
 			}
@@ -153,9 +200,22 @@ class CaretakerFormObject extends React.Component{
 
 		return insideObjectContainer
 	}
+	appearanceGetValidClassname(){
+		if(this.state.isValid != null){
+			if(this.state.isValid == true){
+				return " valid"
+			}else{
+				return " invalid"
+			}
+		}
+		return ""
+	}
 	render(){
 		var props = {}
-		props.className = "CaretakerFormObject " + (this.state.name ? this.state.name : "") + (this.isInput() ? " CaretakerInputContainer":"")
+		props.className = "CaretakerFormObject"
+		props.className += (this.state.name ? " "+this.state.name : "")
+		props.className += (this.isInput() ? " CaretakerInputContainer":"")
+		props.className += this.appearanceGetValidClassname()
 		return React.createElement('div',props, this.appearanceGetInsideObjectContainer())
 	}
 }

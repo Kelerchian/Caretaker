@@ -1,45 +1,26 @@
-class CaretakerFormInputTextarea extends React.Component{
-	constructor(props){
-		super(props)
-		this.state = {}
-		this.state.value = ""
-		this.loadValue(props)
+class CaretakerFormInputTextarea extends CaretakerFormInputPrototype{
+	getDefaultValue(){
+		return ""
 	}
-	componentDidMount(){
-		this.updateParent()
-	}
-	componentWillReceiveProps(props){
-		this.loadValue(props)
-		this.setState(this.state)
-	}
-	loadValue(props){
-		this.state.value = ""
-		if(props.value != null){
-			this.state.value = props.value
+	checkValidity(value){
+		if(this.isRequired() && value == ""){
+			return false
 		}
+		return true
 	}
-	updateParent(){
-		if(this.props.onChange){
-			this.props.onChange(this.state.value)
-		}
-		this.setState(this.state)
+	loadedValueIsValid(value){
+		return typeof value == "string"
 	}
 	onChange(event){
 		this.state.value = event.target.value
 		this.updateParent()
 	}
-	getNegativePropKeys(){
+	removePropKeys(){
 		return ["type"]
 	}
-	getProps(){
-		var props = Object.assign({}, this.props)
-		this.getNegativePropKeys().forEach(function(key){
-			props[key] = null
-			delete props[key]
-		})
+	modifyProps(props){
 		props.onChange = this.onChange.bind(this)
 		props.value = this.state.value
-		return props
 	}
 	getTextarea(){
 		return React.createElement('textarea', this.getProps())

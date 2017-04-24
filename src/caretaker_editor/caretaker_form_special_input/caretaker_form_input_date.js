@@ -1,39 +1,27 @@
-class CaretakerFormInputDate extends React.Component{
-	constructor(props){
-		super(props)
-		this.state = {}
-		this.loadValue(props)
+class CaretakerFormInputDate extends CaretakerFormInputPrototype{
+	getDefaultValue(){
+		return ""
 	}
-	componentDidMount(){
-		this.updateParent()
+	transformValueBeforeLoad(valueFromData){
+		moment(valueFromData)
 	}
-	componentWillReceiveProps(props){
-		this.loadValue(props)
-		this.setState(this.state)
+	loadedValueIsValid(value){
+		return moment(value).isValid()
 	}
-	loadValue(props){
-		this.state.value = ""
-		if(props.value != null){
-			var newValue = moment(props.value)
-			if(newValue.isValid()){
-				this.state.value = newValue
-			}
-		}else if(props.defaultValue != null){
-			var newValue = moment(props.defaultValue)
-			if(newValue.isValid()){
-				this.state.value = newValue
-			}
+	transformValueBeforeSave(value){
+		if(value){
+			return moment(value).format("YYYY-MM-DD")
+		}else{
+			return ""
 		}
 	}
-	updateParent(){
-		if(this.props.onChange){
-			if(this.state.value){
-				this.props.onChange(this.state.value.format("YYYY-MM-DD"))
-			}else{
-				this.props.onChange("")
+	checkValidity(value){
+		if(this.isRequired()){
+			if(value == ""){
+				return false
 			}
 		}
-		this.setState(this.state)
+		return true
 	}
 	onChange(value){
 		this.state.value = value
@@ -42,15 +30,10 @@ class CaretakerFormInputDate extends React.Component{
 	onFocus(){
 		Caretaker.Widget.callDateInputWidget(this.onChange.bind(this), this.state.value)
 	}
-	getNegativePropKeys(){
+	removePropKeys(){
 		return ["type","values","value","defaultValue"]
 	}
-	getProps(){
-		var props = Object.assign({}, this.props)
-		this.getNegativePropKeys().forEach(function(key){
-			props[key] = null
-			delete props[key]
-		})
+	modifyProps(props){
 		props.type = "text"
 		if(this.state.value){
 			props.value = this.state.value.format("dddd, DD MMM YYYY")

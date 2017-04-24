@@ -38,13 +38,11 @@ class CaretakerTimeInputWidget extends React.Component{
 		this.checkValidity()
 	}
 	changeMinute(e){
-		console.log("changeMinute")
 		var minute = e.target.value
 		this.state.value.minute(minute)
 		this.checkValidity()
 	}
 	changeSecond(e){
-		console.log("changeSecond")
 		var second = e.target.value
 		this.state.value.second(second)
 		this.checkValidity()

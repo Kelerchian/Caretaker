@@ -9,40 +9,40 @@
 	value: ["value","_rememberme"]
 }
 */
-class CaretakerFormInputCheckbox extends React.Component{
-	constructor(props){
-		super(props)
-		this.state = {}
-		this.loadValue(props)
+class CaretakerFormInputCheckbox extends CaretakerFormInputPrototype{
+	getDefaultValue(){
+		return new Set()
 	}
-	componentDidMount(){
-		this.updateParent()
+	loadedValueIsValid(){
+		return true
 	}
-	componentWillReceiveProps(props){
-		this.loadValue(props)
-		this.setState(this.state)
-	}
-	loadValue(props){
-		var value = new Set()
-		if(props.value != null){
+	transformValueBeforeLoad(value){
+		var set = new Set()
+		if(value != null){
 			try{
-				for(var i in props.value){
+				for(var i in value){
 					try{
-						value.add(props.value[i])
-					}catch(e){}
+						set.add(value[i])
+					}catch(e){console.error(e)}
 				}
 			}catch(e){console.error(e)}
 		}
-		this.state.value = value
+		return set
 	}
-	updateParent(){
-		if(this.props.onChange){
-			this.props.onChange(Array.from(this.state.value))
+	checkValidity(value){
+		if(this.isRequired()){
+			if(typeof this.props.values == "object" && this.props.values){
+				if(this.state.value.size < Object.keys(this.props.values)){
+					return false
+				}
+			}
 		}
-		this.setState(this.state)
+		return true
+	}
+	transformValueBeforeSave(value){
+		return Array.from(this.state.value)
 	}
 	onChange(index, value){
-
 		if(this.state.value.has(index)){
 			this.state.value.delete(index)
 		}else{
@@ -50,16 +50,8 @@ class CaretakerFormInputCheckbox extends React.Component{
 		}
 		this.updateParent()
 	}
-	getNegativePropKeys(){
+	removePropKeys(){
 		return ["values","value","options"]
-	}
-	getProps(){
-		var props = Object.assign({}, this.props)
-		this.getNegativePropKeys().forEach(function(key){
-			props[key] = null
-			delete props[key]
-		})
-		return props
 	}
 	getCheckboxes(){
 		var html = ""

@@ -10,41 +10,18 @@
 * }
 *
 */
-class CaretakerFormInputFile extends React.Component{
-	constructor(props){
-		super(props)
-		this.state = {}
-		this.loadValue(props)
+class CaretakerFormInputFile extends CaretakerFormInputPrototype{
+	getDefaultValue(){
+		return null
 	}
-	loadValue(props){
-		this.state.value = null
-		if(props.value != null){
-			this.state.value = props.value
+	checkValidity(value){
+		if(this.isRequired() && value == null){
+			return false;
 		}
+		return true
 	}
-	componentDidMount(){
-		this.updateParent()
-	}
-	componentWillReceiveProps(props){
-		this.loadValue(props)
-		this.setState(this.state)
-	}
-	updateParent(){
-		if(this.props.onChange){
-			this.props.onChange(this.state.value)
-		}
-		this.setState(this.state)
-	}
-	getNegativePropKeys(){
+	removePropKeys(){
 		return ["value","values"]
-	}
-	getProps(){
-		var props = Object.assign({}, this.props)
-		this.getNegativePropKeys(function(key){
-			props[key] = null
-			delete props[key]
-		})
-		return props
 	}
 	onChange(value){
 		this.state.value = value

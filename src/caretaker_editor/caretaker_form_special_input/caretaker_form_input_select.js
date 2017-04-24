@@ -9,46 +9,30 @@
 	defaultValue: "male"
 }
 */
-class CaretakerFormInputSelect extends React.Component{
-	constructor(props){
-		super(props)
-		this.state = {}
-		this.loadValue(props)
-	}
-	componentDidMount(){
-		this.updateParent()
-	}
-	componentWillReceiveProps(props){
-		this.loadValue(props)
-		this.setState(this.state)
-	}
-	loadValue(props){
-		this.state.value = ""
-		if(props.value){
-			this.state.value = props.value
-		}else if(props.defaultValue){
-			this.state.value = props.defaultValue
-		}
-	}
-	updateParent(){
-		if(this.props.onChange){
-			this.props.onChange(this.state.value)
-		}
-		this.setState(this.state)
-	}
+class CaretakerFormInputSelect extends CaretakerFormInputPrototype{
 	onChange(event){
 		this.state.value = event.target.value
 		this.updateParent()
 	}
-	getNegativePropKeys(){
-		return ["value","values","multiple","type"]
+	getDefaultValue(){
+		return ""
+	}
+	loadedValueIsValid(value){
+		return typeof value == "string"
+	}
+	checkValidity(value){
+		if(this.isRequired()){
+			if(value == ""){
+				return false
+			}
+		}
+		return true
+	}
+	removePropKeys(){
+		return ["multiple","type","required"]
 	}
 	getProps(){
-		var props = Object.assign({}, this.props)
-		this.getNegativePropKeys().forEach(function(key){
-			props[key] = null
-			delete props[key]
-		})
+		var props = this.getProtoProps()
 		props.value = this.state.value
 		props.onChange = this.onChange.bind(this)
 		return props

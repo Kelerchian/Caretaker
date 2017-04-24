@@ -9,43 +9,30 @@
 	value: "male"
 }
 */
-class CaretakerFormInputRadio extends React.Component{
-	constructor(props){
-		super(props)
-		this.state = {}
-		this.loadValue(props)
-	}
-	componentDidMount(){
-		this.updateParent()
-	}
-	componentWillReceiveProps(props){
-		this.loadValue(props)
-		this.setState(this.state)
-	}
-	loadValue(props){
-		if(props.value){
-			this.state.value = props.value
-		}
-	}
-	updateParent(){
-		if(this.props.onChange){
-			this.props.onChange(this.state.value)
-		}
-		this.setState(this.state)
-	}
+class CaretakerFormInputRadio extends CaretakerFormInputPrototype{
 	onChange(value){
 		this.state.value = value
 		this.updateParent()
 	}
-	getNegativePropKeys(){
-		return ["values","value","options","name"]
+	checkValidity(value){
+		if(this.isRequired()){
+			if(value == ""){
+				return false
+			}
+		}
+		return true
+	}
+	getDefaultValue(){
+		return ""
+	}
+	loadedValueIsValid(value){
+		return typeof value == "string"
+	}
+	removePropKeys(){
+		return ["options","name"]
 	}
 	getProps(){
-		var props = Object.assign({}, this.props)
-		this.getNegativePropKeys().forEach(function(key){
-			props[key] = null
-			delete props[key]
-		})
+		var props = this.getProtoProps()
 		return props
 	}
 	getCheckboxes(){

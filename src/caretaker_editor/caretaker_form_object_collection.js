@@ -8,15 +8,40 @@ class CaretakerFormObjectCollection extends React.Component{
 		if(this.state.minCount < 0){ throw "min count of multiple object cannot be fewer than 0" }
 		if(this.state.maxCount < this.state.minCount ){ throw "max count cannot be fewer than min count" }
 		this.state.value = []
+		this.state.isValid = []
 		this.loadValue(props)
 		this.state.childrenCount = this.state.value.count || this.state.minCount || 1
+	}
+	onReportValidity(isValid, name){
+		this.state.isValid[name] = isValid
+		this.reportValidity()
+	}
+	reportValidity(){
+		if(this.props.onReportValidity && this.state.isValidating){
+			if(this.isChildless()){
+				this.props.onReportValidity(this.props.required != true)
+			}else{
+				var isValid = true
+				for(var i = 0; i<this.state.childrenCount; i++){
+					if(this.state.isValid[i] != true){
+						isValid = false
+						break;
+					}
+				}
+				this.props.onReportValidity(isValid)
+			}
+		}
 	}
 	componentDidMount(){
 		this.updateParent()
 	}
 	componentWillReceiveProps(props){
 		this.loadValue(props)
+		this.state.isValidating = props.isValidating
 		this.setState(this.state)
+		if(this.isChildless()){
+			this.reportValidity()
+		}
 	}
 	loadValue(props){
 		if(props.value){
@@ -33,6 +58,7 @@ class CaretakerFormObjectCollection extends React.Component{
 			delete props[key]
 		})
 		props.onChange = this.onChange.bind(this)
+		props.onReportValidity = this.onReportValidity.bind(this)
 		return props
 	}
 	updateParent(){
@@ -41,6 +67,9 @@ class CaretakerFormObjectCollection extends React.Component{
 		}
 		this.setState(this.state)
 	}
+	isChildless(){
+		return this.state.value.length == 0
+	}
 	onChange(value,name){
 		this.state.value[name] = value
 		this.updateParent()
@@ -48,12 +77,14 @@ class CaretakerFormObjectCollection extends React.Component{
 	onRemoveChild(i){
 		if(this.state.childrenCount > this.state.minCount){
 			this.state.value.splice(i,1)
+			this.state.isValid.splice(i,1)
 			this.state.childrenCount--
 			this.updateParent()
 		}
 	}
 	onAddChild(){
 		if(this.state.childrenCount < this.state.maxCount){
+			this.state.value.push(null)
 			this.state.childrenCount++
 			this.updateParent()
 		}
