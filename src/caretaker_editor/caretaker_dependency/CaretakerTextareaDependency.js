@@ -406,7 +406,7 @@ module.exports = React;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -451,7 +451,7 @@ module.exports = reactProdInvariant;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule EditorState
- *
+ * 
  */
 
 
@@ -1394,7 +1394,7 @@ module.exports = EditorState;
       var array = this._array;
       var maxIndex = array.length - 1;
       var ii = 0;
-      return new Iterator(function()
+      return new Iterator(function() 
         {return ii > maxIndex ?
           iteratorDone() :
           iteratorValue(type, ii, array[reverse ? maxIndex - ii++ : ii++])}
@@ -1865,7 +1865,7 @@ module.exports = EditorState;
 
     Repeat.prototype.__iterator = function(type, reverse) {var this$0 = this;
       var ii = 0;
-      return new Iterator(function()
+      return new Iterator(function() 
         {return ii < this$0.size ? iteratorValue(type, ii++, this$0._value) : iteratorDone()}
       );
     };
@@ -4049,7 +4049,7 @@ module.exports = EditorState;
         return flipSequence;
       };
     }
-    reversedSequence.get = function(key, notSetValue)
+    reversedSequence.get = function(key, notSetValue) 
       {return iterable.get(useKeys ? key : -1 - key, notSetValue)};
     reversedSequence.has = function(key )
       {return iterable.has(useKeys ? key : -1 - key)};
@@ -4244,7 +4244,7 @@ module.exports = EditorState;
         return this.cacheResult().__iterate(fn, reverse);
       }
       var iterations = 0;
-      iterable.__iterate(function(v, k, c)
+      iterable.__iterate(function(v, k, c) 
         {return predicate.call(context, v, k, c) && ++iterations && fn(v, k, this$0)}
       );
       return iterations;
@@ -4435,7 +4435,7 @@ module.exports = EditorState;
     interposedSequence.size = iterable.size && iterable.size * 2 -1;
     interposedSequence.__iterateUncached = function(fn, reverse) {var this$0 = this;
       var iterations = 0;
-      iterable.__iterate(function(v, k)
+      iterable.__iterate(function(v, k) 
         {return (!iterations || fn(separator, iterations++, this$0) !== false) &&
         fn(v, iterations++, this$0) !== false},
         reverse
@@ -6346,7 +6346,7 @@ module.exports = ExecutionEnvironment;
  *
  * @providesModule DraftModifier
  * @typechecks
- *
+ * 
  */
 
 
@@ -6490,7 +6490,7 @@ module.exports = DraftModifier;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 function makeEmptyFunction(arg) {
@@ -6610,7 +6610,7 @@ module.exports = DraftPublic;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 var nullthrows = function nullthrows(x) {
@@ -6637,7 +6637,7 @@ module.exports = nullthrows;
  *
  * @providesModule CharacterMetadata
  * @typechecks
- *
+ * 
  */
 
 
@@ -6753,7 +6753,7 @@ module.exports = CharacterMetadata;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -6785,7 +6785,7 @@ module.exports = { debugTool: debugTool };
  *
  * @providesModule generateRandomKey
  * @typechecks
- *
+ * 
  */
 
 
@@ -7064,7 +7064,7 @@ module.exports = mapObject(UserAgent, memoizeStringOnly);
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -8021,7 +8021,7 @@ exports.default = function (_ref) {
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -8085,7 +8085,7 @@ module.exports = g;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule ContentBlock
- *
+ * 
  */
 
 
@@ -8528,7 +8528,7 @@ module.exports = UnicodeUtils;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -8993,7 +8993,7 @@ module.exports = ReactElement;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -9039,7 +9039,7 @@ module.exports = reactProdInvariant;
  *
  * @providesModule SelectionState
  * @typechecks
- *
+ * 
  */
 
 
@@ -9321,7 +9321,7 @@ exports.default = function (_ref) {
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule BlockMapBuilder
- *
+ * 
  */
 
 
@@ -9355,7 +9355,7 @@ module.exports = BlockMapBuilder;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule removeTextWithStrategy
- *
+ * 
  */
 
 
@@ -10759,7 +10759,7 @@ function splitReactElement(element) {
  *
  * @providesModule ContentState
  * @typechecks
- *
+ * 
  */
 
 
@@ -10963,7 +10963,7 @@ var _extends = _assign || function (target) { for (var i = 1; i < arguments.leng
  *
  * @providesModule DraftEntity
  * @typechecks
- *
+ * 
  */
 
 var DraftEntityInstance = __webpack_require__(104);
@@ -11157,7 +11157,7 @@ module.exports = DraftEntity;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule DraftOffsetKey
- *
+ * 
  */
 
 
@@ -11200,7 +11200,7 @@ module.exports = DraftOffsetKey;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule findRangesImmutable
- *
+ * 
  */
 
 
@@ -11251,7 +11251,7 @@ module.exports = findRangesImmutable;
  *
  * @providesModule getContentStateFragment
  * @typechecks
- *
+ * 
  */
 
 
@@ -11328,7 +11328,7 @@ module.exports = getContentStateFragment;
  *
  * @providesModule isEventHandled
  * @typechecks
- *
+ * 
  */
 
 
@@ -11477,7 +11477,7 @@ module.exports = SyntheticMouseEvent;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -12588,7 +12588,7 @@ module.exports = LinkifyIt;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule DefaultDraftBlockRenderMap
- *
+ * 
  */
 
 
@@ -12665,7 +12665,7 @@ module.exports = DefaultDraftBlockRenderMap;
  *
  * @providesModule KeyBindingUtil
  * @typechecks
- *
+ * 
  */
 
 
@@ -12710,7 +12710,7 @@ module.exports = KeyBindingUtil;
  *
  * @providesModule findAncestorOffsetKey
  * @typechecks
- *
+ * 
  */
 
 
@@ -12749,7 +12749,7 @@ module.exports = findAncestorOffsetKey;
  *
  * @providesModule getEntityKeyForSelection
  * @typechecks
- *
+ * 
  */
 
 
@@ -12809,7 +12809,7 @@ module.exports = getEntityKeyForSelection;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule moveSelectionBackward
- *
+ * 
  */
 
 
@@ -12867,7 +12867,7 @@ module.exports = moveSelectionBackward;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule sanitizeDraftText
- *
+ * 
  */
 
 
@@ -13006,7 +13006,7 @@ module.exports = Style;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @typechecks
- *
+ * 
  */
 
 /**
@@ -13122,7 +13122,7 @@ module.exports = UnicodeBidiDirection;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 var isTextNode = __webpack_require__(276);
@@ -13219,7 +13219,7 @@ module.exports = getScrollPosition;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @typechecks
- *
+ * 
  */
 
 /*eslint-disable no-self-compare */
@@ -13547,7 +13547,7 @@ module.exports = DOMNamespaces;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -14040,7 +14040,7 @@ module.exports = EventPluginUtils;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -14578,7 +14578,7 @@ module.exports = ReactBrowserEventEmitter;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -14630,7 +14630,7 @@ module.exports = ReactComponentEnvironment;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -15728,7 +15728,7 @@ module.exports = ReactNoopUpdateQueue;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -15759,7 +15759,7 @@ module.exports = ReactPropTypeLocationNames;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -15791,7 +15791,7 @@ module.exports = canDefineProperty;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -16082,7 +16082,7 @@ function updateMutation(mutation, originalOffset, originalLength, newLength, pre
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule BlockTree
- *
+ * 
  */
 
 
@@ -16200,7 +16200,7 @@ module.exports = BlockTree;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule DefaultDraftInlineStyle
- *
+ * 
  */
 
 
@@ -16243,7 +16243,7 @@ module.exports = {
  *
  * @providesModule DraftEditorBlock.react
  * @typechecks
- *
+ * 
  */
 
 
@@ -16456,7 +16456,7 @@ module.exports = DraftEditorBlock;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule DraftEntityInstance
- *
+ * 
  */
 
 
@@ -16531,7 +16531,7 @@ module.exports = DraftEntityInstance;
  *
  * @providesModule DraftRemovableWord
  * @typechecks
- *
+ * 
  */
 
 
@@ -16588,7 +16588,7 @@ module.exports = DraftRemovableWord;
  *
  * @providesModule DraftStringKey
  * @typechecks
- *
+ * 
  */
 
 
@@ -16620,7 +16620,7 @@ module.exports = DraftStringKey;
  *
  * @providesModule convertFromHTMLToContentBlocks
  * @typechecks
- *
+ * 
  */
 
 
@@ -17142,7 +17142,7 @@ module.exports = convertFromHTMLtoContentBlocks;
  *
  * @providesModule getDefaultKeyBinding
  * @typechecks
- *
+ * 
  */
 
 
@@ -17272,7 +17272,7 @@ module.exports = getDefaultKeyBinding;
  *
  * @providesModule getDraftEditorSelectionWithNodes
  * @typechecks
- *
+ * 
  */
 
 
@@ -17457,7 +17457,7 @@ module.exports = getDraftEditorSelectionWithNodes;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule getFragmentFromSelection
- *
+ * 
  */
 
 
@@ -17491,7 +17491,7 @@ module.exports = getFragmentFromSelection;
  *
  * @providesModule getRangeClientRects
  * @typechecks
- *
+ * 
  */
 
 
@@ -17560,7 +17560,7 @@ module.exports = getRangeClientRects;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule getSafeBodyFromHTML
- *
+ * 
  */
 
 
@@ -17602,7 +17602,7 @@ module.exports = getSafeBodyFromHTML;
  *
  * @providesModule getSelectionOffsetKeyForNode
  * @typechecks
- *
+ * 
  */
 
 
@@ -17644,7 +17644,7 @@ module.exports = getSelectionOffsetKeyForNode;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule getTextContentFromFiles
- *
+ * 
  */
 
 
@@ -17726,7 +17726,7 @@ module.exports = getTextContentFromFiles;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule getUpdatedSelectionState
- *
+ * 
  */
 
 
@@ -17808,7 +17808,7 @@ module.exports = getUpdatedSelectionState;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule insertIntoList
- *
+ * 
  */
 
 
@@ -17850,7 +17850,7 @@ module.exports = insertIntoList;
  *
  * @providesModule isSelectionAtLeafStart
  * @typechecks
- *
+ * 
  */
 
 
@@ -17903,7 +17903,7 @@ module.exports = isSelectionAtLeafStart;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule moveSelectionForward
- *
+ * 
  */
 
 
@@ -17953,7 +17953,7 @@ module.exports = moveSelectionForward;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule removeEntitiesAtEdges
- *
+ * 
  */
 
 
@@ -18469,7 +18469,7 @@ module.exports = Scroll;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @typechecks
- *
+ * 
  */
 
 /**
@@ -18915,7 +18915,7 @@ module.exports = hyphenate;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  * @typechecks static-only
  */
 
@@ -19326,7 +19326,7 @@ module.exports = memoizeStringOnly;
       var array = this._array;
       var maxIndex = array.length - 1;
       var ii = 0;
-      return new Iterator(function()
+      return new Iterator(function() 
         {return ii > maxIndex ?
           iteratorDone() :
           iteratorValue(type, ii, array[reverse ? maxIndex - ii++ : ii++])}
@@ -19797,7 +19797,7 @@ module.exports = memoizeStringOnly;
 
     Repeat.prototype.__iterator = function(type, reverse) {var this$0 = this;
       var ii = 0;
-      return new Iterator(function()
+      return new Iterator(function() 
         {return ii < this$0.size ? iteratorValue(type, ii++, this$0._value) : iteratorDone()}
       );
     };
@@ -21995,7 +21995,7 @@ module.exports = memoizeStringOnly;
         return flipSequence;
       };
     }
-    reversedSequence.get = function(key, notSetValue)
+    reversedSequence.get = function(key, notSetValue) 
       {return iterable.get(useKeys ? key : -1 - key, notSetValue)};
     reversedSequence.has = function(key )
       {return iterable.has(useKeys ? key : -1 - key)};
@@ -22194,7 +22194,7 @@ module.exports = memoizeStringOnly;
         return this.cacheResult().__iterate(fn, reverse);
       }
       var iterations = 0;
-      iterable.__iterate(function(v, k, c)
+      iterable.__iterate(function(v, k, c) 
         {return predicate.call(context, v, k, c) && ++iterations && fn(v, k, this$0)}
       );
       return iterations;
@@ -22385,7 +22385,7 @@ module.exports = memoizeStringOnly;
     interposedSequence.size = iterable.size && iterable.size * 2 -1;
     interposedSequence.__iterateUncached = function(fn, reverse) {var this$0 = this;
       var iterations = 0;
-      iterable.__iterate(function(v, k)
+      iterable.__iterate(function(v, k) 
         {return (!iterations || fn(separator, iterations++, this$0) !== false) &&
         fn(v, iterations++, this$0) !== false},
         reverse
@@ -24087,7 +24087,7 @@ module.exports = CSSProperty;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -24995,7 +24995,7 @@ module.exports = ReactInputSelection;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -25377,7 +25377,7 @@ module.exports = ViewportMetrics;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -25441,7 +25441,7 @@ module.exports = accumulateInto;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -25649,7 +25649,7 @@ module.exports = instantiateReactComponent;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -25991,7 +25991,7 @@ module.exports = traverseAllChildren;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -26256,7 +26256,7 @@ module.exports = ReactElementValidator;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -27928,7 +27928,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-var inlineToolbarPlugin = __WEBPACK_IMPORTED_MODULE_3_draft_js_inline_toolbar_plugin___default()({
+var inlineToolbarPluginParams = {
   structure: [
     __WEBPACK_IMPORTED_MODULE_7_draft_js_buttons__["BoldButton"],
     __WEBPACK_IMPORTED_MODULE_7_draft_js_buttons__["ItalicButton"],
@@ -27942,19 +27942,19 @@ var inlineToolbarPlugin = __WEBPACK_IMPORTED_MODULE_3_draft_js_inline_toolbar_pl
     __WEBPACK_IMPORTED_MODULE_7_draft_js_buttons__["OrderedListButton"],
     __WEBPACK_IMPORTED_MODULE_7_draft_js_buttons__["BlockquoteButton"]
   ]
-});
-var {InlineToolbar} = inlineToolbarPlugin
-var pluginsHTML = [
-	__WEBPACK_IMPORTED_MODULE_1_draft_js_undo_plugin___default()(),
-	__WEBPACK_IMPORTED_MODULE_2_draft_js_linkify_plugin___default()(),
-	inlineToolbarPlugin
-]
+}
+var pluginsHTML = {
+	createUndoPlugin: __WEBPACK_IMPORTED_MODULE_1_draft_js_undo_plugin___default.a,
+	createLinkifyPlugin: __WEBPACK_IMPORTED_MODULE_2_draft_js_linkify_plugin___default.a,
+	createInlineToolbarPlugin: __WEBPACK_IMPORTED_MODULE_3_draft_js_inline_toolbar_plugin___default.a,
+	inlineToolbarPluginParams: inlineToolbarPluginParams
+}
+
 
 var Textarea = {
 	pluginsHTML: pluginsHTML,
 	Editor: __WEBPACK_IMPORTED_MODULE_0_draft_js_plugins_editor___default.a,
 	EditorState: __WEBPACK_IMPORTED_MODULE_5_draft_js__["EditorState"],
-	InlineToolbar: InlineToolbar,
 	ContentState: __WEBPACK_IMPORTED_MODULE_5_draft_js__["ContentState"],
 	convertToRaw: __WEBPACK_IMPORTED_MODULE_5_draft_js__["convertToRaw"],
 	convertFromHTML: __WEBPACK_IMPORTED_MODULE_5_draft_js__["convertFromHTML"],
@@ -29651,7 +29651,7 @@ exports.default = function (object) {
       var array = this._array;
       var maxIndex = array.length - 1;
       var ii = 0;
-      return new Iterator(function()
+      return new Iterator(function() 
         {return ii > maxIndex ?
           iteratorDone() :
           iteratorValue(type, ii, array[reverse ? maxIndex - ii++ : ii++])}
@@ -30122,7 +30122,7 @@ exports.default = function (object) {
 
     Repeat.prototype.__iterator = function(type, reverse) {var this$0 = this;
       var ii = 0;
-      return new Iterator(function()
+      return new Iterator(function() 
         {return ii < this$0.size ? iteratorValue(type, ii++, this$0._value) : iteratorDone()}
       );
     };
@@ -32306,7 +32306,7 @@ exports.default = function (object) {
         return flipSequence;
       };
     }
-    reversedSequence.get = function(key, notSetValue)
+    reversedSequence.get = function(key, notSetValue) 
       {return iterable.get(useKeys ? key : -1 - key, notSetValue)};
     reversedSequence.has = function(key )
       {return iterable.has(useKeys ? key : -1 - key)};
@@ -32501,7 +32501,7 @@ exports.default = function (object) {
         return this.cacheResult().__iterate(fn, reverse);
       }
       var iterations = 0;
-      iterable.__iterate(function(v, k, c)
+      iterable.__iterate(function(v, k, c) 
         {return predicate.call(context, v, k, c) && ++iterations && fn(v, k, this$0)}
       );
       return iterations;
@@ -32692,7 +32692,7 @@ exports.default = function (object) {
     interposedSequence.size = iterable.size && iterable.size * 2 -1;
     interposedSequence.__iterateUncached = function(fn, reverse) {var this$0 = this;
       var iterations = 0;
-      iterable.__iterate(function(v, k)
+      iterable.__iterate(function(v, k) 
         {return (!iterations || fn(separator, iterations++, this$0) !== false) &&
         fn(v, iterations++, this$0) !== false},
         reverse
@@ -35691,7 +35691,7 @@ exports.default = UndoButton;
  *
  * @providesModule AtomicBlockUtils
  * @typechecks
- *
+ * 
  */
 
 
@@ -35766,7 +35766,7 @@ module.exports = AtomicBlockUtils;
  *
  * @providesModule CompositeDraftDecorator
  * @typechecks
- *
+ * 
  */
 
 
@@ -35886,7 +35886,7 @@ module.exports = CompositeDraftDecorator;
  *
  * @providesModule ContentStateInlineStyle
  * @typechecks
- *
+ * 
  */
 
 
@@ -35966,7 +35966,7 @@ module.exports = ContentStateInlineStyle;
  *
  * @providesModule DraftEditor.react
  * @typechecks
- *
+ * 
  * @preventMunge
  */
 
@@ -36407,7 +36407,7 @@ module.exports = DraftEditor;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule DraftEditorCompositionHandler
- *
+ * 
  */
 
 
@@ -36583,7 +36583,7 @@ module.exports = DraftEditorCompositionHandler;
  *
  * @providesModule DraftEditorContents.react
  * @typechecks
- *
+ * 
  */
 
 
@@ -36832,7 +36832,7 @@ module.exports = DraftEditorContents;
  *
  * @providesModule DraftEditorDragHandler
  * @typechecks
- *
+ * 
  */
 
 
@@ -36954,7 +36954,7 @@ module.exports = DraftEditorDragHandler;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule DraftEditorEditHandler
- *
+ * 
  */
 
 
@@ -37004,7 +37004,7 @@ module.exports = DraftEditorEditHandler;
  *
  * @providesModule DraftEditorLeaf.react
  * @typechecks
- *
+ * 
  */
 
 
@@ -37169,7 +37169,7 @@ module.exports = DraftEditorLeaf;
  *
  * @providesModule DraftEditorPlaceholder.react
  * @typechecks
- *
+ * 
  */
 
 
@@ -37244,7 +37244,7 @@ module.exports = DraftEditorPlaceholder;
  *
  * @providesModule DraftEditorTextNode.react
  * @typechecks
- *
+ * 
  */
 
 
@@ -37358,7 +37358,7 @@ module.exports = DraftEditorTextNode;
  *
  * @providesModule DraftEntitySegments
  * @typechecks
- *
+ * 
  */
 
 
@@ -37463,7 +37463,7 @@ module.exports = DraftEntitySegments;
  *
  * @providesModule DraftPasteProcessor
  * @typechecks
- *
+ * 
  */
 
 
@@ -37515,7 +37515,7 @@ module.exports = DraftPasteProcessor;
  *
  * @providesModule EditorBidiService
  * @typechecks
- *
+ * 
  */
 
 
@@ -37569,7 +37569,7 @@ module.exports = EditorBidiService;
  *
  * @providesModule RichTextEditorUtil
  * @typechecks
- *
+ * 
  */
 
 
@@ -37879,7 +37879,7 @@ module.exports = RichTextEditorUtil;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule SecondaryClipboard
- *
+ * 
  */
 
 
@@ -37955,7 +37955,7 @@ module.exports = SecondaryClipboard;
  *
  * @providesModule adjustBlockDepthForContentState
  * @typechecks
- *
+ * 
  */
 
 
@@ -38000,7 +38000,7 @@ module.exports = adjustBlockDepthForContentState;
  *
  * @providesModule applyEntityToContentBlock
  * @typechecks
- *
+ * 
  */
 
 
@@ -38033,7 +38033,7 @@ module.exports = applyEntityToContentBlock;
  *
  * @providesModule applyEntityToContentState
  * @typechecks
- *
+ * 
  */
 
 
@@ -38082,7 +38082,7 @@ module.exports = applyEntityToContentState;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule convertFromDraftStateToRaw
- *
+ * 
  */
 
 
@@ -38154,7 +38154,7 @@ module.exports = convertFromDraftStateToRaw;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule convertFromRawToDraftState
- *
+ * 
  */
 
 
@@ -38244,7 +38244,7 @@ module.exports = convertFromRawToDraftState;
  *
  * @providesModule createCharacterList
  * @typechecks
- *
+ * 
  */
 
 
@@ -38280,7 +38280,7 @@ module.exports = createCharacterList;
  *
  * @providesModule decodeEntityRanges
  * @typechecks
- *
+ * 
  */
 
 
@@ -38326,7 +38326,7 @@ module.exports = decodeEntityRanges;
  *
  * @providesModule decodeInlineStyleRanges
  * @typechecks
- *
+ * 
  */
 
 
@@ -38375,7 +38375,7 @@ module.exports = decodeInlineStyleRanges;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnBeforeInput
- *
+ * 
  */
 
 
@@ -38516,7 +38516,7 @@ module.exports = editOnBeforeInput;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnBlur
- *
+ * 
  */
 
 
@@ -38567,7 +38567,7 @@ module.exports = editOnBlur;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnCompositionStart
- *
+ * 
  */
 
 
@@ -38601,7 +38601,7 @@ module.exports = editOnCompositionStart;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnCopy
- *
+ * 
  */
 
 
@@ -38642,7 +38642,7 @@ module.exports = editOnCopy;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnCut
- *
+ * 
  */
 
 
@@ -38718,7 +38718,7 @@ module.exports = editOnCut;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnDragOver
- *
+ * 
  */
 
 
@@ -38748,7 +38748,7 @@ module.exports = editOnDragOver;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnDragStart
- *
+ * 
  */
 
 
@@ -38777,7 +38777,7 @@ module.exports = editOnDragStart;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnFocus
- *
+ * 
  */
 
 
@@ -38819,7 +38819,7 @@ module.exports = editOnFocus;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnInput
- *
+ * 
  */
 
 
@@ -38971,7 +38971,7 @@ module.exports = editOnInput;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnKeyDown
- *
+ * 
  */
 
 
@@ -39125,7 +39125,7 @@ module.exports = editOnKeyDown;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnPaste
- *
+ * 
  */
 
 
@@ -39291,7 +39291,7 @@ module.exports = editOnPaste;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnSelect
- *
+ * 
  */
 
 
@@ -39337,7 +39337,7 @@ module.exports = editOnSelect;
  *
  * @providesModule encodeEntityRanges
  * @typechecks
- *
+ * 
  */
 
 
@@ -39384,7 +39384,7 @@ module.exports = encodeEntityRanges;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule encodeInlineStyleRanges
- *
+ * 
  */
 
 
@@ -39461,7 +39461,7 @@ module.exports = encodeInlineStyleRanges;
  *
  * @providesModule expandRangeToStartOfLine
  * @typechecks
- *
+ * 
  */
 
 var UnicodeUtils = __webpack_require__(26);
@@ -39655,7 +39655,7 @@ module.exports = expandRangeToStartOfLine;
  *
  * @providesModule getCharacterRemovalRange
  * @typechecks
- *
+ * 
  */
 
 
@@ -39738,7 +39738,7 @@ module.exports = getCharacterRemovalRange;
  *
  * @providesModule getDraftEditorSelection
  * @typechecks
- *
+ * 
  */
 
 
@@ -39781,7 +39781,7 @@ module.exports = getDraftEditorSelection;
  *
  * @providesModule getRangeBoundingClientRect
  * @typechecks
- *
+ * 
  */
 
 
@@ -39847,7 +39847,7 @@ module.exports = getRangeBoundingClientRect;
  *
  * @providesModule getRangesForDraftEntity
  * @typechecks
- *
+ * 
  */
 
 
@@ -39893,7 +39893,7 @@ module.exports = getRangesForDraftEntity;
  *
  * @providesModule getVisibleSelectionRect
  * @typechecks
- *
+ * 
  */
 
 
@@ -39946,7 +39946,7 @@ module.exports = getVisibleSelectionRect;
  *
  * @providesModule insertFragmentIntoContentState
  * @typechecks
- *
+ * 
  */
 
 
@@ -40079,7 +40079,7 @@ module.exports = insertFragmentIntoContentState;
  *
  * @providesModule insertTextIntoContentState
  * @typechecks
- *
+ * 
  */
 
 
@@ -40139,7 +40139,7 @@ module.exports = insertTextIntoContentState;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandBackspaceToStartOfLine
- *
+ * 
  */
 
 
@@ -40189,7 +40189,7 @@ module.exports = keyCommandBackspaceToStartOfLine;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandBackspaceWord
- *
+ * 
  */
 
 
@@ -40242,7 +40242,7 @@ module.exports = keyCommandBackspaceWord;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandDeleteWord
- *
+ * 
  */
 
 
@@ -40293,7 +40293,7 @@ module.exports = keyCommandDeleteWord;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandInsertNewline
- *
+ * 
  */
 
 
@@ -40322,7 +40322,7 @@ module.exports = keyCommandInsertNewline;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandMoveSelectionToEndOfBlock
- *
+ * 
  */
 
 
@@ -40365,7 +40365,7 @@ module.exports = keyCommandMoveSelectionToEndOfBlock;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandMoveSelectionToStartOfBlock
- *
+ * 
  */
 
 
@@ -40408,7 +40408,7 @@ module.exports = keyCommandMoveSelectionToStartOfBlock;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandPlainBackspace
- *
+ * 
  */
 
 
@@ -40458,7 +40458,7 @@ module.exports = keyCommandPlainBackspace;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandPlainDelete
- *
+ * 
  */
 
 
@@ -40509,7 +40509,7 @@ module.exports = keyCommandPlainDelete;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandTransposeCharacters
- *
+ * 
  */
 
 
@@ -40593,7 +40593,7 @@ module.exports = keyCommandTransposeCharacters;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandUndo
- *
+ * 
  */
 
 
@@ -40648,7 +40648,7 @@ module.exports = keyCommandUndo;
  *
  * @providesModule modifyBlockForContentState
  * @typechecks
- *
+ * 
  */
 
 
@@ -40691,7 +40691,7 @@ module.exports = modifyBlockForContentState;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule removeRangeFromContentState
- *
+ * 
  */
 
 
@@ -40789,7 +40789,7 @@ module.exports = removeRangeFromContentState;
  *
  * @providesModule setDraftEditorSelection
  * @typechecks
- *
+ * 
  */
 
 
@@ -40929,7 +40929,7 @@ module.exports = setDraftEditorSelection;
  *
  * @providesModule splitBlockInContentState
  * @typechecks
- *
+ * 
  */
 
 
@@ -41004,7 +41004,7 @@ module.exports = splitBlockInContentState;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule splitTextIntoTextBlocks
- *
+ * 
  */
 
 
@@ -41066,7 +41066,7 @@ module.exports = PhotosMimeType;
  *
  * @typechecks
  * @stub
- *
+ * 
  */
 
 
@@ -41107,7 +41107,7 @@ module.exports = {
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -41144,7 +41144,7 @@ module.exports = URI;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @typechecks
- *
+ * 
  */
 
 /**
@@ -42166,7 +42166,7 @@ function getViewportWidth() {
    * LICENSE file in the root directory of this source tree. An additional grant
    * of patent rights can be found in the PATENTS file in the same directory.
    *
-   *
+   * 
    * @typechecks
    */
 
@@ -47632,7 +47632,7 @@ module.exports = {
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -48090,7 +48090,7 @@ module.exports = {
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -48313,7 +48313,7 @@ module.exports = ReactEventListener;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -48340,7 +48340,7 @@ module.exports = ReactFeatureFlags;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -48418,7 +48418,7 @@ module.exports = ReactInjection;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -48972,7 +48972,7 @@ module.exports = ReactMultiChild;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -49018,7 +49018,7 @@ module.exports = ReactNodeTypes;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -49118,7 +49118,7 @@ module.exports = ReactOwner;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -49333,7 +49333,7 @@ module.exports = ReactReconcileTransaction;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -49550,7 +49550,7 @@ module.exports = {
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -50217,7 +50217,7 @@ module.exports = SelectEventPlugin;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -50945,7 +50945,7 @@ module.exports = SyntheticWheelEvent;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -51172,7 +51172,7 @@ module.exports = dangerousStyleValue;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -51361,7 +51361,7 @@ module.exports = getEventKey;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -51407,7 +51407,7 @@ module.exports = getIteratorFn;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -51649,7 +51649,7 @@ module.exports = quoteAttributeValueForBrowser;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -51713,7 +51713,7 @@ module.exports = KeyEscapeUtils;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 

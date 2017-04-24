@@ -35,7 +35,6 @@ class CaretakerFormInputPrototype extends React.Component{
 			this.state.validationUpdated = true
 			this.props.onReportValidity(this.state.isValid)
 		}
-		this.setState(this.state)
 	}
 	getNegativePropKeys(){
 		return ["value","values","defaultValue","onReportValidity","isValidating"]
@@ -61,7 +60,6 @@ class CaretakerFormInputPrototype extends React.Component{
 			this.props.onChange(this.transformValueBeforeSave(this.state.value))
 		}
 		this.state.validationUpdated = false
-		this.setState(this.state)
 	}
 	isRequired(){
 		return this.props.required

@@ -1,6 +1,17 @@
 class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
+	setInitialState(state){
+		state.editorState = CaretakerTextareaDependency.EditorState.createEmpty()
+		state.inlineToolbarPlugin = CaretakerTextareaDependency.pluginsHTML.createInlineToolbarPlugin(CaretakerTextareaDependency.inlineToolbarPluginParams)
+		state.plugin = [
+			CaretakerTextareaDependency.pluginsHTML.createUndoPlugin(),
+			CaretakerTextareaDependency.pluginsHTML.createLinkifyPlugin(),
+			state.inlineToolbarPlugin
+		]
+		state.inlineToolbar = state.inlineToolbarPlugin.InlineToolbar
+		return state
+	}
 	getDefaultValue(){
-		return CaretakerTextareaDependency.EditorState.createEmpty()
+		return ""
 	}
 	loadedValueIsValid(){
 		return true
@@ -13,7 +24,8 @@ class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
 	}
 	normalize(text){
 		text = this.stripScript(text)
-		var normalizer = document.createElement('div')
+		this.state.normalizer = this.state.normalizer || document.createElement('div')
+		var normalizer = this.state.normalizer
 		normalizer.innerHTML = text
 		var as = normalizer.querySelectorAll('a')
 		for(var i in as){
@@ -56,39 +68,39 @@ class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
 		return text
 	}
 	getCurrentValue(){
-		if(!this.state.value){
-			return this.getDefaultValue()
-		}else{
-			return this.state.value
+		if(!this.state.editorState){
+			this.state.editorState = CaretakerTextareaDependency.EditorState.createEmpty()
 		}
+		return CaretakerTextareaDependency.convertToHTML(this.state.editorState.getCurrentContent())
 	}
 	checkValidity(value){
-		var currentValueHTML = CaretakerTextareaDependency.convertToHTML(value)
+		var currentValueHTML = this.getCurrentValue()
 		if(this.isRequired() && currentValueHTML == ""){
 			return false
 		}
 		return true
 	}
-	transformValueBeforeLoad(value){
+	modifyValueAfterLoad(value){
 		var currentValue = this.getCurrentValue()
-		var currentValueHTML = CaretakerTextareaDependency.convertToHTML(currentValue)
 		value = value || ""
 		value = this.normalize(value)
 		if(currentValue != value){
 			var blocksFromHTML = CaretakerTextareaDependency.convertFromHTML(value)
 			var contentState = CaretakerTextareaDependency.ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap)
-			currentValue = CaretakerTextareaDependency.EditorState.createWithContent(contentState)
+			this.state.editorState = CaretakerTextareaDependency.EditorState.createWithContent(contentState)
 		}
-		return currentValue
+	}
+	transformValueBeforeLoad(value){
+		return this.normalize(value)
 	}
 	transformValueBeforeSave(value){
-		return this.linkify(CaretakerTextareaDependency.convertToHTML(value.getCurrentContent()))
+		return this.linkify(CaretakerTextareaDependency.convertToHTML(this.state.editorState.getCurrentContent()))
 	}
 	focus(){
 		this.editor.focus()
 	}
 	onChange(editorState){
-		this.state.value = editorState
+		this.state.editorState = editorState
 		this.updateParent()
 	}
 	removePropKeys(){
@@ -96,14 +108,14 @@ class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
 	}
 	modifyProps(props){
 		props.onChange = this.onChange.bind(this)
-		props.editorState = this.state.value
-		props.plugins = CaretakerTextareaDependency.pluginsHTML
+		props.editorState = this.state.editorState
+		props.plugins = this.state.plugin
 		props.ref = (element) => {this.editor = element}
 		props.key = "textarea_html"
 		return props
 	}
 	getTextarea(){
-		return [React.createElement(CaretakerTextareaDependency.Editor, this.getProps()), React.createElement(CaretakerTextareaDependency.InlineToolbar, {key:"toolbar"})]
+		return [React.createElement(CaretakerTextareaDependency.Editor, this.getProps()), React.createElement(this.state.inlineToolbar, {key:"toolbar"})]
 	}
 	render(){
 		return React.createElement('div',{className: "CaretakerFormInputTextareaHTML", onClick: this.focus.bind(this)}, (

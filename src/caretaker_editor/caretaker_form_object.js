@@ -114,7 +114,6 @@ class CaretakerFormObject extends React.Component{
 			this.props.onChange(this.state.value, this.state.name)
 		}
 		this.state.validationUpdated = false
-		this.setState(this.state)
 	}
 	onChange(value, name){
 		if(name != null){
@@ -204,15 +203,36 @@ class CaretakerFormObject extends React.Component{
 			return React.createElement(CaretakerInput,props)
 		}
 	}
+	appearanceGetErrorMessage(){
+		if(typeof this.state.isValid == "string"){
+			return React.createElement('div', {className:"CaretakerErrorMessage", key:"errorMessage"}, this.state.isValid)
+		}else if (Array.isArray(this.state.isValid) && this.state.isValid > 0){
+			if(this.state.isValid.length == 1){
+				return React.createElement('div', {className:"CaretakerErrorMessage", key:"errorMessage"}, this.state.isValid[0])
+			}else if(this.state.isValid.length > 1){
+				return React.createElement('div', {className:"CaretakerErrorMessage", key:"errorMessage"}, (
+					React.createElement('ul', {}, (function(){
+						var lis = []
+						for(var i in this.state.isValid){
+							var message = this.state.isValid[i]
+							lis.push(React.createElement('li',{key:i}, message))
+						}
+					}()))
+				))
+			}
+		}
+	}
 	appearanceGetInsideObjectContainer(){
 		var insideObjectContainer = []
 
 		var label = this.appearanceGetLabel();
 		var description = this.appearanceGetDescription()
+		var errorMessages = this.appearanceGetErrorMessage()
 		var object = this.appearanceGetObject();
 
 		if(label){ insideObjectContainer.push(label) }
 		if(description){ insideObjectContainer.push(description) }
+		if(errorMessages){ insideObjectContainer.push(errorMessages) }
 		if(object){ insideObjectContainer.push(object) }
 
 		return insideObjectContainer

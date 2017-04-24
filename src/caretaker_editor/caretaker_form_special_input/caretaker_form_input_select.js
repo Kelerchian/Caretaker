@@ -46,9 +46,9 @@ class CaretakerFormInputSelect extends CaretakerFormInputPrototype{
 		var optionElements = []
 		for(var i in options){
 			var option = options[i]
-			var value = option.value || i
-			var key = option.value || i
-			var text = option.text || i
+			var value = i
+			var key = i
+			var text = option
 			var prop = {value:value, key:key}
 			optionElements.push(React.createElement('option',prop, text))
 		}
