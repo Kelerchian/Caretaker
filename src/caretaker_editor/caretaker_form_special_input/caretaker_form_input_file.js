@@ -14,6 +14,12 @@ class CaretakerFormInputFile extends CaretakerFormInputPrototype{
 	getDefaultValue(){
 		return null
 	}
+	loadedValueIsValid(value){
+		if(value != null && !(value instanceof Caretaker.UploadedFile) && typeof value != "object"  ){
+			return false
+		}
+		return true
+	}
 	checkValidity(value){
 		if(this.isRequired() && value == null){
 			return false;

@@ -44,14 +44,23 @@
 	padding-top: 1.4rem;
 }
 
+.CaretakerFormObject>.CaretakerLabel,
+.CaretakerFormObject>.CaretakerDescription,
+.CaretakerFormObject>.CaretakerErrorMessage{
+	margin-bottom: 0.2rem;
+}
+
+.CaretakerFormObject>.CaretakerErrorMessage{
+	color: rgb(214,45,45);
+	font-size: 0.7em;
+}
+
 .CaretakerFormObject>.CaretakerLabel{
 	font-weight: bold;
-	margin-bottom: 0.2rem;
 }
 
 .CaretakerFormObject>.CaretakerDescription{
 	margin: 0;
-	margin-bottom: 0.2rem;
 	font-size: 0.8em;
 }
 

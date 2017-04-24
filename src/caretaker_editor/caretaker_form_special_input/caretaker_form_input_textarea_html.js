@@ -1,7 +1,7 @@
 class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
 	setInitialState(state){
 		state.editorState = CaretakerTextareaDependency.EditorState.createEmpty()
-		state.inlineToolbarPlugin = CaretakerTextareaDependency.pluginsHTML.createInlineToolbarPlugin(CaretakerTextareaDependency.inlineToolbarPluginParams)
+		state.inlineToolbarPlugin = CaretakerTextareaDependency.pluginsHTML.createInlineToolbarPlugin(CaretakerTextareaDependency.pluginsHTML.inlineToolbarPluginParams)
 		state.plugin = [
 			CaretakerTextareaDependency.pluginsHTML.createUndoPlugin(),
 			CaretakerTextareaDependency.pluginsHTML.createLinkifyPlugin(),
@@ -67,16 +67,26 @@ class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
 		}
 		return text
 	}
+	checkHasContent(html){
+		this.state.normalizer = this.state.normalizer || document.createElement('div')
+		var normalizer = this.state.normalizer
+		normalizer.innerHTML = html
+		if(normalizer.innerText.trim() == ""){
+			return false
+		}else{
+			return true
+		}
+	}
 	getCurrentValue(){
 		if(!this.state.editorState){
 			this.state.editorState = CaretakerTextareaDependency.EditorState.createEmpty()
 		}
 		return CaretakerTextareaDependency.convertToHTML(this.state.editorState.getCurrentContent())
 	}
-	checkValidity(value){
+	checkValidity(){
 		var currentValueHTML = this.getCurrentValue()
-		if(this.isRequired() && currentValueHTML == ""){
-			return false
+		if(this.isRequired() && !this.checkHasContent(currentValueHTML)){
+			return "This must be filled"
 		}
 		return true
 	}
@@ -88,7 +98,6 @@ class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
 			var blocksFromHTML = CaretakerTextareaDependency.convertFromHTML(value)
 			var contentState = CaretakerTextareaDependency.ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap)
 			this.state.editorState = CaretakerTextareaDependency.EditorState.createWithContent(contentState)
-			this.setState(this.state)
 		}
 	}
 	transformValueBeforeLoad(value){

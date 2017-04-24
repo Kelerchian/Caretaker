@@ -31,7 +31,7 @@ class CaretakerInput extends React.Component{
 		}
 	}
 	onReportValidity(isValid){
-		this.state.isValid = isValid == true
+		this.state.isValid = isValid
 		this.state.validationUpdated = false
 		this.reportValidity()
 	}
