@@ -51,7 +51,7 @@ class CaretakerFormObject extends React.Component{
 			}else{
 				this.props.onReportValidity(this.state.isValid, this.props.name)
 			}
-			this.setState(this.state)
+			// this.setState(this.state)
 		}
 	}
 	componentDidMount(){
@@ -60,7 +60,7 @@ class CaretakerFormObject extends React.Component{
 	componentWillReceiveProps(props){
 		this.loadValue(props)
 		this.state.isValidating = props.isValidating
-		this.setState(this.state)
+		// this.setState(this.state)
 		if(this.isChildless()){
 			this.state.isValid = true
 			this.reportValidity()

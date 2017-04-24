@@ -13,7 +13,7 @@ class CaretakerInput extends React.Component{
 		if(this.isCommonInput()){
 			this.reportValidity()
 		}
-		this.setState(this.state)
+		// this.setState(this.state)
 	}
 	loadValue(props){
 		this.state.value = ""
