@@ -20,7 +20,7 @@ import { ItalicButton,
 	AlignBlockLeftButton,
 	AlignBlockRightButton
 } from 'draft-js-buttons';
-var inlineToolbarPlugin = createInlineToolbarPlugin({
+var inlineToolbarPluginParams = {
   structure: [
     BoldButton,
     ItalicButton,
@@ -34,19 +34,19 @@ var inlineToolbarPlugin = createInlineToolbarPlugin({
     OrderedListButton,
     BlockquoteButton
   ]
-});
-var {InlineToolbar} = inlineToolbarPlugin
-var pluginsHTML = [
-	undoPlugin(),
-	linkifyPlugin(),
-	inlineToolbarPlugin
-]
+}
+var pluginsHTML = {
+	createUndoPlugin: undoPlugin,
+	createLinkifyPlugin: linkifyPlugin,
+	createInlineToolbarPlugin: createInlineToolbarPlugin,
+	inlineToolbarPluginParams: inlineToolbarPluginParams
+}
+
 
 var Textarea = {
 	pluginsHTML: pluginsHTML,
 	Editor: Editor,
 	EditorState: EditorState,
-	InlineToolbar: InlineToolbar,
 	ContentState: ContentState,
 	convertToRaw: convertToRaw,
 	convertFromHTML: convertFromHTML,
