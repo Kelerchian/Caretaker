@@ -43,6 +43,17 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 		return false
 	}
 
+	/**
+	* Extended function
+	*/
+	checkValidity(value){
+		if(this.isRequired() && value == null){
+			return false
+		}
+		return true
+	}
+
+
 	/*
 	* Extended Function
 	* The parameter is absolutely yours to decide.
@@ -75,23 +86,15 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 	}
 
 	/**
-	* getProps and getNegativePropKeys is extended function
+	* modifyProps and getRemovedPropKeys is extended function
 	* This is defaultValue to show you what it contains, no changes in it
 	*/
-	getNegativePropKeys(){
+	getRemovedPropKeys(){
 		//the keys which will be deleted when passed
 		return ["value","values","defaultValue"]
 	}
-	getProps(){
-		var props = Object.assign({}, this.props)
-		this.getNegativePropKeys(function(key){
-			props[key] = null
-			delete props[key]
-		})
-
+	modifyProps(props){
 		props.accept = "image/*"
-
-		return props
 	}
 
 	/*

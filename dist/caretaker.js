@@ -184,6 +184,123 @@ var Caretaker = (function(){
 	}
 })();
 
+class CaretakerFormInputPrototype extends React.Component{
+	constructor(props){
+		super(props)
+		this.state = {}
+		this.state = this.setInitialState(this.state) || this.state
+		this.loadValue(props)
+	}
+	loadValue(props){
+		this.state.value = this.getDefaultValue();
+		if(props.value != null){
+			var supposedValue = this.transformValueBeforeLoad(props.value)
+			if(this.loadedValueIsValid(supposedValue)){
+				this.state.value = supposedValue
+			}
+		}else if(props.defaultValue != null){
+			var supposedValue = this.transformValueBeforeLoad(props.defaultValue)
+			if(this.loadedValueIsValid(supposedValue)){
+				this.state.value = supposedValue
+			}
+		}
+		this.state.value = this.modifyValueAfterLoad(this.state.value) || this.state.value
+	}
+	componentDidMount(){
+		this.updateParent()
+	}
+	componentWillReceiveProps(props){
+		this.loadValue(props)
+		this.state.isValidating = props.isValidating
+		this.setState(this.state)
+		this.reportValidity()
+	}
+	reportValidity(){
+		this.state.isValid = this.checkValidity(this.state.value)
+		if(this.props.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
+			this.state.validationUpdated = true
+			this.props.onReportValidity(this.state.isValid)
+		}
+	}
+	getNegativePropKeys(){
+		return ["value","values","defaultValue","onReportValidity","isValidating"]
+	}
+	getProtoProps(){
+		var props = Object.assign({}, this.props)
+		this.getNegativePropKeys().forEach(function(key){
+			props[key] = null
+			delete props[key]
+		})
+		var removedPropKeys = this.removePropKeys()
+		if(Array.isArray(removedPropKeys)){
+			removedPropKeys.forEach(function(key){
+				props[key] = null
+				delete props[key]
+			})
+		}
+		props = this.modifyProps(props) || props
+		return props
+	}
+	updateParent(){
+		if(this.props.onChange){
+			this.props.onChange(this.transformValueBeforeSave(this.state.value))
+		}
+		this.state.validationUpdated = false
+	}
+	isRequired(){
+		return this.props.required
+	}
+	//extendable but not recommended
+	getProps(){
+		return this.getProtoProps()
+	}
+	//extendable
+	removePropKeys(){
+		return []
+	}
+	//extendable
+	modifyProps(props){
+
+	}
+	//extendable
+	transformValueBeforeLoad(value){
+		return value
+	}
+	//extendable
+	transformValueBeforeSave(value){
+		return value
+	}
+	setInitialState(state){
+		return state
+	}
+	//must be extended
+	checkValidity(value){
+		throw new Error("checkValidity is undefined")
+	}
+	modifyValueAfterLoad(value){
+		return value
+	}
+	//must be extended
+	getDefaultValue(){
+		throw new Error("getDefaultValue is undefined")
+	}
+	//must be extended
+	loadedValueIsValid(value){
+		throw new Error("loadedValueIsValid is undefined")
+	}
+	//recommended to be extended
+	onChange(value){
+		if(this.loadedValueIsValid(value)){
+			this.state.value = value
+		}
+		this.updateParent()
+	}
+	//must be extended
+	render(){
+
+	}
+}
+
 class CaretakerDateInputWidget extends React.Component{
 	constructor(props){
 		super(props)
@@ -192,9 +309,8 @@ class CaretakerDateInputWidget extends React.Component{
 		if(!moment(props.value).isValid()){
 			currentValue = moment()
 		}
-
 		this.state = {
-			oldValue : moment(currentValue),
+			oldValue : props.value,
 			lastValidValue: moment(currentValue),
 			value : moment(currentValue)
 		}
@@ -202,6 +318,11 @@ class CaretakerDateInputWidget extends React.Component{
 	submitChange(){
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
+		}
+	}
+	clearChange(){
+		if(this.props.onChange){
+			this.props.onChange("")
 		}
 	}
 	cancelChange(){
@@ -275,8 +396,9 @@ class CaretakerDateInputWidget extends React.Component{
 	}
 	appearanceGetActions(){
 		var saveButton = React.createElement('button',{key:"save",className:"CaretakerButton CaretakerPositiveButton",onClick: this.submitChange.bind(this)},"Save")
+		var clearButton = React.createElement('button',{key:"clear",className:"CaretakerButton",onClick: this.clearChange.bind(this)},"Clear")
 		var cancelButton = React.createElement('button',{key:"cancel",className:"CaretakerButton CaretakerNegativeButton",onClick: this.cancelChange.bind(this)},"Cancel")
-		return [saveButton, cancelButton]
+		return [saveButton, clearButton, cancelButton]
 	}
 	render(){
 		return React.createElement('div',{onClick: this.props.widgetOnClick, className:"CaretakerWidget CaretakerDateInputWidget"}, [
@@ -296,7 +418,7 @@ class CaretakerTimeInputWidget extends React.Component{
 		}
 
 		this.state = {
-			oldValue : moment(currentValue),
+			oldValue : props.value,
 			lastValidValue: moment(currentValue),
 			value : moment(currentValue)
 		}
@@ -304,6 +426,11 @@ class CaretakerTimeInputWidget extends React.Component{
 	submitChange(){
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
+		}
+	}
+	clearChange(){
+		if(this.props.onChange){
+			this.props.onChange("")
 		}
 	}
 	cancelChange(){
@@ -326,13 +453,11 @@ class CaretakerTimeInputWidget extends React.Component{
 		this.checkValidity()
 	}
 	changeMinute(e){
-		console.log("changeMinute")
 		var minute = e.target.value
 		this.state.value.minute(minute)
 		this.checkValidity()
 	}
 	changeSecond(e){
-		console.log("changeSecond")
 		var second = e.target.value
 		this.state.value.second(second)
 		this.checkValidity()
@@ -362,8 +487,9 @@ class CaretakerTimeInputWidget extends React.Component{
 	}
 	appearanceGetActions(){
 		var saveButton = React.createElement('button',{key:"save",className:"CaretakerButton CaretakerPositiveButton",onClick: this.submitChange.bind(this)},"Save")
+		var clearButton = React.createElement('button',{key:"clear",className:"CaretakerButton",onClick: this.clearChange.bind(this)},"Clear")
 		var cancelButton = React.createElement('button',{key:"cancel",className:"CaretakerButton CaretakerNegativeButton",onClick: this.cancelChange.bind(this)},"Cancel")
-		return [saveButton, cancelButton]
+		return [saveButton, clearButton, cancelButton]
 	}
 	render(){
 		return React.createElement('div',{onClick: this.props.widgetOnClick, className:"CaretakerWidget CaretakerTimeInputWidget"}, [
@@ -781,7 +907,7 @@ module.exports = React;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -826,7 +952,7 @@ module.exports = reactProdInvariant;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule EditorState
- *
+ * 
  */
 
 
@@ -1769,7 +1895,7 @@ module.exports = EditorState;
       var array = this._array;
       var maxIndex = array.length - 1;
       var ii = 0;
-      return new Iterator(function()
+      return new Iterator(function() 
         {return ii > maxIndex ?
           iteratorDone() :
           iteratorValue(type, ii, array[reverse ? maxIndex - ii++ : ii++])}
@@ -2240,7 +2366,7 @@ module.exports = EditorState;
 
     Repeat.prototype.__iterator = function(type, reverse) {var this$0 = this;
       var ii = 0;
-      return new Iterator(function()
+      return new Iterator(function() 
         {return ii < this$0.size ? iteratorValue(type, ii++, this$0._value) : iteratorDone()}
       );
     };
@@ -4424,7 +4550,7 @@ module.exports = EditorState;
         return flipSequence;
       };
     }
-    reversedSequence.get = function(key, notSetValue)
+    reversedSequence.get = function(key, notSetValue) 
       {return iterable.get(useKeys ? key : -1 - key, notSetValue)};
     reversedSequence.has = function(key )
       {return iterable.has(useKeys ? key : -1 - key)};
@@ -4619,7 +4745,7 @@ module.exports = EditorState;
         return this.cacheResult().__iterate(fn, reverse);
       }
       var iterations = 0;
-      iterable.__iterate(function(v, k, c)
+      iterable.__iterate(function(v, k, c) 
         {return predicate.call(context, v, k, c) && ++iterations && fn(v, k, this$0)}
       );
       return iterations;
@@ -4810,7 +4936,7 @@ module.exports = EditorState;
     interposedSequence.size = iterable.size && iterable.size * 2 -1;
     interposedSequence.__iterateUncached = function(fn, reverse) {var this$0 = this;
       var iterations = 0;
-      iterable.__iterate(function(v, k)
+      iterable.__iterate(function(v, k) 
         {return (!iterations || fn(separator, iterations++, this$0) !== false) &&
         fn(v, iterations++, this$0) !== false},
         reverse
@@ -6721,7 +6847,7 @@ module.exports = ExecutionEnvironment;
  *
  * @providesModule DraftModifier
  * @typechecks
- *
+ * 
  */
 
 
@@ -6865,7 +6991,7 @@ module.exports = DraftModifier;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 function makeEmptyFunction(arg) {
@@ -6985,7 +7111,7 @@ module.exports = DraftPublic;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 var nullthrows = function nullthrows(x) {
@@ -7012,7 +7138,7 @@ module.exports = nullthrows;
  *
  * @providesModule CharacterMetadata
  * @typechecks
- *
+ * 
  */
 
 
@@ -7128,7 +7254,7 @@ module.exports = CharacterMetadata;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -7160,7 +7286,7 @@ module.exports = { debugTool: debugTool };
  *
  * @providesModule generateRandomKey
  * @typechecks
- *
+ * 
  */
 
 
@@ -7439,7 +7565,7 @@ module.exports = mapObject(UserAgent, memoizeStringOnly);
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -8396,7 +8522,7 @@ exports.default = function (_ref) {
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -8460,7 +8586,7 @@ module.exports = g;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule ContentBlock
- *
+ * 
  */
 
 
@@ -8903,7 +9029,7 @@ module.exports = UnicodeUtils;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -9368,7 +9494,7 @@ module.exports = ReactElement;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -9414,7 +9540,7 @@ module.exports = reactProdInvariant;
  *
  * @providesModule SelectionState
  * @typechecks
- *
+ * 
  */
 
 
@@ -9696,7 +9822,7 @@ exports.default = function (_ref) {
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule BlockMapBuilder
- *
+ * 
  */
 
 
@@ -9730,7 +9856,7 @@ module.exports = BlockMapBuilder;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule removeTextWithStrategy
- *
+ * 
  */
 
 
@@ -11134,7 +11260,7 @@ function splitReactElement(element) {
  *
  * @providesModule ContentState
  * @typechecks
- *
+ * 
  */
 
 
@@ -11338,7 +11464,7 @@ var _extends = _assign || function (target) { for (var i = 1; i < arguments.leng
  *
  * @providesModule DraftEntity
  * @typechecks
- *
+ * 
  */
 
 var DraftEntityInstance = __webpack_require__(104);
@@ -11532,7 +11658,7 @@ module.exports = DraftEntity;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule DraftOffsetKey
- *
+ * 
  */
 
 
@@ -11575,7 +11701,7 @@ module.exports = DraftOffsetKey;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule findRangesImmutable
- *
+ * 
  */
 
 
@@ -11626,7 +11752,7 @@ module.exports = findRangesImmutable;
  *
  * @providesModule getContentStateFragment
  * @typechecks
- *
+ * 
  */
 
 
@@ -11703,7 +11829,7 @@ module.exports = getContentStateFragment;
  *
  * @providesModule isEventHandled
  * @typechecks
- *
+ * 
  */
 
 
@@ -11852,7 +11978,7 @@ module.exports = SyntheticMouseEvent;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -12963,7 +13089,7 @@ module.exports = LinkifyIt;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule DefaultDraftBlockRenderMap
- *
+ * 
  */
 
 
@@ -13040,7 +13166,7 @@ module.exports = DefaultDraftBlockRenderMap;
  *
  * @providesModule KeyBindingUtil
  * @typechecks
- *
+ * 
  */
 
 
@@ -13085,7 +13211,7 @@ module.exports = KeyBindingUtil;
  *
  * @providesModule findAncestorOffsetKey
  * @typechecks
- *
+ * 
  */
 
 
@@ -13124,7 +13250,7 @@ module.exports = findAncestorOffsetKey;
  *
  * @providesModule getEntityKeyForSelection
  * @typechecks
- *
+ * 
  */
 
 
@@ -13184,7 +13310,7 @@ module.exports = getEntityKeyForSelection;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule moveSelectionBackward
- *
+ * 
  */
 
 
@@ -13242,7 +13368,7 @@ module.exports = moveSelectionBackward;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule sanitizeDraftText
- *
+ * 
  */
 
 
@@ -13381,7 +13507,7 @@ module.exports = Style;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @typechecks
- *
+ * 
  */
 
 /**
@@ -13497,7 +13623,7 @@ module.exports = UnicodeBidiDirection;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 var isTextNode = __webpack_require__(276);
@@ -13594,7 +13720,7 @@ module.exports = getScrollPosition;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @typechecks
- *
+ * 
  */
 
 /*eslint-disable no-self-compare */
@@ -13922,7 +14048,7 @@ module.exports = DOMNamespaces;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -14415,7 +14541,7 @@ module.exports = EventPluginUtils;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -14953,7 +15079,7 @@ module.exports = ReactBrowserEventEmitter;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -15005,7 +15131,7 @@ module.exports = ReactComponentEnvironment;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -16103,7 +16229,7 @@ module.exports = ReactNoopUpdateQueue;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -16134,7 +16260,7 @@ module.exports = ReactPropTypeLocationNames;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -16166,7 +16292,7 @@ module.exports = canDefineProperty;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -16457,7 +16583,7 @@ function updateMutation(mutation, originalOffset, originalLength, newLength, pre
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule BlockTree
- *
+ * 
  */
 
 
@@ -16575,7 +16701,7 @@ module.exports = BlockTree;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule DefaultDraftInlineStyle
- *
+ * 
  */
 
 
@@ -16618,7 +16744,7 @@ module.exports = {
  *
  * @providesModule DraftEditorBlock.react
  * @typechecks
- *
+ * 
  */
 
 
@@ -16831,7 +16957,7 @@ module.exports = DraftEditorBlock;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule DraftEntityInstance
- *
+ * 
  */
 
 
@@ -16906,7 +17032,7 @@ module.exports = DraftEntityInstance;
  *
  * @providesModule DraftRemovableWord
  * @typechecks
- *
+ * 
  */
 
 
@@ -16963,7 +17089,7 @@ module.exports = DraftRemovableWord;
  *
  * @providesModule DraftStringKey
  * @typechecks
- *
+ * 
  */
 
 
@@ -16995,7 +17121,7 @@ module.exports = DraftStringKey;
  *
  * @providesModule convertFromHTMLToContentBlocks
  * @typechecks
- *
+ * 
  */
 
 
@@ -17517,7 +17643,7 @@ module.exports = convertFromHTMLtoContentBlocks;
  *
  * @providesModule getDefaultKeyBinding
  * @typechecks
- *
+ * 
  */
 
 
@@ -17647,7 +17773,7 @@ module.exports = getDefaultKeyBinding;
  *
  * @providesModule getDraftEditorSelectionWithNodes
  * @typechecks
- *
+ * 
  */
 
 
@@ -17832,7 +17958,7 @@ module.exports = getDraftEditorSelectionWithNodes;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule getFragmentFromSelection
- *
+ * 
  */
 
 
@@ -17866,7 +17992,7 @@ module.exports = getFragmentFromSelection;
  *
  * @providesModule getRangeClientRects
  * @typechecks
- *
+ * 
  */
 
 
@@ -17935,7 +18061,7 @@ module.exports = getRangeClientRects;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule getSafeBodyFromHTML
- *
+ * 
  */
 
 
@@ -17977,7 +18103,7 @@ module.exports = getSafeBodyFromHTML;
  *
  * @providesModule getSelectionOffsetKeyForNode
  * @typechecks
- *
+ * 
  */
 
 
@@ -18019,7 +18145,7 @@ module.exports = getSelectionOffsetKeyForNode;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule getTextContentFromFiles
- *
+ * 
  */
 
 
@@ -18101,7 +18227,7 @@ module.exports = getTextContentFromFiles;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule getUpdatedSelectionState
- *
+ * 
  */
 
 
@@ -18183,7 +18309,7 @@ module.exports = getUpdatedSelectionState;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule insertIntoList
- *
+ * 
  */
 
 
@@ -18225,7 +18351,7 @@ module.exports = insertIntoList;
  *
  * @providesModule isSelectionAtLeafStart
  * @typechecks
- *
+ * 
  */
 
 
@@ -18278,7 +18404,7 @@ module.exports = isSelectionAtLeafStart;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule moveSelectionForward
- *
+ * 
  */
 
 
@@ -18328,7 +18454,7 @@ module.exports = moveSelectionForward;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule removeEntitiesAtEdges
- *
+ * 
  */
 
 
@@ -18844,7 +18970,7 @@ module.exports = Scroll;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @typechecks
- *
+ * 
  */
 
 /**
@@ -19290,7 +19416,7 @@ module.exports = hyphenate;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  * @typechecks static-only
  */
 
@@ -19701,7 +19827,7 @@ module.exports = memoizeStringOnly;
       var array = this._array;
       var maxIndex = array.length - 1;
       var ii = 0;
-      return new Iterator(function()
+      return new Iterator(function() 
         {return ii > maxIndex ?
           iteratorDone() :
           iteratorValue(type, ii, array[reverse ? maxIndex - ii++ : ii++])}
@@ -20172,7 +20298,7 @@ module.exports = memoizeStringOnly;
 
     Repeat.prototype.__iterator = function(type, reverse) {var this$0 = this;
       var ii = 0;
-      return new Iterator(function()
+      return new Iterator(function() 
         {return ii < this$0.size ? iteratorValue(type, ii++, this$0._value) : iteratorDone()}
       );
     };
@@ -22370,7 +22496,7 @@ module.exports = memoizeStringOnly;
         return flipSequence;
       };
     }
-    reversedSequence.get = function(key, notSetValue)
+    reversedSequence.get = function(key, notSetValue) 
       {return iterable.get(useKeys ? key : -1 - key, notSetValue)};
     reversedSequence.has = function(key )
       {return iterable.has(useKeys ? key : -1 - key)};
@@ -22569,7 +22695,7 @@ module.exports = memoizeStringOnly;
         return this.cacheResult().__iterate(fn, reverse);
       }
       var iterations = 0;
-      iterable.__iterate(function(v, k, c)
+      iterable.__iterate(function(v, k, c) 
         {return predicate.call(context, v, k, c) && ++iterations && fn(v, k, this$0)}
       );
       return iterations;
@@ -22760,7 +22886,7 @@ module.exports = memoizeStringOnly;
     interposedSequence.size = iterable.size && iterable.size * 2 -1;
     interposedSequence.__iterateUncached = function(fn, reverse) {var this$0 = this;
       var iterations = 0;
-      iterable.__iterate(function(v, k)
+      iterable.__iterate(function(v, k) 
         {return (!iterations || fn(separator, iterations++, this$0) !== false) &&
         fn(v, iterations++, this$0) !== false},
         reverse
@@ -24462,7 +24588,7 @@ module.exports = CSSProperty;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -25370,7 +25496,7 @@ module.exports = ReactInputSelection;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -25752,7 +25878,7 @@ module.exports = ViewportMetrics;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -25816,7 +25942,7 @@ module.exports = accumulateInto;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -26024,7 +26150,7 @@ module.exports = instantiateReactComponent;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -26366,7 +26492,7 @@ module.exports = traverseAllChildren;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -26631,7 +26757,7 @@ module.exports = ReactElementValidator;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -28303,7 +28429,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-var inlineToolbarPlugin = __WEBPACK_IMPORTED_MODULE_3_draft_js_inline_toolbar_plugin___default()({
+var inlineToolbarPluginParams = {
   structure: [
     __WEBPACK_IMPORTED_MODULE_7_draft_js_buttons__["BoldButton"],
     __WEBPACK_IMPORTED_MODULE_7_draft_js_buttons__["ItalicButton"],
@@ -28317,19 +28443,19 @@ var inlineToolbarPlugin = __WEBPACK_IMPORTED_MODULE_3_draft_js_inline_toolbar_pl
     __WEBPACK_IMPORTED_MODULE_7_draft_js_buttons__["OrderedListButton"],
     __WEBPACK_IMPORTED_MODULE_7_draft_js_buttons__["BlockquoteButton"]
   ]
-});
-var {InlineToolbar} = inlineToolbarPlugin
-var pluginsHTML = [
-	__WEBPACK_IMPORTED_MODULE_1_draft_js_undo_plugin___default()(),
-	__WEBPACK_IMPORTED_MODULE_2_draft_js_linkify_plugin___default()(),
-	inlineToolbarPlugin
-]
+}
+var pluginsHTML = {
+	createUndoPlugin: __WEBPACK_IMPORTED_MODULE_1_draft_js_undo_plugin___default.a,
+	createLinkifyPlugin: __WEBPACK_IMPORTED_MODULE_2_draft_js_linkify_plugin___default.a,
+	createInlineToolbarPlugin: __WEBPACK_IMPORTED_MODULE_3_draft_js_inline_toolbar_plugin___default.a,
+	inlineToolbarPluginParams: inlineToolbarPluginParams
+}
+
 
 var Textarea = {
 	pluginsHTML: pluginsHTML,
 	Editor: __WEBPACK_IMPORTED_MODULE_0_draft_js_plugins_editor___default.a,
 	EditorState: __WEBPACK_IMPORTED_MODULE_5_draft_js__["EditorState"],
-	InlineToolbar: InlineToolbar,
 	ContentState: __WEBPACK_IMPORTED_MODULE_5_draft_js__["ContentState"],
 	convertToRaw: __WEBPACK_IMPORTED_MODULE_5_draft_js__["convertToRaw"],
 	convertFromHTML: __WEBPACK_IMPORTED_MODULE_5_draft_js__["convertFromHTML"],
@@ -30026,7 +30152,7 @@ exports.default = function (object) {
       var array = this._array;
       var maxIndex = array.length - 1;
       var ii = 0;
-      return new Iterator(function()
+      return new Iterator(function() 
         {return ii > maxIndex ?
           iteratorDone() :
           iteratorValue(type, ii, array[reverse ? maxIndex - ii++ : ii++])}
@@ -30497,7 +30623,7 @@ exports.default = function (object) {
 
     Repeat.prototype.__iterator = function(type, reverse) {var this$0 = this;
       var ii = 0;
-      return new Iterator(function()
+      return new Iterator(function() 
         {return ii < this$0.size ? iteratorValue(type, ii++, this$0._value) : iteratorDone()}
       );
     };
@@ -32681,7 +32807,7 @@ exports.default = function (object) {
         return flipSequence;
       };
     }
-    reversedSequence.get = function(key, notSetValue)
+    reversedSequence.get = function(key, notSetValue) 
       {return iterable.get(useKeys ? key : -1 - key, notSetValue)};
     reversedSequence.has = function(key )
       {return iterable.has(useKeys ? key : -1 - key)};
@@ -32876,7 +33002,7 @@ exports.default = function (object) {
         return this.cacheResult().__iterate(fn, reverse);
       }
       var iterations = 0;
-      iterable.__iterate(function(v, k, c)
+      iterable.__iterate(function(v, k, c) 
         {return predicate.call(context, v, k, c) && ++iterations && fn(v, k, this$0)}
       );
       return iterations;
@@ -33067,7 +33193,7 @@ exports.default = function (object) {
     interposedSequence.size = iterable.size && iterable.size * 2 -1;
     interposedSequence.__iterateUncached = function(fn, reverse) {var this$0 = this;
       var iterations = 0;
-      iterable.__iterate(function(v, k)
+      iterable.__iterate(function(v, k) 
         {return (!iterations || fn(separator, iterations++, this$0) !== false) &&
         fn(v, iterations++, this$0) !== false},
         reverse
@@ -36066,7 +36192,7 @@ exports.default = UndoButton;
  *
  * @providesModule AtomicBlockUtils
  * @typechecks
- *
+ * 
  */
 
 
@@ -36141,7 +36267,7 @@ module.exports = AtomicBlockUtils;
  *
  * @providesModule CompositeDraftDecorator
  * @typechecks
- *
+ * 
  */
 
 
@@ -36261,7 +36387,7 @@ module.exports = CompositeDraftDecorator;
  *
  * @providesModule ContentStateInlineStyle
  * @typechecks
- *
+ * 
  */
 
 
@@ -36341,7 +36467,7 @@ module.exports = ContentStateInlineStyle;
  *
  * @providesModule DraftEditor.react
  * @typechecks
- *
+ * 
  * @preventMunge
  */
 
@@ -36782,7 +36908,7 @@ module.exports = DraftEditor;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule DraftEditorCompositionHandler
- *
+ * 
  */
 
 
@@ -36958,7 +37084,7 @@ module.exports = DraftEditorCompositionHandler;
  *
  * @providesModule DraftEditorContents.react
  * @typechecks
- *
+ * 
  */
 
 
@@ -37207,7 +37333,7 @@ module.exports = DraftEditorContents;
  *
  * @providesModule DraftEditorDragHandler
  * @typechecks
- *
+ * 
  */
 
 
@@ -37329,7 +37455,7 @@ module.exports = DraftEditorDragHandler;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule DraftEditorEditHandler
- *
+ * 
  */
 
 
@@ -37379,7 +37505,7 @@ module.exports = DraftEditorEditHandler;
  *
  * @providesModule DraftEditorLeaf.react
  * @typechecks
- *
+ * 
  */
 
 
@@ -37544,7 +37670,7 @@ module.exports = DraftEditorLeaf;
  *
  * @providesModule DraftEditorPlaceholder.react
  * @typechecks
- *
+ * 
  */
 
 
@@ -37619,7 +37745,7 @@ module.exports = DraftEditorPlaceholder;
  *
  * @providesModule DraftEditorTextNode.react
  * @typechecks
- *
+ * 
  */
 
 
@@ -37733,7 +37859,7 @@ module.exports = DraftEditorTextNode;
  *
  * @providesModule DraftEntitySegments
  * @typechecks
- *
+ * 
  */
 
 
@@ -37838,7 +37964,7 @@ module.exports = DraftEntitySegments;
  *
  * @providesModule DraftPasteProcessor
  * @typechecks
- *
+ * 
  */
 
 
@@ -37890,7 +38016,7 @@ module.exports = DraftPasteProcessor;
  *
  * @providesModule EditorBidiService
  * @typechecks
- *
+ * 
  */
 
 
@@ -37944,7 +38070,7 @@ module.exports = EditorBidiService;
  *
  * @providesModule RichTextEditorUtil
  * @typechecks
- *
+ * 
  */
 
 
@@ -38254,7 +38380,7 @@ module.exports = RichTextEditorUtil;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule SecondaryClipboard
- *
+ * 
  */
 
 
@@ -38330,7 +38456,7 @@ module.exports = SecondaryClipboard;
  *
  * @providesModule adjustBlockDepthForContentState
  * @typechecks
- *
+ * 
  */
 
 
@@ -38375,7 +38501,7 @@ module.exports = adjustBlockDepthForContentState;
  *
  * @providesModule applyEntityToContentBlock
  * @typechecks
- *
+ * 
  */
 
 
@@ -38408,7 +38534,7 @@ module.exports = applyEntityToContentBlock;
  *
  * @providesModule applyEntityToContentState
  * @typechecks
- *
+ * 
  */
 
 
@@ -38457,7 +38583,7 @@ module.exports = applyEntityToContentState;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule convertFromDraftStateToRaw
- *
+ * 
  */
 
 
@@ -38529,7 +38655,7 @@ module.exports = convertFromDraftStateToRaw;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule convertFromRawToDraftState
- *
+ * 
  */
 
 
@@ -38619,7 +38745,7 @@ module.exports = convertFromRawToDraftState;
  *
  * @providesModule createCharacterList
  * @typechecks
- *
+ * 
  */
 
 
@@ -38655,7 +38781,7 @@ module.exports = createCharacterList;
  *
  * @providesModule decodeEntityRanges
  * @typechecks
- *
+ * 
  */
 
 
@@ -38701,7 +38827,7 @@ module.exports = decodeEntityRanges;
  *
  * @providesModule decodeInlineStyleRanges
  * @typechecks
- *
+ * 
  */
 
 
@@ -38750,7 +38876,7 @@ module.exports = decodeInlineStyleRanges;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnBeforeInput
- *
+ * 
  */
 
 
@@ -38891,7 +39017,7 @@ module.exports = editOnBeforeInput;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnBlur
- *
+ * 
  */
 
 
@@ -38942,7 +39068,7 @@ module.exports = editOnBlur;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnCompositionStart
- *
+ * 
  */
 
 
@@ -38976,7 +39102,7 @@ module.exports = editOnCompositionStart;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnCopy
- *
+ * 
  */
 
 
@@ -39017,7 +39143,7 @@ module.exports = editOnCopy;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnCut
- *
+ * 
  */
 
 
@@ -39093,7 +39219,7 @@ module.exports = editOnCut;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnDragOver
- *
+ * 
  */
 
 
@@ -39123,7 +39249,7 @@ module.exports = editOnDragOver;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnDragStart
- *
+ * 
  */
 
 
@@ -39152,7 +39278,7 @@ module.exports = editOnDragStart;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnFocus
- *
+ * 
  */
 
 
@@ -39194,7 +39320,7 @@ module.exports = editOnFocus;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnInput
- *
+ * 
  */
 
 
@@ -39346,7 +39472,7 @@ module.exports = editOnInput;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnKeyDown
- *
+ * 
  */
 
 
@@ -39500,7 +39626,7 @@ module.exports = editOnKeyDown;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnPaste
- *
+ * 
  */
 
 
@@ -39666,7 +39792,7 @@ module.exports = editOnPaste;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule editOnSelect
- *
+ * 
  */
 
 
@@ -39712,7 +39838,7 @@ module.exports = editOnSelect;
  *
  * @providesModule encodeEntityRanges
  * @typechecks
- *
+ * 
  */
 
 
@@ -39759,7 +39885,7 @@ module.exports = encodeEntityRanges;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule encodeInlineStyleRanges
- *
+ * 
  */
 
 
@@ -39836,7 +39962,7 @@ module.exports = encodeInlineStyleRanges;
  *
  * @providesModule expandRangeToStartOfLine
  * @typechecks
- *
+ * 
  */
 
 var UnicodeUtils = __webpack_require__(26);
@@ -40030,7 +40156,7 @@ module.exports = expandRangeToStartOfLine;
  *
  * @providesModule getCharacterRemovalRange
  * @typechecks
- *
+ * 
  */
 
 
@@ -40113,7 +40239,7 @@ module.exports = getCharacterRemovalRange;
  *
  * @providesModule getDraftEditorSelection
  * @typechecks
- *
+ * 
  */
 
 
@@ -40156,7 +40282,7 @@ module.exports = getDraftEditorSelection;
  *
  * @providesModule getRangeBoundingClientRect
  * @typechecks
- *
+ * 
  */
 
 
@@ -40222,7 +40348,7 @@ module.exports = getRangeBoundingClientRect;
  *
  * @providesModule getRangesForDraftEntity
  * @typechecks
- *
+ * 
  */
 
 
@@ -40268,7 +40394,7 @@ module.exports = getRangesForDraftEntity;
  *
  * @providesModule getVisibleSelectionRect
  * @typechecks
- *
+ * 
  */
 
 
@@ -40321,7 +40447,7 @@ module.exports = getVisibleSelectionRect;
  *
  * @providesModule insertFragmentIntoContentState
  * @typechecks
- *
+ * 
  */
 
 
@@ -40454,7 +40580,7 @@ module.exports = insertFragmentIntoContentState;
  *
  * @providesModule insertTextIntoContentState
  * @typechecks
- *
+ * 
  */
 
 
@@ -40514,7 +40640,7 @@ module.exports = insertTextIntoContentState;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandBackspaceToStartOfLine
- *
+ * 
  */
 
 
@@ -40564,7 +40690,7 @@ module.exports = keyCommandBackspaceToStartOfLine;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandBackspaceWord
- *
+ * 
  */
 
 
@@ -40617,7 +40743,7 @@ module.exports = keyCommandBackspaceWord;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandDeleteWord
- *
+ * 
  */
 
 
@@ -40668,7 +40794,7 @@ module.exports = keyCommandDeleteWord;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandInsertNewline
- *
+ * 
  */
 
 
@@ -40697,7 +40823,7 @@ module.exports = keyCommandInsertNewline;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandMoveSelectionToEndOfBlock
- *
+ * 
  */
 
 
@@ -40740,7 +40866,7 @@ module.exports = keyCommandMoveSelectionToEndOfBlock;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandMoveSelectionToStartOfBlock
- *
+ * 
  */
 
 
@@ -40783,7 +40909,7 @@ module.exports = keyCommandMoveSelectionToStartOfBlock;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandPlainBackspace
- *
+ * 
  */
 
 
@@ -40833,7 +40959,7 @@ module.exports = keyCommandPlainBackspace;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandPlainDelete
- *
+ * 
  */
 
 
@@ -40884,7 +41010,7 @@ module.exports = keyCommandPlainDelete;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandTransposeCharacters
- *
+ * 
  */
 
 
@@ -40968,7 +41094,7 @@ module.exports = keyCommandTransposeCharacters;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule keyCommandUndo
- *
+ * 
  */
 
 
@@ -41023,7 +41149,7 @@ module.exports = keyCommandUndo;
  *
  * @providesModule modifyBlockForContentState
  * @typechecks
- *
+ * 
  */
 
 
@@ -41066,7 +41192,7 @@ module.exports = modifyBlockForContentState;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule removeRangeFromContentState
- *
+ * 
  */
 
 
@@ -41164,7 +41290,7 @@ module.exports = removeRangeFromContentState;
  *
  * @providesModule setDraftEditorSelection
  * @typechecks
- *
+ * 
  */
 
 
@@ -41304,7 +41430,7 @@ module.exports = setDraftEditorSelection;
  *
  * @providesModule splitBlockInContentState
  * @typechecks
- *
+ * 
  */
 
 
@@ -41379,7 +41505,7 @@ module.exports = splitBlockInContentState;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule splitTextIntoTextBlocks
- *
+ * 
  */
 
 
@@ -41441,7 +41567,7 @@ module.exports = PhotosMimeType;
  *
  * @typechecks
  * @stub
- *
+ * 
  */
 
 
@@ -41482,7 +41608,7 @@ module.exports = {
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -41519,7 +41645,7 @@ module.exports = URI;
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @typechecks
- *
+ * 
  */
 
 /**
@@ -42541,7 +42667,7 @@ function getViewportWidth() {
    * LICENSE file in the root directory of this source tree. An additional grant
    * of patent rights can be found in the PATENTS file in the same directory.
    *
-   *
+   * 
    * @typechecks
    */
 
@@ -48007,7 +48133,7 @@ module.exports = {
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -48465,7 +48591,7 @@ module.exports = {
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -48688,7 +48814,7 @@ module.exports = ReactEventListener;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -48715,7 +48841,7 @@ module.exports = ReactFeatureFlags;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -48793,7 +48919,7 @@ module.exports = ReactInjection;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -49347,7 +49473,7 @@ module.exports = ReactMultiChild;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -49393,7 +49519,7 @@ module.exports = ReactNodeTypes;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -49493,7 +49619,7 @@ module.exports = ReactOwner;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -49708,7 +49834,7 @@ module.exports = ReactReconcileTransaction;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -49925,7 +50051,7 @@ module.exports = {
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -50592,7 +50718,7 @@ module.exports = SelectEventPlugin;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -51320,7 +51446,7 @@ module.exports = SyntheticWheelEvent;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -51547,7 +51673,7 @@ module.exports = dangerousStyleValue;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -51736,7 +51862,7 @@ module.exports = getEventKey;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -51782,7 +51908,7 @@ module.exports = getIteratorFn;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -52024,7 +52150,7 @@ module.exports = quoteAttributeValueForBrowser;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -52088,7 +52214,7 @@ module.exports = KeyEscapeUtils;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- *
+ * 
  */
 
 
@@ -55263,28 +55389,51 @@ module.exports = __webpack_amd_options__;
 
 /***/ })
 /******/ ]);
-
 class CaretakerForm extends React.Component{
 	constructor(props){
 		super(props)
 		this.state = {
-			value: props.value
+			value: props.value,
+			isValidating: false,
+			isValid: null
 		}
 	}
 	onChange(value){
 		this.state.value = value
+		this.state.isValid = null
 		this.setState(this.state)
 	}
 	onReset(){
 		this.state.value = this.props.value
+		this.state.isValid = null
 		this.setState(this.state)
 	}
 	onSubmit(){
-		console.log("submitting:", this.state.value)
+		if(this.state.isValid != true){
+			this.triggerCheckValidity()
+		}else{
+			console.log("submitting:", this.state.value)
+		}
+	}
+	triggerCheckValidity(){
+		this.state.isValidating = true
+		this.setState(this.state)
+	}
+	onReportValidity(isValid){
+		this.state.isValid = isValid == true
+		console.log(this.state.isValid)
+		if(this.state.isValid){
+			this.onSubmit()
+		}
+		this.setState(this.state)
 	}
 	getProps(){
 		var props = Object.assign({}, this.props.edit)
+
 		props.onChange = this.onChange.bind(this)
+		props.onReportValidity = this.onReportValidity.bind(this)
+		props.isValidating = this.state.isValidating
+
 		props.value = this.state.value
 		props.key = "object"
 		return props
@@ -55301,7 +55450,7 @@ class CaretakerForm extends React.Component{
 	}
 	render(){
 		var props = this.getProps()
-		return React.createElement('form', {className: "CaretakerForm", encType:"multipart/form-data"}, (
+		return React.createElement('form', {className: "CaretakerForm", encType:"multipart/form-data", onSubmit: (event)=>{ event.preventDefault() } }, (
 			[React.createElement(CaretakerFormObject, props), this.appearanceGetActions()]
 		))
 	}
@@ -55318,7 +55467,11 @@ class CaretakerInput extends React.Component{
 	}
 	componentWillReceiveProps(props){
 		this.loadValue(props)
-		this.setState(this.state)
+		this.state.isValidating = props.isValidating
+		if(this.isCommonInput()){
+			this.reportValidity()
+		}
+		// this.setState(this.state)
 	}
 	loadValue(props){
 		this.state.value = ""
@@ -55326,8 +55479,32 @@ class CaretakerInput extends React.Component{
 			this.state.value = props.value
 		}
 	}
+	checkValidity(){
+		if(this.isCommonInput()){
+			if(this.textInput){
+				this.state.isValid = this.textInput.checkValidity()
+			}else{
+				this.state.isValid = false
+			}
+		}
+	}
+	onReportValidity(isValid){
+		this.state.isValid = isValid
+		this.state.validationUpdated = false
+		this.reportValidity()
+	}
+	reportValidity(){
+		if(this.props.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
+			this.state.validationUpdated = true
+			this.checkValidity()
+			this.props.onReportValidity(this.state.isValid)
+		}
+	}
 	getNegativeCommonPropKeys(){
-		return ["options","value"]
+		return ["options","value","isValidating","onReportValidity"]
+	}
+	bindInput(input){
+		this.textInput = input
 	}
 	getProps(){
 		var props = Object.assign({}, this.props)
@@ -55339,11 +55516,14 @@ class CaretakerInput extends React.Component{
 		}
 		props.onChange = this.onCommonInputChange.bind(this)
 		props.value = this.state.value
+		props.ref = this.bindInput.bind(this)
 		return props
 	}
 	getSpecialProps(){
 		var props = Object.assign({}, this.props)
 		props.onChange = this.onChange.bind(this)
+		props.onReportValidity = this.onReportValidity.bind(this)
+		props.isValidating = this.state.isValidating
 		return props
 	}
 	isCommonInput(){
@@ -55353,7 +55533,7 @@ class CaretakerInput extends React.Component{
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
 		}
-		this.setState(this.state)
+		this.state.validationUpdated = false
 	}
 	onCommonInputChange(event){
 		this.state.value = event.target.value
@@ -55396,12 +55576,67 @@ class CaretakerFormObject extends React.Component{
 		this.state = {}
 		this.loadValue(props)
 	}
+	onReportValidity(isValid, name){
+		this.state.validationUpdated = false
+		if(this.isObject() && !this.isMany() && !this.isChildless()){
+			//if validity node is null or not an object, make new validity node
+			if(typeof this.state.isValidMap != "object" || this.state.isValidMap == null){
+				this.state.isValidMap = {}
+				if(typeof this.props.has == "object" && this.props.has != null){
+					var has = this.props.has
+					for(var i in has){
+						var currentName = has[i].name
+						if(!currentName){
+							currentName = i
+						}
+						this.state.isValidMap[currentName] = false
+					}
+				}
+			}
+
+			this.state.isValidMap[name] = isValid
+		}else{
+			this.state.isValid = isValid
+		}
+		this.reportValidity()
+	}
+	reportValidity(){
+		if(this.props.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
+			this.state.validationUpdated = true
+			if(this.isObject() && !this.isMany() && !this.isChildless()){
+				var isValid = true
+				if(typeof this.props.has == "object" && this.props.has){
+					var has = this.props.has
+					for(var i in has){
+						var name = has[i].name
+						if(!name){
+							name = i
+						}
+						if(this.state.isValidMap[name] != true){
+							isValid = false
+							break
+						}
+					}
+				}
+				this.state.isValid = isValid
+				this.props.onReportValidity(this.state.isValid, this.props.name)
+			}else{
+				this.props.onReportValidity(this.state.isValid, this.props.name)
+			}
+			// this.setState(this.state)
+		}
+	}
 	componentDidMount(){
 		this.updateParent()
 	}
 	componentWillReceiveProps(props){
 		this.loadValue(props)
-		this.setState(this.state)
+		this.state.isValidating = props.isValidating
+		// this.setState(this.state)
+		if(this.isChildless()){
+			this.state.isValid = true
+			this.reportValidity()
+		}
 	}
 	assertValues(){
 		if(this.isMany() && !(Array.isArray(this.state.value) || this.state.value == null)){
@@ -55411,7 +55646,6 @@ class CaretakerFormObject extends React.Component{
 		}
 	}
 	loadValue(props){
-
 		if(this.isMany()){
 			this.state.value = []
 			this.state.name = "arr"
@@ -55423,15 +55657,15 @@ class CaretakerFormObject extends React.Component{
 			this.state.value = null
 			this.state.name = "val"
 		}
-
+		//update name
+		if(props.name != null){
+			this.state.name = props.name
+		}
+		//update value
 		if(props.value != null){
 			this.state.value = props.value
 		}else if(props.defaultValue != null){
 			this.state.value = props.defaultValue
-		}
-
-		if(props.name != null){
-			this.state.name = props.name
 		}
 		this.assertValues()
 	}
@@ -55444,11 +55678,14 @@ class CaretakerFormObject extends React.Component{
 	isInput(){
 		return !this.isObject() && !this.isMany()
 	}
+	isChildless(){
+		return this.isObject() && (this.props.has == null || (typeof this.props.has == "object" && Object.keys(this.props.has).length == 0 ))
+	}
 	updateParent(){
 		if(this.props.onChange){
 			this.props.onChange(this.state.value, this.state.name)
 		}
-		this.setState(this.state)
+		this.state.validationUpdated = false
 	}
 	onChange(value, name){
 		if(name != null){
@@ -55474,6 +55711,8 @@ class CaretakerFormObject extends React.Component{
 			delete props[key]
 		})
 		props.onChange = this.getOnChangeListener()
+		props.onReportValidity = this.onReportValidity.bind(this)
+		props.isValidating = this.state.isValidating
 		props.value = this.state.value
 		return props
 	}
@@ -55484,6 +55723,8 @@ class CaretakerFormObject extends React.Component{
 			delete props[key]
 		})
 		props.onChange = this.getOnChangeListener()
+		props.onReportValidity = this.onReportValidity.bind(this)
+		props.isValidating = this.state.isValidating
 		props.value = this.state.value
 		return props
 	}
@@ -55516,11 +55757,13 @@ class CaretakerFormObject extends React.Component{
 					}
 					if(has[i].name != null){
 						childProps.name = has[i].name
-						if(this.state.value[childProps.name]){
+						if(this.state.value[childProps.name] != null){
 							childProps.value = this.state.value[childProps.name]
 						}
 					}
 					childProps.onChange = this.getOnChangeListener()
+					childProps.onReportValidity = this.onReportValidity.bind(this)
+					childProps.isValidating = this.state.isValidating
 					objects.push( React.createElement(CaretakerFormObject, childProps) )
 				}
 			}
@@ -55532,22 +55775,56 @@ class CaretakerFormObject extends React.Component{
 			return React.createElement(CaretakerInput,props)
 		}
 	}
+	appearanceGetErrorMessage(){
+		if(typeof this.state.isValid == "string"){
+			return React.createElement('div', {className:"CaretakerErrorMessage", key:"errorMessage"}, this.state.isValid)
+		}else if (Array.isArray(this.state.isValid) && this.state.isValid > 0){
+			if(this.state.isValid.length == 1){
+				return React.createElement('div', {className:"CaretakerErrorMessage", key:"errorMessage"}, this.state.isValid[0])
+			}else if(this.state.isValid.length > 1){
+				return React.createElement('div', {className:"CaretakerErrorMessage", key:"errorMessage"}, (
+					React.createElement('ul', {}, (function(){
+						var lis = []
+						for(var i in this.state.isValid){
+							var message = this.state.isValid[i]
+							lis.push(React.createElement('li',{key:i}, message))
+						}
+					}()))
+				))
+			}
+		}
+	}
 	appearanceGetInsideObjectContainer(){
 		var insideObjectContainer = []
 
 		var label = this.appearanceGetLabel();
 		var description = this.appearanceGetDescription()
+		var errorMessages = this.appearanceGetErrorMessage()
 		var object = this.appearanceGetObject();
 
 		if(label){ insideObjectContainer.push(label) }
 		if(description){ insideObjectContainer.push(description) }
+		if(errorMessages){ insideObjectContainer.push(errorMessages) }
 		if(object){ insideObjectContainer.push(object) }
 
 		return insideObjectContainer
 	}
+	appearanceGetValidClassname(){
+		if(this.state.isValid != null){
+			if(this.state.isValid == true){
+				return " valid"
+			}else{
+				return " invalid"
+			}
+		}
+		return ""
+	}
 	render(){
 		var props = {}
-		props.className = "CaretakerFormObject " + (this.state.name ? this.state.name : "") + (this.isInput() ? " CaretakerInputContainer":"")
+		props.className = "CaretakerFormObject"
+		props.className += (this.state.name ? " "+this.state.name : "")
+		props.className += (this.isInput() ? " CaretakerInputContainer":"")
+		props.className += this.appearanceGetValidClassname()
 		return React.createElement('div',props, this.appearanceGetInsideObjectContainer())
 	}
 }
@@ -55562,15 +55839,42 @@ class CaretakerFormObjectCollection extends React.Component{
 		if(this.state.minCount < 0){ throw "min count of multiple object cannot be fewer than 0" }
 		if(this.state.maxCount < this.state.minCount ){ throw "max count cannot be fewer than min count" }
 		this.state.value = []
+		this.state.isValidMap = []
 		this.loadValue(props)
 		this.state.childrenCount = this.state.value.count || this.state.minCount || 1
+	}
+	onReportValidity(isValid, name){
+		this.state.isValidMap[name] = isValid
+		this.reportValidity()
+	}
+	reportValidity(){
+		if(this.props.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
+			this.state.validationUpdated = true
+			if(this.isChildless()){
+				this.props.onReportValidity(this.props.required != true)
+			}else{
+				var isValid = true
+				for(var i = 0; i<this.state.childrenCount; i++){
+					if(this.state.isValidMap[i] != true){
+						isValid = false
+						break;
+					}
+				}
+				this.props.onReportValidity(isValid)
+			}
+		}
+		this.setState(this.state)
 	}
 	componentDidMount(){
 		this.updateParent()
 	}
 	componentWillReceiveProps(props){
 		this.loadValue(props)
+		this.state.isValidating = props.isValidating
 		this.setState(this.state)
+		if(this.isChildless()){
+			this.reportValidity()
+		}
 	}
 	loadValue(props){
 		if(props.value){
@@ -55587,13 +55891,18 @@ class CaretakerFormObjectCollection extends React.Component{
 			delete props[key]
 		})
 		props.onChange = this.onChange.bind(this)
+		props.onReportValidity = this.onReportValidity.bind(this)
 		return props
 	}
 	updateParent(){
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
 		}
+		this.state.validationUpdated = false
 		this.setState(this.state)
+	}
+	isChildless(){
+		return this.state.value.length == 0
 	}
 	onChange(value,name){
 		this.state.value[name] = value
@@ -55602,12 +55911,14 @@ class CaretakerFormObjectCollection extends React.Component{
 	onRemoveChild(i){
 		if(this.state.childrenCount > this.state.minCount){
 			this.state.value.splice(i,1)
+			this.state.isValidMap.splice(i,1)
 			this.state.childrenCount--
 			this.updateParent()
 		}
 	}
 	onAddChild(){
 		if(this.state.childrenCount < this.state.maxCount){
+			this.state.value.push(null)
 			this.state.childrenCount++
 			this.updateParent()
 		}
@@ -55653,40 +55964,40 @@ class CaretakerFormObjectCollection extends React.Component{
 	value: ["value","_rememberme"]
 }
 */
-class CaretakerFormInputCheckbox extends React.Component{
-	constructor(props){
-		super(props)
-		this.state = {}
-		this.loadValue(props)
+class CaretakerFormInputCheckbox extends CaretakerFormInputPrototype{
+	getDefaultValue(){
+		return new Set()
 	}
-	componentDidMount(){
-		this.updateParent()
+	loadedValueIsValid(){
+		return true
 	}
-	componentWillReceiveProps(props){
-		this.loadValue(props)
-		this.setState(this.state)
-	}
-	loadValue(props){
-		var value = new Set()
-		if(props.value != null){
+	transformValueBeforeLoad(value){
+		var set = new Set()
+		if(value != null){
 			try{
-				for(var i in props.value){
+				for(var i in value){
 					try{
-						value.add(props.value[i])
-					}catch(e){}
+						set.add(value[i])
+					}catch(e){console.error(e)}
 				}
 			}catch(e){console.error(e)}
 		}
-		this.state.value = value
+		return set
 	}
-	updateParent(){
-		if(this.props.onChange){
-			this.props.onChange(Array.from(this.state.value))
+	checkValidity(value){
+		if(this.isRequired()){
+			if(typeof this.props.values == "object" && this.props.values){
+				if(this.state.value.size < Object.keys(this.props.values).length){
+					return false
+				}
+			}
 		}
-		this.setState(this.state)
+		return true
+	}
+	transformValueBeforeSave(value){
+		return Array.from(this.state.value)
 	}
 	onChange(index, value){
-
 		if(this.state.value.has(index)){
 			this.state.value.delete(index)
 		}else{
@@ -55694,16 +56005,8 @@ class CaretakerFormInputCheckbox extends React.Component{
 		}
 		this.updateParent()
 	}
-	getNegativePropKeys(){
+	removePropKeys(){
 		return ["values","value","options"]
-	}
-	getProps(){
-		var props = Object.assign({}, this.props)
-		this.getNegativePropKeys().forEach(function(key){
-			props[key] = null
-			delete props[key]
-		})
-		return props
 	}
 	getCheckboxes(){
 		var html = ""
@@ -55739,42 +56042,57 @@ class CaretakerFormInputCheckbox extends React.Component{
 
 Caretaker.SpecialInput.register('checkbox',CaretakerFormInputCheckbox)
 
-class CaretakerFormInputDate extends React.Component{
-	constructor(props){
-		super(props)
-		this.state = {}
-		this.loadValue(props)
-	}
-	componentDidMount(){
-		this.updateParent()
-	}
-	componentWillReceiveProps(props){
-		this.loadValue(props)
-		this.setState(this.state)
+class CaretakerFormInputDate extends CaretakerFormInputPrototype{
+	getDefaultValue(){
+		return ""
 	}
 	loadValue(props){
-		this.state.value = ""
+		this.state.value = this.getDefaultValue();
 		if(props.value != null){
-			var newValue = moment(props.value)
-			if(newValue.isValid()){
-				this.state.value = newValue
+			var supposedValue = this.transformValueBeforeLoad(props.value)
+			if(this.loadedValueIsValid(supposedValue)){
+				this.state.value = supposedValue
 			}
 		}else if(props.defaultValue != null){
-			var newValue = moment(props.defaultValue)
-			if(newValue.isValid()){
-				this.state.value = newValue
+			var supposedValue = this.transformValueBeforeLoad(props.defaultValue)
+			if(this.loadedValueIsValid(supposedValue)){
+				this.state.value = supposedValue
 			}
 		}
+		this.state.value = this.modifyValueAfterLoad(this.state.value) || this.state.value
 	}
 	updateParent(){
 		if(this.props.onChange){
-			if(this.state.value){
-				this.props.onChange(this.state.value.format("YYYY-MM-DD"))
-			}else{
-				this.props.onChange("")
+
+			this.props.onChange(this.transformValueBeforeSave(this.state.value))
+		}
+		this.state.validationUpdated = false
+		this.setState(this.state)
+	}
+	transformValueBeforeLoad(valueFromData){
+		if(valueFromData == ""){
+			return valueFromData
+		}else{
+			return moment(valueFromData)
+		}
+	}
+	loadedValueIsValid(value){
+		return value == "" || moment(value).isValid()
+	}
+	transformValueBeforeSave(value){
+		if(value){
+			return moment(value).format("YYYY-MM-DD")
+		}else{
+			return ""
+		}
+	}
+	checkValidity(value){
+		if(this.isRequired()){
+			if(value == ""){
+				return false
 			}
 		}
-		this.setState(this.state)
+		return true
 	}
 	onChange(value){
 		this.state.value = value
@@ -55783,15 +56101,10 @@ class CaretakerFormInputDate extends React.Component{
 	onFocus(){
 		Caretaker.Widget.callDateInputWidget(this.onChange.bind(this), this.state.value)
 	}
-	getNegativePropKeys(){
+	removePropKeys(){
 		return ["type","values","value","defaultValue"]
 	}
-	getProps(){
-		var props = Object.assign({}, this.props)
-		this.getNegativePropKeys().forEach(function(key){
-			props[key] = null
-			delete props[key]
-		})
+	modifyProps(props){
 		props.type = "text"
 		if(this.state.value){
 			props.value = this.state.value.format("dddd, DD MMM YYYY")
@@ -55820,41 +56133,24 @@ Caretaker.SpecialInput.register('date',CaretakerFormInputDate)
 * }
 *
 */
-class CaretakerFormInputFile extends React.Component{
-	constructor(props){
-		super(props)
-		this.state = {}
-		this.loadValue(props)
+class CaretakerFormInputFile extends CaretakerFormInputPrototype{
+	getDefaultValue(){
+		return null
 	}
-	loadValue(props){
-		this.state.value = null
-		if(props.value != null){
-			this.state.value = props.value
+	loadedValueIsValid(value){
+		if(value != null && !(value instanceof Caretaker.UploadedFile) && typeof value != "object"  ){
+			return false
 		}
+		return true
 	}
-	componentDidMount(){
-		this.updateParent()
-	}
-	componentWillReceiveProps(props){
-		this.loadValue(props)
-		this.setState(this.state)
-	}
-	updateParent(){
-		if(this.props.onChange){
-			this.props.onChange(this.state.value)
+	checkValidity(value){
+		if(this.isRequired() && value == null){
+			return false;
 		}
-		this.setState(this.state)
+		return true
 	}
-	getNegativePropKeys(){
+	removePropKeys(){
 		return ["value","values"]
-	}
-	getProps(){
-		var props = Object.assign({}, this.props)
-		this.getNegativePropKeys(function(key){
-			props[key] = null
-			delete props[key]
-		})
-		return props
 	}
 	onChange(value){
 		this.state.value = value
@@ -55902,66 +56198,6 @@ class CaretakerFormInputFile extends React.Component{
 
 Caretaker.SpecialInput.register('file',CaretakerFormInputFile)
 
-class CaretakerFormInputPrototype extends React.Component{
-	constructor(props){
-		super(props)
-		this.state = {}
-		this.loadValue(props)
-	}
-	loadValue(props){
-		this.state.value = this.getDefaultValue();
-		if(props.value != null){
-			if(this.valueIsValid(props.value)){
-				this.state.value = props.value
-			}
-		}else if(props.defaultValue != null){
-			if(this.valueIsValid(props.value)){
-				this.state.value = props.defaultValue
-			}
-		}
-	}
-	getNegativePropKeys(){
-		return ["value","values","defaultValue"]
-	}
-	getProps(){
-		var props = Object.assign({}, this.props)
-		this.getNegativePropKeys(function(key){
-			props[key] = null
-			delete props[key]
-		})
-		return props
-	}
-	componentDidMount(){
-		this.updateParent()
-	}
-	componentWillReceiveProps(props){
-		this.loadValue(props)
-		this.setState(this.state)
-	}
-	updateParent(){
-		if(this.props.onChange){
-			this.props.onChange(this.state.value)
-		}
-		this.setState(this.state)
-	}
-	//recommended to be extended
-	getDefaultValue(){
-		return null
-	}
-	valueIsValid(value){
-		return true
-	}
-	onChange(value){
-		if(this.valueIsValid(value)){
-			this.state.value = value
-		}
-		this.updateParent()
-	}
-	render(){
-
-	}
-}
-
 /** Command example
 {
 	type:"type",
@@ -55973,43 +56209,30 @@ class CaretakerFormInputPrototype extends React.Component{
 	value: "male"
 }
 */
-class CaretakerFormInputRadio extends React.Component{
-	constructor(props){
-		super(props)
-		this.state = {}
-		this.loadValue(props)
-	}
-	componentDidMount(){
-		this.updateParent()
-	}
-	componentWillReceiveProps(props){
-		this.loadValue(props)
-		this.setState(this.state)
-	}
-	loadValue(props){
-		if(props.value){
-			this.state.value = props.value
-		}
-	}
-	updateParent(){
-		if(this.props.onChange){
-			this.props.onChange(this.state.value)
-		}
-		this.setState(this.state)
-	}
+class CaretakerFormInputRadio extends CaretakerFormInputPrototype{
 	onChange(value){
 		this.state.value = value
 		this.updateParent()
 	}
-	getNegativePropKeys(){
-		return ["values","value","options","name"]
+	checkValidity(value){
+		if(this.isRequired()){
+			if(value == ""){
+				return false
+			}
+		}
+		return true
+	}
+	getDefaultValue(){
+		return ""
+	}
+	loadedValueIsValid(value){
+		return typeof value == "string"
+	}
+	removePropKeys(){
+		return ["options","name"]
 	}
 	getProps(){
-		var props = Object.assign({}, this.props)
-		this.getNegativePropKeys().forEach(function(key){
-			props[key] = null
-			delete props[key]
-		})
+		var props = this.getProtoProps()
 		return props
 	}
 	getCheckboxes(){
@@ -56057,46 +56280,30 @@ Caretaker.SpecialInput.register('radio',CaretakerFormInputRadio)
 	defaultValue: "male"
 }
 */
-class CaretakerFormInputSelect extends React.Component{
-	constructor(props){
-		super(props)
-		this.state = {}
-		this.loadValue(props)
-	}
-	componentDidMount(){
-		this.updateParent()
-	}
-	componentWillReceiveProps(props){
-		this.loadValue(props)
-		this.setState(this.state)
-	}
-	loadValue(props){
-		this.state.value = ""
-		if(props.value){
-			this.state.value = props.value
-		}else if(props.defaultValue){
-			this.state.value = props.defaultValue
-		}
-	}
-	updateParent(){
-		if(this.props.onChange){
-			this.props.onChange(this.state.value)
-		}
-		this.setState(this.state)
-	}
+class CaretakerFormInputSelect extends CaretakerFormInputPrototype{
 	onChange(event){
 		this.state.value = event.target.value
 		this.updateParent()
 	}
-	getNegativePropKeys(){
-		return ["value","values","multiple","type"]
+	getDefaultValue(){
+		return ""
+	}
+	loadedValueIsValid(value){
+		return typeof value == "string"
+	}
+	checkValidity(value){
+		if(this.isRequired()){
+			if(value == ""){
+				return false
+			}
+		}
+		return true
+	}
+	removePropKeys(){
+		return ["multiple","type","required"]
 	}
 	getProps(){
-		var props = Object.assign({}, this.props)
-		this.getNegativePropKeys().forEach(function(key){
-			props[key] = null
-			delete props[key]
-		})
+		var props = this.getProtoProps()
 		props.value = this.state.value
 		props.onChange = this.onChange.bind(this)
 		return props
@@ -56110,9 +56317,9 @@ class CaretakerFormInputSelect extends React.Component{
 		var optionElements = []
 		for(var i in options){
 			var option = options[i]
-			var value = option.value || i
-			var key = option.value || i
-			var text = option.text || i
+			var value = i
+			var key = i
+			var text = option
 			var prop = {value:value, key:key}
 			optionElements.push(React.createElement('option',prop, text))
 		}
@@ -56128,48 +56335,29 @@ class CaretakerFormInputSelect extends React.Component{
 
 Caretaker.SpecialInput.register('select',CaretakerFormInputSelect)
 
-class CaretakerFormInputTextarea extends React.Component{
-	constructor(props){
-		super(props)
-		this.state = {}
-		this.state.value = ""
-		this.loadValue(props)
+class CaretakerFormInputTextarea extends CaretakerFormInputPrototype{
+	getDefaultValue(){
+		return ""
 	}
-	componentDidMount(){
-		this.updateParent()
-	}
-	componentWillReceiveProps(props){
-		this.loadValue(props)
-		this.setState(this.state)
-	}
-	loadValue(props){
-		this.state.value = ""
-		if(props.value != null){
-			this.state.value = props.value
+	checkValidity(value){
+		if(this.isRequired() && value == ""){
+			return false
 		}
+		return true
 	}
-	updateParent(){
-		if(this.props.onChange){
-			this.props.onChange(this.state.value)
-		}
-		this.setState(this.state)
+	loadedValueIsValid(value){
+		return typeof value == "string"
 	}
 	onChange(event){
 		this.state.value = event.target.value
 		this.updateParent()
 	}
-	getNegativePropKeys(){
+	removePropKeys(){
 		return ["type"]
 	}
-	getProps(){
-		var props = Object.assign({}, this.props)
-		this.getNegativePropKeys().forEach(function(key){
-			props[key] = null
-			delete props[key]
-		})
+	modifyProps(props){
 		props.onChange = this.onChange.bind(this)
 		props.value = this.state.value
-		return props
 	}
 	getTextarea(){
 		return React.createElement('textarea', this.getProps())
@@ -56184,11 +56372,23 @@ class CaretakerFormInputTextarea extends React.Component{
 Caretaker.SpecialInput.register('textarea',CaretakerFormInputTextarea)
 Caretaker.SpecialInput.register('textarea-text',CaretakerFormInputTextarea)
 
-class CaretakerFormInputTextareaHTML extends React.Component{
-	constructor(props){
-		super(props)
-		this.state = { editorState:CaretakerTextareaDependency.EditorState.createEmpty() }
-		this.loadValue(props)
+class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
+	setInitialState(state){
+		state.editorState = CaretakerTextareaDependency.EditorState.createEmpty()
+		state.inlineToolbarPlugin = CaretakerTextareaDependency.pluginsHTML.createInlineToolbarPlugin(CaretakerTextareaDependency.pluginsHTML.inlineToolbarPluginParams)
+		state.plugin = [
+			CaretakerTextareaDependency.pluginsHTML.createUndoPlugin(),
+			CaretakerTextareaDependency.pluginsHTML.createLinkifyPlugin(),
+			state.inlineToolbarPlugin
+		]
+		state.inlineToolbar = state.inlineToolbarPlugin.InlineToolbar
+		return state
+	}
+	getDefaultValue(){
+		return ""
+	}
+	loadedValueIsValid(){
+		return true
 	}
 	getLinkifier(){
 		if(!this.linkifier){
@@ -56198,7 +56398,8 @@ class CaretakerFormInputTextareaHTML extends React.Component{
 	}
 	normalize(text){
 		text = this.stripScript(text)
-		var normalizer = document.createElement('div')
+		this.state.normalizer = this.state.normalizer || document.createElement('div')
+		var normalizer = this.state.normalizer
 		normalizer.innerHTML = text
 		var as = normalizer.querySelectorAll('a')
 		for(var i in as){
@@ -56240,34 +56441,44 @@ class CaretakerFormInputTextareaHTML extends React.Component{
 		}
 		return text
 	}
-	componentDidMount(){
-		this.updateParent()
-	}
-	componentWillReceiveProps(props){
-		this.loadValue(props)
-		this.setState(this.state)
-	}
-	loadValue(props){
-		if(props.value){
-			var currentValue = CaretakerTextareaDependency.convertToHTML(this.state.editorState.getCurrentContent())
-			var value = props.value || ""
-			if(props.linkify == true){
-				value = this.normalize(value)
-			}
-			if(currentValue != value){
-				var blocksFromHTML = CaretakerTextareaDependency.convertFromHTML(value)
-				var state = CaretakerTextareaDependency.ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap)
-				this.state = {
-					editorState: CaretakerTextareaDependency.EditorState.createWithContent(state)
-				}
-			}
+	checkHasContent(html){
+		this.state.normalizer = this.state.normalizer || document.createElement('div')
+		var normalizer = this.state.normalizer
+		normalizer.innerHTML = html
+		if(normalizer.innerText.trim() == ""){
+			return false
+		}else{
+			return true
 		}
 	}
-	updateParent(){
-		var value = CaretakerTextareaDependency.convertToHTML(this.state.editorState.getCurrentContent())
-		if(this.props.onChange){
-			this.props.onChange( this.linkify(value) )
+	getCurrentValue(){
+		if(!this.state.editorState){
+			this.state.editorState = CaretakerTextareaDependency.EditorState.createEmpty()
 		}
+		return CaretakerTextareaDependency.convertToHTML(this.state.editorState.getCurrentContent())
+	}
+	checkValidity(){
+		var currentValueHTML = this.getCurrentValue()
+		if(this.isRequired() && !this.checkHasContent(currentValueHTML)){
+			return "This must be filled"
+		}
+		return true
+	}
+	modifyValueAfterLoad(value){
+		var currentValue = this.getCurrentValue()
+		value = value || ""
+		value = this.normalize(value)
+		if(currentValue != value){
+			var blocksFromHTML = CaretakerTextareaDependency.convertFromHTML(value)
+			var contentState = CaretakerTextareaDependency.ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap)
+			this.state.editorState = CaretakerTextareaDependency.EditorState.createWithContent(contentState)
+		}
+	}
+	transformValueBeforeLoad(value){
+		return this.normalize(value)
+	}
+	transformValueBeforeSave(value){
+		return this.linkify(CaretakerTextareaDependency.convertToHTML(this.state.editorState.getCurrentContent()))
 	}
 	focus(){
 		this.editor.focus()
@@ -56276,24 +56487,19 @@ class CaretakerFormInputTextareaHTML extends React.Component{
 		this.state.editorState = editorState
 		this.updateParent()
 	}
-	getNegativePropKeys(){
+	removePropKeys(){
 		return ["type"]
 	}
-	getProps(){
-		var props = Object.assign({}, this.props)
-		this.getNegativePropKeys().forEach(function(key){
-			props[key] = null
-			delete props[key]
-		})
+	modifyProps(props){
 		props.onChange = this.onChange.bind(this)
 		props.editorState = this.state.editorState
-		props.plugins = CaretakerTextareaDependency.pluginsHTML
-		props.ref = (element) => { this.editor = element }
+		props.plugins = this.state.plugin
+		props.ref = (element) => {this.editor = element}
 		props.key = "textarea_html"
 		return props
 	}
 	getTextarea(){
-		return [React.createElement(CaretakerTextareaDependency.Editor, this.getProps()), React.createElement(CaretakerTextareaDependency.InlineToolbar, {key:"toolbar"})]
+		return [React.createElement(CaretakerTextareaDependency.Editor, this.getProps()), React.createElement(this.state.inlineToolbar, {key:"toolbar"})]
 	}
 	render(){
 		return React.createElement('div',{className: "CaretakerFormInputTextareaHTML", onClick: this.focus.bind(this)}, (
@@ -56304,42 +56510,28 @@ class CaretakerFormInputTextareaHTML extends React.Component{
 
 Caretaker.SpecialInput.register('textarea-html',CaretakerFormInputTextareaHTML)
 
-class CaretakerFormInputTime extends React.Component{
-	constructor(props){
-		super(props)
-		this.state = {}
-		this.loadValue(props)
+class CaretakerFormInputTime extends CaretakerFormInputPrototype{
+	getDefaultValue(value){
+		return ""
 	}
-	componentDidMount(){
-		this.updateParent()
-	}
-	componentWillReceiveProps(props){
-		this.loadValue(props)
-		this.setState(this.state)
-	}
-	loadValue(props){
-		this.state.value = ""
-		if(props.value != null){
-			var newValue = moment(props.value,"HH:mm:ss")
-			if(newValue.isValid()){
-				this.state.value = newValue
-			}
-		}else if(props.defaultValue != null){
-			var newValue = moment(props.defaultValue,"HH:mm:ss")
-			if(newValue.isValid()){
-				this.state.value = newValue
-			}
+	checkValidity(value){
+		if(this.isRequired() && value == ""){
+			return false
 		}
+		return true
 	}
-	updateParent(){
-		if(this.props.onChange){
-			if(this.state.value){
-				this.props.onChange(this.state.value.format("HH:mm:ss"))
-			}else{
-				this.props.onChange("")
-			}
+	transformValueBeforeLoad(value){
+		return moment(value, "HH:mm:ss")
+	}
+	loadedValueIsValid(value){
+		return moment(value).isValid()
+	}
+	transformValueBeforeSave(value){
+		if(value){
+			return value.format("HH:mm:ss")
+		}else{
+			return ""
 		}
-		this.setState(this.state)
 	}
 	onChange(value){
 		this.state.value = value
@@ -56348,15 +56540,10 @@ class CaretakerFormInputTime extends React.Component{
 	onFocus(){
 		Caretaker.Widget.callTimeInputWidget(this.onChange.bind(this), this.state.value)
 	}
-	getNegativePropKeys(){
+	removePropKeys(){
 		return ["type","values","value"]
 	}
-	getProps(){
-		var props = Object.assign({}, this.props)
-		this.getNegativePropKeys().forEach(function(key){
-			props[key] = null
-			delete props[key]
-		})
+	modifyProps(props){
 		props.type = "text"
 		if(this.state.value){
 			props.value = this.state.value.format("HH:mm:ss")

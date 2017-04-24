@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Caretaker - Validation Test</title>
+
+	<link rel="stylesheet" href="asset/bootstrap4/css/bootstrap.css">
+	<link rel="stylesheet" href="asset/bootstrap-override.css">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="asset/bootstrap4/js/bootstrap.js"></script>
+	<script src="asset/moment/moment.js"></script>
+	<script src="asset/react/build/react.js"></script>
+	<script src="asset/react/build/react-dom.js"></script>
+	<script src="../dist/caretaker.js"></script>
+	<script src="../dist/caretaker.extension.js"></script>
+	<link href="../dist/caretaker.css" rel="stylesheet"></link>
+	<link href="../dist/caretaker.extension.css" rel="stylesheet"></link>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-4 text-center">
+				<h6>Validation Test</h6>
+			</div>
+			<div class="col-md-8">
+				<div id="form-container">
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<script async>
+		var validationModel = {
+			label: "Validation Test",
+			name: "validation_test_object",
+			has: [
+				{
+					name: "text required false",
+					label: "text required false",
+					type:"text",
+					placeholder:"required",
+					required:true
+				},
+				{
+					name: "text required true",
+					label: "text required true",
+					type:"text",
+					placeholder:"required",
+					defaultValue:"required",
+					required:true
+				},
+				{
+					name: "checkbox required false",
+					label: "checkbox required false",
+					type:"checkbox",
+					values: {
+						"required": "Required"
+					},
+					required:true
+				},
+				{
+					name: "checkbox required true",
+					label: "checkbox required true",
+					type:"checkbox",
+					values: {
+						"required": "Required"
+					},
+					defaultValue: ["required"],
+					required:true
+				},
+				{
+					name: "radio required false",
+					label: "radio required false",
+					type:"radio",
+					values:{
+						"option_1": "Option 1",
+						"option_2": "Option 2"
+					},
+					required:true
+				},
+				{
+					name: "radio required true",
+					label: "radio required true",
+					type:"radio",
+					values:{
+						"option_1": "Option 1",
+						"option_2": "Option 2"
+					},
+					defaultValue: "option_1",
+					required:true
+				},
+				{
+					name: "date required false",
+					label: "date required false",
+					type:"date",
+					required:true
+				},
+				{
+					name: "date required true",
+					label: "date required true",
+					type:"date",
+					defaultValue: moment().format("YYYY-MM-DD"),
+					required:true
+				},
+				{
+					name: "time required false",
+					label: "time required false",
+					type:"time",
+					required:true
+				},
+				{
+					name: "time required true",
+					label: "time required true",
+					type:"time",
+					defaultValue: moment().format("HH:mm:ss"),
+					required:true
+				},
+				{
+					name: "select required false",
+					label: "select required false",
+					type:"select",
+					values: {
+						"select_0": "",
+						"select_1": "Select 1"
+					},
+					required:true
+				},
+				{
+					name: "select required true",
+					label: "select required true",
+					type:"select",
+					values: {
+						"select_0": "",
+						"select_1": "Select 1"
+					},
+					defaultValue: "select_1",
+					required:true
+				},
+				{
+					name: "textarea required false",
+					label: "textarea required false",
+					type:"textarea",
+					required:true
+				},
+				{
+					name: "textarea required true",
+					label: "textarea required true",
+					type:"textarea",
+					defaultValue: "Textarea",
+					required:true
+				},
+				{
+					name: "textarea-html required false",
+					label: "textarea-html required false",
+					type:"textarea-html",
+					required:true
+				},
+				{
+					name: "textarea-html required true",
+					label: "textarea-html required true",
+					type:"textarea-html",
+					defaultValue: "<em>Example</em>",
+					required:true
+				},
+				{
+					name: "file required false",
+					label: "file required false",
+					type:"file",
+					required:true
+				},
+				{
+					name: "file required true",
+					label: "file required true",
+					type:"file",
+					defaultValue: {
+						link: "#",
+						text: "fileexample.txt"
+					},
+					required:true
+				}
+			]
+		}
+		var formCommand = {
+			edit: validationModel,
+			action: "",
+			submittable: true,
+			resettable: true,
+		}
+		var theForm = ReactDOM.render(React.createElement(CaretakerForm, formCommand), window['form-container'])
+	</script>
+</body>
+</html>
