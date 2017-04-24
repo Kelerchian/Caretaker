@@ -29,11 +29,12 @@ class CaretakerForm extends React.Component{
 		this.setState(this.state)
 	}
 	onReportValidity(isValid){
-		this.state.isValidating = false
 		this.state.isValid = isValid == true
+		console.log(this.state.isValid)
 		if(this.state.isValid){
 			this.onSubmit()
 		}
+		this.setState(this.state)
 	}
 	getProps(){
 		var props = Object.assign({}, this.props.edit)

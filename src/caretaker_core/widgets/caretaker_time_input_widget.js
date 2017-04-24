@@ -8,7 +8,7 @@ class CaretakerTimeInputWidget extends React.Component{
 		}
 
 		this.state = {
-			oldValue : moment(currentValue),
+			oldValue : props.value,
 			lastValidValue: moment(currentValue),
 			value : moment(currentValue)
 		}
@@ -16,6 +16,11 @@ class CaretakerTimeInputWidget extends React.Component{
 	submitChange(){
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
+		}
+	}
+	clearChange(){
+		if(this.props.onChange){
+			this.props.onChange("")
 		}
 	}
 	cancelChange(){
@@ -72,8 +77,9 @@ class CaretakerTimeInputWidget extends React.Component{
 	}
 	appearanceGetActions(){
 		var saveButton = React.createElement('button',{key:"save",className:"CaretakerButton CaretakerPositiveButton",onClick: this.submitChange.bind(this)},"Save")
+		var clearButton = React.createElement('button',{key:"clear",className:"CaretakerButton",onClick: this.clearChange.bind(this)},"Clear")
 		var cancelButton = React.createElement('button',{key:"cancel",className:"CaretakerButton CaretakerNegativeButton",onClick: this.cancelChange.bind(this)},"Cancel")
-		return [saveButton, cancelButton]
+		return [saveButton, clearButton, cancelButton]
 	}
 	render(){
 		return React.createElement('div',{onClick: this.props.widgetOnClick, className:"CaretakerWidget CaretakerTimeInputWidget"}, [

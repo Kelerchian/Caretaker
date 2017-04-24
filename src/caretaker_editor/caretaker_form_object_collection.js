@@ -8,22 +8,23 @@ class CaretakerFormObjectCollection extends React.Component{
 		if(this.state.minCount < 0){ throw "min count of multiple object cannot be fewer than 0" }
 		if(this.state.maxCount < this.state.minCount ){ throw "max count cannot be fewer than min count" }
 		this.state.value = []
-		this.state.isValid = []
+		this.state.isValidMap = []
 		this.loadValue(props)
 		this.state.childrenCount = this.state.value.count || this.state.minCount || 1
 	}
 	onReportValidity(isValid, name){
-		this.state.isValid[name] = isValid
+		this.state.isValidMap[name] = isValid
 		this.reportValidity()
 	}
 	reportValidity(){
-		if(this.props.onReportValidity && this.state.isValidating){
+		if(this.props.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
+			this.state.validationUpdated = true
 			if(this.isChildless()){
 				this.props.onReportValidity(this.props.required != true)
 			}else{
 				var isValid = true
 				for(var i = 0; i<this.state.childrenCount; i++){
-					if(this.state.isValid[i] != true){
+					if(this.state.isValidMap[i] != true){
 						isValid = false
 						break;
 					}
@@ -31,6 +32,7 @@ class CaretakerFormObjectCollection extends React.Component{
 				this.props.onReportValidity(isValid)
 			}
 		}
+		this.setState(this.state)
 	}
 	componentDidMount(){
 		this.updateParent()
@@ -65,6 +67,7 @@ class CaretakerFormObjectCollection extends React.Component{
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
 		}
+		this.state.validationUpdated = false
 		this.setState(this.state)
 	}
 	isChildless(){
@@ -77,7 +80,7 @@ class CaretakerFormObjectCollection extends React.Component{
 	onRemoveChild(i){
 		if(this.state.childrenCount > this.state.minCount){
 			this.state.value.splice(i,1)
-			this.state.isValid.splice(i,1)
+			this.state.isValidMap.splice(i,1)
 			this.state.childrenCount--
 			this.updateParent()
 		}

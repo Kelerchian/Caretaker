@@ -31,8 +31,13 @@
 	box-shadow: 0 3px 3px rgba(0,0,0,0.3);
 }
 
-.CaretakerFormObject .CaretakerFormObject{
+.CaretakerFormObject,
+.CaretakerFormActions{
 	border: 1px solid rgba(127,127,127,0.1);
+}
+
+.CaretakerFormObject .CaretakerFormObject{
+	box-shadow: none;
 }
 
 .CaretakerFormActions{
@@ -51,8 +56,8 @@
 }
 
 .CaretakerFormObject.valid{
-	border: 1px solid rgba(151,225,97,0.5);
+	border: 1px solid rgba(151,225,97,0.8);
 }
 .CaretakerFormObject.invalid{
-	border: 1px solid rgba(214,45,45,0.5);
+	border: 1px solid rgba(214,45,45,0.4);
 }

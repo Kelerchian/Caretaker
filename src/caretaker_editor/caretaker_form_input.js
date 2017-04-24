@@ -32,13 +32,17 @@ class CaretakerInput extends React.Component{
 	}
 	onReportValidity(isValid){
 		this.state.isValid = isValid == true
+		this.state.validationUpdated = false
 		this.reportValidity()
 	}
 	reportValidity(){
-		if(this.props.onReportValidity && this.state.isValidating){
+		if(this.props.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
+			this.state.validationUpdated = true
 			this.checkValidity()
 			this.props.onReportValidity(this.state.isValid)
 		}
+
+		this.setState(this.state)
 	}
 	getNegativeCommonPropKeys(){
 		return ["options","value","isValidating","onReportValidity"]
@@ -73,6 +77,7 @@ class CaretakerInput extends React.Component{
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
 		}
+		this.state.validationUpdated = false
 		this.setState(this.state)
 	}
 	onCommonInputChange(event){

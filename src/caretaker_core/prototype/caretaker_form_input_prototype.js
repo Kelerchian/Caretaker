@@ -18,7 +18,7 @@ class CaretakerFormInputPrototype extends React.Component{
 				this.state.value = supposedValue
 			}
 		}
-		this.afterLoadValue(this.state.value)
+		this.state.value = this.modifyValueAfterLoad(this.state.value) || this.state.value
 	}
 	componentDidMount(){
 		this.updateParent()
@@ -31,10 +31,11 @@ class CaretakerFormInputPrototype extends React.Component{
 	}
 	reportValidity(){
 		this.state.isValid = this.checkValidity(this.state.value)
-		this.setState(this.state)
-		if(this.props.onReportValidity && this.state.isValidating){
+		if(this.props.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
+			this.state.validationUpdated = true
 			this.props.onReportValidity(this.state.isValid)
 		}
+		this.setState(this.state)
 	}
 	getNegativePropKeys(){
 		return ["value","values","defaultValue","onReportValidity","isValidating"]
@@ -59,6 +60,7 @@ class CaretakerFormInputPrototype extends React.Component{
 		if(this.props.onChange){
 			this.props.onChange(this.transformValueBeforeSave(this.state.value))
 		}
+		this.state.validationUpdated = false
 		this.setState(this.state)
 	}
 	isRequired(){
@@ -91,8 +93,8 @@ class CaretakerFormInputPrototype extends React.Component{
 	checkValidity(value){
 		throw new Error("checkValidity is undefined")
 	}
-	afterLoadValue(value){
-
+	modifyValueAfterLoad(value){
+		return value
 	}
 	//must be extended
 	getDefaultValue(){
@@ -104,7 +106,6 @@ class CaretakerFormInputPrototype extends React.Component{
 	}
 	//recommended to be extended
 	onChange(value){
-		this.state.validationOutdated = true
 		if(this.loadedValueIsValid(value)){
 			this.state.value = value
 		}

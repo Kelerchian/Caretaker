@@ -32,7 +32,7 @@ class CaretakerFormInputCheckbox extends CaretakerFormInputPrototype{
 	checkValidity(value){
 		if(this.isRequired()){
 			if(typeof this.props.values == "object" && this.props.values){
-				if(this.state.value.size < Object.keys(this.props.values)){
+				if(this.state.value.size < Object.keys(this.props.values).length){
 					return false
 				}
 			}

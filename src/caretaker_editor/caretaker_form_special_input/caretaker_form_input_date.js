@@ -2,11 +2,38 @@ class CaretakerFormInputDate extends CaretakerFormInputPrototype{
 	getDefaultValue(){
 		return ""
 	}
+	loadValue(props){
+		this.state.value = this.getDefaultValue();
+		if(props.value != null){
+			var supposedValue = this.transformValueBeforeLoad(props.value)
+			if(this.loadedValueIsValid(supposedValue)){
+				this.state.value = supposedValue
+			}
+		}else if(props.defaultValue != null){
+			var supposedValue = this.transformValueBeforeLoad(props.defaultValue)
+			if(this.loadedValueIsValid(supposedValue)){
+				this.state.value = supposedValue
+			}
+		}
+		this.state.value = this.modifyValueAfterLoad(this.state.value) || this.state.value
+	}
+	updateParent(){
+		if(this.props.onChange){
+
+			this.props.onChange(this.transformValueBeforeSave(this.state.value))
+		}
+		this.state.validationUpdated = false
+		this.setState(this.state)
+	}
 	transformValueBeforeLoad(valueFromData){
-		moment(valueFromData)
+		if(valueFromData == ""){
+			return valueFromData
+		}else{
+			return moment(valueFromData)
+		}
 	}
 	loadedValueIsValid(value){
-		return moment(value).isValid()
+		return value == "" || moment(value).isValid()
 	}
 	transformValueBeforeSave(value){
 		if(value){
