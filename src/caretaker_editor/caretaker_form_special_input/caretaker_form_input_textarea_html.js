@@ -88,6 +88,7 @@ class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
 			var blocksFromHTML = CaretakerTextareaDependency.convertFromHTML(value)
 			var contentState = CaretakerTextareaDependency.ContentState.createFromBlockArray(blocksFromHTML.contentBlocks, blocksFromHTML.entityMap)
 			this.state.editorState = CaretakerTextareaDependency.EditorState.createWithContent(contentState)
+			this.setState(this.state)
 		}
 	}
 	transformValueBeforeLoad(value){
