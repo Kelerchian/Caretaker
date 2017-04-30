@@ -22,7 +22,7 @@ class CaretakerFormInputFile extends CaretakerFormInputPrototype{
 	}
 	checkValidity(value){
 		if(this.isRequired() && value == null){
-			return false;
+			return ["A file must be selected"]
 		}
 		return true
 	}

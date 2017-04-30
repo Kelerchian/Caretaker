@@ -45,7 +45,7 @@ class CaretakerFormInputDate extends CaretakerFormInputPrototype{
 	checkValidity(value){
 		if(this.isRequired()){
 			if(value == ""){
-				return false
+				return ["This must be filled"]
 			}
 		}
 		return true

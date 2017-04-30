@@ -4,7 +4,7 @@ class CaretakerFormInputTextarea extends CaretakerFormInputPrototype{
 	}
 	checkValidity(value){
 		if(this.isRequired() && value == ""){
-			return false
+			return ["This must be filled"]
 		}
 		return true
 	}

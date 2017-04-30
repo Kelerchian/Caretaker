@@ -21,10 +21,18 @@ class CaretakerInput extends React.Component{
 			this.state.value = props.value
 		}
 	}
+	checkValidityAdvanced(){
+		if(this.state.value == ""){
+			this.state.isValid = ["This must be filled"]
+		}
+	}
 	checkValidity(){
 		if(this.isCommonInput()){
 			if(this.textInput){
 				this.state.isValid = this.textInput.checkValidity()
+				if(this.state.isValid == false){
+					this.checkValidityAdvanced()
+				}
 			}else{
 				this.state.isValid = false
 			}

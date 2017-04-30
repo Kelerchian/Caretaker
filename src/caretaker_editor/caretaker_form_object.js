@@ -206,7 +206,7 @@ class CaretakerFormObject extends React.Component{
 	appearanceGetErrorMessage(){
 		if(typeof this.state.isValid == "string"){
 			return React.createElement('div', {className:"CaretakerErrorMessage", key:"errorMessage"}, this.state.isValid)
-		}else if (Array.isArray(this.state.isValid) && this.state.isValid > 0){
+		}else if (Array.isArray(this.state.isValid) && this.state.isValid.length > 0){
 			if(this.state.isValid.length == 1){
 				return React.createElement('div', {className:"CaretakerErrorMessage", key:"errorMessage"}, this.state.isValid[0])
 			}else if(this.state.isValid.length > 1){

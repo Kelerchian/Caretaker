@@ -32,8 +32,12 @@ class CaretakerFormInputCheckbox extends CaretakerFormInputPrototype{
 	checkValidity(value){
 		if(this.isRequired()){
 			if(typeof this.props.values == "object" && this.props.values){
-				if(this.state.value.size < Object.keys(this.props.values).length){
-					return false
+				if(this.state.value.size <= 0 && Object.keys(this.props.values).length > 0){
+					if( Object.keys(this.props.values).length == 1 ){
+						return ["Check to continue"]
+					}else{
+						return ["At least one option must be checked"]
+					}
 				}
 			}
 		}

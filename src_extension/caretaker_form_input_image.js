@@ -29,7 +29,7 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 	* It is called when default value is assigned to this.state.value
 	* default is "return true" so it's kinda useless on default
 	*/
-	valueIsValid(value){
+	loadedValueIsValid(value){
 		if(value instanceof Caretaker.UploadedFile){
 			return true
 		}else if(typeof value == "object"){
@@ -48,7 +48,7 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 	*/
 	checkValidity(value){
 		if(this.isRequired() && value == null){
-			return false
+			return ["An image must be selected"]
 		}
 		return true
 	}

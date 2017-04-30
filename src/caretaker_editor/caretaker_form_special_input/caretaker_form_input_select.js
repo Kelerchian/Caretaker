@@ -23,7 +23,7 @@ class CaretakerFormInputSelect extends CaretakerFormInputPrototype{
 	checkValidity(value){
 		if(this.isRequired()){
 			if(value == ""){
-				return false
+				return ["An option must be selected"]
 			}
 		}
 		return true
