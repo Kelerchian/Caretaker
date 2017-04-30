@@ -92,6 +92,98 @@ var Caretaker = (function(){
 	}())
 
 
+
+	/**
+	* Special Input & Extensor Support
+	*
+	*/
+	var SpecialInputPrivate = {
+		inputMap : {}
+	}
+	var SpecialInputPublic = {
+		isSpecialInput: function(type){
+			if(SpecialInputPrivate.inputMap[type]){
+				return true
+			}else{
+				return false
+			}
+		},
+		isCommonInput: function(type){
+			return !SpecialInputPublic.isSpecialInput(type)
+		},
+		getClass: function(type){
+			return SpecialInputPrivate.inputMap[type]
+		},
+		register: function(type,className){
+			if(SpecialInputPrivate.inputMap[type]){
+				console.warn('SpecialInput '+type+' has been installed and cannot be replaced with '+className)
+			}else{
+				SpecialInputPrivate.inputMap[type] = className
+			}
+		}
+	}
+
+
+
+	class ValueNode{
+		static from(object){
+			return Object.assign(new this(), object)
+		}
+		convert(){
+			return Object.assign({}, this)
+		}
+	}
+	class ValueArray extends Array{
+		convert(){
+			return Array.from(this)
+		}
+	}
+
+	/**
+	* SubmissionPreprocessor
+	* preprocess valueTree before submission
+	*/
+
+	var SubmissionPreprocessor = (function(){
+		var preprocessors = []
+
+		function preprocessOne(valueNode){
+			for(var i in preprocessors){
+				valueNode = preprocessors[i](valueNode)
+			}
+			return valueNode
+		}
+		function preprocessTree(valueNode){
+			if(valueNode instanceof ValueNode || valueNode instanceof ValueArray){
+				valueNode = valueNode.convert()
+				for(var i in valueNode){
+					valueNode[i] = preprocessTree(valueNode[i])
+				}
+			}
+			valueNode = preprocessOne(valueNode)
+			return valueNode
+		}
+		function preprocess(valueRoot){
+			return preprocessTree(valueRoot)
+		}
+		function append(func){
+			if(typeof func == "function"){
+				preprocessors.push(func)
+			}
+		}
+		function prepend(func){
+			if(typeof func == "function"){
+				preprocessors.unshift(func)
+			}
+		}
+
+		return {
+			preprocess: preprocess,
+			prepend: prepend,
+			append: append
+		}
+	}())
+
 	/**
 	* Caretaker UploadedFile and UploadedFileMap
 	*
@@ -145,41 +237,19 @@ var Caretaker = (function(){
 			return this.fileData
 		}
 	}
-
-
-	/**
-	* Special Input & Extensor Support
-	*
-	*/
-	var SpecialInputPrivate = {
-		inputMap : {}
-	}
-	var SpecialInputPublic = {
-		isSpecialInput: function(type){
-			if(SpecialInputPrivate.inputMap[type]){
-				return true
-			}else{
-				return false
-			}
-		},
-		isCommonInput: function(type){
-			return !SpecialInputPublic.isSpecialInput(type)
-		},
-		getClass: function(type){
-			return SpecialInputPrivate.inputMap[type]
-		},
-		register: function(type,className){
-			if(SpecialInputPrivate.inputMap[type]){
-				console.warn('SpecialInput '+type+' has been installed and cannot be replaced with '+className)
-			}else{
-				SpecialInputPrivate.inputMap[type] = className
-			}
+	SubmissionPreprocessor.append(function(valueNode){
+		if(valueNode instanceof UploadedFile){
+			return valueNode.getFileData()
 		}
-	}
+		return valueNode
+	})
 
 	return {
-		Widget:Widget,
+		SpecialInput:SpecialInputPublic,
+		SubmissionPreprocessor: SubmissionPreprocessor,
 		UploadedFile:UploadedFile,
-		SpecialInput:SpecialInputPublic
+		ValueArray:ValueArray,
+		ValueNode:ValueNode,
+		Widget:Widget
 	}
 })();

@@ -73,13 +73,22 @@ class CaretakerFormObject extends React.Component{
 			throw "Value for Object must be an object"
 		}
 	}
+	loadValueConversion(possibleValue){
+		if(Array.isArray(possibleValue)){
+			this.state.value = Caretaker.ValueArray.from(possibleValue)
+		}else if(typeof possibleValue == "object"){
+			this.state.value = Caretaker.ValueNode.from(possibleValue)
+		}else{
+			this.state.value = possibleValue
+		}
+	}
 	loadValue(props){
 		if(this.isMany()){
-			this.state.value = []
+			this.state.value = new Caretaker.ValueArray()
 			this.state.name = "arr"
 		}
 		else if(this.isObject()){
-			this.state.value = {}
+			this.state.value = new Caretaker.ValueNode()
 			this.state.name = "obj"
 		}else{
 			this.state.value = null
@@ -91,9 +100,9 @@ class CaretakerFormObject extends React.Component{
 		}
 		//update value
 		if(props.value != null){
-			this.state.value = props.value
+			this.loadValueConversion(props.value)
 		}else if(props.defaultValue != null){
-			this.state.value = props.defaultValue
+			this.loadValueConversion(props.defaultValue)
 		}
 		this.assertValues()
 	}
@@ -110,10 +119,10 @@ class CaretakerFormObject extends React.Component{
 		return this.isObject() && (this.props.has == null || (typeof this.props.has == "object" && Object.keys(this.props.has).length == 0 ))
 	}
 	updateParent(){
+		this.state.validationUpdated = false
 		if(this.props.onChange){
 			this.props.onChange(this.state.value, this.state.name)
 		}
-		this.state.validationUpdated = false
 	}
 	onChange(value, name){
 		if(name != null){

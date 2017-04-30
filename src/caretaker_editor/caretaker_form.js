@@ -9,46 +9,75 @@ class CaretakerForm extends React.Component{
 		}
 	}
 	onChange(value){
+		console.log(value)
 		this.state.value = value
-		this.state.isValid = null
 		this.state.isSubmitting = false
 		this.setState(this.state)
 	}
 	onReset(){
 		this.state.value = this.props.value
-		this.state.isValid = null
 		this.state.isSubmitting = false
 		this.setState(this.state)
 	}
-	doStringAction(){
+	doStringAction(actionValue){
 		var url = this.props.action
 		var fetch = window.fetch
-		fetch(url).then(function(response){
-			if(response.status != 200){
-				console.log('Looks like there was a problem. Status Code: ' + response.status)
-				return
-			}
+		var name = this.props.edit.name || "data"
+		var formData = (function(){
+			var formData = new FormData()
+			formData.append(name,JSON.stringify(actionValue))
+		}());
 
-			response.json().then(function(data){
-				console.log('data');
-			});
+		fetch(url, {
+			method: 'post',
+			body: formData
+		}).then(function(response){
+			if(response.ok){
+				this.doAfterSuccess(response, actionValue)
+			}
 		}).catch(function(err){
-			console.error('Fetch error :-S', err)
+			this.doAfterFailure(err, actionValue)
 		})
 	}
-	doFunctionAction(){
+	doFunctionAction(actionValue){
+		try{
+			var actionReturn = this.props.action(actionValue)
+			this.doAfterSuccess(actionReturn, actionValue)
+		}catch(throwable){
+			this.doAfterFailure(throwable, actionValue)
+		}
+	}
+	doAfterAction(actionValue){
+		if(typeof this.props.afterAction == "function"){
+			this.props.afterAction(actionValue)
+		}
+	}
+	doAfterSuccess(actionReturn, actionValue){
+		this.doAfterAction(actionValue)
+		var continueAction = true
+		if(typeof this.props.afterSuccess == "function"){
+			continueAction = this.props.afterSuccess(actionReturn, actionValue)
+		}
+		if(continueAction !== false){
 
+		}
+	}
+	doAfterFailure(throwable, actionValue){
+		this.doAfterAction(actionValue)
+		var continueAction = true
+		if(typeof this.props.afterFailure == "function"){
+			continueAction = this.props.afterFailure(throwable, actionValue)
+		}
+		if(continueAction !== false){
+
+		}
 	}
 	onAction(){
+		var actionValue = Caretaker.SubmissionPreprocessor.preprocess(this.state.value)
 		if(typeof this.props.action == "string"){
-			this.doStringAction()
+			this.doStringAction(actionValue)
 		}else if(typeof this.props.action == "function"){
-			// checkin if action is false
-			var isClass = false
-			try{ this.props.action() }catch(e){
-				isClass = true
-			}
-			this.doFunctionAction()
+			this.doFunctionAction(actionValue)
 		}
 	}
 	onSubmit(){

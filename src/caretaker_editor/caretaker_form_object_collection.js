@@ -7,13 +7,14 @@ class CaretakerFormObjectCollection extends React.Component{
 		if(this.state.maxCount < 1){ throw "max count of multiple object cannot be fewer than 1" }
 		if(this.state.minCount < 0){ throw "min count of multiple object cannot be fewer than 0" }
 		if(this.state.maxCount < this.state.minCount ){ throw "max count cannot be fewer than min count" }
-		this.state.value = []
+		this.state.value = new Caretaker.ValueArray()
 		this.state.isValidMap = []
 		this.loadValue(props)
 		this.state.childrenCount = this.state.value.count || this.state.minCount || 1
 	}
 	onReportValidity(isValid, name){
 		this.state.isValidMap[name] = isValid
+		this.state.validationUpdated = false
 		this.reportValidity()
 	}
 	reportValidity(){
@@ -29,6 +30,7 @@ class CaretakerFormObjectCollection extends React.Component{
 						break;
 					}
 				}
+				console.log(i)
 				this.props.onReportValidity(isValid)
 			}
 		}
@@ -64,10 +66,10 @@ class CaretakerFormObjectCollection extends React.Component{
 		return props
 	}
 	updateParent(){
+		this.state.validationUpdated = false
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
 		}
-		this.state.validationUpdated = false
 		this.setState(this.state)
 	}
 	isChildless(){

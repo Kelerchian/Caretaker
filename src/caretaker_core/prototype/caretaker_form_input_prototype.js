@@ -1,7 +1,7 @@
 class CaretakerFormInputPrototype extends React.Component{
 	constructor(props){
 		super(props)
-		this.state = {}
+		this.state = new Caretaker.ValueNode()
 		this.state = this.setInitialState(this.state) || this.state
 		this.loadValue(props)
 	}
