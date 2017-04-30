@@ -111,7 +111,7 @@
 	top: 1rem;
 	right: 1rem;
 	position: absolute;
-	z-index: 1;
+	z-index: 1000;
 }
 
 .CaretakerFormObject,

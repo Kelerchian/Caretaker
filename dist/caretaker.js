@@ -92,6 +92,98 @@ var Caretaker = (function(){
 	}())
 
 
+
+	/**
+	* Special Input & Extensor Support
+	*
+	*/
+	var SpecialInputPrivate = {
+		inputMap : {}
+	}
+	var SpecialInputPublic = {
+		isSpecialInput: function(type){
+			if(SpecialInputPrivate.inputMap[type]){
+				return true
+			}else{
+				return false
+			}
+		},
+		isCommonInput: function(type){
+			return !SpecialInputPublic.isSpecialInput(type)
+		},
+		getClass: function(type){
+			return SpecialInputPrivate.inputMap[type]
+		},
+		register: function(type,className){
+			if(SpecialInputPrivate.inputMap[type]){
+				console.warn('SpecialInput '+type+' has been installed and cannot be replaced with '+className)
+			}else{
+				SpecialInputPrivate.inputMap[type] = className
+			}
+		}
+	}
+
+
+
+	class ValueNode{
+		static from(object){
+			return Object.assign(new this(), object)
+		}
+		convert(){
+			return Object.assign({}, this)
+		}
+	}
+	class ValueArray extends Array{
+		convert(){
+			return Array.from(this)
+		}
+	}
+
+	/**
+	* SubmissionPreprocessor
+	* preprocess valueTree before submission
+	*/
+
+	var SubmissionPreprocessor = (function(){
+		var preprocessors = []
+
+		function preprocessOne(valueNode){
+			for(var i in preprocessors){
+				valueNode = preprocessors[i](valueNode)
+			}
+			return valueNode
+		}
+		function preprocessTree(valueNode){
+			if(valueNode instanceof ValueNode || valueNode instanceof ValueArray){
+				valueNode = valueNode.convert()
+				for(var i in valueNode){
+					valueNode[i] = preprocessTree(valueNode[i])
+				}
+			}
+			valueNode = preprocessOne(valueNode)
+			return valueNode
+		}
+		function preprocess(valueRoot){
+			return preprocessTree(valueRoot)
+		}
+		function append(func){
+			if(typeof func == "function"){
+				preprocessors.push(func)
+			}
+		}
+		function prepend(func){
+			if(typeof func == "function"){
+				preprocessors.unshift(func)
+			}
+		}
+
+		return {
+			preprocess: preprocess,
+			prepend: prepend,
+			append: append
+		}
+	}())
+
 	/**
 	* Caretaker UploadedFile and UploadedFileMap
 	*
@@ -145,49 +237,27 @@ var Caretaker = (function(){
 			return this.fileData
 		}
 	}
-
-
-	/**
-	* Special Input & Extensor Support
-	*
-	*/
-	var SpecialInputPrivate = {
-		inputMap : {}
-	}
-	var SpecialInputPublic = {
-		isSpecialInput: function(type){
-			if(SpecialInputPrivate.inputMap[type]){
-				return true
-			}else{
-				return false
-			}
-		},
-		isCommonInput: function(type){
-			return !SpecialInputPublic.isSpecialInput(type)
-		},
-		getClass: function(type){
-			return SpecialInputPrivate.inputMap[type]
-		},
-		register: function(type,className){
-			if(SpecialInputPrivate.inputMap[type]){
-				console.warn('SpecialInput '+type+' has been installed and cannot be replaced with '+className)
-			}else{
-				SpecialInputPrivate.inputMap[type] = className
-			}
+	SubmissionPreprocessor.append(function(valueNode){
+		if(valueNode instanceof UploadedFile){
+			return valueNode.getFileData()
 		}
-	}
+		return valueNode
+	})
 
 	return {
-		Widget:Widget,
+		SpecialInput:SpecialInputPublic,
+		SubmissionPreprocessor: SubmissionPreprocessor,
 		UploadedFile:UploadedFile,
-		SpecialInput:SpecialInputPublic
+		ValueArray:ValueArray,
+		ValueNode:ValueNode,
+		Widget:Widget
 	}
 })();
 
 class CaretakerFormInputPrototype extends React.Component{
 	constructor(props){
 		super(props)
-		this.state = {}
+		this.state = new Caretaker.ValueNode()
 		this.state = this.setInitialState(this.state) || this.state
 		this.loadValue(props)
 	}
@@ -55395,34 +55465,97 @@ class CaretakerForm extends React.Component{
 		this.state = {
 			value: props.value,
 			isValidating: false,
-			isValid: null
+			isValid: null,
+			errors: []
 		}
 	}
 	onChange(value){
+		console.log(value)
 		this.state.value = value
-		this.state.isValid = null
+		this.state.isSubmitting = false
 		this.setState(this.state)
 	}
 	onReset(){
 		this.state.value = this.props.value
-		this.state.isValid = null
+		this.state.isSubmitting = false
 		this.setState(this.state)
+	}
+	doStringAction(actionValue){
+		var url = this.props.action
+		var fetch = window.fetch
+		var name = this.props.edit.name || "data"
+		var formData = (function(){
+			var formData = new FormData()
+			formData.append(name,JSON.stringify(actionValue))
+		}());
+
+		fetch(url, {
+			method: 'post',
+			body: formData
+		}).then(function(response){
+			if(response.ok){
+				this.doAfterSuccess(response, actionValue)
+			}
+		}).catch(function(err){
+			this.doAfterFailure(err, actionValue)
+		})
+	}
+	doFunctionAction(actionValue){
+		try{
+			var actionReturn = this.props.action(actionValue)
+			this.doAfterSuccess(actionReturn, actionValue)
+		}catch(throwable){
+			this.doAfterFailure(throwable, actionValue)
+		}
+	}
+	doAfterAction(actionValue){
+		if(typeof this.props.afterAction == "function"){
+			this.props.afterAction(actionValue)
+		}
+	}
+	doAfterSuccess(actionReturn, actionValue){
+		this.doAfterAction(actionValue)
+		var continueAction = true
+		if(typeof this.props.afterSuccess == "function"){
+			continueAction = this.props.afterSuccess(actionReturn, actionValue)
+		}
+		if(continueAction !== false){
+
+		}
+	}
+	doAfterFailure(throwable, actionValue){
+		this.doAfterAction(actionValue)
+		var continueAction = true
+		if(typeof this.props.afterFailure == "function"){
+			continueAction = this.props.afterFailure(throwable, actionValue)
+		}
+		if(continueAction !== false){
+
+		}
+	}
+	onAction(){
+		var actionValue = Caretaker.SubmissionPreprocessor.preprocess(this.state.value)
+		if(typeof this.props.action == "string"){
+			this.doStringAction(actionValue)
+		}else if(typeof this.props.action == "function"){
+			this.doFunctionAction(actionValue)
+		}
 	}
 	onSubmit(){
 		if(this.state.isValid != true){
 			this.triggerCheckValidity()
 		}else{
-			console.log("submitting:", this.state.value)
+			this.onAction()
 		}
 	}
 	triggerCheckValidity(){
 		this.state.isValidating = true
+		this.state.isSubmitting = true
 		this.setState(this.state)
 	}
 	onReportValidity(isValid){
 		this.state.isValid = isValid == true
-		console.log(this.state.isValid)
-		if(this.state.isValid){
+		if(this.state.isValid && this.state.isSubmitting){
 			this.onSubmit()
 		}
 		this.setState(this.state)
@@ -55440,13 +55573,17 @@ class CaretakerForm extends React.Component{
 	}
 	appearanceGetActions(){
 		var actions = []
-
-		actions.push(React.createElement('button',{type:"button", key:"submit", onClick: this.onSubmit.bind(this) , className:"CaretakerButton CaretakerPositiveButton"}, [React.createElement('i',{key:"icon",className:"fa fa-check"}), "Save"]))
+		if(this.props.submittable !== false){
+			actions.push(React.createElement('button',{type:"button", key:"submit", onClick: this.onSubmit.bind(this) , className:"CaretakerButton CaretakerPositiveButton"}, [React.createElement('i',{key:"icon",className:"fa fa-check"}), "Save"]))
+		}
 		if(this.props.resettable){
 			actions.push(React.createElement('button',{type:"button", key:"reset", onClick: this.onReset.bind(this), className:"CaretakerButton CaretakerBlueButton"}, [React.createElement('i',{key:"icon",className:"fa fa-undo"}), "Reset"]))
 		}
-
-		return React.createElement('div', {className: "CaretakerFormActions", key:"actions"}, actions)
+		if(actions.length > 0){
+			return React.createElement('div', {className: "CaretakerFormActions", key:"actions"}, actions)
+		}else{
+			return ""
+		}
 	}
 	render(){
 		var props = this.getProps()
@@ -55479,10 +55616,18 @@ class CaretakerInput extends React.Component{
 			this.state.value = props.value
 		}
 	}
+	checkValidityAdvanced(){
+		if(this.state.value == ""){
+			this.state.isValid = ["This must be filled"]
+		}
+	}
 	checkValidity(){
 		if(this.isCommonInput()){
 			if(this.textInput){
 				this.state.isValid = this.textInput.checkValidity()
+				if(this.state.isValid == false){
+					this.checkValidityAdvanced()
+				}
 			}else{
 				this.state.isValid = false
 			}
@@ -55645,13 +55790,22 @@ class CaretakerFormObject extends React.Component{
 			throw "Value for Object must be an object"
 		}
 	}
+	loadValueConversion(possibleValue){
+		if(Array.isArray(possibleValue)){
+			this.state.value = Caretaker.ValueArray.from(possibleValue)
+		}else if(typeof possibleValue == "object"){
+			this.state.value = Caretaker.ValueNode.from(possibleValue)
+		}else{
+			this.state.value = possibleValue
+		}
+	}
 	loadValue(props){
 		if(this.isMany()){
-			this.state.value = []
+			this.state.value = new Caretaker.ValueArray()
 			this.state.name = "arr"
 		}
 		else if(this.isObject()){
-			this.state.value = {}
+			this.state.value = new Caretaker.ValueNode()
 			this.state.name = "obj"
 		}else{
 			this.state.value = null
@@ -55663,9 +55817,9 @@ class CaretakerFormObject extends React.Component{
 		}
 		//update value
 		if(props.value != null){
-			this.state.value = props.value
+			this.loadValueConversion(props.value)
 		}else if(props.defaultValue != null){
-			this.state.value = props.defaultValue
+			this.loadValueConversion(props.defaultValue)
 		}
 		this.assertValues()
 	}
@@ -55682,10 +55836,10 @@ class CaretakerFormObject extends React.Component{
 		return this.isObject() && (this.props.has == null || (typeof this.props.has == "object" && Object.keys(this.props.has).length == 0 ))
 	}
 	updateParent(){
+		this.state.validationUpdated = false
 		if(this.props.onChange){
 			this.props.onChange(this.state.value, this.state.name)
 		}
-		this.state.validationUpdated = false
 	}
 	onChange(value, name){
 		if(name != null){
@@ -55778,7 +55932,7 @@ class CaretakerFormObject extends React.Component{
 	appearanceGetErrorMessage(){
 		if(typeof this.state.isValid == "string"){
 			return React.createElement('div', {className:"CaretakerErrorMessage", key:"errorMessage"}, this.state.isValid)
-		}else if (Array.isArray(this.state.isValid) && this.state.isValid > 0){
+		}else if (Array.isArray(this.state.isValid) && this.state.isValid.length > 0){
 			if(this.state.isValid.length == 1){
 				return React.createElement('div', {className:"CaretakerErrorMessage", key:"errorMessage"}, this.state.isValid[0])
 			}else if(this.state.isValid.length > 1){
@@ -55838,13 +55992,14 @@ class CaretakerFormObjectCollection extends React.Component{
 		if(this.state.maxCount < 1){ throw "max count of multiple object cannot be fewer than 1" }
 		if(this.state.minCount < 0){ throw "min count of multiple object cannot be fewer than 0" }
 		if(this.state.maxCount < this.state.minCount ){ throw "max count cannot be fewer than min count" }
-		this.state.value = []
+		this.state.value = new Caretaker.ValueArray()
 		this.state.isValidMap = []
 		this.loadValue(props)
 		this.state.childrenCount = this.state.value.count || this.state.minCount || 1
 	}
 	onReportValidity(isValid, name){
 		this.state.isValidMap[name] = isValid
+		this.state.validationUpdated = false
 		this.reportValidity()
 	}
 	reportValidity(){
@@ -55860,6 +56015,7 @@ class CaretakerFormObjectCollection extends React.Component{
 						break;
 					}
 				}
+				console.log(i)
 				this.props.onReportValidity(isValid)
 			}
 		}
@@ -55895,10 +56051,10 @@ class CaretakerFormObjectCollection extends React.Component{
 		return props
 	}
 	updateParent(){
+		this.state.validationUpdated = false
 		if(this.props.onChange){
 			this.props.onChange(this.state.value)
 		}
-		this.state.validationUpdated = false
 		this.setState(this.state)
 	}
 	isChildless(){
@@ -55987,8 +56143,12 @@ class CaretakerFormInputCheckbox extends CaretakerFormInputPrototype{
 	checkValidity(value){
 		if(this.isRequired()){
 			if(typeof this.props.values == "object" && this.props.values){
-				if(this.state.value.size < Object.keys(this.props.values).length){
-					return false
+				if(this.state.value.size <= 0 && Object.keys(this.props.values).length > 0){
+					if( Object.keys(this.props.values).length == 1 ){
+						return ["Check to continue"]
+					}else{
+						return ["At least one option must be checked"]
+					}
 				}
 			}
 		}
@@ -56089,7 +56249,7 @@ class CaretakerFormInputDate extends CaretakerFormInputPrototype{
 	checkValidity(value){
 		if(this.isRequired()){
 			if(value == ""){
-				return false
+				return ["This must be filled"]
 			}
 		}
 		return true
@@ -56145,7 +56305,7 @@ class CaretakerFormInputFile extends CaretakerFormInputPrototype{
 	}
 	checkValidity(value){
 		if(this.isRequired() && value == null){
-			return false;
+			return ["A file must be selected"]
 		}
 		return true
 	}
@@ -56217,7 +56377,7 @@ class CaretakerFormInputRadio extends CaretakerFormInputPrototype{
 	checkValidity(value){
 		if(this.isRequired()){
 			if(value == ""){
-				return false
+				return ["An option must be selected"]
 			}
 		}
 		return true
@@ -56294,7 +56454,7 @@ class CaretakerFormInputSelect extends CaretakerFormInputPrototype{
 	checkValidity(value){
 		if(this.isRequired()){
 			if(value == ""){
-				return false
+				return ["An option must be selected"]
 			}
 		}
 		return true
@@ -56341,7 +56501,7 @@ class CaretakerFormInputTextarea extends CaretakerFormInputPrototype{
 	}
 	checkValidity(value){
 		if(this.isRequired() && value == ""){
-			return false
+			return ["This must be filled"]
 		}
 		return true
 	}
@@ -56516,7 +56676,7 @@ class CaretakerFormInputTime extends CaretakerFormInputPrototype{
 	}
 	checkValidity(value){
 		if(this.isRequired() && value == ""){
-			return false
+			return ["This must be filled"]
 		}
 		return true
 	}
