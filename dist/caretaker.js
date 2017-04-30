@@ -56028,9 +56028,7 @@ class CaretakerFormObjectCollection extends React.Component{
 		this.loadValue(props)
 		this.state.isValidating = props.isValidating
 		this.setState(this.state)
-		if(this.isChildless()){
-			this.reportValidity()
-		}
+		this.reportValidity()
 	}
 	loadValue(props){
 		if(props.value){
