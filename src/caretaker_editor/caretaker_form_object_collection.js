@@ -30,7 +30,6 @@ class CaretakerFormObjectCollection extends React.Component{
 						break;
 					}
 				}
-				console.log(i)
 				this.props.onReportValidity(isValid)
 			}
 		}
