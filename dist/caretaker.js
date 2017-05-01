@@ -55470,7 +55470,6 @@ class CaretakerForm extends React.Component{
 		}
 	}
 	onChange(value){
-		console.log(value)
 		this.state.value = value
 		this.state.isSubmitting = false
 		this.setState(this.state)
@@ -55484,22 +55483,28 @@ class CaretakerForm extends React.Component{
 		var url = this.props.action
 		var fetch = window.fetch
 		var name = this.props.edit.name || "data"
-		var formData = (function(){
-			var formData = new FormData()
-			formData.append(name,JSON.stringify(actionValue))
-		}());
+		var content = JSON.stringify(actionValue)
+		var body = name+"="+content
+
+		var doAfterSuccess = this.doAfterSuccess.bind(this)
+		var doAfterFailure = this.doAfterFailure.bind(this)
 
 		fetch(url, {
-			method: 'post',
-			body: formData
+			"method"	: "POST",
+			"body"		: body,
+			"mode"		: "cors",
+			"headers"	: {
+      	'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+			}
 		}).then(function(response){
 			if(response.ok){
-				this.doAfterSuccess(response, actionValue)
+				doAfterSuccess(response, actionValue)
 			}
 		}).catch(function(err){
-			this.doAfterFailure(err, actionValue)
+			doAfterFailure(err, actionValue)
 		})
 	}
+
 	doFunctionAction(actionValue){
 		try{
 			var actionReturn = this.props.action(actionValue)
@@ -56015,7 +56020,6 @@ class CaretakerFormObjectCollection extends React.Component{
 						break;
 					}
 				}
-				console.log(i)
 				this.props.onReportValidity(isValid)
 			}
 		}

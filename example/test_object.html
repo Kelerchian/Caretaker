@@ -49,6 +49,33 @@
 					name: "many_text",
 					type: "text",
 					quantity: "many"
+				},
+				{
+					label: "object",
+					name: "object",
+					type: "object",
+					has: [
+						{
+							"label": "object>many-text",
+							"name": "text",
+							"type": "text",
+							"quantity": "many"
+						}
+					]
+				},
+				{
+					quantity: "many",
+					label: "many-object",
+					name: "many-object",
+					type: "object",
+					has:[
+						{
+							"label": "many-object>many-text",
+							"name": "text",
+							"type": "text",
+							"quantity": "many"
+						}
+					]
 				}
 			]
 		}
@@ -57,8 +84,11 @@
 			action: "",
 			submittable: true,
 			resettable: true,
-			action: function(value){
-				window['pre'].innerText = JSON.stringify(value, null, 2)
+			action: "http://localhost:3000",
+			afterSuccess: function(response){
+				response.json().then(function(val){
+					window['pre'].innerText = JSON.stringify(JSON.parse(val.validation_test_object), null, 2)
+				})
 			}
 		}
 		var theForm = ReactDOM.render(React.createElement(CaretakerForm, formCommand), window['form-container'])
