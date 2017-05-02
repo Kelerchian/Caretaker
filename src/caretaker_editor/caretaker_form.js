@@ -2,11 +2,16 @@ class CaretakerForm extends React.Component{
 	constructor(props){
 		super(props)
 		this.state = {
-			value: props.value,
 			isResetting: false,
 			isValidating: false,
 			isValid: null,
 			errors: []
+		}
+		this.loadValue(props)
+	}
+	loadValue(props){
+		if(props.value != null){
+			this.state.value = props.value
 		}
 	}
 	onChange(value){
@@ -26,7 +31,12 @@ class CaretakerForm extends React.Component{
 		var fetch = window.fetch
 		var name = this.props.edit.name || "data"
 		var content = JSON.stringify(actionValue)
-		var body = name+"="+content
+		// var body = name+"="+content
+		var body  = (function(){
+			var formData = new FormData()
+			formData.set(name, content)
+			return formData
+		}())
 
 		var doAfterSuccess = this.doAfterSuccess.bind(this)
 		var doAfterFailure = this.doAfterFailure.bind(this)
@@ -115,7 +125,9 @@ class CaretakerForm extends React.Component{
 		props.isValidating = this.state.isValidating
 		props.isResetting = this.state.isResetting
 
-		props.value = this.state.value
+		if(this.state.value != null){
+			props.value = this.state.value
+		}
 		props.key = "object"
 		return props
 	}
