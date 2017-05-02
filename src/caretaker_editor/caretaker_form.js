@@ -3,6 +3,7 @@ class CaretakerForm extends React.Component{
 		super(props)
 		this.state = {
 			value: props.value,
+			isResetting: false,
 			isValidating: false,
 			isValid: null,
 			errors: []
@@ -11,11 +12,13 @@ class CaretakerForm extends React.Component{
 	onChange(value){
 		this.state.value = value
 		this.state.isSubmitting = false
+		this.state.isResetting = false
 		this.setState(this.state)
 	}
 	onReset(){
 		this.state.value = this.props.value
 		this.state.isSubmitting = false
+		this.state.isResetting = true
 		this.setState(this.state)
 	}
 	doStringAction(actionValue){
@@ -110,6 +113,7 @@ class CaretakerForm extends React.Component{
 		props.onChange = this.onChange.bind(this)
 		props.onReportValidity = this.onReportValidity.bind(this)
 		props.isValidating = this.state.isValidating
+		props.isResetting = this.state.isResetting
 
 		props.value = this.state.value
 		props.key = "object"

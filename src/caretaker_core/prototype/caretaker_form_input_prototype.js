@@ -19,6 +19,9 @@ class CaretakerFormInputPrototype extends React.Component{
 			}
 		}
 		this.state.value = this.modifyValueAfterLoad(this.state.value) || this.state.value
+		if(props.isResetting){
+			this.updateParent()
+		}
 	}
 	componentDidMount(){
 		this.updateParent()
@@ -37,7 +40,7 @@ class CaretakerFormInputPrototype extends React.Component{
 		}
 	}
 	getNegativePropKeys(){
-		return ["value","values","defaultValue","onReportValidity","isValidating"]
+		return ["value","values","defaultValue","onReportValidity","isValidating","isResetting"]
 	}
 	getProtoProps(){
 		var props = Object.assign({}, this.props)

@@ -15,10 +15,24 @@ class CaretakerInput extends React.Component{
 		}
 		// this.setState(this.state)
 	}
+	getDefaultValue(){
+		if(this.isCommonInput()){
+			return ""
+		}else{
+			return null
+		}
+
+	}
 	loadValue(props){
-		this.state.value = ""
+		this.state.value = this.getDefaultValue()
 		if(props.value != null){
 			this.state.value = props.value
+		}
+		if(props.defaultValue != null){
+			this.state.value = props.defaultValue
+		}
+		if(props.isResetting){
+			this.updateParent()
 		}
 	}
 	checkValidityAdvanced(){
@@ -51,7 +65,7 @@ class CaretakerInput extends React.Component{
 		}
 	}
 	getNegativeCommonPropKeys(){
-		return ["options","value","isValidating","onReportValidity"]
+		return ["options","value","isValidating","onReportValidity","isResetting"]
 	}
 	bindInput(input){
 		this.textInput = input
