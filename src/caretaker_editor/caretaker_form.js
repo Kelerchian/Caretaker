@@ -31,12 +31,12 @@ class CaretakerForm extends React.Component{
 		var fetch = window.fetch
 		var name = this.props.edit.name || "data"
 		var content = JSON.stringify(actionValue)
-		// var body = name+"="+content
-		var body  = (function(){
-			var formData = new FormData()
-			formData.set(name, content)
-			return formData
-		}())
+		var body = name+"="+content
+		// var body  = (function(){
+		// 	var formData = new FormData()
+		// 	formData.set(name, content)
+		// 	return formData
+		// }())
 
 		var doAfterSuccess = this.doAfterSuccess.bind(this)
 		var doAfterFailure = this.doAfterFailure.bind(this)
