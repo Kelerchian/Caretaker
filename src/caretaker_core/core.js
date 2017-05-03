@@ -143,28 +143,59 @@ var Caretaker = (function(){
 	* SubmissionPreprocessor
 	* preprocess valueTree before submission
 	*/
+	var SubmissionUtility = (function(){
+		var utilities = []
 
+		function make(){
+
+		}
+
+		return {}
+	}())
 	var SubmissionPreprocessor = (function(){
 		var preprocessors = []
+		var utilities = {}
 
-		function preprocessOne(valueNode){
+		function addUtility(name, utility){
+			utilities[name] = utility
+		}
+		function makeUtility(){
+			var utilityObject = {}
+			for(var i in utilities){
+				utilityObject[i] = new utilities[i]()
+			}
+			return utilityObject;
+		}
+
+		function preprocessOne(valueNode, props, utility){
 			for(var i in preprocessors){
-				valueNode = preprocessors[i](valueNode)
+				valueNode = preprocessors[i](valueNode, props, utility)
 			}
 			return valueNode
 		}
-		function preprocessTree(valueNode){
+		function preprocessTree(valueNode, props, utility){
 			if(valueNode instanceof ValueNode || valueNode instanceof ValueArray){
 				valueNode = valueNode.convert()
 				for(var i in valueNode){
-					valueNode[i] = preprocessTree(valueNode[i])
+					valueNode[i] = preprocessTree(valueNode[i], props, utility)
 				}
 			}
-			valueNode = preprocessOne(valueNode)
+			valueNode = preprocessOne(valueNode, props, utility)
 			return valueNode
 		}
-		function preprocess(valueRoot){
-			return preprocessTree(valueRoot)
+		function preprocess(valueRoot, props){
+			var utility = makeUtility()
+			var actionJSON = preprocessTree(valueRoot, props, utility)
+			var formData = new FormData()
+			var name = props.edit.name || "data"
+			formData.append(name, JSON.stringify(actionJSON))
+			for(var i in utility){
+				var utilityClass = utilities[i]
+				var utilityObject = utility[i]
+
+				utilityClass.finalize(formData, utilityObject)
+			}
+			return formData
 		}
 		function append(func){
 			if(typeof func == "function"){
@@ -178,6 +209,7 @@ var Caretaker = (function(){
 		}
 
 		return {
+			addUtility: addUtility,
 			preprocess: preprocess,
 			prepend: prepend,
 			append: append
@@ -194,6 +226,7 @@ var Caretaker = (function(){
 			var inputFile = document.createElement('input')
 			globalInputFile = inputFile
 			var reader = new FileReader()
+			var thisClass = this
 
 			//ready the props
 			for(var i in props){
@@ -204,31 +237,29 @@ var Caretaker = (function(){
 			inputFile.type = "file"
 			inputFile.onchange = function(e){
 				var file = inputFile.files[0]
-
-				reader.addEventListener('load', function(){
-					var uploadedFile = new Caretaker.UploadedFile(file,reader.result)
-					onChange(uploadedFile)
-				}, false)
-
 				if(file){
-					reader.readAsDataURL(file)
+					var uploadedFile = new thisClass(file)
+					onChange(uploadedFile)
 				}
 			}
 			inputFile.click()
 		}
-		constructor(file, result){
+		constructor(file){
 			this.fileData = {
 				_is_caretaker_uploaded_file: true,
 				name: file.name,
-				size: file.size,
-				data: result
+				size: file.size
 			}
+			this.originalFile = file
 		}
 		getName(){
 			return this.fileData.name
 		}
 		getSize(){
 			return this.fileData.size
+		}
+		getOriginalFile(){
+			return this.originalFile
 		}
 		getData(){
 			return this.fileData.data
@@ -237,9 +268,28 @@ var Caretaker = (function(){
 			return this.fileData
 		}
 	}
-	SubmissionPreprocessor.append(function(valueNode){
+	class UploadedFileCatalog{
+		static finalize(formData, uploadedFileCatalog){
+			for(var i = 0; i<uploadedFileCatalog.files.length; i++){
+				formData.append('files', uploadedFileCatalog.files[i])
+			}
+		}
+		constructor(){
+			this.files = []
+		}
+		register(file){
+			var index = this.files.length
+			this.files.push(file)
+			return index
+		}
+	}
+
+	SubmissionPreprocessor.addUtility('UploadedFileCatalog',UploadedFileCatalog)
+	SubmissionPreprocessor.append(function(valueNode, props, utilities){
 		if(valueNode instanceof UploadedFile){
-			return valueNode.getFileData()
+			var fileData =  valueNode.getFileData()
+			var index = utilities.UploadedFileCatalog.register(valueNode.getOriginalFile())
+			fileData.index = index
 		}
 		return valueNode
 	})
