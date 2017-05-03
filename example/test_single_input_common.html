@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>Caretaker - Object Test</title>
+	<title>Caretaker - Single Common Input Test</title>
 
 	<link rel="stylesheet" href="asset/bootstrap4/css/bootstrap.css">
 	<link rel="stylesheet" href="asset/bootstrap-override.css">
@@ -23,75 +23,53 @@
 <body>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-4 text-center">
-				<h6>Validation Test</h6>
+			<div class="col-md-4">
+				<h5 class=" text-center">Single Common Input Test</h5>
+				<pre><code id="code"></code></pre>
 			</div>
 			<div class="col-md-4">
+				<h5>Form:</h5>
 				<div id="form-container"></div>
 			</div>
 			<div class="col-md-4">
+				<h5>Result:</h5>
 				<pre id="pre"></pre>
 			</div>
 		</div>
 	</div>
+<textarea id="textarea" style="display:none">
+	var model = {
+		label: "Single Input Test",
+		name: "single_input_test",
+		type: "text",
+		defaultValue: "Single Input Test Value"
+	}
+	var formCommand = {
+		edit: model,
+		submittable: true,
+		resettable: true,
+		action: function(value){
+			window['pre'].innerText = JSON.stringify(value, null, 2)
+		}
+	}
+</textarea>
 	<script async>
-		var validationModel = {
-			label: "Validation Test",
-			name: "validation_test_object",
-			has: [
-				{
-					label: "many",
-					name: "text",
-					type: "text"
-				},
-				{
-					label: "many text",
-					name: "many_text",
-					type: "text",
-					quantity: "many"
-				},
-				{
-					label: "object",
-					name: "object",
-					type: "object",
-					has: [
-						{
-							"label": "object>many-text",
-							"name": "text",
-							"type": "text",
-							"quantity": "many"
-						}
-					]
-				},
-				{
-					quantity: "many",
-					label: "many-object",
-					name: "many-object",
-					type: "object",
-					has:[
-						{
-							"label": "many-object>many-text",
-							"name": "text",
-							"type": "text",
-							"quantity": "many"
-						}
-					]
-				}
-			]
+		var model = {
+			label: "Single Input Test",
+			name: "single_input_test",
+			type: "text",
+			defaultValue: "Single Input Test Value"
 		}
 		var formCommand = {
-			edit: validationModel,
-			action: "",
+			edit: model,
 			submittable: true,
 			resettable: true,
-			action: "http://localhost:3000",
-			afterSuccess: function(response){
-				response.json().then(function(val){
-					window['pre'].innerText = JSON.stringify(JSON.parse(val.validation_test_object), null, 2)
-				})
+			action: function(formData){
+				window['pre'].innerText = JSON.stringify(JSON.parse(formData.get('single_input_test')), null, 2)
 			}
 		}
 		var theForm = ReactDOM.render(React.createElement(CaretakerForm, formCommand), window['form-container'])
+		window['code'].innerText = window['textarea'].value
 	</script>
 </body>
 </html>

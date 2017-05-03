@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Caretaker - Single Common Input Test</title>
+
+	<link rel="stylesheet" href="asset/bootstrap4/css/bootstrap.css">
+	<link rel="stylesheet" href="asset/bootstrap-override.css">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="asset/polyfill/fetch.min.js"></script>
+	<script src="asset/polyfill/promise.min.js"></script>
+	<script src="asset/bootstrap4/js/bootstrap.js"></script>
+	<script src="asset/moment/moment.js"></script>
+	<script src="asset/react/build/react.js"></script>
+	<script src="asset/react/build/react-dom.js"></script>
+	<script src="../dist/caretaker.js"></script>
+	<script src="../dist/caretaker.extension.js"></script>
+	<link href="../dist/caretaker.css" rel="stylesheet"></link>
+	<link href="../dist/caretaker.extension.css" rel="stylesheet"></link>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-4">
+				<h5 class=" text-center">Single Common Input Test</h5>
+				<pre><code id="code"></code></pre>
+			</div>
+			<div class="col-md-4">
+				<h5>Form:</h5>
+				<div id="form-container"></div>
+			</div>
+			<div class="col-md-4">
+				<h5>Result:</h5>
+				<pre id="pre"></pre>
+			</div>
+		</div>
+	</div>
+<textarea style="display:none" id="textarea">
+var model = {
+	label: "Post",
+	name: "single_object_test",
+	has: [
+		{type:"text", name:"title", label:"Title", placeholder:"Title", required: true},
+		{type:"textarea-html", name:"content", label:"Content", placeholder:"Post Content"	},
+		{type:"checkbox", name:"categories", label:"Categories", values: {"news":"News", "event":"Event"}}
+	]
+}
+var currentValue = {title:"Lorem Ipsum", content:"<p><strong>Proin eget tortor risus.</strong></p><p><em>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</em></p><p> Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.</p>", categories:['news'] }
+var formCommand = {
+	edit: model,
+	submittable: true,
+	action: function(formData){
+		window['pre'].innerText = JSON.stringify(JSON.parse(formData.get('single_object_test')), null, 2)
+	},
+	value: currentValue
+}
+</textarea>
+	<script async>
+		var model = {
+			label: "Post",
+			name: "single_object_test",
+			has: [
+				{type:"text", name:"title", label:"Title", placeholder:"Title", required: true},
+				{type:"textarea-html", name:"content", label:"Content", placeholder:"Post Content"	},
+				{type:"checkbox", name:"categories", label:"Categories", values: {"news":"News", "event":"Event"}}
+			]
+		}
+		var currentValue = {title:"Lorem Ipsum", content:"<p><strong>Proin eget tortor risus.</strong></p><p><em>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</em></p><p> Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.</p>", categories:['news'] }
+		var formCommand = {
+			edit: model,
+			submittable: true,
+			action: function(formData){
+				window['pre'].innerText = JSON.stringify(JSON.parse(formData.get('single_object_test')), null, 2)
+			},
+			value: currentValue
+		}
+		window['code'].innerText = window['textarea'].value.trim()
+		var theForm = ReactDOM.render(React.createElement(CaretakerForm, formCommand), window['form-container'])
+	</script>
+</body>
+</html>

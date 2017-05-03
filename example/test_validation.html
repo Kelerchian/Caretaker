@@ -24,11 +24,15 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-4 text-center">
-				<h6>Validation Test</h6>
+				<h5>Validation Test</h5>
 			</div>
-			<div class="col-md-8">
-				<div id="form-container">
-				</div>
+			<div class="col-md-4">
+				<h5>Form:</h5>
+				<div id="form-container"></div>
+			</div>
+			<div class="col-md-4">
+				<h5>Result:</h5>
+				<pre id="pre"></pre>
 			</div>
 		</div>
 	</div>
@@ -204,6 +208,9 @@
 			action: "",
 			submittable: true,
 			resettable: true,
+			action: function(value){
+				window['pre'].innerText = value.get('validation_test_object')
+			}
 		}
 		var theForm = ReactDOM.render(React.createElement(CaretakerForm, formCommand), window['form-container'])
 	</script>
