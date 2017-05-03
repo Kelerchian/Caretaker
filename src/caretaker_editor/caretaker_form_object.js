@@ -76,7 +76,7 @@ class CaretakerFormObject extends React.Component{
 	loadValueConversion(possibleValue){
 		if(Array.isArray(possibleValue)){
 			this.state.value = Caretaker.ValueArray.from(possibleValue)
-		}else if(typeof possibleValue == "object"){
+		}else if(typeof possibleValue == "object" && possibleValue.__proto__.constructor == Object){
 			this.state.value = Caretaker.ValueNode.from(possibleValue)
 		}else{
 			this.state.value = possibleValue
