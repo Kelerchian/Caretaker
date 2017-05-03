@@ -30,11 +30,11 @@ class CaretakerForm extends React.Component{
 		var url = this.props.action
 		var fetch = window.fetch
 		var name = this.props.edit.name || "data"
-		var content = JSON.stringify(actionValue)
-		var body = name+"="+content
+		// var content = JSON.stringify(actionValue)
+		// var body = name+"="+content
 		// var body  = (function(){
 		// 	var formData = new FormData()
-		// 	formData.set(name, content)
+		// 	formData.append(name, content)
 		// 	return formData
 		// }())
 
@@ -43,11 +43,8 @@ class CaretakerForm extends React.Component{
 
 		fetch(url, {
 			"method"	: "POST",
-			"body"		: body,
-			"mode"		: "cors",
-			"headers"	: {
-      	'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-			}
+			"body"		: actionValue,
+			"mode"		: "cors"
 		}).then(function(response){
 			if(response.ok){
 				doAfterSuccess(response, actionValue)
@@ -91,7 +88,7 @@ class CaretakerForm extends React.Component{
 		}
 	}
 	onAction(){
-		var actionValue = Caretaker.SubmissionPreprocessor.preprocess(this.state.value)
+		var actionValue = Caretaker.SubmissionPreprocessor.preprocess(this.state.value, this.props)
 		if(typeof this.props.action == "string"){
 			this.doStringAction(actionValue)
 		}else if(typeof this.props.action == "function"){
