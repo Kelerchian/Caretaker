@@ -110,8 +110,9 @@
 	font-size: 0.7em;
 	top: 1rem;
 	right: 1rem;
-	position: absolute;
-	z-index: 1000;
+	float: right;
+	position: relative;
+	z-index: 5;
 }
 
 .CaretakerFormObject,
