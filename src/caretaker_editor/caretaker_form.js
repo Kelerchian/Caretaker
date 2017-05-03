@@ -41,16 +41,26 @@ class CaretakerForm extends React.Component{
 		var doAfterSuccess = this.doAfterSuccess.bind(this)
 		var doAfterFailure = this.doAfterFailure.bind(this)
 
-		fetch(url, {
-			"method"	: "POST",
-			"body"		: actionValue,
-			"mode"		: "cors"
-		}).then(function(response){
+		var fetchParameter = {
+			"method": "POST",
+			"body"	: actionValue,
+			"mode"	: "cors"
+		}
+
+		if(typeof this.props.fetchParameter == "object"){
+			fetchParameter = Object.assign(fetchParameter, this.props.fetchParameter)
+		}
+
+		fetch(url, fetchParameter)
+		.then(function(response){
 			if(response.ok){
 				doAfterSuccess(response, actionValue)
+			}else{
+				doAfterFailure(err, actionValue)
 			}
-		}).catch(function(err){
-			doAfterFailure(err, actionValue)
+		})
+		.catch(function(err){
+			console.error(err)
 		})
 	}
 
