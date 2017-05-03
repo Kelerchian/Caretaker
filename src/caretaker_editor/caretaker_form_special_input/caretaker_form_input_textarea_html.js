@@ -1,14 +1,31 @@
 class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
 	setInitialState(state){
 		state.editorState = CaretakerTextareaDependency.EditorState.createEmpty()
-		state.inlineToolbarPlugin = CaretakerTextareaDependency.pluginsHTML.createInlineToolbarPlugin(CaretakerTextareaDependency.pluginsHTML.inlineToolbarPluginParams)
 		state.plugin = [
 			CaretakerTextareaDependency.pluginsHTML.createUndoPlugin(),
 			CaretakerTextareaDependency.pluginsHTML.createLinkifyPlugin(),
-			state.inlineToolbarPlugin
 		]
-		state.inlineToolbar = state.inlineToolbarPlugin.InlineToolbar
+		this.Rich = CaretakerTextareaDependency.RichUtils
 		return state
+	}
+
+	_onBoldClick(){
+		this.onChange(this.Rich.toggleInlineStyle(this.state.editorState, 'BOLD'))
+	}
+	_onItalicClick(){
+		this.onChange(this.Rich.toggleInlineStyle(this.state.editorState, 'ITALIC'))
+	}
+	_onUnderlineClick(){
+		this.onChange(this.Rich.toggleInlineStyle(this.state.editorState, 'UNDERLINE'))
+	}
+
+	handleKeyCommand(command){
+		const newState = this.Rich.handleKeyCommand(this.state.editorState, command)
+		if(newState){
+			this.onChange(newState)
+			return 'handled'
+		}
+		return 'not-handled'
 	}
 	getDefaultValue(){
 		return ""
@@ -118,6 +135,7 @@ class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
 	}
 	modifyProps(props){
 		props.onChange = this.onChange.bind(this)
+		props.handleKeyCommand = this.handleKeyCommand.bind(this)
 		props.editorState = this.state.editorState
 		props.plugins = this.state.plugin
 		props.ref = (element) => {this.editor = element}
@@ -125,7 +143,7 @@ class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
 		return props
 	}
 	getTextarea(){
-		return [React.createElement(CaretakerTextareaDependency.Editor, this.getProps()), React.createElement(this.state.inlineToolbar, {key:"toolbar"})]
+		return React.createElement(CaretakerTextareaDependency.Editor, this.getProps())
 	}
 	render(){
 		return React.createElement('div',{className: "CaretakerFormInputTextareaHTML", onClick: this.focus.bind(this)}, (
