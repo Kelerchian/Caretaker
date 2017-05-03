@@ -1,6 +1,6 @@
 {
   "name": "caretaker",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "build.js",
   "scripts": {
@@ -12,8 +12,6 @@
   "dependencies": {
     "draft-convert": "^1.4.3",
     "draft-js": "^0.10.0",
-    "draft-js-buttons": "^2.0.0-beta6",
-    "draft-js-inline-toolbar-plugin": "^2.0.0-beta6",
     "draft-js-linkify-plugin": "^2.0.0-beta1",
     "draft-js-plugins-editor": "^2.0.0-beta1",
     "gulp": "^3.9.1",
