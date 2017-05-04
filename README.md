@@ -1,6 +1,8 @@
 # Caretaker Version 0.1.0-beta
 A Javascript library for making a new breed of structured HTML5 Form
 
+#### **Readme.md is currently undergoing a construction.**
+
 ## What Caretaker?
 
 Caretaker provides another way to make HTML5 Form request by creating data structure in JSON first, and receiving structured data in JSON format later.
@@ -30,7 +32,7 @@ For example, with this data structure below:
 
 Will create this Form:
 
-![Readme-Example](https://github.com/Kelerchian/Caretaker/blob/github-master/example/asset/image/readme-example.png)
+![Readme-Example](https://github.com/Kelerchian/Caretaker/blob/master/example/asset/image/readme-example.png)
 
 The Form will results the following:
 
