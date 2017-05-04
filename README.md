@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Caretaker Version 0.1.0-beta
 A Javascript library for making a new breed of structured HTML5 Form
 
@@ -47,3 +48,7 @@ The Form will results the following:
 
 
 ## Getting Started
+=======
+# caretaker
+Javascript Library for making a new breed of structured HTML5 Form
+>>>>>>> a34520991b31b7b2929f4974d01d5a8443b9ef2e
