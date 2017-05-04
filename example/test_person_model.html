@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Caretaker - Person Model</title>
+
+	<link rel="stylesheet" href="asset/bootstrap4/css/bootstrap.css">
+	<link rel="stylesheet" href="asset/bootstrap-override.css">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="asset/polyfill/fetch.min.js"></script>
+	<script src="asset/polyfill/promise.min.js"></script>
+	<script src="asset/bootstrap4/js/bootstrap.js"></script>
+	<script src="asset/moment/moment.js"></script>
+	<script src="asset/react/build/react.js"></script>
+	<script src="asset/react/build/react-dom.js"></script>
+	<script src="../dist/caretaker.js"></script>
+	<script src="../dist/caretaker.extension.js"></script>
+	<link href="../dist/caretaker.css" rel="stylesheet"></link>
+	<link href="../dist/caretaker.extension.css" rel="stylesheet"></link>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-4">
+				<h5 class=" text-center">Single Common Input Test</h5>
+				<pre><code id="code"></code></pre>
+			</div>
+			<div class="col-md-4">
+				<h5>Form:</h5>
+				<div id="form-container"></div>
+			</div>
+			<div class="col-md-4">
+				<h5>Result:</h5>
+				<pre id="pre"></pre>
+			</div>
+		</div>
+	</div>
+<textarea id="textarea" style="display:none">
+	var PersonModel = {
+		type: "object",
+		name: "person",
+		label: "Person",
+		has: [
+			{
+				type: "text",
+				name: "fullname",
+				label: "Fullname"
+			},
+			{
+				type: "text",
+				name: "address",
+				label: "Address",
+				quantity: "many"
+			}
+		]
+	}
+</textarea>
+	<script async>
+		var PersonModel = {
+			type: "object",
+			name: "person",
+			label: "Person",
+			has: [
+				{
+					type: "text",
+					name: "fullname",
+					label: "Fullname"
+				},
+				{
+					type: "text",
+					name: "address",
+					label: "Address",
+					quantity: "many"
+				}
+			]
+		}
+		var formCommand = {
+			edit:PersonModel,
+			submittable: true,
+			resettable: true,
+			action: function(formData){
+				console.log(formData)
+				window['pre'].innerText = JSON.stringify(JSON.parse(formData.get('person')), null, 2)
+			}
+		}
+		var theForm = ReactDOM.render(React.createElement(CaretakerForm, formCommand), window['form-container'])
+		window['code'].innerText = window['textarea'].value
+	</script>
+</body>
+</html>
