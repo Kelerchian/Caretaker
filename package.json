@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "runfactory": "node runfactory"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Javascript Library for making a new breed of structured HTML5 Form",
+  "license": "Apache-2.0",
   "dependencies": {
     "draft-convert": "^1.4.3",
     "draft-js": "^0.10.0",
