@@ -10,7 +10,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<!-- Latest compiled JavaScript -->
 	<script src="asset/polyfill/fetch.min.js"></script>
-	<script src="asset/polyfill/promise.min.js"></script>
+	<script src="asset/polyfill/es6-promise.min.js"></script>
 	<script src="asset/bootstrap4/js/bootstrap.js"></script>
 	<script src="asset/moment/moment.js"></script>
 	<script src="asset/react/build/react.js"></script>
@@ -212,7 +212,7 @@
 				window['pre'].innerText = value.get('validation_test_object')
 			}
 		}
-		var theForm = ReactDOM.render(React.createElement(CaretakerForm, formCommand), window['form-container'])
+		var theForm = Caretaker.makeForm(formCommand, window['form-container'])
 	</script>
 </body>
 </html>
