@@ -30,13 +30,6 @@ class CaretakerForm extends React.Component{
 		var url = this.props.action
 		var fetch = window.fetch
 		var name = this.props.edit.name || "data"
-		// var content = JSON.stringify(actionValue)
-		// var body = name+"="+content
-		// var body  = (function(){
-		// 	var formData = new FormData()
-		// 	formData.append(name, content)
-		// 	return formData
-		// }())
 
 		var doAfterSuccess = this.doAfterSuccess.bind(this)
 		var doAfterFailure = this.doAfterFailure.bind(this)
@@ -53,14 +46,14 @@ class CaretakerForm extends React.Component{
 
 		fetch(url, fetchParameter)
 		.then(function(response){
-			if(response.ok){
+			if(response.ok || response.status == 200){
 				doAfterSuccess(response, actionValue)
 			}else{
-				doAfterFailure(err, actionValue)
+				throw new Error(response.statusText)
 			}
 		})
 		.catch(function(err){
-			console.error(err)
+			doAfterFailure(err, actionValue)
 		})
 	}
 
@@ -83,18 +76,12 @@ class CaretakerForm extends React.Component{
 		if(typeof this.props.afterSuccess == "function"){
 			continueAction = this.props.afterSuccess(actionReturn, actionValue)
 		}
-		if(continueAction !== false){
-
-		}
 	}
 	doAfterFailure(throwable, actionValue){
 		this.doAfterAction(actionValue)
 		var continueAction = true
 		if(typeof this.props.afterFailure == "function"){
 			continueAction = this.props.afterFailure(throwable, actionValue)
-		}
-		if(continueAction !== false){
-
 		}
 	}
 	onAction(){
