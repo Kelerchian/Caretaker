@@ -185,7 +185,57 @@ Possible values:
 		}
 	}
 	```
+
 ### Form Parameters
+
+- ###### "edit" _(mandatory)_
+	Possible values:
+	- Caretaker form model
+
+- ###### "action" _(mandatory)_
+	Possible values:
+	- Url (String) where data will be posted
+	- Function(formdata) action that will be executed when save button is clicked
+
+- ###### "submittable" _(optional)_
+	Possible values:
+	- Boolean
+
+- ###### "resettable" _(optional)_
+	Possible values:
+	- Boolean
+
+- ###### "afterSuccess" _(optional)_
+	Possible values:
+	- Function(response, formdata): function will be executed after action is performed when response is ok (status = 200). For more information about Response Object, ([see Response](https://developer.mozilla.org/en-US/docs/Web/API/Response))
+
+- ###### "afterFailure" _(optional)_
+	Possible values:
+	- Function(err, formdata): function will be executed after action is performed when response is not ok (status != 200) or when fetch encountered error. For more information about Response Object, (([see Response](https://developer.mozilla.org/en-US/docs/Web/API/Response)))
+
+- ###### "afterAction" _(optional)_
+	Possible values:
+	- Function(formdata): function will be executed after action is performed regardless of whether the action suceeded or failed
+
+## Extension
+
+Coming soon. If you're interested, see _[src_extension/caretaker_form_input_image.js](src_extension/caretaker_form_input_image.js)_
+
+## Planned Features
+
+- [x] Extension - Image input
+- [ ] Custom Object Classname
+- [ ] Custom HTML Object Label
+- [ ] Custom HTML Object Description
+- [ ] Extension Documentation - How to extend Caretaker Input
+
+## Project Status
+
+
+
+## License
+
+[Apache-2.0](https://choosealicense.com/licenses/apache-2.0/)
 
 
 _**Readme.md is currently undergoing a construction.**_
