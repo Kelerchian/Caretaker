@@ -1,3 +1,18 @@
+/**
+*	Copyright 2017 Alan Darmasaputra
+*
+*	Licensed under the Apache License, Version 2.0 (the "License");
+*	you may not use this file except in compliance with the License.
+*	You may obtain a copy of the License at
+*
+*			http://www.apache.org/licenses/LICENSE-2.0
+*
+*	Unless required by applicable law or agreed to in writing, software
+*	distributed under the License is distributed on an "AS IS" BASIS,
+*	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+*	See the License for the specific language governing permissions and
+*	limitations under the License.
+*/
 var Caretaker = (function(){
 
 	/**
@@ -294,13 +309,33 @@ var Caretaker = (function(){
 		return valueNode
 	})
 
+	function makeForm(formCommand, element){
+		if(!React || !ReactDOM){
+			throw new Error("Caretaker needs React and ReactDOM. If you are using Webpack, please bind React and ReactDOM to window like this \nwindow['React'] = React  \n window['ReactDOM = ReactDOM']")
+		}
+		if(typeof formCommand != "object"){
+			throw new Error("Parameter formCommand must be object")
+		}
+		//parse
+		if(typeof element == "string"){
+			element = document.querySelector(element)
+		}
+		if(!(element instanceof HTMLElement)){
+			throw new Error("Parameter element must be object")
+		}
+
+		return ReactDOM.render( React.createElement(CaretakerForm, formCommand), element )
+	}
+
 	return {
 		SpecialInput:SpecialInputPublic,
 		SubmissionPreprocessor: SubmissionPreprocessor,
 		UploadedFile:UploadedFile,
 		ValueArray:ValueArray,
 		ValueNode:ValueNode,
-		Widget:Widget
+		Widget:Widget,
+
+		makeForm: makeForm
 	}
 })();
 
