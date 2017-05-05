@@ -3,7 +3,7 @@ _**Readme.md is currently undergoing a construction.**_
 # Caretaker v0.1.0-beta
 A Javascript library for making a new breed of structured HTML5 Form
 
-## What Caretaker?
+## What is Caretaker?
 
 > _HTML5 Form, the new breed._
 
