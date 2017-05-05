@@ -1,5 +1,3 @@
-_**Readme.md is currently undergoing a construction.**_
-
 # Caretaker v0.1.0-beta
 A Javascript library for making a new breed of structured HTML5 Form
 
@@ -239,6 +237,3 @@ Currently, Caretaker is in testing phase. But my team at work is building projec
 ## License
 
 [Apache-2.0](https://choosealicense.com/licenses/apache-2.0/)
-
-
-_**Readme.md is currently undergoing a construction.**_
