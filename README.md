@@ -224,14 +224,17 @@ Coming soon. If you're interested, see _[src_extension/caretaker_form_input_imag
 ## Planned Features
 
 - [x] Extension - Image input
+- [ ] Extension - Select Object - Works like select. Available values are being showed as object with modifiable structure
 - [ ] Custom Object Classname
 - [ ] Custom HTML Object Label
 - [ ] Custom HTML Object Description
+- [ ] Conditional Child Input Object (Additional child input that shows when an object's value meets certain conditions)
 - [ ] Extension Documentation - How to extend Caretaker Input
+- [ ] Caretaker View - New breed of HTML views
 
 ## Project Status
 
-
+Currently, Caretaker is in testing phase. But my team at work is building projects using Caretaker. Bugs are being exterminated, potential features are being considered.
 
 ## License
 
