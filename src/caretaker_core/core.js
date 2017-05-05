@@ -305,6 +305,7 @@ var Caretaker = (function(){
 			var fileData =  valueNode.getFileData()
 			var index = utilities.UploadedFileCatalog.register(valueNode.getOriginalFile())
 			fileData.index = index
+			return fileData
 		}
 		return valueNode
 	})
