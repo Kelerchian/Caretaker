@@ -141,6 +141,7 @@ Possible values:
 - ###### "name" _(mandatory, case-sensitive)_
 	Possible values:
 	- Any String
+	- For the root Object, name:"files" is forbidden as it is a reserved word for the Caretaker to use.
 
 - ###### "label" _(optional)_
 	Possible values:
@@ -214,6 +215,43 @@ Possible values:
 - ###### "afterAction" _(optional)_
 	Possible values:
 	- Function(formdata): function will be executed after action is performed regardless of whether the action suceeded or failed
+
+## Return Value
+
+Caretaker Form will send "multipart/form-data" content type to wherever the String "action" says (e.g. action:"https://www.yoursite.com/post_data"). The data will be attached to the **"name" attribute of the root Caretaker Input Object**.
+
+For example, the form on the [Creating Forms](#creating-forms) of the page will results a request Payload, which contains JSON and Files (if you uploaded any file):
+
+```
+Content-Disposition: form-data; name="user"
+
+{"firstname":"Alan", "lastname":"Darmasaputra", "profile_picture": {"_is_caretaker_uploaded_file":true, "name":"filename.ext", "size":14203, "index":0}}
+
+Content-Disposition: form-data; name="files"; filename="filename.ext"
+Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
+```
+
+Which will be available as "user" and "files".
+
+In PHP you can use:
+
+```php
+$files = $_FILES['files'];
+$user = json_decode($_POST['user']);
+
+$user_profile_picture = $files[ $user->profile_picture->index ];
+```
+
+Or in node.js with Express and Multer:
+
+```javascript
+app.post(url, multerObject.any(), function(req, res){
+	var user = JSON.parse(req.body.user)
+	var user_display = req.files[user.profile_picture.index]
+})
+```
+
+Note: Files uploaded will be put in the array `files`. The main body, which is a JSON string, will only contain fileData Object in place of the supposed file. The fileData Object has `index` attribute which points to the index the supposed file is stored in the array `files`
 
 ## Extension
 
