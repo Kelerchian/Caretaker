@@ -1,4 +1,4 @@
-class CaretakerFormInputPrototype extends React.Component{
+class CaretakerFormInputPrototype extends CaretakerFormElementPrototype{
 	constructor(props){
 		super(props)
 		this.state = new Caretaker.ValueNode()
@@ -40,7 +40,7 @@ class CaretakerFormInputPrototype extends React.Component{
 		}
 	}
 	getNegativePropKeys(){
-		return ["value","values","defaultValue","onReportValidity","isValidating","isResetting"]
+		return ["value","values","defaultValue","onReportValidity","isValidating","isResetting","className"]
 	}
 	getProtoProps(){
 		var props = Object.assign({}, this.props)

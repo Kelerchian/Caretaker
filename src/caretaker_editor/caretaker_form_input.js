@@ -1,4 +1,4 @@
-class CaretakerInput extends React.Component{
+class CaretakerInput extends CaretakerFormElementPrototype{
 	constructor(props){
 		super(props)
 		this.state = {}
@@ -65,7 +65,7 @@ class CaretakerInput extends React.Component{
 		}
 	}
 	getNegativeCommonPropKeys(){
-		return ["options","value","isValidating","onReportValidity","isResetting"]
+		return ["options","value","isValidating","onReportValidity","isResetting","className"]
 	}
 	bindInput(input){
 		this.textInput = input
@@ -80,6 +80,7 @@ class CaretakerInput extends React.Component{
 		}
 		props.onChange = this.onCommonInputChange.bind(this)
 		props.value = this.state.value
+		props.className = this.appearanceGetAdditionalClassname('input')
 		props.ref = this.bindInput.bind(this)
 		return props
 	}
@@ -123,11 +124,11 @@ class CaretakerInput extends React.Component{
 	}
 	render(){
 		if(this.isCommonInput()){
-			return React.createElement('div',{className: "CaretakerInput"}, (
+			return React.createElement('div',{className: "CaretakerInput" + this.appearanceGetAdditionalClassname(".CaretakerInput")}, (
 				React.createElement('input', this.getProps())
 			))
 		}else{
-			return React.createElement('div',{className: "CaretakerInput"}, (
+			return React.createElement('div',{className: "CaretakerInput" + this.appearanceGetAdditionalClassname(".CaretakerInput")}, (
 				this.renderSpecialInput()
 			))
 		}

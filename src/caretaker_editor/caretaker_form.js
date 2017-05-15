@@ -1,4 +1,4 @@
-class CaretakerForm extends React.Component{
+class CaretakerForm extends CaretakerFormElementPrototype{
 	constructor(props){
 		super(props)
 		this.state = {
@@ -128,20 +128,40 @@ class CaretakerForm extends React.Component{
 	appearanceGetActions(){
 		var actions = []
 		if(this.props.submittable !== false){
-			actions.push(React.createElement('button',{type:"button", key:"submit", onClick: this.onSubmit.bind(this) , className:"CaretakerButton CaretakerPositiveButton"}, [React.createElement('i',{key:"icon",className:"fa fa-check"}), "Save"]))
+			actions.push(
+				React.createElement(
+					'button',
+					{
+						type:"button",
+						key:"submit",
+						onClick: this.onSubmit.bind(this),
+						className:"CaretakerButton CaretakerPositiveButton" + this.appearanceGetAdditionalClassname([".CaretakerButton", ".CaretakerPositiveButton"])
+					},
+					[React.createElement('i',{key:"icon",className:"fa fa-check"} + this.appearanceGetAdditionalClassname([".fa",".fa-check"]) ), "Save"])
+			)
 		}
 		if(this.props.resettable){
-			actions.push(React.createElement('button',{type:"button", key:"reset", onClick: this.onReset.bind(this), className:"CaretakerButton CaretakerBlueButton"}, [React.createElement('i',{key:"icon",className:"fa fa-undo"}), "Reset"]))
+			actions.push(
+				React.createElement(
+					'button',
+					{
+						type:"button",
+						key:"reset",
+						onClick: this.onReset.bind(this),
+						className:"CaretakerButton CaretakerBlueButton" + this.appearanceGetAdditionalClassname([".CaretakerButton", ".CaretakerBlueButton"])
+					},
+					[React.createElement('i',{key:"icon",className:"fa fa-undo"} + this.appearanceGetAdditionalClassname([".fa",".fa-undo"]) ), "Reset"])
+			)
 		}
 		if(actions.length > 0){
-			return React.createElement('div', {className: "CaretakerFormActions", key:"actions"}, actions)
+			return React.createElement('div', {className: "CaretakerFormActions" + this.appearanceGetAdditionalClassname(".CaretakerFormActions"), key:"actions"}, actions)
 		}else{
 			return ""
 		}
 	}
 	render(){
 		var props = this.getProps()
-		return React.createElement('form', {className: "CaretakerForm", encType:"multipart/form-data", onSubmit: (event)=>{ event.preventDefault() } }, (
+		return React.createElement('form', {className: "CaretakerForm" + this.appearanceGetAdditionalClassname(".CaretakerForm"), encType:"multipart/form-data", onSubmit: (event)=>{ event.preventDefault() } }, (
 			[React.createElement(CaretakerFormObject, props), this.appearanceGetActions()]
 		))
 	}

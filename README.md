@@ -131,7 +131,7 @@ The `<form>` then will be rendered inside the `<div id="the-form-container"></di
 ### Model Parameters
 
 - ###### "type" _(mandatory, case-sensitive)_
-Possible values:
+	Possible values:
 	- "object" or null
 	- Standard `<input>` type attribute such as : "text", "number", "date", "time", "file", "checkbox", "radio", "hidden", etc
 	- Custom Input such as : "select", "textarea", "textarea-html"

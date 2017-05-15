@@ -340,7 +340,33 @@ var Caretaker = (function(){
 	}
 })();
 
-class CaretakerFormInputPrototype extends React.Component{
+class CaretakerFormElementPrototype extends React.Component{
+	appearanceGetAdditionalClassname(subClassName){
+		if(subClassName == null){
+			if(typeof this.props.className == "string"){
+				return " "+this.props.className+" "
+			}
+		}else if(typeof subClassName == "string"){
+			if(this.props.className && typeof this.props.className == "object" && typeof this.props.className[subClassName] == "string"){
+				return " "+this.props.className[subClassName]+" "
+			}
+		}else if(Array.isArray(subClassName)){
+			if(this.props.className && typeof this.props.className == "object"){
+				var classNames = []
+				for(var i in subClassName){
+					var subClassNameSingle = subClassName[i]
+					if(typeof this.props.className[subClassNameSingle] == "string"){
+						className.push(this.props.className[subClassNameSingle])
+					}
+				}
+				return " " + className.join(' ') + " "
+			}
+		}
+		return "";
+	}
+}
+
+class CaretakerFormInputPrototype extends CaretakerFormElementPrototype{
 	constructor(props){
 		super(props)
 		this.state = new Caretaker.ValueNode()
@@ -382,7 +408,7 @@ class CaretakerFormInputPrototype extends React.Component{
 		}
 	}
 	getNegativePropKeys(){
-		return ["value","values","defaultValue","onReportValidity","isValidating","isResetting"]
+		return ["value","values","defaultValue","onReportValidity","isValidating","isResetting","className"]
 	}
 	getProtoProps(){
 		var props = Object.assign({}, this.props)
@@ -55530,7 +55556,7 @@ module.exports = __webpack_amd_options__;
 
 /***/ })
 /******/ ]);
-class CaretakerForm extends React.Component{
+class CaretakerForm extends CaretakerFormElementPrototype{
 	constructor(props){
 		super(props)
 		this.state = {
@@ -55660,26 +55686,46 @@ class CaretakerForm extends React.Component{
 	appearanceGetActions(){
 		var actions = []
 		if(this.props.submittable !== false){
-			actions.push(React.createElement('button',{type:"button", key:"submit", onClick: this.onSubmit.bind(this) , className:"CaretakerButton CaretakerPositiveButton"}, [React.createElement('i',{key:"icon",className:"fa fa-check"}), "Save"]))
+			actions.push(
+				React.createElement(
+					'button',
+					{
+						type:"button",
+						key:"submit",
+						onClick: this.onSubmit.bind(this),
+						className:"CaretakerButton CaretakerPositiveButton" + this.appearanceGetAdditionalClassname([".CaretakerButton", ".CaretakerPositiveButton"])
+					},
+					[React.createElement('i',{key:"icon",className:"fa fa-check"} + this.appearanceGetAdditionalClassname([".fa",".fa-check"]) ), "Save"])
+			)
 		}
 		if(this.props.resettable){
-			actions.push(React.createElement('button',{type:"button", key:"reset", onClick: this.onReset.bind(this), className:"CaretakerButton CaretakerBlueButton"}, [React.createElement('i',{key:"icon",className:"fa fa-undo"}), "Reset"]))
+			actions.push(
+				React.createElement(
+					'button',
+					{
+						type:"button",
+						key:"reset",
+						onClick: this.onReset.bind(this),
+						className:"CaretakerButton CaretakerBlueButton" + this.appearanceGetAdditionalClassname([".CaretakerButton", ".CaretakerBlueButton"])
+					},
+					[React.createElement('i',{key:"icon",className:"fa fa-undo"} + this.appearanceGetAdditionalClassname([".fa",".fa-undo"]) ), "Reset"])
+			)
 		}
 		if(actions.length > 0){
-			return React.createElement('div', {className: "CaretakerFormActions", key:"actions"}, actions)
+			return React.createElement('div', {className: "CaretakerFormActions" + this.appearanceGetAdditionalClassname(".CaretakerFormActions"), key:"actions"}, actions)
 		}else{
 			return ""
 		}
 	}
 	render(){
 		var props = this.getProps()
-		return React.createElement('form', {className: "CaretakerForm", encType:"multipart/form-data", onSubmit: (event)=>{ event.preventDefault() } }, (
+		return React.createElement('form', {className: "CaretakerForm" + this.appearanceGetAdditionalClassname(".CaretakerForm"), encType:"multipart/form-data", onSubmit: (event)=>{ event.preventDefault() } }, (
 			[React.createElement(CaretakerFormObject, props), this.appearanceGetActions()]
 		))
 	}
 }
 
-class CaretakerInput extends React.Component{
+class CaretakerInput extends CaretakerFormElementPrototype{
 	constructor(props){
 		super(props)
 		this.state = {}
@@ -55746,7 +55792,7 @@ class CaretakerInput extends React.Component{
 		}
 	}
 	getNegativeCommonPropKeys(){
-		return ["options","value","isValidating","onReportValidity","isResetting"]
+		return ["options","value","isValidating","onReportValidity","isResetting","className"]
 	}
 	bindInput(input){
 		this.textInput = input
@@ -55761,6 +55807,7 @@ class CaretakerInput extends React.Component{
 		}
 		props.onChange = this.onCommonInputChange.bind(this)
 		props.value = this.state.value
+		props.className = this.appearanceGetAdditionalClassname('input')
 		props.ref = this.bindInput.bind(this)
 		return props
 	}
@@ -55804,18 +55851,18 @@ class CaretakerInput extends React.Component{
 	}
 	render(){
 		if(this.isCommonInput()){
-			return React.createElement('div',{className: "CaretakerInput"}, (
+			return React.createElement('div',{className: "CaretakerInput" + this.appearanceGetAdditionalClassname(".CaretakerInput")}, (
 				React.createElement('input', this.getProps())
 			))
 		}else{
-			return React.createElement('div',{className: "CaretakerInput"}, (
+			return React.createElement('div',{className: "CaretakerInput" + this.appearanceGetAdditionalClassname(".CaretakerInput")}, (
 				this.renderSpecialInput()
 			))
 		}
 	}
 }
 
-class CaretakerFormObject extends React.Component{
+class CaretakerFormObject extends CaretakerFormElementPrototype{
 	constructor(props){
 		super(props)
 		this.state = {}
@@ -55838,7 +55885,6 @@ class CaretakerFormObject extends React.Component{
 					}
 				}
 			}
-
 			this.state.isValidMap[name] = isValid
 		}else{
 			this.state.isValid = isValid
@@ -55983,11 +56029,11 @@ class CaretakerFormObject extends React.Component{
 		return props
 	}
 	appearanceGetLabel(){
-		return React.createElement('label', {className:"CaretakerLabel", htmlFor: this.state.name, key:"label"}, this.props.label)
+		return React.createElement('label', {className:"CaretakerLabel"+this.appearanceGetAdditionalClassname(".CaretakerLabel"), htmlFor: this.state.name, key:"label"}, this.props.label)
 	}
 	appearanceGetDescription(){
 		if(this.props.description){
-			return React.createElement('p', {className:"CaretakerDescription",key:"description"}, (
+			return React.createElement('p', {className:"CaretakerDescription"+this.appearanceGetAdditionalClassname(".CaretakerDescription"),key:"description"}, (
 				this.props.description
 			))
 		}
@@ -56031,12 +56077,12 @@ class CaretakerFormObject extends React.Component{
 	}
 	appearanceGetErrorMessage(){
 		if(typeof this.state.isValid == "string"){
-			return React.createElement('div', {className:"CaretakerErrorMessage", key:"errorMessage"}, this.state.isValid)
+			return React.createElement('div', {className:"CaretakerErrorMessage" + this.appearanceGetAdditionalClassname(".CaretakerErrorMessage") , key:"errorMessage"}, this.state.isValid)
 		}else if (Array.isArray(this.state.isValid) && this.state.isValid.length > 0){
 			if(this.state.isValid.length == 1){
-				return React.createElement('div', {className:"CaretakerErrorMessage", key:"errorMessage"}, this.state.isValid[0])
+				return React.createElement('div', {className:"CaretakerErrorMessage" + this.appearanceGetAdditionalClassname(".CaretakerErrorMessage") , key:"errorMessage"}, this.state.isValid[0])
 			}else if(this.state.isValid.length > 1){
-				return React.createElement('div', {className:"CaretakerErrorMessage", key:"errorMessage"}, (
+				return React.createElement('div', {className:"CaretakerErrorMessage" + this.appearanceGetAdditionalClassname(".CaretakerErrorMessage") , key:"errorMessage"}, (
 					React.createElement('ul', {}, (function(){
 						var lis = []
 						for(var i in this.state.isValid){
@@ -56076,14 +56122,18 @@ class CaretakerFormObject extends React.Component{
 	render(){
 		var props = {}
 		props.className = "CaretakerFormObject"
+		props.className += this.appearanceGetAdditionalClassname() + this.appearanceGetAdditionalClassname(".CaretakerFormObject")
 		props.className += (this.state.name ? " "+this.state.name : "")
-		props.className += (this.isInput() ? " CaretakerInputContainer":"")
+		props.className += (this.isInput() ? " CaretakerInputContainer" + this.appearanceGetAdditionalClassname(".CaretakerInputContainer")  :"")
 		props.className += this.appearanceGetValidClassname()
-		return React.createElement('div',props, this.appearanceGetInsideObjectContainer())
+		return React.createElement(
+			'div',
+			props,
+			this.appearanceGetInsideObjectContainer())
 	}
 }
 
-class CaretakerFormObjectCollection extends React.Component{
+class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 	constructor(props){
 		super(props)
 		this.state = {}
@@ -56177,8 +56227,8 @@ class CaretakerFormObjectCollection extends React.Component{
 		}
 	}
 	appearanceGetControl(){
-		return React.createElement('div',{className:"CaretakerFormObjectCollectionControl", key:"control"}, (
-			React.createElement('button',{className:"CaretakerButton CaretakerAddButton", "type":"button", onClick:this.onAddChild.bind(this)}, [React.createElement('i',{className:"fa fa-plus", key:"icon"}), " New"])
+		return React.createElement('div',{className:"CaretakerFormObjectCollectionControl" + this.appearanceGetAdditionalClassname([".CaretakerFormObjectCollectionControl"]), key:"control"}, (
+			React.createElement('button',{className:"CaretakerButton CaretakerAddButton" + this.appearanceGetAdditionalClassname([".CaretakerButton",".CaretakerAddButton"]), "type":"button", onClick:this.onAddChild.bind(this)}, [React.createElement('i',{className:"fa fa-plus"  + this.appearanceGetAdditionalClassname([".fa",".fa-plus"]) , key:"icon"}), " New"])
 		))
 	}
 	appearanceGetChildren(){
@@ -56193,16 +56243,43 @@ class CaretakerFormObjectCollection extends React.Component{
 			if(this.state.value[i] != null){
 				props.value = this.state.value[i]
 			}
-			children.push( React.createElement('div', { className: "CaretakerFormObjectContainer", key: i}, [
-				React.createElement('button', { className:"CaretakerButton CaretakerNegativeButton CaretakerRemoveButton", onClick:this.onRemoveChild.bind(this,i), type:"button" , key:i+"-delete-button" }, React.createElement('i',{className:"fa fa-trash"})),
-				React.createElement(CaretakerFormObject, props)
-			]) )
+			children.push( React.createElement(
+				'div',
+				{
+					className: "CaretakerFormObjectContainer" + this.appearanceGetAdditionalClassname(".CaretakerFormObjectContainer"),
+					key: i
+				},
+				[
+					React.createElement(
+						'button',
+						{
+							className:"CaretakerButton CaretakerNegativeButton CaretakerRemoveButton" + this.appearanceGetAdditionalClassname([".CaretakerButton",".CaretakerNegativeButton",".CaretakerRemoveButton"]),
+							onClick:this.onRemoveChild.bind(this,i),
+							type:"button" ,
+							key:i+"-delete-button"
+						},
+						React.createElement(
+							'i',
+							{
+								className:"fa fa-trash" + this.appearanceGetAdditionalClassname([".fa",".fa-trash"])
+							}
+						)
+					),
+					React.createElement(CaretakerFormObject, props)
+				]
+			) )
 		}
 		return React.createElement('div',{className:"CaretakerFormObjectCollectionChildren", key:"children"}, children);
 	}
 	render(){
 		var name = this.props.name || ""
-		return React.createElement('div',{className: "CaretakerFormObjectCollection "+name}, [this.appearanceGetControl(), this.appearanceGetChildren()] )
+		return React.createElement(
+			'div',
+			{
+				className: "CaretakerFormObjectCollection " + name + this.appearanceGetAdditionalClassname("CaretakerFormObjectCollection")
+			},
+			[this.appearanceGetControl(), this.appearanceGetChildren()]
+		)
 	}
 }
 
