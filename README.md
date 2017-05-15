@@ -76,31 +76,31 @@ And a model, for example, a form for a new user needs firstname, lastname, and a
 
 ```HTML
 <script>
-	var userModel = {
-		type: "object",
-		name: "user",
-		label: "New User",
-		description: "Register a new user",
-		has: [
-			{
-				type: "text",
-				name: "firstname",
-				placeholder: "First name",
-				required: true
-			},
-			{
-				type: "text",
-				name: "lastname",
-				placeholder: "Last name",
-				required: true
-			},
-			{
-				type: "image",
-				name: "profile_picture",
-				label: "Profile Picture"
-			}
-		]
-	}
+var userModel = {
+ type: "object",
+ name: "user",
+ label: "New User",
+ description: "Register a new user",
+ has: [
+  {
+   type: "text",
+   name: "firstname",
+   placeholder: "First name",
+   required: true
+  },
+  {
+   type: "text",
+   name: "lastname",
+   placeholder: "Last name",
+   required: true
+  },
+  {
+   type: "image",
+   name: "profile_picture",
+   label: "Profile Picture"
+  }
+ ]
+}
 </script>
 ```
 
@@ -108,19 +108,18 @@ Finally, make the form with some parameters
 
 ```HTML
 <script>
-	var newUserForm = Caretaker.makeForm({
-		edit: userModel,
-		resettable: true,
-		action: "https://url_you_want_the_form_to_send_data.to",
-		afterSuccess: function(response, formdata){	//
-			// response is Response Object see https://developer.mozilla.org/en-US/docs/Web/API/Response
-			// formdata is FormData Object see https://developer.mozilla.org/en/docs/Web/API/FormData
+ var newUserForm = Caretaker.makeForm({
+  edit: userModel,
+  resettable: true,
+	action: "https://url_you_want_the_form_to_send_data.to",
+	afterSuccess: function(response, formdata){
+		// response is Response Object see https://developer.mozilla.org/en-US/docs/Web/API/Response
+		// formdata is FormData Object see https://developer.mozilla.org/en/docs/Web/API/FormData
 
-			// things you want to do after success
-
-			window.location.href = "https://success.url"
-		}
-	}, 'the-form-container')
+		// things you want to do after success
+		window.location.href = "https://success.url"
+	}
+}, 'the-form-container')
 </script>
 ```
 
@@ -135,8 +134,8 @@ The `<form>` then will be rendered inside the `<div id="the-form-container"></di
 	- "object" or null
 	- Standard `<input>` type attribute such as : "text", "number", "date", "time", "file", "checkbox", "radio", "hidden", etc
 	- Custom Input such as : "select", "textarea", "textarea-html"
-	- Pre-extended Input (see [Extension](#extension) such as : "image"
-	- Any String that has been registered as _Caretaker Extension_ (see [Extension](#extension)
+	- Pre-extended Input (see [Extension](#extension)) such as : "image"
+	- Any String that has been registered as _Caretaker Extension_ (see [Extension](#extension))
 
 - ###### "name" _(mandatory, case-sensitive)_
 	Possible values:
@@ -166,6 +165,11 @@ The `<form>` then will be rendered inside the `<div id="the-form-container"></di
 - ###### "defaultValue" _(optional)_
 	Possible values:
 	- Any value that works with the input type
+
+- ##### "className" _(optional)_ _(*NEW)_
+	Used to add className besides other default ClassNames, such as: every caretaker form object has className="CaretakerFormObject". By passing {'.CaretakerFormObject': "added-class another-added-class"}, the printed value will be className="CaretakerFormObject added-class another-added-class".
+	Possible values:
+	- Objects with attributeKeys same as default caretaker classNames or tagname. ClassName must be preceeded by a fullstop sign ".". attributeKeys examples: ".CaretakerFormObject", ".CaretakerLabel", ".CaretakerForm", "div", "select" 
 
 - ###### "required" _(optional)_
 	Possible values:
@@ -260,17 +264,17 @@ Coming soon. If you're interested, see _[src_extension/caretaker_form_input_imag
 ## Planned Features
 
 - [x] Extension - Image input
-- [ ] Extension - Select Object - Works like select. Available values are being showed as object with modifiable structure
-- [ ] Custom Object Classname
+- [x] Custom Object Classname
 - [ ] Custom HTML Object Label
 - [ ] Custom HTML Object Description
-- [ ] Conditional Child Input Object (Additional child input that shows when an object's value meets certain conditions)
-- [ ] Extension Documentation - How to extend Caretaker Input
+- [ ] Conditional Supplement Input Object (Additional child input that shows when an object's value meets certain conditions)
 - [ ] Caretaker View - New breed of HTML views
+- [ ] Extension - Select Object - Works like select. Available values are being showed as object with modifiable structure
+- [ ] Extension Documentation - How to extend Caretaker Input
 
 ## Project Status
 
-Currently, Caretaker is in testing phase. But my team at work is building projects using Caretaker. Bugs are being exterminated, potential features are being considered.
+Currently, Caretaker is in testing phase. My team at work is building projects using Caretaker. Bugs are being exterminated, potential features are being considered.
 
 ## License
 
