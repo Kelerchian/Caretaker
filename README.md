@@ -1,4 +1,4 @@
-# Caretaker v0.1.0-beta
+# Caretaker v0.2.0-beta
 A Javascript library for making a new breed of structured HTML5 Form
 
 ## What is Caretaker?
@@ -169,7 +169,7 @@ The `<form>` then will be rendered inside the `<div id="the-form-container"></di
 - ##### "className" _(optional)_ _(*NEW)_
 	Used to add className besides other default ClassNames, such as: every caretaker form object has className="CaretakerFormObject". By passing {'.CaretakerFormObject': "added-class another-added-class"}, the printed value will be className="CaretakerFormObject added-class another-added-class".
 	Possible values:
-	- Objects with attributeKeys same as default caretaker classNames or tagname. ClassName must be preceeded by a fullstop sign ".". attributeKeys examples: ".CaretakerFormObject", ".CaretakerLabel", ".CaretakerForm", "div", "select" 
+	- Objects with attributeKeys same as default caretaker classNames or tagname. ClassName must be preceeded by a fullstop sign ".". attributeKeys examples: ".CaretakerFormObject", ".CaretakerLabel", ".CaretakerForm", "div", "select"
 
 - ###### "required" _(optional)_
 	Possible values:
