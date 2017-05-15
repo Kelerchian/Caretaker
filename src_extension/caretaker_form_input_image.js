@@ -65,13 +65,26 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 	onChange(value){
 		this.state.value = value
 		this.updateParent()
+		var setState = this.setState.bind(this)
+		var onRemove = this.onRemove.bind(this)
+		Caretaker.Utils.getBase64Async(this.state.value.getOriginalFile(),
+			function(result){	//OnSuccess
+				setState({
+					imageData: result
+				})
+			},
+			function(error){
+				onRemove()
+			}
+		)
 	}
 
 	/*
 	* Not an extended function
 	*/
-	onRemove(value){
-		this.state.value = null
+	onRemove(){
+		this.state.value = false
+		this.state.imageData = null
 		this.updateParent()
 	}
 
@@ -115,15 +128,21 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 			return control
 
 		}else if(this.state.value instanceof Caretaker.UploadedFile){
+			var previewProps = {
+				title:this.state.value.getName(),
+				alt:this.state.value.getName()
+			}
+			if(this.state.imageData){
+				previewProps.src = this.state.imageData
+			}
 			return [
 				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileRemoveButton", type:"button", key:"removeButton", onClick: this.onRemove.bind(this)}, [React.createElement('i', {className:"fa fa-remove", key:"icon"}),"Remove"]),
 				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileChangeButton", type:"button", key:"changeButton", onClick: this.onWillPrompt.bind(this)}, [React.createElement('i',{className:"fa fa-edit", key:"icon"}), "Change..."]),
 				React.createElement('div', {className:"CaretakerFormInputFilePreview", key:"preview"}, (
-					React.createElement('img', {src:this.state.value.getData(), title:this.state.value.getName(), alt:this.state.value.getName()})
+					React.createElement('img', previewProps)
 				))
 			]
 		}else if(typeof this.state.value == "object"){
-			var previewLinkProp = {}
 			var link = this.state.value.link || ""
 			return [
 				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileRemoveButton", type:"button", key:"removeButton", onClick: this.onRemove.bind(this)}, [React.createElement('i', {className:"fa fa-remove", key:"icon"}),"Remove"] ),

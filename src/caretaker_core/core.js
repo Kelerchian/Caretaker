@@ -15,6 +15,28 @@
 */
 var Caretaker = (function(){
 
+	var Utils = (function(){
+
+		var getBase64Async = function(file, onSuccess, onError){
+			var reader = new FileReader()
+   		reader.readAsDataURL(file);
+			reader.onload = function(){
+				if(onSuccess){
+					onSuccess(reader.result)
+				}
+			}
+			reader.onerror = function(error){
+				if(onError){
+					onError(error)
+				}
+			}
+		}
+
+		return {
+			getBase64Async: getBase64Async
+		}
+	}())
+
 	/**
 	* Caretaker top window widget
 	*
@@ -334,6 +356,7 @@ var Caretaker = (function(){
 		UploadedFile:UploadedFile,
 		ValueArray:ValueArray,
 		ValueNode:ValueNode,
+		Utils:Utils,
 		Widget:Widget,
 
 		makeForm: makeForm
