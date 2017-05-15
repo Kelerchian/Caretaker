@@ -21,7 +21,7 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 	* This value will be overwritten by your data
 	*/
 	getDefaultValue(){
-		return null
+		return false
 	}
 
 	/*
@@ -32,12 +32,9 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 	loadedValueIsValid(value){
 		if(value instanceof Caretaker.UploadedFile){
 			return true
-		}else if(typeof value == "object"){
-			if(value.link == null){
-				return false
-			}
+		}else if(typeof value == "object" && value && value.link != null){
 			return true
-		}else if(value == null){			//don't forget to include your defaultValue
+		}else if(value == false){			//don't forget to include your defaultValue
 			return true
 		}
 		return false
@@ -47,7 +44,7 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 	* Extended function
 	*/
 	checkValidity(value){
-		if(this.isRequired() && value == null){
+		if(this.isRequired() && value === false){
 			return ["An image must be selected"]
 		}
 		return true
@@ -117,7 +114,7 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 	*/
 	appearanceGetControl(){
 		//Don't forget to handle all your state
-		if(this.state.value == null){
+		if(this.state.value === false){
 			var control = []
 			control.push(React.createElement('button', {className:"CaretakerButton CaretakerFormInputFilePromptButton", key:"selectButton", type:"button", onClick: this.onWillPrompt.bind(this)}, "Select Image..."))
 			if(this.props.placeholder){

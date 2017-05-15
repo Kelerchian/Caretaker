@@ -7,12 +7,12 @@ class CaretakerFormInputPrototype extends CaretakerFormElementPrototype{
 	}
 	loadValue(props){
 		this.state.value = this.getDefaultValue();
-		if(props.value != null){
+		if(props.hasOwnProperty("value")){
 			var supposedValue = this.transformValueBeforeLoad(props.value)
 			if(this.loadedValueIsValid(supposedValue)){
 				this.state.value = supposedValue
 			}
-		}else if(props.defaultValue != null){
+		}else if(props.hasOwnProperty("defaultValue")){
 			var supposedValue = this.transformValueBeforeLoad(props.defaultValue)
 			if(this.loadedValueIsValid(supposedValue)){
 				this.state.value = supposedValue

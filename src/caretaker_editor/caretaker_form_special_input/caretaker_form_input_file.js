@@ -12,16 +12,16 @@
 */
 class CaretakerFormInputFile extends CaretakerFormInputPrototype{
 	getDefaultValue(){
-		return null
+		return false
 	}
 	loadedValueIsValid(value){
-		if(value != null && !(value instanceof Caretaker.UploadedFile) && typeof value != "object"  ){
-			return false
+		if(value === false || value instanceof Caretaker.UploadedFile || (typeof value == "object" && value)){
+			return true
 		}
-		return true
+		return false
 	}
 	checkValidity(value){
-		if(this.isRequired() && value == null){
+		if(this.isRequired() && value === false){
 			return ["A file must be selected"]
 		}
 		return true
@@ -34,15 +34,15 @@ class CaretakerFormInputFile extends CaretakerFormInputPrototype{
 		this.updateParent()
 	}
 	onRemove(){
-		this.state.value = null
+		this.state.value = false
 		this.updateParent()
 	}
 	onWillPrompt(){
 		Caretaker.UploadedFile.promptUpload(this.onChange.bind(this), this.getProps())
 	}
 	appearanceGetControl(){
-		if(this.state.value == null){
-			return React.createElement('button', {className:"CaretakerButton CaretakerFormInputFilePromptButton", type:"button", onClick: this.onWillPrompt.bind(this)}, "Select File...")
+		if(this.state.value === false){
+			return React.createElement('button', {className: this.appearanceProtoGetClassName("button", "CaretakerButton CaretakerFormInputFilePromptButton") , type:"button", onClick: this.onWillPrompt.bind(this)}, "Select File...")
 		}else if(this.state.value instanceof Caretaker.UploadedFile){
 			return [
 				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileRemoveButton", type:"button", key:"removeButton", onClick: this.onRemove.bind(this)}, [React.createElement('i', {className:"fa fa-remove", key:"icon"}),"Remove"]),

@@ -21,15 +21,18 @@ class CaretakerInput extends CaretakerFormElementPrototype{
 		}else{
 			return null
 		}
-
 	}
 	loadValue(props){
 		this.state.value = this.getDefaultValue()
-		if(props.value != null){
-			this.state.value = props.value
+		if(props.hasOwnProperty("value")){
+			if(!(props.value == null && this.isCommonInput())){
+				this.state.value = props.value
+			}
 		}
-		if(props.defaultValue != null){
-			this.state.value = props.defaultValue
+		if(props.hasOwnProperty("defaultValue")){
+			if( !(props.defaultValue == null && this.isCommonInput()) ){
+				this.state.value = props.defaultValue
+			}
 		}
 		if(props.isResetting){
 			this.updateParent()
