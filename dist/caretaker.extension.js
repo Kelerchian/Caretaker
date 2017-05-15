@@ -21,7 +21,7 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 	* This value will be overwritten by your data
 	*/
 	getDefaultValue(){
-		return null
+		return false
 	}
 
 	/*
@@ -32,12 +32,9 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 	loadedValueIsValid(value){
 		if(value instanceof Caretaker.UploadedFile){
 			return true
-		}else if(typeof value == "object"){
-			if(value.link == null){
-				return false
-			}
+		}else if(typeof value == "object" && value && value.link != null){
 			return true
-		}else if(value == null){			//don't forget to include your defaultValue
+		}else if(value == false){			//don't forget to include your defaultValue
 			return true
 		}
 		return false
@@ -47,7 +44,7 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 	* Extended function
 	*/
 	checkValidity(value){
-		if(this.isRequired() && value == null){
+		if(this.isRequired() && value === false){
 			return ["An image must be selected"]
 		}
 		return true
@@ -65,13 +62,26 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 	onChange(value){
 		this.state.value = value
 		this.updateParent()
+		var setState = this.setState.bind(this)
+		var onRemove = this.onRemove.bind(this)
+		Caretaker.Utils.getBase64Async(this.state.value.getOriginalFile(),
+			function(result){	//OnSuccess
+				setState({
+					imageData: result
+				})
+			},
+			function(error){
+				onRemove()
+			}
+		)
 	}
 
 	/*
 	* Not an extended function
 	*/
-	onRemove(value){
-		this.state.value = null
+	onRemove(){
+		this.state.value = false
+		this.state.imageData = null
 		this.updateParent()
 	}
 
@@ -104,7 +114,7 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 	*/
 	appearanceGetControl(){
 		//Don't forget to handle all your state
-		if(this.state.value == null){
+		if(this.state.value === false){
 			var control = []
 			control.push(React.createElement('button', {className:"CaretakerButton CaretakerFormInputFilePromptButton", key:"selectButton", type:"button", onClick: this.onWillPrompt.bind(this)}, "Select Image..."))
 			if(this.props.placeholder){
@@ -115,15 +125,21 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 			return control
 
 		}else if(this.state.value instanceof Caretaker.UploadedFile){
+			var previewProps = {
+				title:this.state.value.getName(),
+				alt:this.state.value.getName()
+			}
+			if(this.state.imageData){
+				previewProps.src = this.state.imageData
+			}
 			return [
 				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileRemoveButton", type:"button", key:"removeButton", onClick: this.onRemove.bind(this)}, [React.createElement('i', {className:"fa fa-remove", key:"icon"}),"Remove"]),
 				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileChangeButton", type:"button", key:"changeButton", onClick: this.onWillPrompt.bind(this)}, [React.createElement('i',{className:"fa fa-edit", key:"icon"}), "Change..."]),
 				React.createElement('div', {className:"CaretakerFormInputFilePreview", key:"preview"}, (
-					React.createElement('img', {src:this.state.value.getData(), title:this.state.value.getName(), alt:this.state.value.getName()})
+					React.createElement('img', previewProps)
 				))
 			]
 		}else if(typeof this.state.value == "object"){
-			var previewLinkProp = {}
 			var link = this.state.value.link || ""
 			return [
 				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileRemoveButton", type:"button", key:"removeButton", onClick: this.onRemove.bind(this)}, [React.createElement('i', {className:"fa fa-remove", key:"icon"}),"Remove"] ),

@@ -15,6 +15,28 @@
 */
 var Caretaker = (function(){
 
+	var Utils = (function(){
+
+		var getBase64Async = function(file, onSuccess, onError){
+			var reader = new FileReader()
+   		reader.readAsDataURL(file);
+			reader.onload = function(){
+				if(onSuccess){
+					onSuccess(reader.result)
+				}
+			}
+			reader.onerror = function(error){
+				if(onError){
+					onError(error)
+				}
+			}
+		}
+
+		return {
+			getBase64Async: getBase64Async
+		}
+	}())
+
 	/**
 	* Caretaker top window widget
 	*
@@ -334,6 +356,7 @@ var Caretaker = (function(){
 		UploadedFile:UploadedFile,
 		ValueArray:ValueArray,
 		ValueNode:ValueNode,
+		Utils:Utils,
 		Widget:Widget,
 
 		makeForm: makeForm
@@ -375,12 +398,12 @@ class CaretakerFormInputPrototype extends CaretakerFormElementPrototype{
 	}
 	loadValue(props){
 		this.state.value = this.getDefaultValue();
-		if(props.value != null){
+		if(props.hasOwnProperty("value")){
 			var supposedValue = this.transformValueBeforeLoad(props.value)
 			if(this.loadedValueIsValid(supposedValue)){
 				this.state.value = supposedValue
 			}
-		}else if(props.defaultValue != null){
+		}else if(props.hasOwnProperty("defaultValue")){
 			var supposedValue = this.transformValueBeforeLoad(props.defaultValue)
 			if(this.loadedValueIsValid(supposedValue)){
 				this.state.value = supposedValue
@@ -55748,15 +55771,18 @@ class CaretakerInput extends CaretakerFormElementPrototype{
 		}else{
 			return null
 		}
-
 	}
 	loadValue(props){
 		this.state.value = this.getDefaultValue()
-		if(props.value != null){
-			this.state.value = props.value
+		if(props.hasOwnProperty("value")){
+			if(!(props.value == null && this.isCommonInput())){
+				this.state.value = props.value
+			}
 		}
-		if(props.defaultValue != null){
-			this.state.value = props.defaultValue
+		if(props.hasOwnProperty("defaultValue")){
+			if( !(props.defaultValue == null && this.isCommonInput()) ){
+				this.state.value = props.defaultValue
+			}
 		}
 		if(props.isResetting){
 			this.updateParent()
@@ -55939,7 +55965,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 	loadValueConversion(possibleValue){
 		if(Array.isArray(possibleValue)){
 			this.state.value = Caretaker.ValueArray.from(possibleValue)
-		}else if(typeof possibleValue == "object" && possibleValue.__proto__.constructor == Object){
+		}else if(typeof possibleValue == "object" && possibleValue.__proto__.constructor == Object && possibleValue){
 			this.state.value = Caretaker.ValueNode.from(possibleValue)
 		}else{
 			this.state.value = possibleValue
@@ -56469,16 +56495,16 @@ Caretaker.SpecialInput.register('date',CaretakerFormInputDate)
 */
 class CaretakerFormInputFile extends CaretakerFormInputPrototype{
 	getDefaultValue(){
-		return null
+		return false
 	}
 	loadedValueIsValid(value){
-		if(value != null && !(value instanceof Caretaker.UploadedFile) && typeof value != "object"  ){
-			return false
+		if(value === false || value instanceof Caretaker.UploadedFile || (typeof value == "object" && value)){
+			return true
 		}
-		return true
+		return false
 	}
 	checkValidity(value){
-		if(this.isRequired() && value == null){
+		if(this.isRequired() && value === false){
 			return ["A file must be selected"]
 		}
 		return true
@@ -56491,15 +56517,15 @@ class CaretakerFormInputFile extends CaretakerFormInputPrototype{
 		this.updateParent()
 	}
 	onRemove(){
-		this.state.value = null
+		this.state.value = false
 		this.updateParent()
 	}
 	onWillPrompt(){
 		Caretaker.UploadedFile.promptUpload(this.onChange.bind(this), this.getProps())
 	}
 	appearanceGetControl(){
-		if(this.state.value == null){
-			return React.createElement('button', {className:"CaretakerButton CaretakerFormInputFilePromptButton", type:"button", onClick: this.onWillPrompt.bind(this)}, "Select File...")
+		if(this.state.value === false){
+			return React.createElement('button', {className: this.appearanceProtoGetClassName("button", "CaretakerButton CaretakerFormInputFilePromptButton") , type:"button", onClick: this.onWillPrompt.bind(this)}, "Select File...")
 		}else if(this.state.value instanceof Caretaker.UploadedFile){
 			return [
 				React.createElement('button', {className:"CaretakerButton CaretakerFormInputFileRemoveButton", type:"button", key:"removeButton", onClick: this.onRemove.bind(this)}, [React.createElement('i', {className:"fa fa-remove", key:"icon"}),"Remove"]),
