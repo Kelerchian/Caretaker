@@ -20,6 +20,7 @@ class CaretakerFormInputTextarea extends CaretakerFormInputPrototype{
 	}
 	modifyProps(props){
 		props.onChange = this.onChange.bind(this)
+		props.className = this.appearanceProtoGetClassName("textarea", "CaretakerFormInputTextarea")
 		props.value = this.state.value
 	}
 	getTextarea(){

@@ -74,7 +74,7 @@ class CaretakerFormInputCheckbox extends CaretakerFormInputPrototype{
 				props.checked = false
 			}
 
-			html.push(React.createElement('div',{className:"CaretakerFormInputCheckbox", key:i}, [
+			html.push(React.createElement('div',{className: this.appearanceProtoGetClassName("div", "CaretakerFormInputCheckbox"), key:i}, [
 				React.createElement('input', props),
 				text
 			]))
@@ -83,7 +83,7 @@ class CaretakerFormInputCheckbox extends CaretakerFormInputPrototype{
 	}
 	render(){
 		var name = this.props.name || ""
-		return React.createElement('div', {className: "CaretakerFormInputCheckboxCollection"}, (
+		return React.createElement('div', {className: this.appearanceProtoGetClassName('div', "CaretakerFormInputCheckboxCollection")}, (
 			this.getCheckboxes()
 		))
 	}

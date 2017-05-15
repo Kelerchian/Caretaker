@@ -34,6 +34,7 @@ class CaretakerFormInputSelect extends CaretakerFormInputPrototype{
 	getProps(){
 		var props = this.getProtoProps()
 		props.value = this.state.value
+		props.className = this.appearanceProtoGetClassName("select", "CaretakerFormInputSelect")
 		props.onChange = this.onChange.bind(this)
 		return props
 	}
