@@ -8,7 +8,6 @@ class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
 		this.Rich = CaretakerTextareaDependency.RichUtils
 		return state
 	}
-
 	_onBoldClick(){
 		this.onChange(this.Rich.toggleInlineStyle(this.state.editorState, 'BOLD'))
 	}
@@ -18,7 +17,6 @@ class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
 	_onUnderlineClick(){
 		this.onChange(this.Rich.toggleInlineStyle(this.state.editorState, 'UNDERLINE'))
 	}
-
 	handleKeyCommand(command){
 		const newState = this.Rich.handleKeyCommand(this.state.editorState, command)
 		if(newState){
@@ -40,6 +38,7 @@ class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
 		return this.linkifier
 	}
 	normalize(text){
+		text = text || ""
 		text = this.stripScript(text)
 		this.state.normalizer = this.state.normalizer || document.createElement('div')
 		var normalizer = this.state.normalizer
@@ -146,7 +145,7 @@ class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
 		return React.createElement(CaretakerTextareaDependency.Editor, this.getProps())
 	}
 	render(){
-		return React.createElement('div',{className: "CaretakerFormInputTextareaHTML", onClick: this.focus.bind(this)}, (
+		return React.createElement('div',{className: this.appearanceProtoGetClassName("textarea-html", "CaretakerFormInputTextareaHTML"), onClick: this.focus.bind(this)}, (
 			this.getTextarea()
 		))
 	}

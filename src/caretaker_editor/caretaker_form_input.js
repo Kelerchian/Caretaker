@@ -80,7 +80,7 @@ class CaretakerInput extends CaretakerFormElementPrototype{
 		}
 		props.onChange = this.onCommonInputChange.bind(this)
 		props.value = this.state.value
-		props.className = this.appearanceGetAdditionalClassname('input')
+		props.className = this.appearanceProtoGetClassName("input","")
 		props.ref = this.bindInput.bind(this)
 		return props
 	}
@@ -124,11 +124,11 @@ class CaretakerInput extends CaretakerFormElementPrototype{
 	}
 	render(){
 		if(this.isCommonInput()){
-			return React.createElement('div',{className: "CaretakerInput" + this.appearanceGetAdditionalClassname(".CaretakerInput")}, (
+			return React.createElement('div',{className:  this.appearanceProtoGetClassName("div","CaretakerInput")}, (
 				React.createElement('input', this.getProps())
 			))
 		}else{
-			return React.createElement('div',{className: "CaretakerInput" + this.appearanceGetAdditionalClassname(".CaretakerInput")}, (
+			return React.createElement('div',{className: this.appearanceProtoGetClassName("div", "CaretakerInput")}, (
 				this.renderSpecialInput()
 			))
 		}

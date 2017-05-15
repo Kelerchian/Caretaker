@@ -38,6 +38,7 @@ class CaretakerFormInputTime extends CaretakerFormInputPrototype{
 		}else{
 			props.value = ""
 		}
+		props.className = this.appearanceProtoGetClassName("input", "CaretakerFormInputTime")
 		props.onFocus = this.onFocus.bind(this)
 		return props
 	}

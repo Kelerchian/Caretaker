@@ -52,7 +52,7 @@ class CaretakerFormInputRadio extends CaretakerFormInputPrototype{
 				props.checked = false
 			}
 
-			html.push(React.createElement('div',{className:"CaretakerFormInputRadio", key:i}, [
+			html.push(React.createElement('div',{className: this.appearanceProtoGetClassName("div", "CaretakerFormInputRadio"), key:i}, [
 				React.createElement('input', props),
 				text
 			]))
@@ -61,7 +61,7 @@ class CaretakerFormInputRadio extends CaretakerFormInputPrototype{
 	}
 	render(){
 		var name = this.props.name || ""
-		return React.createElement('div', {className: "CaretakerFormInputRadioCollection"}, (
+		return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "CaretakerFormInputRadioCollection")}, (
 			this.getCheckboxes()
 		))
 	}

@@ -135,9 +135,9 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 						type:"button",
 						key:"submit",
 						onClick: this.onSubmit.bind(this),
-						className:"CaretakerButton CaretakerPositiveButton" + this.appearanceGetAdditionalClassname([".CaretakerButton", ".CaretakerPositiveButton"])
+						className: this.appearanceProtoGetClassName("button", "CaretakerButton CaretakerPositiveButton")
 					},
-					[React.createElement('i',{key:"icon",className:"fa fa-check"} + this.appearanceGetAdditionalClassname([".fa",".fa-check"]) ), "Save"])
+					[React.createElement('i',{key:"icon",className:  this.appearanceProtoGetClassName('i', "fa fa-check")} ), "Save"])
 			)
 		}
 		if(this.props.resettable){
@@ -148,20 +148,20 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 						type:"button",
 						key:"reset",
 						onClick: this.onReset.bind(this),
-						className:"CaretakerButton CaretakerBlueButton" + this.appearanceGetAdditionalClassname([".CaretakerButton", ".CaretakerBlueButton"])
+						className: this.appearanceProtoGetClassName("button","CaretakerButton CaretakerBlueButton")
 					},
-					[React.createElement('i',{key:"icon",className:"fa fa-undo"} + this.appearanceGetAdditionalClassname([".fa",".fa-undo"]) ), "Reset"])
+					[React.createElement('i',{key:"icon",className: this.appearanceProtoGetClassName('i', "fa fa-undo") } ), "Reset"])
 			)
 		}
 		if(actions.length > 0){
-			return React.createElement('div', {className: "CaretakerFormActions" + this.appearanceGetAdditionalClassname(".CaretakerFormActions"), key:"actions"}, actions)
+			return React.createElement('div', {className: this.appearanceProtoGetClassName("div","CaretakerFormActions") , key:"actions"}, actions)
 		}else{
 			return ""
 		}
 	}
 	render(){
 		var props = this.getProps()
-		return React.createElement('form', {className: "CaretakerForm" + this.appearanceGetAdditionalClassname(".CaretakerForm"), encType:"multipart/form-data", onSubmit: (event)=>{ event.preventDefault() } }, (
+		return React.createElement('form', {className: this.appearanceProtoGetClassName("form","CaretakerForm") , encType:"multipart/form-data", onSubmit: (event)=>{ event.preventDefault() } }, (
 			[React.createElement(CaretakerFormObject, props), this.appearanceGetActions()]
 		))
 	}

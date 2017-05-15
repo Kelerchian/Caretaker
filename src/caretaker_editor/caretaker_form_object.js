@@ -124,6 +124,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		}
 	}
 	onChange(value, name){
+
 		if(name != null){
 			this.state.value[name] = value
 		}else{
@@ -165,11 +166,11 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		return props
 	}
 	appearanceGetLabel(){
-		return React.createElement('label', {className:"CaretakerLabel"+this.appearanceGetAdditionalClassname(".CaretakerLabel"), htmlFor: this.state.name, key:"label"}, this.props.label)
+		return React.createElement('label', {className: this.appearanceProtoGetClassName("label", "CaretakerLabel"), htmlFor: this.state.name, key:"label"}, this.props.label)
 	}
 	appearanceGetDescription(){
 		if(this.props.description){
-			return React.createElement('p', {className:"CaretakerDescription"+this.appearanceGetAdditionalClassname(".CaretakerDescription"),key:"description"}, (
+			return React.createElement('p', {className: this.appearanceProtoGetClassName("p", "CaretakerDescription"),key:"description"}, (
 				this.props.description
 			))
 		}
@@ -213,12 +214,12 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 	}
 	appearanceGetErrorMessage(){
 		if(typeof this.state.isValid == "string"){
-			return React.createElement('div', {className:"CaretakerErrorMessage" + this.appearanceGetAdditionalClassname(".CaretakerErrorMessage") , key:"errorMessage"}, this.state.isValid)
+			return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "CaretakerErrorMessage"), key:"errorMessage"}, this.state.isValid)
 		}else if (Array.isArray(this.state.isValid) && this.state.isValid.length > 0){
 			if(this.state.isValid.length == 1){
-				return React.createElement('div', {className:"CaretakerErrorMessage" + this.appearanceGetAdditionalClassname(".CaretakerErrorMessage") , key:"errorMessage"}, this.state.isValid[0])
+				return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "CaretakerErrorMessage"), key:"errorMessage"}, this.state.isValid[0])
 			}else if(this.state.isValid.length > 1){
-				return React.createElement('div', {className:"CaretakerErrorMessage" + this.appearanceGetAdditionalClassname(".CaretakerErrorMessage") , key:"errorMessage"}, (
+				return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "CaretakerErrorMessage"), key:"errorMessage"}, (
 					React.createElement('ul', {}, (function(){
 						var lis = []
 						for(var i in this.state.isValid){
@@ -248,19 +249,18 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 	appearanceGetValidClassname(){
 		if(this.state.isValid != null){
 			if(this.state.isValid == true){
-				return " valid"
+				return this.appearanceProtoGetClassName("valid")
 			}else{
-				return " invalid"
+				return this.appearanceProtoGetClassName("invalid")
 			}
 		}
 		return ""
 	}
 	render(){
 		var props = {}
-		props.className = "CaretakerFormObject"
-		props.className += this.appearanceGetAdditionalClassname() + this.appearanceGetAdditionalClassname(".CaretakerFormObject")
-		props.className += (this.state.name ? " "+this.state.name : "")
-		props.className += (this.isInput() ? " CaretakerInputContainer" + this.appearanceGetAdditionalClassname(".CaretakerInputContainer")  :"")
+		props.className = this.appearanceProtoGetClassName("div", "CaretakerFormObject")
+		props.className += (this.state.name ? this.appearanceProtoGetClassName(null, this.state.name) : "")
+		props.className += (this.isInput() ? this.appearanceProtoGetClassName(null, "CaretakerInputContainer") : "")
 		props.className += this.appearanceGetValidClassname()
 		return React.createElement(
 			'div',
