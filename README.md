@@ -135,6 +135,7 @@ The `<form>` then will be rendered inside the `<div id="the-form-container"></di
 ### Model Parameters
 
 - ###### "type" _(mandatory, case-sensitive)_
+
 	Possible values:
 	- "object" or null
 	- Standard `<input>` type attribute such as : "text", "number", "date", "time", "file", "checkbox", "radio", "hidden", etc
@@ -143,54 +144,70 @@ The `<form>` then will be rendered inside the `<div id="the-form-container"></di
 	- Any String that has been registered as _Caretaker Extension_ (see [Extension](#extension))
 
 - ###### "name" _(mandatory, case-sensitive)_
+
 	Possible values:
 	- Any String
 	- For the root Object, name:"files" is forbidden as it is a reserved word for the Caretaker to use.
 
 - ###### "label" _(optional)_
+
 	Possible values:
 	- String
 
 - ###### "description" _(optional)_
+
 	Possible values:
 	- String
 
-- ####### "htmlLabel" _(optional)_
-	HTML-enabled label. Will override `label` parameter
+- ###### "htmlLabel" _(optional)_
+
+	HTML-enabled label. Will override `label` parameter.
+
 	Possible values:
 	- String
 
-- ####### "htmlDescription" _(optional)_
+- ###### "htmlDescription" _(optional)_
+
 	HTML-enabled description. Will override `description` parameter
+
 	Possible values:
 	- String
 
 - ###### "quantity" _(optional, case-sensitive)_
+
 	Possible values:
 	- "many" : will trigger the addable/removable "many" object fields
 
 - ###### "maxCount" _(optional)_
+
 	Possible values:
 	- Any number more than or same as minCount: Only works with "quantity": "many"
 
 - ###### "minCount" _(optional)_
+
 	Possible values:
 	- Any number less than or same as maxCount: Only works with "quantity": "many"
 
 - ###### "defaultValue" _(optional)_
+
 	Possible values:
 	- Any value that works with the input type
 
 - ##### "className" _(optional)_ _(*NEW)_
-	Used to add className besides other default ClassNames, such as: every caretaker form object has className="CaretakerFormObject". By passing {'.CaretakerFormObject': "added-class another-added-class"}, the printed value will be className="CaretakerFormObject added-class another-added-class".
+
+	Used to add className besides other default ClassNames.
+
+	For Example: Pass `{'.CaretakerFormObject': "added-class another-added-class"}` as the value. It will print `class="CaretakerFormObject added-class another-added-class"` on the said CaretakerFormObject.
+
 	Possible values:
-	- Objects with attributeKeys same as default caretaker classNames or tagname. ClassName must be preceeded by a fullstop sign ".". attributeKeys examples: ".CaretakerFormObject", ".CaretakerLabel", ".CaretakerForm", "div", "select"
+	- Objects with attributeKeys same as default caretaker `className` or `tagName`. `className` must be preceeded by a fullstop sign ".". attributeKeys examples: ".CaretakerFormObject", ".CaretakerLabel", ".CaretakerForm", "div", "select"
 
 - ###### "required" _(optional)_
 	Possible values:
 	- Boolean: marks that the input must be filled
 
 - ###### Other possible parameters
+
 	Such as:
 	- values: value-text pair object for input types: "select", "checkbox", or "radio"
 	```
