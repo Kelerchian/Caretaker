@@ -136,10 +136,10 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		return this.onChange.bind(this)
 	}
 	getNegativeChildPropKeys(){
-		return ["label","description","quantity"]
+		return ["label","description","htmlLabel","htmlDescription","quantity"]
 	}
 	getNegativeInputPropKeys(){
-		return ["label","description","quantity","has","defaultValue"]
+		return ["label","description","htmlLabel","htmlDescription","quantity","has","defaultValue"]
 	}
 	getInputProps(){
 		var props = Object.assign({}, this.props)
@@ -166,13 +166,44 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		return props
 	}
 	appearanceGetLabel(){
-		return React.createElement('label', {className: this.appearanceProtoGetClassName("label", "CaretakerLabel"), htmlFor: this.state.name, key:"label"}, this.props.label)
+		if(this.props.htmlLabel && typeof this.props.htmlLabel == "string"){
+			return React.createElement('label',
+				{
+					className: this.appearanceProtoGetClassName("label", "CaretakerLabel"),
+					htmlFor: this.state.name,
+					key:"label",
+					dangerouslySetInnerHTML: {__html:this.props.htmlLabel}
+				}
+			)
+		}else if(this.props.label){
+			return React.createElement('label',
+				{
+					className: this.appearanceProtoGetClassName("label", "CaretakerLabel"),
+					htmlFor: this.state.name,
+					key:"label"
+				},
+				this.props.label
+			)
+		}
+		return false
 	}
 	appearanceGetDescription(){
-		if(this.props.description){
-			return React.createElement('p', {className: this.appearanceProtoGetClassName("p", "CaretakerDescription"),key:"description"}, (
+		if(this.props.htmlDescription){
+			return React.createElement('p',
+				{
+					className: this.appearanceProtoGetClassName("p", "CaretakerDescription"),
+					key:"description",
+					dangerouslySetInnerHTML: {__html:this.props.htmlDescription}
+				}
+			)
+		}else if(this.props.description){
+			return React.createElement('p',
+				{
+					className: this.appearanceProtoGetClassName("p", "CaretakerDescription"),
+					key:"description"
+				},
 				this.props.description
-			))
+			)
 		}
 		return false;
 	}
