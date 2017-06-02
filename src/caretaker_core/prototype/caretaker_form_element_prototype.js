@@ -1,13 +1,16 @@
 class CaretakerFormElementPrototype extends React.Component{
-
 	appearanceProtoGetAdditionalClassName(classKeys){
+		return this.constructor.appearanceProtoGetAdditionalClassName(this.props, classKeys)
+	}
+
+	static appearanceProtoGetAdditionalClassName(props, classKeys){
 		if( Array.isArray(classKeys) ){
-			if( this.props.className && typeof this.props.className == "object" ){
+			if( props.className && typeof props.className == "object" ){
 				var additionals = []
 				for(var i in classKeys){
 					var classKey = classKeys[i]
-					if(this.props.className[classKey]){
-						additionals.push(this.props.className[classKey])
+					if(props.className[classKey]){
+						additionals.push(props.className[classKey])
 					}
 				}
 				return " " + additionals.join(' ') + " "
@@ -18,13 +21,13 @@ class CaretakerFormElementPrototype extends React.Component{
 		return ""
 	}
 
-	appearanceProtoGetClassName(tag, className){
-		if(arguments.length == 1){
-			return this.appearanceProtoGetClassName(null, tag)
+	static appearanceProtoGetClassName(props, tag, className){
+		if(className == null){
+			return this.appearanceProtoGetClassName(props, null, tag)
 		}
 
 		var retClassName = className
-		retClassName += this.appearanceProtoGetAdditionalClassName( (function(){
+		retClassName += this.appearanceProtoGetAdditionalClassName(props, (function(){
 			var classKeyArray = []
 			if(tag != null){
 				classKeyArray.push(tag)
@@ -35,5 +38,9 @@ class CaretakerFormElementPrototype extends React.Component{
 			return classKeyArray
 		}()) )
 		return " " + retClassName + " "
+	}
+
+	appearanceProtoGetClassName(tag, className){
+		return this.constructor.appearanceProtoGetClassName(this.props, tag, className)
 	}
 }
