@@ -55803,9 +55803,7 @@ class CaretakerInput extends CaretakerFormElementPrototype{
 		}
 	}
 	checkValidityAdvanced(){
-		if(this.state.value == ""){
-			this.state.isValid = ["This must be filled"]
-		}
+		this.state.isValid = [this.textInput.validationMessage]
 	}
 	checkValidity(){
 		if(this.isCommonInput()){
