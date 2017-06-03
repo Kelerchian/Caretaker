@@ -15,6 +15,23 @@
 */
 var Caretaker = (function(){
 
+	var StructBank = (function(){
+
+		var structMap = {}
+
+		function register(key,data){
+			if(structMap[key]){
+				console.warn('Key '+key+' has beed reserved')
+			}else{
+				structMap[key] = data
+			}
+		}
+		function get(key){
+			return structMap[key]
+		}
+		return {register:register, get:get}
+	}())
+
 	var Utils = (function(){
 
 		var getBase64Async = function(file, onSuccess, onError){
@@ -358,7 +375,7 @@ var Caretaker = (function(){
 		ValueNode:ValueNode,
 		Utils:Utils,
 		Widget:Widget,
-
+		StructBank:StructBank,
 		makeForm: makeForm
 	}
 })();

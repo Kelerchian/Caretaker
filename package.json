@@ -12,8 +12,6 @@
   "dependencies": {
     "draft-convert": "^1.4.3",
     "draft-js": "^0.10.0",
-    "draft-js-linkify-plugin": "^2.0.0-beta1",
-    "draft-js-plugins-editor": "^2.0.0-beta1",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "webpack": "^2.3.2"

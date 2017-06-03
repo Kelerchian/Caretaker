@@ -1,78 +1,3 @@
-.draftJsToolbar__buttonWrapper__1Dmqh {
-  display: inline-block;
-}
-
-.draftJsToolbar__button__qi1gf {
-  background: #fbfbfb;
-  color: #888;
-  font-size: 18px;
-  border: 0;
-  padding-top: 5px;
-  vertical-align: bottom;
-  height: 34px;
-  width: 36px;
-}
-
-.draftJsToolbar__button__qi1gf svg {
-  fill: #888;
-}
-
-.draftJsToolbar__button__qi1gf:hover, .draftJsToolbar__button__qi1gf:focus {
-  background: #f3f3f3;
-  outline: 0; /* reset for :focus */
-}
-
-.draftJsToolbar__active__3qcpF {
-  background: #efefef;
-  color: #444;
-}
-
-.draftJsToolbar__active__3qcpF svg {
-  fill: #444;
-}
-.draftJsToolbar__separator__3U7qt {
-  display: inline-block;
-  border-right: 1px solid #ddd;
-  height: 24px;
-  margin: 0 0.5em;
-}
-.draftJsToolbar__toolbar__dNtBH {
-  left: 50%;
-  -webkit-transform: translate(-50%) scale(0);
-          transform: translate(-50%) scale(0);
-  position: absolute;
-  border: 1px solid #ddd;
-  background: #fff;
-  border-radius: 2px;
-  box-shadow: 0px 1px 3px 0px rgba(220,220,220,1);
-  z-index: 2;
-  box-sizing: border-box;
-}
-
-.draftJsToolbar__toolbar__dNtBH:after, .draftJsToolbar__toolbar__dNtBH:before {
-  top: 100%;
-  left: 50%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-}
-
-.draftJsToolbar__toolbar__dNtBH:after {
-  border-color: rgba(255, 255, 255, 0);
-  border-top-color: #fff;
-  border-width: 4px;
-  margin-left: -4px;
-}
-.draftJsToolbar__toolbar__dNtBH:before {
-  border-color: rgba(221, 221, 221, 0);
-  border-top-color: #ddd;
-  border-width: 6px;
-  margin-left: -6px;
-}
-
 .CaretakerFormInputTextareaHTML>[class*="draftJsToolbar"]{
 	top: -3rem!important;
 	left: 0!important;
@@ -80,8 +5,72 @@
 	max-width: 100vw;
 }
 
+.TextareaHTML {
+  background: #fff;
+  border: 1px solid #ddd;
+  font-family: 'Georgia', serif;
+  font-size: 14px;
+  padding: 15px;
+}
+
+.TextareaHTML__textarea  {
+  border-top: 1px solid #ddd;
+  cursor: text;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.TextareaHTML__textarea .public-DraftEditorPlaceholder-root,
+.TextareaHTML__textarea .public-DraftEditor-content {
+  margin: 0 -15px -15px;
+  padding: 15px;
+}
+
+.TextareaHTML__textarea .public-DraftEditor-content {
+  min-height: 100px;
+}
+
+.RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
+  display: none;
+}
+
+.TextareaHTML__textarea .RichEditor-blockquote {
+  border-left: 5px solid #eee;
+  color: #666;
+  font-family: 'Hoefler Text', 'Georgia', serif;
+  font-style: italic;
+  margin: 16px 0;
+  padding: 10px 20px;
+}
+
+.TextareaHTML__textarea .public-DraftStyleDefault-pre {
+  background-color: rgba(0, 0, 0, 0.05);
+  font-family: 'Inconsolata', 'Menlo', 'Consolas', monospace;
+  font-size: 16px;
+  padding: 20px;
+}
+
+.TextareaHTML__control {
+  font-family: 'Helvetica', sans-serif;
+  font-size: 14px;
+  margin-bottom: 5px;
+  user-select: none;
+}
+
+.TextareaHTML__StyleButton {
+  color: #999;
+  cursor: pointer;
+  margin-right: 16px;
+  padding: 2px 0;
+  display: inline-block;
+}
+
+.TextareaHTML__StyleButton.active {
+  color: #5890ff;
+}
+
 /**
- * Draft v0.10.0
+ * Draft v0.10.1
  *
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
