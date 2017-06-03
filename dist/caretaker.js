@@ -404,9 +404,13 @@ class CaretakerFormElementPrototype extends React.Component{
 	}
 
 	static appearanceProtoGetClassName(props, tag, className){
+
 		if(className == null){
 			return this.appearanceProtoGetClassName(props, null, tag)
 		}
+
+		className = String(className)
+		tag = String(tag)
 
 		var retClassName = className
 		retClassName += this.appearanceProtoGetAdditionalClassName(props, (function(){
@@ -773,6 +777,18 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 		this.state.isResetting = true
 		this.setState(this.state)
 	}
+	_getAdditionalHeaders(){
+
+		var headers = new Headers()
+		if(this.props.headers){
+			if(typeof this.props.headers == "object"){
+				headers = new Headers(this.props.headers)
+			}else if(typeof this.props.headers == "function"){
+				headers = this.props.headers(headers)
+			}
+		}
+		return headers
+	}
 	doStringAction(actionValue){
 		var url = this.props.action
 		var fetch = window.fetch
@@ -784,7 +800,8 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 		var fetchParameter = {
 			"method": "POST",
 			"body"	: actionValue,
-			"mode"	: "cors"
+			"mode"	: "cors",
+			"headers": this._getAdditionalHeaders()
 		}
 
 		if(typeof this.props.fetchParameter == "object"){
@@ -1344,7 +1361,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 	render(){
 		var props = {}
 		props.className = this.appearanceProtoGetClassName("div", "CaretakerFormObject")
-		props.className += (this.state.name ? this.appearanceProtoGetClassName(null, this.state.name) : "")
+		props.className += (this.state.name ? this.appearanceProtoGetClassName(null, this.state.name || "") : "")
 		props.className += (this.isInput() ? this.appearanceProtoGetClassName(null, "CaretakerInputContainer") : "")
 		props.className += this.appearanceGetValidClassname()
 		return React.createElement(

@@ -26,6 +26,18 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 		this.state.isResetting = true
 		this.setState(this.state)
 	}
+	_getAdditionalHeaders(){
+
+		var headers = new Headers()
+		if(this.props.headers){
+			if(typeof this.props.headers == "object"){
+				headers = new Headers(this.props.headers)
+			}else if(typeof this.props.headers == "function"){
+				headers = this.props.headers(headers)
+			}
+		}
+		return headers
+	}
 	doStringAction(actionValue){
 		var url = this.props.action
 		var fetch = window.fetch
@@ -37,7 +49,8 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 		var fetchParameter = {
 			"method": "POST",
 			"body"	: actionValue,
-			"mode"	: "cors"
+			"mode"	: "cors",
+			"headers": this._getAdditionalHeaders()
 		}
 
 		if(typeof this.props.fetchParameter == "object"){
