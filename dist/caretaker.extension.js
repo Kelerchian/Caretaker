@@ -46487,6 +46487,7 @@ class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
 
 		this.toggleBlockType = this._toggleBlockType.bind(this)
 		this.toggleInlineStyle = this._toggleInlineStyle.bind(this)
+		this.onTab = this._onTab.bind(this)
 
 		return state
 	}
@@ -46565,35 +46566,40 @@ class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
 
 	/*@custom*/
 	handleKeyCommand(command){
-		const newState = this.Rich.handleKeyCommand(this.state.editorState, command)
+		const newState = Caretaker.StructBank.get("draft-js").RichUtils.handleKeyCommand(this.state.editorState, command)
 		if(newState){
 			this.onChange(newState)
-			return 'handled'
+			return true
 		}
-		return 'not-handled'
+		return false
 	}
 
 	modifyProps(props){
 		props.onChange = this.onChange.bind(this)
 		props.handleKeyCommand = this.handleKeyCommand.bind(this)
-		props.className = this.appearanceProtoGetClassName("TextareaHTML__textarea")
 		props.editorState = this.state.editorState
+		props.onTab = this._onTab.bind(this)
 		props.ref = (element) => {this.editor = element}
-		props.key = "textarea_html"
 		return props
+	}
+
+	_onTab(e){
+		const maxDepth = 4
+		this.onChange(Caretaker.StructBank.get("draft-js").RichUtils.onTab(e, this.state.editorState, maxDepth))
 	}
 
   _toggleBlockType(blockType) {
     this.onChange(
-      CaretakerFormElementPrototype.get("draft-js").RichUtils.toggleBlockType(
+      Caretaker.StructBank.get("draft-js").RichUtils.toggleBlockType(
         this.state.editorState,
         blockType
       )
     );
   }
+
   _toggleInlineStyle(inlineStyle) {
     this.onChange(
-      CaretakerFormElementPrototype.get("draft-js").RichUtils.toggleInlineStyle(
+      Caretaker.StructBank.get("draft-js").RichUtils.toggleInlineStyle(
         this.state.editorState,
         inlineStyle
       )
@@ -46602,7 +46608,9 @@ class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
 
 	/*@custom*/
 	appearanceGetTextarea(){
-		return React.createElement(Caretaker.StructBank.get('draft-js').Editor, this.getProps())
+		return React.createElement('div',{className:this.appearanceProtoGetClassName("div", "TextareaHTML__textarea"), key:"textarea"},(
+			React.createElement(Caretaker.StructBank.get('draft-js').Editor, this.getProps())
+		))
 	}
 
 	/*@custom*/
