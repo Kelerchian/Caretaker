@@ -290,7 +290,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 	render(){
 		var props = {}
 		props.className = this.appearanceProtoGetClassName("div", "CaretakerFormObject")
-		props.className += (this.state.name ? this.appearanceProtoGetClassName(null, this.state.name) : "")
+		props.className += (this.state.name ? this.appearanceProtoGetClassName(null, this.state.name || "") : "")
 		props.className += (this.isInput() ? this.appearanceProtoGetClassName(null, "CaretakerInputContainer") : "")
 		props.className += this.appearanceGetValidClassname()
 		return React.createElement(
