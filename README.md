@@ -1,10 +1,6 @@
-# Caretaker v0.3.0-beta
+# Caretaker v0.3.1-beta
 
 A Javascript library for making a new breed of structured HTML5 Form
-
-## What's new in 0.3.0 (since 0.1.0)
-
-Custom html label and description with `htmlLabel` and `htmlDescription` parameter
 
 ## What is Caretaker?
 
@@ -299,11 +295,11 @@ Coming soon. If you're interested, see _[src_extension/caretaker_form_input_imag
 - [x] Custom Object Classname
 - [x] Custom HTML Object Label
 - [x] Custom HTML Object Description
+- [x] Change the experimental "textarea-html" input and move it to extension instead of base input object
 - [ ] Conditional Supplement Input Object (Additional child input that shows when an object's value meets certain conditions)
 - [ ] Caretaker View - New breed of HTML views
 - [ ] Extension - Select Object - Works like select. Available values are being showed as object with modifiable structure
 - [ ] Extension Documentation - How to extend Caretaker Input
-- [ ] Change the experimental "textarea-html" input and move it to extension instead of base input object
 
 ## Project Status
 
