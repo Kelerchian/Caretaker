@@ -33,7 +33,7 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 			if(typeof this.props.headers == "object"){
 				headers = new Headers(this.props.headers)
 			}else if(typeof this.props.headers == "function"){
-				headers = this.props.headers(headers)
+				headers = this.props.headers(headers) || headers
 			}
 		}
 		return headers
