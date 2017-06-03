@@ -65,6 +65,6 @@
   display: inline-block;
 }
 
-.TextareaHTML__StyleButton {
+.TextareaHTML__StyleButton.active {
   color: #5890ff;
 }

@@ -46420,15 +46420,14 @@ Caretaker.SpecialInput.register('image',CaretakerFormInputImage)
 		{label: 'H6', style: 'header-six'},
 		{label: 'Blockquote', style: 'blockquote'},
 		{label: 'UL', style: 'unordered-list-item'},
-		{label: 'OL', style: 'ordered-list-item'},
-		{label: 'Code Block', style: 'code-block'},
+		{label: 'OL', style: 'ordered-list-item'}
 	];
 
 	var INLINE_STYLES = [
 		{label: 'Bold', style: 'BOLD'},
 		{label: 'Italic', style: 'ITALIC'},
 		{label: 'Underline', style: 'UNDERLINE'},
-		{label: 'Monospace', style: 'CODE'},
+		{label: 'Monospace', style: 'CODE'}
 	];
 
 	var BlockTypeControls = function(props){
@@ -46528,7 +46527,7 @@ class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
 	}
 
 	transformValueBeforeSave(value){
-		return Caretaker.StructBank.get('draft-convert').convertToHTML(this.state.editorState.getCurrentContent())
+		return this.getCurrentValue()
 	}
 
 	modifyValueAfterLoad(value){
