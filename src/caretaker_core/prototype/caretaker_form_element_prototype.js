@@ -22,9 +22,13 @@ class CaretakerFormElementPrototype extends React.Component{
 	}
 
 	static appearanceProtoGetClassName(props, tag, className){
+
 		if(className == null){
 			return this.appearanceProtoGetClassName(props, null, tag)
 		}
+
+		className = String(className)
+		tag = String(tag)
 
 		var retClassName = className
 		retClassName += this.appearanceProtoGetAdditionalClassName(props, (function(){

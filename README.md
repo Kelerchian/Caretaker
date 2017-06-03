@@ -1,6 +1,10 @@
-# Caretaker v0.3.1-beta
+# Caretaker v0.4.1-beta
 
 A Javascript library for making a new breed of structured HTML5 Form
+
+## What's New in 0.4.1?
+
+Customizable Request Header.
 
 ## What is Caretaker?
 
@@ -228,13 +232,36 @@ The `<form>` then will be rendered inside the `<div id="the-form-container"></di
 	- Url (String) where data will be posted
 	- Function(formdata) action that will be executed when save button is clicked
 
-- ###### "submittable" _(optional)_
+- ###### "Headers" _(optional)_
 	Possible values:
-	- Boolean
+	- Object.Will replace request headers. Example:
+	```
+	headers:{
+		'X-Csrf-Token': "mycsrftoken"
+	}
+	```
+	- Function(headers). Return the headers variable;
+	```javascript
+	headers:function(headers){
+
+		headerObject.set('X-Csrf-Token': "mycsrftoken")
+
+		return headerObject
+
+	}
+	```
+
+- ###### "submittable" _(optional)_
+	Default: `true`
+
+	Possible values:
+	- Boolean `false`
 
 - ###### "resettable" _(optional)_
+	Default: `false`
+
 	Possible values:
-	- Boolean
+	- Boolean. `True` will enable reset button of the form.
 
 - ###### "afterSuccess" _(optional)_
 	Possible values:
@@ -296,6 +323,7 @@ Coming soon. If you're interested, see _[src_extension/caretaker_form_input_imag
 - [x] Custom HTML Object Label
 - [x] Custom HTML Object Description
 - [x] Change the experimental "textarea-html" input and move it to extension instead of base input object
+- [x] Customizable Headers
 - [ ] Conditional Supplement Input Object (Additional child input that shows when an object's value meets certain conditions)
 - [ ] Caretaker View - New breed of HTML views
 - [ ] Extension - Select Object - Works like select. Available values are being showed as object with modifiable structure
