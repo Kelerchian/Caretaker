@@ -1,10 +1,10 @@
-# Caretaker v0.4.1-beta
+# Caretaker v0.4.2-beta
 
 A Javascript library for making a new breed of structured HTML5 Form
 
-## What's New in 0.4.1?
+## What's New in 0.4.2?
 
-Customizable Request Header.
+Customizable Request Header. Image and TextareaHTML extension now separated.
 
 ## What is Caretaker?
 
@@ -315,6 +315,11 @@ Note: Files uploaded will be put in the array `files`. The main body, which is a
 ## Extension
 
 Coming soon. If you're interested, see _[src_extension/caretaker_form_input_image.js](src_extension/caretaker_form_input_image.js)_
+
+## Built-In Extension
+
+- Textarea-html: Edit HTML using Facebook's DraftJS Rich Text Editor
+- Image: Upload Image files with preview
 
 ## Planned Features
 
