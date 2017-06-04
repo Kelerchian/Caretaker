@@ -5,7 +5,7 @@ var modulename = "CaretakerTextareaHTMLDependency"
 var concat = require('gulp-concat')
 path.delimiter = "/"
 
-var caretakerDependencyFolderPath = path.resolve("./src_extension/caretaker_editor/caretaker_dependency")
+var caretakerDependencyFolderPath = path.resolve("./src_extension/textarea-html/0_dependency")
 
 //registering webpack config file
 var outputConfig = {
