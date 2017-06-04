@@ -801,6 +801,7 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 			"method": "POST",
 			"body"	: actionValue,
 			"mode"	: "cors",
+			"credentials": "include",
 			"headers": this._getAdditionalHeaders()
 		}
 
