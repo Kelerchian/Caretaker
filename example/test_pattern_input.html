@@ -16,9 +16,9 @@
 	<script src="asset/react/build/react.js"></script>
 	<script src="asset/react/build/react-dom.js"></script>
 	<script src="../dist/caretaker.js"></script>
-	<script src="../dist/caretaker.extension.js"></script>
+	<script src="../dist/image/caretaker.extension.image.js"></script><script src="../dist/textarea-html/caretaker.extension.textarea-html.js"></script>
 	<link href="../dist/caretaker.css" rel="stylesheet"></link>
-	<link href="../dist/caretaker.extension.css" rel="stylesheet"></link>
+	<link href="../dist/image/caretaker.extension.image.css" rel="stylesheet"></link><link href="../dist/textarea-html/caretaker.extension.textarea-html.css" rel="stylesheet"></link>
 </head>
 <body>
 	<div class="container-fluid">
@@ -41,6 +41,7 @@
 	var model = {
 		label: "Pattern Test",
 		name: "single_input_test",
+		description: "available pattern for the input is [0-9]*",
 		type: "text",
 		defaultValue: "Single Input Test Value",
 		pattern: "[0-9]*",
@@ -59,6 +60,7 @@
 		var model = {
 			label: "Pattern Test",
 			name: "single_input_test",
+			description: "available pattern for the input is [0-9]*",
 			type: "text",
 			defaultValue: "Single Input Test Value",
 			pattern: "[0-9]*",
