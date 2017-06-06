@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Caretaker - Custom Validation Test</title>
+
+	<link rel="stylesheet" href="asset/bootstrap4/css/bootstrap.css">
+	<link rel="stylesheet" href="asset/bootstrap-override.css">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="asset/polyfill/fetch.min.js"></script>
+	<script src="asset/polyfill/es6-promise.min.js"></script>
+	<script src="asset/bootstrap4/js/bootstrap.js"></script>
+	<script src="asset/moment/moment.js"></script>
+	<script src="asset/react/build/react.js"></script>
+	<script src="asset/react/build/react-dom.js"></script>
+	<script src="../dist/caretaker.js"></script>
+	<script src="../dist/image/caretaker.extension.image.js"></script><script src="../dist/textarea-html/caretaker.extension.textarea-html.js"></script>
+	<link href="../dist/caretaker.css" rel="stylesheet"></link>
+	<link href="../dist/image/caretaker.extension.image.css" rel="stylesheet"></link><link href="../dist/textarea-html/caretaker.extension.textarea-html.css" rel="stylesheet"></link>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-4 text-center">
+				<h5>Custom Validation Test</h5>
+				<p>
+				<pre>
+var validationModel = {
+	label: "Custom Validation Test",
+	name: "validation_test_object",
+	has: [
+		{
+			type:"object",
+			name:"validation_test_many",
+			quantity:"many",
+			description: "Try putting same names or phone numbers",
+			has:[
+				{
+					type: "text",
+					name: "name",
+					label: "Name",
+					required: true
+				},
+				{
+					type: "number",
+					name: "phone_number",
+					label: "Phone Number",
+					required: true
+				}
+			],
+			validate: function(value, isValid){
+				var nameSet = []
+				var phoneNumberSet = []
+				for(var i in value){
+					var singleValue = value[i]
+					var currentName = singleValue.name
+					var currentPhoneNumber = singleValue.phone_number
+
+					if(nameSet[currentName] || phoneNumberSet[currentPhoneNumber]){
+						throw ["names or phone numbers must be unique"]
+					}
+					nameSet[currentName] = true
+					phoneNumberSet[currentPhoneNumber] = true
+				}
+				return isValid
+			}
+		}
+	]
+}
+				</pre>
+				</p>
+			</div>
+			<div class="col-md-4">
+				<h5>Form:</h5>
+				<div id="form-container"></div>
+			</div>
+			<div class="col-md-4">
+				<h5>Result:</h5>
+				<pre id="pre"></pre>
+			</div>
+		</div>
+	</div>
+	<script async>
+		var validationModel = {
+			label: "Custom Validation Test",
+			name: "validation_test_object",
+			has: [
+				{
+					type:"object",
+					name:"validation_test_many",
+					quantity:"many",
+					description: "Try putting same names or phone numbers",
+					has:[
+						{
+							type: "text",
+							name: "name",
+							label: "Name",
+							required: true
+						},
+						{
+							type: "number",
+							name: "phone_number",
+							label: "Phone Number",
+							required: true
+						}
+					],
+					validate: function(value, isValid){
+						var nameSet = []
+						var phoneNumberSet = []
+						for(var i in value){
+							var singleValue = value[i]
+							if(singleValue == null){
+								continue;
+							}
+							var currentName = singleValue.name
+							var currentPhoneNumber = singleValue.phone_number
+
+							if(nameSet[currentName] || phoneNumberSet[currentPhoneNumber]){
+								throw ["names or phone numbers must be unique"]
+							}
+							nameSet[currentName] = true
+							phoneNumberSet[currentPhoneNumber] = true
+						}
+						return isValid
+					}
+				}
+			]
+		}
+		var formCommand = {
+			edit: validationModel,
+			action: "",
+			submittable: true,
+			resettable: true,
+			action: function(value){
+				window['pre'].innerText = value.get('validation_test_object')
+			}
+		}
+		var theForm = Caretaker.makeForm(formCommand, window['form-container'])
+	</script>
+</body>
+</html>

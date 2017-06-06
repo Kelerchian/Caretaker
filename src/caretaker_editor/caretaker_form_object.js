@@ -46,10 +46,26 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 					}
 				}
 				this.state.isValid = isValid
-				this.props.onReportValidity(this.state.isValid, this.props.name)
-			}else{
-				this.props.onReportValidity(this.state.isValid, this.props.name)
 			}
+
+			if(typeof this.props.validate == "function"){
+				var tempValid = Array.isArray(this.state.isValid) || this.state.isValid == true ? this.state.isValid : [this.state.isValid]
+				var newValid
+				try{
+					newValid = this.props.validate(this.state.value, tempValid)
+				}catch(throwable){
+					if(throwable instanceof Error){
+						console.error("Something happened while validating", throwable)
+					}else{
+						newValid = throwable
+					}
+				}
+				if(typeof newValid == "string" || Array.isArray(newValid) || newValid === true || newValid === false ){
+					this.state.isValid = newValid
+				}
+			}
+
+			this.props.onReportValidity(this.state.isValid, this.props.name)
 			// this.setState(this.state)
 		}
 	}
@@ -93,9 +109,11 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 			this.state.value = null
 			this.state.name = "val"
 		}
-		//update name
+		//update name;
 		if(props.name != null){
 			this.state.name = props.name
+		}else{
+			throw new Error("This object scheme doesn't have name attribute:\n"+JSON.stringify(props,null,2))
 		}
 		//update value
 		if(props.value != null){
@@ -139,7 +157,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		return ["label","description","htmlLabel","htmlDescription","quantity"]
 	}
 	getNegativeInputPropKeys(){
-		return ["label","description","htmlLabel","htmlDescription","quantity","has","defaultValue"]
+		return ["label","description","htmlLabel","htmlDescription","quantity","has","defaultValue","validate"]
 	}
 	getInputProps(){
 		var props = Object.assign({}, this.props)
@@ -148,7 +166,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 			delete props[key]
 		})
 		props.onChange = this.getOnChangeListener()
-		props.onReportValidity = this.onReportValidity.bind(this)
+		props.onReportValidity = this.onReportValidity.bind(this);
 		props.isValidating = this.state.isValidating
 		props.value = this.state.value
 		return props
@@ -219,7 +237,6 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 				for(var i in has){
 					var childProps = Object.assign({},has[i])
 					childProps.key = i
-					childProps.name = i
 					if(this.state.value[i] != null){
 						childProps.value = this.state.value[i]
 					}
@@ -251,13 +268,14 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 				return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "CaretakerErrorMessage"), key:"errorMessage"}, this.state.isValid[0])
 			}else if(this.state.isValid.length > 1){
 				return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "CaretakerErrorMessage"), key:"errorMessage"}, (
-					React.createElement('ul', {}, (function(){
+					React.createElement('ul', {}, (function(validityList){
 						var lis = []
-						for(var i in this.state.isValid){
-							var message = this.state.isValid[i]
+						for(var i in validityList){
+							var message = validityList[i]
 							lis.push(React.createElement('li',{key:i}, message))
 						}
-					}()))
+						return lis
+					}(this.state.isValid)))
 				))
 			}
 		}

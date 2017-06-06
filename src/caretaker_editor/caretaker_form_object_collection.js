@@ -50,7 +50,7 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 		}
 	}
 	getNegativeChildPropKeys(){
-		return ["min","max","value","quantity"]
+		return ["min","max","value","quantity","validate"]
 	}
 	getProps(){
 		var props = Object.assign({}, this.props)
