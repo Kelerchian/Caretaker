@@ -1340,13 +1340,14 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 				return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "CaretakerErrorMessage"), key:"errorMessage"}, this.state.isValid[0])
 			}else if(this.state.isValid.length > 1){
 				return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "CaretakerErrorMessage"), key:"errorMessage"}, (
-					React.createElement('ul', {}, (function(){
+					React.createElement('ul', {}, (function(validityList){
 						var lis = []
-						for(var i in this.state.isValid){
-							var message = this.state.isValid[i]
+						for(var i in validityList){
+							var message = validityList[i]
 							lis.push(React.createElement('li',{key:i}, message))
 						}
-					}()))
+						return lis
+					}(this.state.isValid)))
 				))
 			}
 		}
