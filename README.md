@@ -4,7 +4,7 @@ A Javascript library for making a new breed of structured HTML5 Form
 
 ## What's New in 0.4.3?
 
-Customizable Request Header. Image and TextareaHTML extension now separated. Custom Validation.
+Customizable Request Header, Separated Image and TextareaHTML extension files, Custom Validation.
 
 ## What is Caretaker?
 
