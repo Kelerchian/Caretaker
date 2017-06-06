@@ -1,10 +1,10 @@
-# Caretaker v0.4.2-beta
+# Caretaker v0.4.3-beta
 
 A Javascript library for making a new breed of structured HTML5 Form
 
-## What's New in 0.4.2?
+## What's New in 0.4.3?
 
-Customizable Request Header. Image and TextareaHTML extension now separated.
+Customizable Request Header, Separated Image and TextareaHTML extension files, Custom Validation.
 
 ## What is Caretaker?
 
@@ -205,6 +205,10 @@ The `<form>` then will be rendered inside the `<div id="the-form-container"></di
 - ###### "required" _(optional)_
 	Possible values:
 	- Boolean: marks that the input must be filled
+
+- ###### "validate" _(optional)_
+	Possible values:
+	- Function (value, isCurrentlyValid): this function will give access to its current value and its current status of validity (determined by the `required` parameter and other conditions such as those given by extended input type). Function must return either: `boolean`, `string`, `array of strings`. `true` will mark the object as valid. `false` will mark the object as invalid without any explanation. `string` and `array of strings` will mark the object as invalid with it/them as the explanation.
 
 - ###### Other possible parameters
 
