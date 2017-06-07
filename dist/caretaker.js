@@ -1387,32 +1387,40 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 	}
 	appearanceGetObject(){
 		if(this.isMany()){
+			// Many Object
 			var props = this.getCollectionProps()
 			props.key = "object"
 			return React.createElement(CaretakerFormObjectCollection, props)
 		}else if(this.isObject()){
-
+			// Single Object
 			var mappedSupplementParameter = this.createSupplementMap()
 
 			var objects = []
+			// "Before" Supplement Object
 			for(var i in mappedSupplementParameter.before){
-				object.push(React.createElement(CaretakerFormObject, this.createChildProps("before",mappedSupplementParameter.before[i])))
+				objects.push(React.createElement(CaretakerFormObject, this.createChildProps("before",mappedSupplementParameter.before[i])))
 			}
+
 			if(this.props.has){
 				var has = this.props.has
+				// Spawn Object
 				for(var i in has){
 					var childProps = this.createChildProps("has",has[i])
-					for(var j in mappedSupplementParameter.map[has[i].name]){
-						object.push( React.createElement(CaretakerFormObject, this.createChildProps("after-"+has[i].name), mappedSupplementParameter.map[has[i].name][j] ) )
-					}
 					objects.push( React.createElement(CaretakerFormObject, childProps) )
+
+					// Child-bound Supplement Object
+					for(var j in mappedSupplementParameter.map[has[i].name]){
+						objects.push( React.createElement(CaretakerFormObject, this.createChildProps("after-"+has[i].name, mappedSupplementParameter.map[has[i].name][j] )))
+					}
 				}
 			}
+			// "After" Supplement Object
 			for(var i in mappedSupplementParameter.after){
-				object.push(React.createElement(CaretakerFormObject, this.createChildProps("after", mappedSupplementParameter.after[i])))
+				objects.push(React.createElement(CaretakerFormObject, this.createChildProps("after", mappedSupplementParameter.after[i])))
 			}
 			return objects
 		}else{
+			// Input Object
 			var props = this.getInputProps()
 			props.key = "object"
 			props.value = this.state.value
