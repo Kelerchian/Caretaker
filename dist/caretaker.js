@@ -1304,8 +1304,8 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 	createSupplementMap(){
 
 		var map = {}
-		var after = {}
-		var before = {}
+		var after = []
+		var before = []
 		var prepareMapKey = function(key){
 			if(!Array.isArray(map[key])){
 				map[key] = []
