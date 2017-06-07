@@ -52,7 +52,8 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 				var tempValid = Array.isArray(this.state.isValid) || this.state.isValid == true ? this.state.isValid : [this.state.isValid]
 				var newValid
 				try{
-					newValid = this.props.validate(this.state.value, tempValid)
+					var copyValue = Array.isArray(this.state.value) ? Array.from(this.state.value) : typeof this.state.value == "object" ? Object.assign({}, this.state.value) : this.state.value
+					newValid = this.props.validate(copyValue, tempValid)
 				}catch(throwable){
 					if(throwable instanceof Error){
 						console.error("Something happened while validating", throwable)
