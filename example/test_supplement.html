@@ -63,33 +63,67 @@ var formCommand = {
 			name: "questions",
 			has: [
 				{
-					name:"winter_preference",
+					name: "the_charity",
+					label: "The Charity",
+					type: "object",
+					has: [
+						{
+							name:"charity",
+							type:"radio",
+							description: "In an alley, ahomeless girl asks for a coin. Do you give one?",
+							values: {
+								"no":"No",
+								"yes":"Yes, reluctantly, as you feel someone is watching you"
+							},
+							validate: function(value){
+								if(value == "no"){
+									throw "A week later someone found the girl dies horribly, lonely and starving, rotting at the side of the street."
+								}
+							}
+						},
+					],
+					supplements:[
+						{
+							pushAfter: "charity",
+							condition: "value.charity == 'yes'",
+							model: {
+								type: "text",
+								name: "last_words",
+								description: "Someone stabbed you in the back, grabbed your pouch and ran with the girl. What's your last word?"
+							}
+						}
+					]
+				},
+				{
+					name:"clan_preference",
 					type:"checkbox",
-					description: "Do you like winter?",
+					description: "Who are you?",
 					values:{
-						"yes": "yes",
-						"no": "No"
+						"battleborn": "Battleborn",
+						"graymane": "Graymane"
 					}
 				}
 			],
 			supplements: function(value, map){
-				if(value.winter_preference == "yes"){
-					map.pushAfter('winter_preference',{
-						name: "winter_preference_reason",
-						type: "text",
-						description: "Why do you like winter?"
+				if(value && value.clan_preference && value.clan_preference.length == 0){
+					map.pushAfter('clan_preference',{
+						name: "choose_a_side_sometimes",
+						description: "Sooner or later, we all have to choose a side.",
+						type: "checkbox",
+						required: true,
+						values: {
+							"yes": "Yes"
+						}
 					})
 				}
 			}
 		}
-		var currentValue = {title:"Lorem Ipsum", content:"<p><strong>Proin eget tortor risus.</strong></p><p><em>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</em></p><p> Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.</p>", categories:['news'] }
 		var formCommand = {
 			edit: model,
 			submittable: true,
 			action: function(formData){
 				window['pre'].innerText = JSON.stringify(JSON.parse(formData.get('questions')), null, 2)
-			},
-			value: currentValue
+			}
 		}
 		window['code'].innerText = window['textarea'].value.trim()
 		var theForm = ReactDOM.render(React.createElement(CaretakerForm, formCommand), window['form-container'])
