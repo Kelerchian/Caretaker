@@ -1321,11 +1321,11 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 						var value = this.createValueCopy()
 						var conditionMet = supplementConditionFunction(value)
 						if(conditionMet && supplement.model){
-							if(supplement.putAfter){
-								var putAfterKey = supplement.putAfter
-								prepareMapKey(putAfterKey)
-								map[putAfterKey].push(supplement.model)
-							}else if(supplement.putFirst === true){
+							if(supplement.pushAfter){
+								var pushAfterKey = supplement.pushAfter
+								prepareMapKey(pushAfterKey)
+								map[pushAfterKey].push(supplement.model)
+							}else if(supplement.pushFirst === true){
 								before.push(supplement.model)
 							}else{
 								after.push(supplement.model)
