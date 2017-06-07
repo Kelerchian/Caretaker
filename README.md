@@ -1,8 +1,8 @@
-# Caretaker v0.4.3-beta
+# Caretaker v0.5.1-beta
 
 A Javascript library for making a new breed of structured HTML5 Form
 
-## What's New in 0.4.3?
+## What's New in 0.5.1?
 
 Customizable Request Header, Separated Image and TextareaHTML extension files, Custom Validation.
 
@@ -206,6 +206,9 @@ The `<form>` then will be rendered inside the `<div id="the-form-container"></di
 	Possible values:
 	- Boolean: marks that the input must be filled
 
+- ###### "supplements" _(optional)_
+	Will control **Supplement Objects**. See (see [Supplements](#supplements))
+
 - ###### "validate" _(optional)_
 	Possible values:
 	- Function (value, isCurrentlyValid): this function will give access to its current value and its current status of validity (determined by the `required` parameter and other conditions such as those given by extended input type). Function must return either: `boolean`, `string`, `array of strings`. `true` will mark the object as valid. `false` will mark the object as invalid without any explanation. `string` and `array of strings` will mark the object as invalid with it/them as the explanation.
@@ -278,6 +281,75 @@ The `<form>` then will be rendered inside the `<div id="the-form-container"></di
 - ###### "afterAction" _(optional)_
 	Possible values:
 	- Function(formdata): function will be executed after action is performed regardless of whether the action suceeded or failed
+
+## Supplements
+
+**Supplement Objects** is child objects that will show only when certain conditions are met. It's only allowed in the `type="object"` Object. `supplements` parameter will be ignored on input object.
+
+
+```javascript
+{
+ type: "object",
+ user: "type",
+ has: [
+  {
+   type: "radio",
+   name: "gender",
+   value: { male:"Male", female:"Female", other:"Other" }
+  }
+ ],
+ supplements: [
+  {
+   putAfter: "gender",
+   condition: "object.gender == 'other'",
+   model: {
+    type: "text",
+    description: "Please describe your gender",
+    name: "gender_if_other"
+   },
+   {
+    condition: "object.gender == 'female'",
+    model: {
+     type: "number",
+     description: "may i ask your number?",
+     name: "female_phone_number"
+    }
+   }
+  }
+ ]
+}
+```
+
+or
+
+```javascript
+{
+ type: "object",
+ user: "type",
+ has: [
+  {
+   type: "radio",
+   value: { male:"Male", female:"Female", other:"Other" }
+  }
+ ],
+ supplements: function(object, map){
+  if(object.gender == "other"){
+   map.putAfter('gender',{
+    type: "text",
+    description: "Please describe your gender",
+    name: "gender_if_other"
+   })
+  }
+  if(object.gender == "female"){
+   map.putLast('gender',{
+     type: "number",
+     description: "may i ask your number?",
+     name: "female_phone_number"
+   })
+  }
+ }
+}
+```
 
 ## Return Value
 

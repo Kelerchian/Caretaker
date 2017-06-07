@@ -161,7 +161,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		return ["label","description","htmlLabel","htmlDescription","quantity"]
 	}
 	getNegativeInputPropKeys(){
-		return ["label","description","htmlLabel","htmlDescription","quantity","has","defaultValue","validate"]
+		return ["label","description","htmlLabel","htmlDescription","quantity","has","defaultValue","validate","supplements"]
 	}
 	getInputProps(){
 		var props = Object.assign({}, this.props)
@@ -311,7 +311,8 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		props.onChange = this.getOnChangeListener()
 		props.onReportValidity = this.onReportValidity.bind(this)
 		props.isValidating = this.state.isValidating
-		return props
+		return props;
+
 	}
 	appearanceGetObject(){
 		if(this.isMany()){
