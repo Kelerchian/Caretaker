@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Caretaker - Test Supplement</title>
+
+	<link rel="stylesheet" href="asset/bootstrap4/css/bootstrap.css">
+	<link rel="stylesheet" href="asset/bootstrap-override.css">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="asset/polyfill/fetch.min.js"></script>
+	<script src="asset/polyfill/es6-promise.min.js"></script>
+	<script src="asset/bootstrap4/js/bootstrap.js"></script>
+	<script src="asset/moment/moment.js"></script>
+	<script src="asset/react/build/react.js"></script>
+	<script src="asset/react/build/react-dom.js"></script>
+	<script src="../dist/caretaker.js"></script>
+	<script src="../dist/image/caretaker.extension.image.js"></script><script src="../dist/textarea-html/caretaker.extension.textarea-html.js"></script>
+	<link href="../dist/caretaker.css" rel="stylesheet"></link>
+	<link href="../dist/image/caretaker.extension.image.css" rel="stylesheet"></link><link href="../dist/textarea-html/caretaker.extension.textarea-html.css" rel="stylesheet"></link>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-4">
+				<h5 class=" text-center">Test Supplement</h5>
+				<pre><code id="code"></code></pre>
+			</div>
+			<div class="col-md-4">
+				<h5>Form:</h5>
+				<div id="form-container"></div>
+			</div>
+			<div class="col-md-4">
+				<h5>Result:</h5>
+				<pre id="pre"></pre>
+			</div>
+		</div>
+	</div>
+<textarea style="display:none" id="textarea">
+var model = {
+	htmlLabel: "<h3>Questions</h3>",
+	name: "questions",
+	has: [
+		{
+			name: "the_charity",
+			label: "The Charity",
+			type: "object",
+			has: [
+				{
+					name:"charity",
+					type:"radio",
+					description: "In an alley, ahomeless girl asks for a coin. Do you give one?",
+					values: {
+						"no":"No",
+						"yes":"Yes, reluctantly, as you feel someone is watching you"
+					},
+					validate: function(value){
+						if(value == "no"){
+							throw "A week later someone found the girl dies horribly, lonely and starving, rotting at the side of the street."
+						}
+					}
+				},
+			],
+			supplements:[
+				{
+					pushAfter: "charity",
+					condition: "value.charity == 'yes'",
+					model: {
+						type: "text",
+						name: "last_words",
+						description: "Someone stabbed you in the back, grabbed your pouch and ran with the girl. What's your last word?"
+					}
+				}
+			]
+		},
+		{
+			name:"clan_preference",
+			type:"checkbox",
+			description: "Who are you?",
+			values:{
+				"battleborn": "Battleborn",
+				"graymane": "Graymane"
+			}
+		}
+	],
+	supplements: function(value, map){
+		if(value && value.clan_preference && value.clan_preference.length == 0){
+			map.pushAfter('clan_preference',{
+				name: "choose_a_side_sometimes",
+				description: "Sooner or later, we all have to choose a side.",
+				type: "checkbox",
+				required: true,
+				values: {
+					"yes": "Yes"
+				}
+			})
+		}
+	}
+}
+</textarea>
+	<script async>
+		var model = {
+			htmlLabel: "<h3>Questions</h3>",
+			name: "questions",
+			has: [
+				{
+					name: "the_charity",
+					label: "The Charity",
+					type: "object",
+					has: [
+						{
+							name:"charity",
+							type:"radio",
+							description: "In an alley, ahomeless girl asks for a coin. Do you give one?",
+							values: {
+								"no":"No",
+								"yes":"Yes, reluctantly, as you feel someone is watching you"
+							},
+							validate: function(value){
+								if(value == "no"){
+									throw "A week later someone found the girl dies horribly, lonely and starving, rotting at the side of the street."
+								}
+							}
+						},
+					],
+					supplements:[
+						{
+							pushAfter: "charity",
+							condition: "value.charity == 'yes'",
+							model: {
+								type: "text",
+								name: "last_words",
+								description: "Someone stabbed you in the back, grabbed your pouch and ran with the girl. What's your last word?"
+							}
+						}
+					]
+				},
+				{
+					name:"clan_preference",
+					type:"checkbox",
+					description: "Who are you?",
+					values:{
+						"battleborn": "Battleborn",
+						"graymane": "Graymane"
+					}
+				}
+			],
+			supplements: function(value, map){
+				if(value && value.clan_preference && value.clan_preference.length == 0){
+					map.pushAfter('clan_preference',{
+						name: "choose_a_side_sometimes",
+						description: "Sooner or later, we all have to choose a side.",
+						type: "checkbox",
+						required: true,
+						values: {
+							"yes": "Yes"
+						}
+					})
+				}
+			}
+		}
+		var formCommand = {
+			edit: model,
+			submittable: true,
+			action: function(formData){
+				window['pre'].innerText = JSON.stringify(JSON.parse(formData.get('questions')), null, 2)
+			}
+		}
+		window['code'].innerText = window['textarea'].value.trim()
+		var theForm = ReactDOM.render(React.createElement(CaretakerForm, formCommand), window['form-container'])
+	</script>
+</body>
+</html>
