@@ -39,22 +39,64 @@
 	</div>
 <textarea style="display:none" id="textarea">
 var model = {
-	htmlLabel: "<h1>Post</h1>",
-	name: "single_object_test",
+	htmlLabel: "<h3>Questions</h3>",
+	name: "questions",
 	has: [
-		{type:"text", name:"title", label:"Title", placeholder:"Title", required: true},
-		{type:"textarea-html", name:"content", label:"Content", placeholder:"Post Content"	},
-		{type:"checkbox", name:"categories", label:"Categories", values: {"news":"News", "event":"Event"}}
-	]
-}
-var currentValue = {title:"Lorem Ipsum", content:"<p><strong>Proin eget tortor risus.</strong></p><p><em>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</em></p><p> Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.</p>", categories:['news'] }
-var formCommand = {
-	edit: model,
-	submittable: true,
-	action: function(formData){
-		window['pre'].innerText = JSON.stringify(JSON.parse(formData.get('single_object_test')), null, 2)
-	},
-	value: currentValue
+		{
+			name: "the_charity",
+			label: "The Charity",
+			type: "object",
+			has: [
+				{
+					name:"charity",
+					type:"radio",
+					description: "In an alley, ahomeless girl asks for a coin. Do you give one?",
+					values: {
+						"no":"No",
+						"yes":"Yes, reluctantly, as you feel someone is watching you"
+					},
+					validate: function(value){
+						if(value == "no"){
+							throw "A week later someone found the girl dies horribly, lonely and starving, rotting at the side of the street."
+						}
+					}
+				},
+			],
+			supplements:[
+				{
+					pushAfter: "charity",
+					condition: "value.charity == 'yes'",
+					model: {
+						type: "text",
+						name: "last_words",
+						description: "Someone stabbed you in the back, grabbed your pouch and ran with the girl. What's your last word?"
+					}
+				}
+			]
+		},
+		{
+			name:"clan_preference",
+			type:"checkbox",
+			description: "Who are you?",
+			values:{
+				"battleborn": "Battleborn",
+				"graymane": "Graymane"
+			}
+		}
+	],
+	supplements: function(value, map){
+		if(value && value.clan_preference && value.clan_preference.length == 0){
+			map.pushAfter('clan_preference',{
+				name: "choose_a_side_sometimes",
+				description: "Sooner or later, we all have to choose a side.",
+				type: "checkbox",
+				required: true,
+				values: {
+					"yes": "Yes"
+				}
+			})
+		}
+	}
 }
 </textarea>
 	<script async>
