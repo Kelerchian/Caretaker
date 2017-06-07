@@ -1099,6 +1099,9 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		}
 		this.reportValidity()
 	}
+	createValueCopy(){
+		return Array.isArray(this.state.value) ? Array.from(this.state.value) : typeof this.state.value == "object" ? Object.assign({}, this.state.value) : this.state.value
+	}
 	reportValidity(){
 		if(this.props.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
 			this.state.validationUpdated = true
@@ -1124,7 +1127,8 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 				var tempValid = Array.isArray(this.state.isValid) || this.state.isValid == true ? this.state.isValid : [this.state.isValid]
 				var newValid
 				try{
-					newValid = this.props.validate(this.state.value, tempValid)
+					var copyValue = this.createValueCopy()
+					newValid = this.props.validate(copyValue, tempValid)
 				}catch(throwable){
 					if(throwable instanceof Error){
 						console.error("Something happened while validating", throwable)
@@ -1297,32 +1301,115 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		}
 		return false;
 	}
+	createSupplementMap(){
+
+		var map = {}
+		var after = {}
+		var before = {}
+		var prepareMapKey = function(key){
+			if(!Array.isArray(map[key])){
+				map[key] = []
+			}
+		}
+		if(Array.isArray(this.props.supplements)){
+			var copyValue = this.createValueCopy()
+			for(var i in this.props.supplements){
+				var supplement = this.props.supplements[i]
+				if(supplement.condition){
+					var supplementConditionFunction = (new Function('value','return '+supplement.condition))
+					try{
+						var value = this.createValueCopy()
+						var conditionMet = supplementConditionFunction(value)
+						if(conditionMet && supplement.model){
+							if(supplement.putAfter){
+								var putAfterKey = supplement.putAfter
+								prepareMapKey(putAfterKey)
+								map[putAfterKey].push(supplement.model)
+							}else if(supplement.putFirst === true){
+								before.push(supplement.model)
+							}else{
+								after.push(supplement.model)
+							}
+						}
+					}catch(e){
+						console.error(e)
+					}
+				}else{
+					console.error(new Error("This supplement object should have 'condition' parameter: " + JSON.stringify(supplement)))
+				}
+			}
+		}else if(typeof this.props.supplements == "function"){
+			var pushAfter = function(key, model){
+				prepareMapKey(key)
+				map[key].push(model)
+			}
+			var pushFirst = function(model){
+				before.push(model)
+			}
+			var pushLast = function(model){
+				after.push(model)
+			}
+
+			try{
+				this.props.supplements(
+					Object.assign({},this.state.value),
+					{pushFirst: pushFirst, pushLast: pushLast, pushAfter: pushAfter}
+				)
+			}catch(e){  console.error(e)  }
+		}
+
+
+		return {
+			after: after,
+			map: map,
+			before: before
+		}
+	}
+	createHasProps(base, others){
+		var props = Object.assign({}, base)
+		props = Object.assign(props, others)
+		return props
+	}
+	createChildProps(childType, base){
+		var props = Object.assign({}, base)
+		var name = base.name
+		if(name == null){
+			throw new Error("This object scheme doesn't have name attribute:\n"+JSON.stringify(base,null,2))
+		}
+		props.key = childType+"-"+name
+		if(this.state.value[name] != null){
+			props.value = this.state.value[name]
+		}
+		props.onChange = this.getOnChangeListener()
+		props.onReportValidity = this.onReportValidity.bind(this)
+		props.isValidating = this.state.isValidating
+		return props
+	}
 	appearanceGetObject(){
 		if(this.isMany()){
 			var props = this.getCollectionProps()
 			props.key = "object"
 			return React.createElement(CaretakerFormObjectCollection, props)
 		}else if(this.isObject()){
+
+			var mappedSupplementParameter = this.createSupplementMap()
+
 			var objects = []
+			for(var i in mappedSupplementParameter.before){
+				object.push(React.createElement(CaretakerFormObject, this.createChildProps("before",mappedSupplementParameter.before[i])))
+			}
 			if(this.props.has){
 				var has = this.props.has
 				for(var i in has){
-					var childProps = Object.assign({},has[i])
-					childProps.key = i
-					if(this.state.value[i] != null){
-						childProps.value = this.state.value[i]
+					var childProps = this.createChildProps("has",has[i])
+					for(var j in mappedSupplementParameter.map[has[i].name]){
+						object.push( React.createElement(CaretakerFormObject, this.createChildProps("after-"+has[i].name), mappedSupplementParameter.map[has[i].name][j] ) )
 					}
-					if(has[i].name != null){
-						childProps.name = has[i].name
-						if(this.state.value[childProps.name] != null){
-							childProps.value = this.state.value[childProps.name]
-						}
-					}
-					childProps.onChange = this.getOnChangeListener()
-					childProps.onReportValidity = this.onReportValidity.bind(this)
-					childProps.isValidating = this.state.isValidating
 					objects.push( React.createElement(CaretakerFormObject, childProps) )
 				}
+			}
+			for(var i in mappedSupplementParameter.after){
+				object.push(React.createElement(CaretakerFormObject, this.createChildProps("after", mappedSupplementParameter.after[i])))
 			}
 			return objects
 		}else{
