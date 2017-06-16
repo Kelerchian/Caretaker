@@ -18,9 +18,9 @@ class CaretakerFormInputDate extends CaretakerFormInputPrototype{
 		this.state.value = this.modifyValueAfterLoad(this.state.value) || this.state.value
 	}
 	updateParent(){
-		if(this.props.onChange){
+		if(this.latestProps.onChange){
 
-			this.props.onChange(this.transformValueBeforeSave(this.state.value))
+			this.latestProps.onChange(this.transformValueBeforeSave(this.state.value))
 		}
 		this.state.validationUpdated = false
 		this.setState(this.state)

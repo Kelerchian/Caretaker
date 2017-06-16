@@ -6,6 +6,7 @@ class CaretakerFormInputPrototype extends CaretakerFormElementPrototype{
 		this.loadValue(props)
 	}
 	loadValue(props){
+		this.latestProp = props
 		this.state.value = this.getDefaultValue();
 		if(props.hasOwnProperty("value")){
 			var supposedValue = this.transformValueBeforeLoad(props.value)
@@ -34,16 +35,16 @@ class CaretakerFormInputPrototype extends CaretakerFormElementPrototype{
 	}
 	reportValidity(){
 		this.state.isValid = this.checkValidity(this.state.value)
-		if(this.props.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
+		if(this.latestProps.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
 			this.state.validationUpdated = true
-			this.props.onReportValidity(this.state.isValid)
+			this.latestProps.onReportValidity(this.state.isValid)
 		}
 	}
 	getNegativePropKeys(){
 		return ["value","values","defaultValue","onReportValidity","isValidating","isResetting","className"]
 	}
 	getProtoProps(){
-		var props = Object.assign({}, this.props)
+		var props = Object.assign({}, this.latestProps)
 		this.getNegativePropKeys().forEach(function(key){
 			props[key] = null
 			delete props[key]
@@ -59,13 +60,13 @@ class CaretakerFormInputPrototype extends CaretakerFormElementPrototype{
 		return props
 	}
 	updateParent(){
-		if(this.props.onChange){
-			this.props.onChange(this.transformValueBeforeSave(this.state.value))
+		if(this.latestProps.onChange){
+			this.latestProps.onChange(this.transformValueBeforeSave(this.state.value))
 		}
 		this.state.validationUpdated = false
 	}
 	isRequired(){
-		return this.props.required
+		return this.latestProps.required
 	}
 	//extendable but not recommended
 	getProps(){

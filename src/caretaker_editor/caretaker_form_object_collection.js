@@ -18,10 +18,10 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 		this.reportValidity()
 	}
 	reportValidity(){
-		if(this.props.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
+		if(this.latestProps.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
 			this.state.validationUpdated = true
 			if(this.isChildless()){
-				this.props.onReportValidity(this.props.required != true)
+				this.latestProps.onReportValidity(this.latestProps.required != true)
 			}else{
 				var isValid = true
 				for(var i = 0; i<this.state.childrenCount; i++){
@@ -30,7 +30,7 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 						break;
 					}
 				}
-				this.props.onReportValidity(isValid)
+				this.latestProps.onReportValidity(isValid)
 			}
 		}
 		this.setState(this.state)
@@ -45,6 +45,7 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 		this.reportValidity()
 	}
 	loadValue(props){
+		this.latestProps = props
 		if(props.value){
 			this.state.value = props.value
 		}
@@ -53,7 +54,7 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 		return ["min","max","value","quantity","validate"]
 	}
 	getProps(){
-		var props = Object.assign({}, this.props)
+		var props = Object.assign({}, this.latestProps)
 		this.getNegativeChildPropKeys().forEach(function(key){
 			props[key] = null
 			delete props[key]
@@ -64,8 +65,8 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 	}
 	updateParent(){
 		this.state.validationUpdated = false
-		if(this.props.onChange){
-			this.props.onChange(this.state.value)
+		if(this.latestProps.onChange){
+			this.latestProps.onChange(this.state.value)
 		}
 		this.setState(this.state)
 	}
@@ -140,7 +141,7 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 		return React.createElement('div',{className: this.appearanceProtoGetClassName("div", "CaretakerFormObjectCollectionChildren"), key:"children"}, children);
 	}
 	render(){
-		var name = this.props.name || ""
+		var name = this.latestProps.name || ""
 		return React.createElement(
 			'div',
 			{

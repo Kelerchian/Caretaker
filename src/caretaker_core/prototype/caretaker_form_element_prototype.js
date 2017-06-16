@@ -1,6 +1,6 @@
 class CaretakerFormElementPrototype extends React.Component{
 	appearanceProtoGetAdditionalClassName(classKeys){
-		return this.constructor.appearanceProtoGetAdditionalClassName(this.props, classKeys)
+		return this.constructor.appearanceProtoGetAdditionalClassName(this.latestProps || this.props, classKeys)
 	}
 
 	static appearanceProtoGetAdditionalClassName(props, classKeys){
@@ -45,6 +45,6 @@ class CaretakerFormElementPrototype extends React.Component{
 	}
 
 	appearanceProtoGetClassName(tag, className){
-		return this.constructor.appearanceProtoGetClassName(this.props, tag, className)
+		return this.constructor.appearanceProtoGetClassName(this.latestProps || this.props, tag, className)
 	}
 }
