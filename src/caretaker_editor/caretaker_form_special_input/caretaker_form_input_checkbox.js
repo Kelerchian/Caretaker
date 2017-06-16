@@ -31,9 +31,9 @@ class CaretakerFormInputCheckbox extends CaretakerFormInputPrototype{
 	}
 	checkValidity(value){
 		if(this.isRequired()){
-			if(typeof this.props.values == "object" && this.props.values){
-				if(this.state.value.size <= 0 && Object.keys(this.props.values).length > 0){
-					if( Object.keys(this.props.values).length == 1 ){
+			if(typeof this.latestProps.values == "object" && this.latestProps.values){
+				if(this.state.value.size <= 0 && Object.keys(this.latestProps.values).length > 0){
+					if( Object.keys(this.latestProps.values).length == 1 ){
 						return ["Check to continue"]
 					}else{
 						return ["At least one option must be checked"]
@@ -59,7 +59,7 @@ class CaretakerFormInputCheckbox extends CaretakerFormInputPrototype{
 	}
 	getCheckboxes(){
 		var html = ""
-		var values = this.props.values
+		var values = this.latestProps.values
 		for(var i in values){
 			if(html == ""){
 				html = []
@@ -82,7 +82,7 @@ class CaretakerFormInputCheckbox extends CaretakerFormInputPrototype{
 		return html
 	}
 	render(){
-		var name = this.props.name || ""
+		var name = this.latestProps.name || ""
 		return React.createElement('div', {className: this.appearanceProtoGetClassName('div', "CaretakerFormInputCheckboxCollection")}, (
 			this.getCheckboxes()
 		))
