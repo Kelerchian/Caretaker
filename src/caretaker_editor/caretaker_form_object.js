@@ -3,7 +3,6 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		super(props)
 		this.state = {}
 		this.loadValue(props)
-		this.latestProp = props
 	}
 	onReportValidity(isValid, name){
 		this.state.validationUpdated = false
