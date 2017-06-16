@@ -23,6 +23,7 @@ class CaretakerInput extends CaretakerFormElementPrototype{
 		}
 	}
 	loadValue(props){
+		this.latestProps = props
 		this.state.value = this.getDefaultValue()
 		if(props.hasOwnProperty("value")){
 			if(!(props.value == null && this.isCommonInput())){
@@ -59,10 +60,10 @@ class CaretakerInput extends CaretakerFormElementPrototype{
 		this.reportValidity()
 	}
 	reportValidity(){
-		if(this.props.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
+		if(this.latestProps.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
 			this.state.validationUpdated = true
 			this.checkValidity()
-			this.props.onReportValidity(this.state.isValid)
+			this.latestProps.onReportValidity(this.state.isValid)
 		}
 	}
 	getNegativeCommonPropKeys(){
@@ -72,7 +73,7 @@ class CaretakerInput extends CaretakerFormElementPrototype{
 		this.textInput = input
 	}
 	getProps(){
-		var props = Object.assign({}, this.props)
+		var props = Object.assign({}, this.latestProps)
 		if(this.isCommonInput()){
 			this.getNegativeCommonPropKeys().forEach(function(key){
 				props[key] = null
@@ -86,18 +87,18 @@ class CaretakerInput extends CaretakerFormElementPrototype{
 		return props
 	}
 	getSpecialProps(){
-		var props = Object.assign({}, this.props)
+		var props = Object.assign({}, this.latestProps)
 		props.onChange = this.onChange.bind(this)
 		props.onReportValidity = this.onReportValidity.bind(this)
 		props.isValidating = this.state.isValidating
 		return props
 	}
 	isCommonInput(){
-		return Caretaker.SpecialInput.isCommonInput(this.props.type)
+		return Caretaker.SpecialInput.isCommonInput(this.latestProps.type)
 	}
 	updateParent(){
-		if(this.props.onChange){
-			this.props.onChange(this.state.value)
+		if(this.latestProps.onChange){
+			this.latestProps.onChange(this.state.value)
 		}
 		this.state.validationUpdated = false
 	}
@@ -111,7 +112,7 @@ class CaretakerInput extends CaretakerFormElementPrototype{
 	}
 	renderSpecialInput(){
 
-		var specialInputClass = Caretaker.SpecialInput.getClass(this.props.type)
+		var specialInputClass = Caretaker.SpecialInput.getClass(this.latestProps.type)
 		if(!specialInputClass){
 			return ""
 		}
