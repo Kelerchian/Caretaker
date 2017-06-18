@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Caretaker - ViewText</title>
+
+	<link rel="stylesheet" href="asset/bootstrap4/css/bootstrap.css">
+	<link rel="stylesheet" href="asset/bootstrap-override.css">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="asset/polyfill/fetch.min.js"></script>
+	<script src="asset/polyfill/es6-promise.min.js"></script>
+	<script src="asset/bootstrap4/js/bootstrap.js"></script>
+	<script src="asset/moment/moment.js"></script>
+	<script src="asset/react/build/react.js"></script>
+	<script src="asset/react/build/react-dom.js"></script>
+	<script src="../dist/caretaker.js"></script>
+	<script src="../dist/image/caretaker.extension.image.js"></script><script src="../dist/textarea-html/caretaker.extension.textarea-html.js"></script>
+	<link href="../dist/caretaker.css" rel="stylesheet"></link>
+	<link href="../dist/image/caretaker.extension.image.css" rel="stylesheet"></link><link href="../dist/textarea-html/caretaker.extension.textarea-html.css" rel="stylesheet"></link>
+	<style>
+	#code{
+		tab-size: 2;
+	}
+	</style>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-5">
+				<h5>Code</h5>
+				<pre><code id="code"></code></pre>
+			</div>
+			<div class="col-md-7">
+				<h5>Result:</h5>
+				<div id="view"></div>
+			</div>
+		</div>
+	</div>
+<textarea style="display:none" id="textarea">
+var command = {
+	model: {
+		type: "text"
+	},
+	value: "Hello World"
+}
+</textarea>
+<script async>
+	window['code'].innerText = window['textarea'].value.trim()
+	var theView = Caretaker.makeView({
+		model: {
+			type: "text"
+		},
+		value: "Hello World"
+	},window['view'])
+</script>
+</body>
+</html>

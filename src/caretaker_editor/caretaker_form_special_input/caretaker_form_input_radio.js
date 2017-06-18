@@ -37,7 +37,7 @@ class CaretakerFormInputRadio extends CaretakerFormInputPrototype{
 	}
 	getCheckboxes(){
 		var html = ""
-		var values = this.latestProps.values
+		var values = this.getUpdatedProps().values
 		for(var i in values){
 			if(html == ""){
 				html = []
@@ -60,7 +60,7 @@ class CaretakerFormInputRadio extends CaretakerFormInputPrototype{
 		return html
 	}
 	render(){
-		var name = this.latestProps.name || ""
+		var name = this.getUpdatedProps().name || ""
 		return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "CaretakerFormInputRadioCollection")}, (
 			this.getCheckboxes()
 		))

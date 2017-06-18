@@ -10,8 +10,8 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 			//if validity node is null or not an object, make new validity node
 			if(typeof this.state.isValidMap != "object" || this.state.isValidMap == null){
 				this.state.isValidMap = {}
-				if(typeof this.latestProps.has == "object" && this.latestProps.has != null){
-					var has = this.latestProps.has
+				if(typeof this.getUpdatedProps().has == "object" && this.getUpdatedProps().has != null){
+					var has = this.getUpdatedProps().has
 					for(var i in has){
 						var currentName = has[i].name
 						if(!currentName){
@@ -31,12 +31,12 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		return Array.isArray(this.state.value) ? Array.from(this.state.value) : typeof this.state.value == "object" ? Object.assign({}, this.state.value) : this.state.value
 	}
 	reportValidity(){
-		if(this.latestProps.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
+		if(this.getUpdatedProps().onReportValidity && this.state.isValidating && !this.state.validationUpdated){
 			this.state.validationUpdated = true
 			if(this.isObject() && !this.isMany() && !this.isChildless()){
 				var isValid = true
-				if(typeof this.latestProps.has == "object" && this.latestProps.has){
-					var has = this.latestProps.has
+				if(typeof this.getUpdatedProps().has == "object" && this.getUpdatedProps().has){
+					var has = this.getUpdatedProps().has
 					for(var i in has){
 						var name = has[i].name
 						if(!name){
@@ -51,12 +51,12 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 				this.state.isValid = isValid
 			}
 
-			if(typeof this.latestProps.validate == "function"){
+			if(typeof this.getUpdatedProps().validate == "function"){
 				var tempValid = Array.isArray(this.state.isValid) || this.state.isValid == true ? this.state.isValid : [this.state.isValid]
 				var newValid
 				try{
 					var copyValue = this.createValueCopy()
-					newValid = this.latestProps.validate(copyValue, tempValid)
+					newValid = this.getUpdatedProps().validate(copyValue, tempValid)
 				}catch(throwable){
 					if(throwable instanceof Error){
 						console.error("Something happened while validating", throwable)
@@ -69,7 +69,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 				}
 			}
 
-			this.latestProps.onReportValidity(this.state.isValid, this.latestProps.name)
+			this.getUpdatedProps().onReportValidity(this.state.isValid, this.getUpdatedProps().name)
 			// this.setState(this.state)
 		}
 	}
@@ -102,7 +102,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		}
 	}
 	loadValue(props){
-		this.latestProps = props
+		this.updateProps(props)
 		if(this.isMany()){
 			this.state.value = new Caretaker.ValueArray()
 			this.state.name = "arr"
@@ -129,21 +129,21 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		this.assertValues()
 	}
 	isMany(){
-		return this.latestProps.quantity == "many"
+		return this.getUpdatedProps().quantity == "many"
 	}
 	isObject(){
-		return this.latestProps.type == "object" || this.latestProps.type == null
+		return this.getUpdatedProps().type == "object" || this.getUpdatedProps().type == null
 	}
 	isInput(){
 		return !this.isObject() && !this.isMany()
 	}
 	isChildless(){
-		return this.isObject() && (this.latestProps.has == null || (typeof this.latestProps.has == "object" && Object.keys(this.latestProps.has).length == 0 ))
+		return this.isObject() && (this.getUpdatedProps().has == null || (typeof this.getUpdatedProps().has == "object" && Object.keys(this.getUpdatedProps().has).length == 0 ))
 	}
 	updateParent(){
 		this.state.validationUpdated = false
-		if(this.latestProps.onChange){
-			this.latestProps.onChange(this.state.value, this.state.name)
+		if(this.getUpdatedProps().onChange){
+			this.getUpdatedProps().onChange(this.state.value, this.state.name)
 		}
 	}
 	onChange(value, name){
@@ -165,7 +165,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		return ["label","description","htmlLabel","htmlDescription","quantity","has","defaultValue","validate","supplements"]
 	}
 	getInputProps(){
-		var props = Object.assign({}, this.latestProps)
+		var props = Object.assign({}, this.getUpdatedProps())
 		this.getNegativeInputPropKeys().forEach(function(key){
 			props[key] = null
 			delete props[key]
@@ -177,7 +177,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		return props
 	}
 	getCollectionProps(){
-		var props = Object.assign({}, this.latestProps)
+		var props = Object.assign({}, this.getUpdatedProps())
 		this.getNegativeChildPropKeys().forEach(function(key){
 			props[key] = null
 			delete props[key]
@@ -189,43 +189,43 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		return props
 	}
 	appearanceGetLabel(){
-		if(this.latestProps.htmlLabel && typeof this.latestProps.htmlLabel == "string"){
+		if(this.getUpdatedProps().htmlLabel && typeof this.getUpdatedProps().htmlLabel == "string"){
 			return React.createElement('label',
 				{
 					className: this.appearanceProtoGetClassName("label", "CaretakerLabel"),
 					htmlFor: this.state.name,
 					key:"label",
-					dangerouslySetInnerHTML: {__html:this.latestProps.htmlLabel}
+					dangerouslySetInnerHTML: {__html:this.getUpdatedProps().htmlLabel}
 				}
 			)
-		}else if(this.latestProps.label){
+		}else if(this.getUpdatedProps().label){
 			return React.createElement('label',
 				{
 					className: this.appearanceProtoGetClassName("label", "CaretakerLabel"),
 					htmlFor: this.state.name,
 					key:"label"
 				},
-				this.latestProps.label
+				this.getUpdatedProps().label
 			)
 		}
 		return false
 	}
 	appearanceGetDescription(){
-		if(this.latestProps.htmlDescription){
+		if(this.getUpdatedProps().htmlDescription){
 			return React.createElement('p',
 				{
 					className: this.appearanceProtoGetClassName("p", "CaretakerDescription"),
 					key:"description",
-					dangerouslySetInnerHTML: {__html:this.latestProps.htmlDescription}
+					dangerouslySetInnerHTML: {__html:this.getUpdatedProps().htmlDescription}
 				}
 			)
-		}else if(this.latestProps.description){
+		}else if(this.getUpdatedProps().description){
 			return React.createElement('p',
 				{
 					className: this.appearanceProtoGetClassName("p", "CaretakerDescription"),
 					key:"description"
 				},
-				this.latestProps.description
+				this.getUpdatedProps().description
 			)
 		}
 		return false;
@@ -240,10 +240,10 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 				map[key] = []
 			}
 		}
-		if(Array.isArray(this.latestProps.supplements)){
+		if(Array.isArray(this.getUpdatedProps().supplements)){
 			var copyValue = this.createValueCopy()
-			for(var i in this.latestProps.supplements){
-				var supplement = this.latestProps.supplements[i]
+			for(var i in this.getUpdatedProps().supplements){
+				var supplement = this.getUpdatedProps().supplements[i]
 				if(supplement.condition){
 					var supplementConditionFunction = (new Function('value','return '+supplement.condition))
 					try{
@@ -267,7 +267,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 					console.error(new Error("This supplement object should have 'condition' parameter: " + JSON.stringify(supplement)))
 				}
 			}
-		}else if(typeof this.latestProps.supplements == "function"){
+		}else if(typeof this.getUpdatedProps().supplements == "function"){
 			var pushAfter = function(key, model){
 				prepareMapKey(key)
 				map[key].push(model)
@@ -280,7 +280,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 			}
 
 			try{
-				this.latestProps.supplements(
+				this.getUpdatedProps().supplements(
 					Object.assign({},this.state.value),
 					{pushFirst: pushFirst, pushLast: pushLast, pushAfter: pushAfter}
 				)
@@ -331,8 +331,8 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 				objects.push(React.createElement(CaretakerFormObject, this.createChildProps("before",mappedSupplementParameter.before[i])))
 			}
 
-			if(this.latestProps.has){
-				var has = this.latestProps.has
+			if(this.getUpdatedProps().has){
+				var has = this.getUpdatedProps().has
 				// Spawn Object
 				for(var i in has){
 					var childProps = this.createChildProps("has",has[i])
