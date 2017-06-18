@@ -177,6 +177,22 @@ var Caretaker = (function(){
 		}
 	}
 
+	var ViewClass = {
+		inputMap: {}
+	}
+	var ViewClassPublic = {
+		getClass: function(type){
+			return ViewClass.inputMap[type]
+		},
+		register: function(type, className){
+			if(ViewClass.inputMap[type]){
+				console.warn('SpecialInput '+type+' has been installed and cannot be replaced with '+className)
+			}else{
+				ViewClass.inputMap[type] = className
+			}
+		}
+	}
+
 
 
 	class ValueNode{
@@ -349,33 +365,53 @@ var Caretaker = (function(){
 		return valueNode
 	})
 
-	function makeForm(formCommand, element){
+	function checkReact(){
 		if(!React || !ReactDOM){
 			throw new Error("Caretaker needs React and ReactDOM. If you are using Webpack, please bind React and ReactDOM to window like this \nwindow['React'] = React  \n window['ReactDOM = ReactDOM']")
 		}
+	}
+
+	function makeForm(formCommand, element){
+		checkReact()
 		if(typeof formCommand != "object"){
 			throw new Error("Parameter formCommand must be object")
 		}
-		//parse
 		if(typeof element == "string"){
 			element = document.querySelector(element)
 		}
 		if(!(element instanceof HTMLElement)){
-			throw new Error("Parameter element must be object")
+			throw new Error("Parameter element must be HTMLElement")
 		}
 
 		return ReactDOM.render( React.createElement(CaretakerForm, formCommand), element )
 	}
 
+	function makeView(viewCommand, element){
+		checkReact()
+		if(typeof viewCommand != "object"){
+			throw new Error("Parameter viewCommand must be object")
+		}
+		if(typeof element == "string"){
+			element = document.querySelector(element)
+		}
+		if(!(element instanceof HTMLElement)){
+			throw new Error("Parameter element must be HTMLElement")
+		}
+
+		return ReactDOM.render( React.createElement(CaretakerViewRoot, viewCommand), element )
+	}
+
 	return {
 		SpecialInput:SpecialInputPublic,
-		SubmissionPreprocessor: SubmissionPreprocessor,
+		SubmissionPreprocessor:SubmissionPreprocessor,
 		UploadedFile:UploadedFile,
 		ValueArray:ValueArray,
 		ValueNode:ValueNode,
+		ViewClass:ViewClassPublic,
 		Utils:Utils,
 		Widget:Widget,
 		StructBank:StructBank,
-		makeForm: makeForm
+		makeForm:makeForm,
+		makeView:makeView
 	}
 })();

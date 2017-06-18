@@ -23,7 +23,7 @@ class CaretakerInput extends CaretakerFormElementPrototype{
 		}
 	}
 	loadValue(props){
-		this.latestProps = props
+		this.updateProps(props)
 		this.state.value = this.getDefaultValue()
 		if(props.hasOwnProperty("value")){
 			if(!(props.value == null && this.isCommonInput())){
@@ -60,10 +60,10 @@ class CaretakerInput extends CaretakerFormElementPrototype{
 		this.reportValidity()
 	}
 	reportValidity(){
-		if(this.latestProps.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
+		if(this.getUpdatedProps().onReportValidity && this.state.isValidating && !this.state.validationUpdated){
 			this.state.validationUpdated = true
 			this.checkValidity()
-			this.latestProps.onReportValidity(this.state.isValid)
+			this.getUpdatedProps().onReportValidity(this.state.isValid)
 		}
 	}
 	getNegativeCommonPropKeys(){
@@ -73,7 +73,7 @@ class CaretakerInput extends CaretakerFormElementPrototype{
 		this.textInput = input
 	}
 	getProps(){
-		var props = Object.assign({}, this.latestProps)
+		var props = Object.assign({}, this.getUpdatedProps())
 		if(this.isCommonInput()){
 			this.getNegativeCommonPropKeys().forEach(function(key){
 				props[key] = null
@@ -87,18 +87,18 @@ class CaretakerInput extends CaretakerFormElementPrototype{
 		return props
 	}
 	getSpecialProps(){
-		var props = Object.assign({}, this.latestProps)
+		var props = Object.assign({}, this.getUpdatedProps())
 		props.onChange = this.onChange.bind(this)
 		props.onReportValidity = this.onReportValidity.bind(this)
 		props.isValidating = this.state.isValidating
 		return props
 	}
 	isCommonInput(){
-		return Caretaker.SpecialInput.isCommonInput(this.latestProps.type)
+		return Caretaker.SpecialInput.isCommonInput(this.getUpdatedProps().type)
 	}
 	updateParent(){
-		if(this.latestProps.onChange){
-			this.latestProps.onChange(this.state.value)
+		if(this.getUpdatedProps().onChange){
+			this.getUpdatedProps().onChange(this.state.value)
 		}
 		this.state.validationUpdated = false
 	}
@@ -112,7 +112,7 @@ class CaretakerInput extends CaretakerFormElementPrototype{
 	}
 	renderSpecialInput(){
 
-		var specialInputClass = Caretaker.SpecialInput.getClass(this.latestProps.type)
+		var specialInputClass = Caretaker.SpecialInput.getClass(this.getUpdatedProps().type)
 		if(!specialInputClass){
 			return ""
 		}

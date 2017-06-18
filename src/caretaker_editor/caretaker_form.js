@@ -13,7 +13,7 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 		this.loadValue(props)
 	}
 	loadValue(props){
-		this.latestProps = props
+		this.updateProps(props)
 		if(props.value != null){
 			this.state.value = props.value
 		}
@@ -25,7 +25,7 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 		this.setState(this.state)
 	}
 	onReset(){
-		this.state.value = this.latestProps.value
+		this.state.value = this.getUpdatedProps().value
 		this.state.isSubmitting = false
 		this.state.isResetting = true
 		this.setState(this.state)
@@ -33,19 +33,19 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 	_getAdditionalHeaders(){
 
 		var headers = new Headers()
-		if(this.latestProps.headers){
-			if(typeof this.latestProps.headers == "object"){
-				headers = new Headers(this.latestProps.headers)
-			}else if(typeof this.latestProps.headers == "function"){
-				headers = this.latestProps.headers(headers) || headers
+		if(this.getUpdatedProps().headers){
+			if(typeof this.getUpdatedProps().headers == "object"){
+				headers = new Headers(this.getUpdatedProps().headers)
+			}else if(typeof this.getUpdatedProps().headers == "function"){
+				headers = this.getUpdatedProps().headers(headers) || headers
 			}
 		}
 		return headers
 	}
 	doStringAction(actionValue){
-		var url = this.latestProps.action
+		var url = this.getUpdatedProps().action
 		var fetch = window.fetch
-		var name = this.latestProps.edit.name || "data"
+		var name = this.getUpdatedProps().edit.name || "data"
 
 		var doAfterSuccess = this.doAfterSuccess.bind(this)
 		var doAfterFailure = this.doAfterFailure.bind(this)
@@ -58,8 +58,8 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 			"headers": this._getAdditionalHeaders()
 		}
 
-		if(typeof this.latestProps.fetchParameter == "object"){
-			fetchParameter = Object.assign(fetchParameter, this.latestProps.fetchParameter)
+		if(typeof this.getUpdatedProps().fetchParameter == "object"){
+			fetchParameter = Object.assign(fetchParameter, this.getUpdatedProps().fetchParameter)
 		}
 
 		fetch(url, fetchParameter)
@@ -77,36 +77,36 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 
 	doFunctionAction(actionValue){
 		try{
-			var actionReturn = this.latestProps.action(actionValue)
+			var actionReturn = this.getUpdatedProps().action(actionValue)
 			this.doAfterSuccess(actionReturn, actionValue)
 		}catch(throwable){
 			this.doAfterFailure(throwable, actionValue)
 		}
 	}
 	doAfterAction(actionValue){
-		if(typeof this.latestProps.afterAction == "function"){
-			this.latestProps.afterAction(actionValue)
+		if(typeof this.getUpdatedProps().afterAction == "function"){
+			this.getUpdatedProps().afterAction(actionValue)
 		}
 	}
 	doAfterSuccess(actionReturn, actionValue){
 		this.doAfterAction(actionValue)
 		var continueAction = true
-		if(typeof this.latestProps.afterSuccess == "function"){
-			continueAction = this.latestProps.afterSuccess(actionReturn, actionValue)
+		if(typeof this.getUpdatedProps().afterSuccess == "function"){
+			continueAction = this.getUpdatedProps().afterSuccess(actionReturn, actionValue)
 		}
 	}
 	doAfterFailure(throwable, actionValue){
 		this.doAfterAction(actionValue)
 		var continueAction = true
-		if(typeof this.latestProps.afterFailure == "function"){
-			continueAction = this.latestProps.afterFailure(throwable, actionValue)
+		if(typeof this.getUpdatedProps().afterFailure == "function"){
+			continueAction = this.getUpdatedProps().afterFailure(throwable, actionValue)
 		}
 	}
 	onAction(){
-		var actionValue = Caretaker.SubmissionPreprocessor.preprocess(this.state.value, this.latestProps)
-		if(typeof this.latestProps.action == "string"){
+		var actionValue = Caretaker.SubmissionPreprocessor.preprocess(this.state.value, this.getUpdatedProps())
+		if(typeof this.getUpdatedProps().action == "string"){
 			this.doStringAction(actionValue)
-		}else if(typeof this.latestProps.action == "function"){
+		}else if(typeof this.getUpdatedProps().action == "function"){
 			this.doFunctionAction(actionValue)
 		}
 	}
@@ -130,7 +130,7 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 		this.setState(this.state)
 	}
 	getProps(){
-		var props = Object.assign({}, this.latestProps.edit)
+		var props = Object.assign({}, this.getUpdatedProps().edit)
 
 		props.onChange = this.onChange.bind(this)
 		props.onReportValidity = this.onReportValidity.bind(this)
@@ -145,7 +145,7 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 	}
 	appearanceGetActions(){
 		var actions = []
-		if(this.latestProps.submittable !== false){
+		if(this.getUpdatedProps().submittable !== false){
 			actions.push(
 				React.createElement(
 					'button',
@@ -153,12 +153,12 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 						type:"button",
 						key:"submit",
 						onClick: this.onSubmit.bind(this),
-						className: this.appearanceProtoGetClassName("button", "CaretakerButton CaretakerPositiveButton")
+						className: this.appearanceProtoGetClassName("button", "Button CaretakerPositiveButton")
 					},
 					[React.createElement('i',{key:"icon",className:  this.appearanceProtoGetClassName('i', "fa fa-check")} ), "Save"])
 			)
 		}
-		if(this.latestProps.resettable){
+		if(this.getUpdatedProps().resettable){
 			actions.push(
 				React.createElement(
 					'button',
@@ -166,7 +166,7 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 						type:"button",
 						key:"reset",
 						onClick: this.onReset.bind(this),
-						className: this.appearanceProtoGetClassName("button","CaretakerButton CaretakerBlueButton")
+						className: this.appearanceProtoGetClassName("button","Button CaretakerBlueButton")
 					},
 					[React.createElement('i',{key:"icon",className: this.appearanceProtoGetClassName('i', "fa fa-undo") } ), "Reset"])
 			)
