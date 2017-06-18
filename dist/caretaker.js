@@ -446,6 +446,8 @@ class CaretakerElementPrototype extends React.Component{
 					}
 				}
 				return " " + additionals.join(' ') + " "
+			}else if(props.className && typeof props.className == "string"){
+				return " " + props.className + " "
 			}
 		}else{
 			console.warn("Error : appearanceProtoGetAdditionalClassName : " + classNames )
@@ -2262,11 +2264,12 @@ class CaretakerViewObject extends CaretakerViewPrototype{
 		}
 	}
 	render(){
-		var props = {}
-		props.className = this.appearanceProtoGetClassName("div",("ViewObject " + this.getUpdatedProps().name || "").trim())
+		var props = Object.assign({}, {})
+		var tagName = this.getUpdatedProps().tagName || "div"
+		props.className = this.appearanceProtoGetClassName(tagName,("ViewObject " + this.getUpdatedProps().name || "").trim())
 
 		return React.createElement(
-			'div',
+			tagName,
 			props,
 			this.appearanceGetContent()
 		)

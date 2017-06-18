@@ -28,6 +28,8 @@ class CaretakerElementPrototype extends React.Component{
 					}
 				}
 				return " " + additionals.join(' ') + " "
+			}else if(props.className && typeof props.className == "string"){
+				return " " + props.className + " "
 			}
 		}else{
 			console.warn("Error : appearanceProtoGetAdditionalClassName : " + classNames )
