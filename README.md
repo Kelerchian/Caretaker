@@ -1,10 +1,10 @@
-# Caretaker v0.5.1-beta
+# Caretaker v0.6-beta
 
-A Javascript library for making a new breed of structured HTML5 Form
+A Javascript library for making a new breed of structured HTML5 Form and Views
 
-## What's New in 0.5.1?
+## What's New in 0.6?
 
-Customizable Request Header, Separated Image and TextareaHTML extension files, Custom Validation.
+CaretakerView - Structure your view. CaretakerView is still in alpha, careful.
 
 ## What is Caretaker?
 
@@ -53,6 +53,19 @@ and thus, the form will returns the following data on submit:
   ]
 }
 ```
+
+## Key and Planned Features
+
+- [x] Extension - Image input
+- [x] Custom Object Classname
+- [x] Custom HTML Object Label
+- [x] Custom HTML Object Description
+- [x] Change the experimental "textarea-html" input and move it to extension instead of base input object
+- [x] Customizable Headers
+- [x] Conditional Supplement Input Object (Additional child input that shows when an object's value meets certain conditions)
+- [x] Caretaker View - New breed of HTML views
+- [ ] Extension - Select Object - Works like select. Available values are being showed as object with modifiable structure
+- [ ] Extension Documentation - How to extend Caretaker Input
 
 ## Getting Started
 
@@ -132,7 +145,7 @@ The `<form>` then will be rendered inside the `<div id="the-form-container"></di
 
 ## Parameters
 
-### Model Parameters
+### Form Model Parameters
 
 - ###### "type" _(mandatory, case-sensitive)_
 
@@ -228,7 +241,7 @@ The `<form>` then will be rendered inside the `<div id="the-form-container"></di
 	}
 	```
 
-### Form Parameters
+### Form Command Parameters
 
 - ###### "edit" _(mandatory)_
 	Possible values:
@@ -394,21 +407,8 @@ Coming soon. If you're interested, see _[src_extension/caretaker_form_input_imag
 
 ## Built-In Extension
 
-- Textarea-html: Edit HTML using Facebook's DraftJS Rich Text Editor
-- Image: Upload Image files with preview
-
-## Planned Features
-
-- [x] Extension - Image input
-- [x] Custom Object Classname
-- [x] Custom HTML Object Label
-- [x] Custom HTML Object Description
-- [x] Change the experimental "textarea-html" input and move it to extension instead of base input object
-- [x] Customizable Headers
-- [ ] Conditional Supplement Input Object (Additional child input that shows when an object's value meets certain conditions)
-- [ ] Caretaker View - New breed of HTML views
-- [ ] Extension - Select Object - Works like select. Available values are being showed as object with modifiable structure
-- [ ] Extension Documentation - How to extend Caretaker Input
+- `textarea-html`: Edit HTML using Facebook's DraftJS Rich Text Editor
+- `image`: Upload Image files with preview
 
 ## Project Status
 
