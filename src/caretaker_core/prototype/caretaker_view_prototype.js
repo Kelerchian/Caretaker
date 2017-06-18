@@ -1,0 +1,2 @@
+class CaretakerViewPrototype extends CaretakerElementPrototype{
+}

@@ -46225,7 +46225,7 @@ module.exports = __webpack_amd_options__;
 			};
 		}
 		render() {
-			let className = CaretakerFormElementPrototype.appearanceProtoGetClassName(this.props, "span", "TextareaHTML__StyleButton");
+			let className = CaretakerElementPrototype.appearanceProtoGetClassName(this.props, "span", "TextareaHTML__StyleButton");
 			if (this.props.active) {
 				className += ' active';
 			}

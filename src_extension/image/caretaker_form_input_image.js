@@ -117,9 +117,9 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 		if(this.state.value === false){
 			var control = []
 			control.push(React.createElement('button', {className: this.appearanceProtoGetClassName("button","CaretakerButton CaretakerFormInputFilePromptButton") , key:"selectButton", type:"button", onClick: this.onWillPrompt.bind(this)}, "Select Image..."))
-			if(this.latestProps.placeholder){
+			if(this.getUpdatedProps().placeholder){
 				control.push(React.createElement('div', {className: this.appearanceProtoGetClassName("div", "CaretakerFormInputFilePreview"), key:"preview"}, (
-					React.createElement('img', {src:this.latestProps.placeholder, className: this.appearanceProtoGetClassName("img", "CaretakerFormInputFilePreviewImage"), title:"placeholder", alt:"placeholder"})
+					React.createElement('img', {src:this.getUpdatedProps().placeholder, className: this.appearanceProtoGetClassName("img", "CaretakerFormInputFilePreviewImage"), title:"placeholder", alt:"placeholder"})
 				)))
 			}
 			return control
@@ -155,7 +155,7 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 	/*
 	*/
 	render(){
-		return React.createElement('div',{className: "CaretakerFormInputImage "+(this.latestProps.name || "")}, this.appearanceGetControl())
+		return React.createElement('div',{className: "CaretakerFormInputImage "+(this.getUpdatedProps().name || "")}, this.appearanceGetControl())
 	}
 }
 

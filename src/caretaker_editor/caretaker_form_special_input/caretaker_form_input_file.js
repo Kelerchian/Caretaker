@@ -69,7 +69,7 @@ class CaretakerFormInputFile extends CaretakerFormInputPrototype{
 		}
 	}
 	render(){
-		return React.createElement('div',{className: this.appearanceProtoGetClassName("div", "CaretakerFormInputFile "+(this.latestProps.name || "") )}, this.appearanceGetControl())
+		return React.createElement('div',{className: this.appearanceProtoGetClassName("div", "CaretakerFormInputFile "+(this.getUpdatedProps().name || "") )}, this.appearanceGetControl())
 	}
 }
 

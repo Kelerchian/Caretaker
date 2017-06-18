@@ -39,7 +39,7 @@ class CaretakerFormInputSelect extends CaretakerFormInputPrototype{
 		return props
 	}
 	appearanceGetSelect(){
-		var options = this.latestProps.values || {}
+		var options = this.getUpdatedProps().values || {}
 		if(typeof options != "object"){
 			options = {}
 		}

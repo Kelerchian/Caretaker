@@ -6,12 +6,12 @@
 			super(props);
 			this.onToggle = (e) => {
 				e.preventDefault();
-				this.latestProps.onToggle(this.latestProps.style);
+				this.props.onToggle(this.props.style);
 			};
 		}
 		render() {
-			let className = CaretakerFormElementPrototype.appearanceProtoGetClassName(this.latestProps, "span", "TextareaHTML__StyleButton");
-			if (this.latestProps.active) {
+			let className = CaretakerElementPrototype.appearanceProtoGetClassName(this.props, "span", "TextareaHTML__StyleButton");
+			if (this.props.active) {
 				className += ' active';
 			}
 			return (
@@ -19,7 +19,7 @@
 					className: className,
 					onMouseDown: this.onToggle
 				},(
-					this.latestProps.label
+					this.props.label
 				))
 			);
 		}
@@ -231,12 +231,12 @@ class CaretakerFormInputTextareaHTML extends CaretakerFormInputPrototype{
 		var blockTypeProps = {
 			editorState: this.state.editorState,
 			onToggle: this.toggleBlockType,
-			className: this.latestProps.className
+			className: this.props.className
 		}
 		var inlineStyleProps = {
 			editorState: this.state.editorState,
 			onToggle: this.toggleInlineStyle,
-			className: this.latestProps.className
+			className: this.props.className
 		}
 
 		return React.createElement('div',{

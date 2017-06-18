@@ -177,6 +177,22 @@ var Caretaker = (function(){
 		}
 	}
 
+	var ViewClass = {
+		inputMap: {}
+	}
+	var ViewClassPublic = {
+		getClass: function(type){
+			return ViewClass.inputMap[type]
+		},
+		register: function(type, className){
+			if(ViewClass.inputMap[type]){
+				console.warn('SpecialInput '+type+' has been installed and cannot be replaced with '+className)
+			}else{
+				ViewClass.inputMap[type] = className
+			}
+		}
+	}
+
 
 
 	class ValueNode{
@@ -369,20 +385,35 @@ var Caretaker = (function(){
 
 	return {
 		SpecialInput:SpecialInputPublic,
-		SubmissionPreprocessor: SubmissionPreprocessor,
+		SubmissionPreprocessor:SubmissionPreprocessor,
 		UploadedFile:UploadedFile,
 		ValueArray:ValueArray,
 		ValueNode:ValueNode,
+		ViewClass:ViewClassPublic,
 		Utils:Utils,
 		Widget:Widget,
 		StructBank:StructBank,
-		makeForm: makeForm
+		makeForm:makeForm
 	}
 })();
 
-class CaretakerFormElementPrototype extends React.Component{
+class CaretakerElementPrototype extends React.Component{
+	constructor(props){
+		super(props)
+		this.updateProps(props)
+	}
+	componentWillReceiveProps(props){
+		this.updateProps(props)
+	}
+	updateProps(props){
+		this.updatedProps = props
+	}
+	getUpdatedProps(){
+		return this.updatedProps || this.props
+	}
+
 	appearanceProtoGetAdditionalClassName(classKeys){
-		return this.constructor.appearanceProtoGetAdditionalClassName(this.props, classKeys)
+		return this.constructor.appearanceProtoGetAdditionalClassName(this.getUpdatedProps() || this.props, classKeys)
 	}
 
 	static appearanceProtoGetAdditionalClassName(props, classKeys){
@@ -427,8 +458,11 @@ class CaretakerFormElementPrototype extends React.Component{
 	}
 
 	appearanceProtoGetClassName(tag, className){
-		return this.constructor.appearanceProtoGetClassName(this.props, tag, className)
+		return this.constructor.appearanceProtoGetClassName(this.getUpdatedProps() || this.props, tag, className)
 	}
+}
+
+class CaretakerFormElementPrototype extends CaretakerElementPrototype{
 }
 
 class CaretakerFormInputPrototype extends CaretakerFormElementPrototype{
@@ -439,6 +473,7 @@ class CaretakerFormInputPrototype extends CaretakerFormElementPrototype{
 		this.loadValue(props)
 	}
 	loadValue(props){
+		this.updateProps(props)
 		this.state.value = this.getDefaultValue();
 		if(props.hasOwnProperty("value")){
 			var supposedValue = this.transformValueBeforeLoad(props.value)
@@ -467,16 +502,16 @@ class CaretakerFormInputPrototype extends CaretakerFormElementPrototype{
 	}
 	reportValidity(){
 		this.state.isValid = this.checkValidity(this.state.value)
-		if(this.props.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
+		if(this.getUpdatedProps().onReportValidity && this.state.isValidating && !this.state.validationUpdated){
 			this.state.validationUpdated = true
-			this.props.onReportValidity(this.state.isValid)
+			this.getUpdatedProps().onReportValidity(this.state.isValid)
 		}
 	}
 	getNegativePropKeys(){
 		return ["value","values","defaultValue","onReportValidity","isValidating","isResetting","className"]
 	}
 	getProtoProps(){
-		var props = Object.assign({}, this.props)
+		var props = Object.assign({}, this.getUpdatedProps())
 		this.getNegativePropKeys().forEach(function(key){
 			props[key] = null
 			delete props[key]
@@ -492,13 +527,13 @@ class CaretakerFormInputPrototype extends CaretakerFormElementPrototype{
 		return props
 	}
 	updateParent(){
-		if(this.props.onChange){
-			this.props.onChange(this.transformValueBeforeSave(this.state.value))
+		if(this.getUpdatedProps().onChange){
+			this.getUpdatedProps().onChange(this.transformValueBeforeSave(this.state.value))
 		}
 		this.state.validationUpdated = false
 	}
 	isRequired(){
-		return this.props.required
+		return this.getUpdatedProps().required
 	}
 	//extendable but not recommended
 	getProps(){
@@ -549,6 +584,9 @@ class CaretakerFormInputPrototype extends CaretakerFormElementPrototype{
 	render(){
 
 	}
+}
+
+class CaretakerViewPrototype extends CaretakerElementPrototype{
 }
 
 class CaretakerDateInputWidget extends React.Component{
@@ -760,7 +798,11 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 		}
 		this.loadValue(props)
 	}
+	componentWillReceiveProps(props){
+		this.loadValue(props)
+	}
 	loadValue(props){
+		this.updateProps(props)
 		if(props.value != null){
 			this.state.value = props.value
 		}
@@ -772,7 +814,7 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 		this.setState(this.state)
 	}
 	onReset(){
-		this.state.value = this.props.value
+		this.state.value = this.getUpdatedProps().value
 		this.state.isSubmitting = false
 		this.state.isResetting = true
 		this.setState(this.state)
@@ -780,19 +822,19 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 	_getAdditionalHeaders(){
 
 		var headers = new Headers()
-		if(this.props.headers){
-			if(typeof this.props.headers == "object"){
-				headers = new Headers(this.props.headers)
-			}else if(typeof this.props.headers == "function"){
-				headers = this.props.headers(headers) || headers
+		if(this.getUpdatedProps().headers){
+			if(typeof this.getUpdatedProps().headers == "object"){
+				headers = new Headers(this.getUpdatedProps().headers)
+			}else if(typeof this.getUpdatedProps().headers == "function"){
+				headers = this.getUpdatedProps().headers(headers) || headers
 			}
 		}
 		return headers
 	}
 	doStringAction(actionValue){
-		var url = this.props.action
+		var url = this.getUpdatedProps().action
 		var fetch = window.fetch
-		var name = this.props.edit.name || "data"
+		var name = this.getUpdatedProps().edit.name || "data"
 
 		var doAfterSuccess = this.doAfterSuccess.bind(this)
 		var doAfterFailure = this.doAfterFailure.bind(this)
@@ -805,8 +847,8 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 			"headers": this._getAdditionalHeaders()
 		}
 
-		if(typeof this.props.fetchParameter == "object"){
-			fetchParameter = Object.assign(fetchParameter, this.props.fetchParameter)
+		if(typeof this.getUpdatedProps().fetchParameter == "object"){
+			fetchParameter = Object.assign(fetchParameter, this.getUpdatedProps().fetchParameter)
 		}
 
 		fetch(url, fetchParameter)
@@ -824,36 +866,36 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 
 	doFunctionAction(actionValue){
 		try{
-			var actionReturn = this.props.action(actionValue)
+			var actionReturn = this.getUpdatedProps().action(actionValue)
 			this.doAfterSuccess(actionReturn, actionValue)
 		}catch(throwable){
 			this.doAfterFailure(throwable, actionValue)
 		}
 	}
 	doAfterAction(actionValue){
-		if(typeof this.props.afterAction == "function"){
-			this.props.afterAction(actionValue)
+		if(typeof this.getUpdatedProps().afterAction == "function"){
+			this.getUpdatedProps().afterAction(actionValue)
 		}
 	}
 	doAfterSuccess(actionReturn, actionValue){
 		this.doAfterAction(actionValue)
 		var continueAction = true
-		if(typeof this.props.afterSuccess == "function"){
-			continueAction = this.props.afterSuccess(actionReturn, actionValue)
+		if(typeof this.getUpdatedProps().afterSuccess == "function"){
+			continueAction = this.getUpdatedProps().afterSuccess(actionReturn, actionValue)
 		}
 	}
 	doAfterFailure(throwable, actionValue){
 		this.doAfterAction(actionValue)
 		var continueAction = true
-		if(typeof this.props.afterFailure == "function"){
-			continueAction = this.props.afterFailure(throwable, actionValue)
+		if(typeof this.getUpdatedProps().afterFailure == "function"){
+			continueAction = this.getUpdatedProps().afterFailure(throwable, actionValue)
 		}
 	}
 	onAction(){
-		var actionValue = Caretaker.SubmissionPreprocessor.preprocess(this.state.value, this.props)
-		if(typeof this.props.action == "string"){
+		var actionValue = Caretaker.SubmissionPreprocessor.preprocess(this.state.value, this.getUpdatedProps())
+		if(typeof this.getUpdatedProps().action == "string"){
 			this.doStringAction(actionValue)
-		}else if(typeof this.props.action == "function"){
+		}else if(typeof this.getUpdatedProps().action == "function"){
 			this.doFunctionAction(actionValue)
 		}
 	}
@@ -877,7 +919,7 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 		this.setState(this.state)
 	}
 	getProps(){
-		var props = Object.assign({}, this.props.edit)
+		var props = Object.assign({}, this.getUpdatedProps().edit)
 
 		props.onChange = this.onChange.bind(this)
 		props.onReportValidity = this.onReportValidity.bind(this)
@@ -892,7 +934,7 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 	}
 	appearanceGetActions(){
 		var actions = []
-		if(this.props.submittable !== false){
+		if(this.getUpdatedProps().submittable !== false){
 			actions.push(
 				React.createElement(
 					'button',
@@ -905,7 +947,7 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 					[React.createElement('i',{key:"icon",className:  this.appearanceProtoGetClassName('i', "fa fa-check")} ), "Save"])
 			)
 		}
-		if(this.props.resettable){
+		if(this.getUpdatedProps().resettable){
 			actions.push(
 				React.createElement(
 					'button',
@@ -957,6 +999,7 @@ class CaretakerInput extends CaretakerFormElementPrototype{
 		}
 	}
 	loadValue(props){
+		this.updateProps(props)
 		this.state.value = this.getDefaultValue()
 		if(props.hasOwnProperty("value")){
 			if(!(props.value == null && this.isCommonInput())){
@@ -993,10 +1036,10 @@ class CaretakerInput extends CaretakerFormElementPrototype{
 		this.reportValidity()
 	}
 	reportValidity(){
-		if(this.props.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
+		if(this.getUpdatedProps().onReportValidity && this.state.isValidating && !this.state.validationUpdated){
 			this.state.validationUpdated = true
 			this.checkValidity()
-			this.props.onReportValidity(this.state.isValid)
+			this.getUpdatedProps().onReportValidity(this.state.isValid)
 		}
 	}
 	getNegativeCommonPropKeys(){
@@ -1006,7 +1049,7 @@ class CaretakerInput extends CaretakerFormElementPrototype{
 		this.textInput = input
 	}
 	getProps(){
-		var props = Object.assign({}, this.props)
+		var props = Object.assign({}, this.getUpdatedProps())
 		if(this.isCommonInput()){
 			this.getNegativeCommonPropKeys().forEach(function(key){
 				props[key] = null
@@ -1020,18 +1063,18 @@ class CaretakerInput extends CaretakerFormElementPrototype{
 		return props
 	}
 	getSpecialProps(){
-		var props = Object.assign({}, this.props)
+		var props = Object.assign({}, this.getUpdatedProps())
 		props.onChange = this.onChange.bind(this)
 		props.onReportValidity = this.onReportValidity.bind(this)
 		props.isValidating = this.state.isValidating
 		return props
 	}
 	isCommonInput(){
-		return Caretaker.SpecialInput.isCommonInput(this.props.type)
+		return Caretaker.SpecialInput.isCommonInput(this.getUpdatedProps().type)
 	}
 	updateParent(){
-		if(this.props.onChange){
-			this.props.onChange(this.state.value)
+		if(this.getUpdatedProps().onChange){
+			this.getUpdatedProps().onChange(this.state.value)
 		}
 		this.state.validationUpdated = false
 	}
@@ -1045,7 +1088,7 @@ class CaretakerInput extends CaretakerFormElementPrototype{
 	}
 	renderSpecialInput(){
 
-		var specialInputClass = Caretaker.SpecialInput.getClass(this.props.type)
+		var specialInputClass = Caretaker.SpecialInput.getClass(this.getUpdatedProps().type)
 		if(!specialInputClass){
 			return ""
 		}
@@ -1082,8 +1125,8 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 			//if validity node is null or not an object, make new validity node
 			if(typeof this.state.isValidMap != "object" || this.state.isValidMap == null){
 				this.state.isValidMap = {}
-				if(typeof this.props.has == "object" && this.props.has != null){
-					var has = this.props.has
+				if(typeof this.getUpdatedProps().has == "object" && this.getUpdatedProps().has != null){
+					var has = this.getUpdatedProps().has
 					for(var i in has){
 						var currentName = has[i].name
 						if(!currentName){
@@ -1103,12 +1146,12 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		return Array.isArray(this.state.value) ? Array.from(this.state.value) : typeof this.state.value == "object" ? Object.assign({}, this.state.value) : this.state.value
 	}
 	reportValidity(){
-		if(this.props.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
+		if(this.getUpdatedProps().onReportValidity && this.state.isValidating && !this.state.validationUpdated){
 			this.state.validationUpdated = true
 			if(this.isObject() && !this.isMany() && !this.isChildless()){
 				var isValid = true
-				if(typeof this.props.has == "object" && this.props.has){
-					var has = this.props.has
+				if(typeof this.getUpdatedProps().has == "object" && this.getUpdatedProps().has){
+					var has = this.getUpdatedProps().has
 					for(var i in has){
 						var name = has[i].name
 						if(!name){
@@ -1123,12 +1166,12 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 				this.state.isValid = isValid
 			}
 
-			if(typeof this.props.validate == "function"){
+			if(typeof this.getUpdatedProps().validate == "function"){
 				var tempValid = Array.isArray(this.state.isValid) || this.state.isValid == true ? this.state.isValid : [this.state.isValid]
 				var newValid
 				try{
 					var copyValue = this.createValueCopy()
-					newValid = this.props.validate(copyValue, tempValid)
+					newValid = this.getUpdatedProps().validate(copyValue, tempValid)
 				}catch(throwable){
 					if(throwable instanceof Error){
 						console.error("Something happened while validating", throwable)
@@ -1141,7 +1184,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 				}
 			}
 
-			this.props.onReportValidity(this.state.isValid, this.props.name)
+			this.getUpdatedProps().onReportValidity(this.state.isValid, this.getUpdatedProps().name)
 			// this.setState(this.state)
 		}
 	}
@@ -1174,6 +1217,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		}
 	}
 	loadValue(props){
+		this.updateProps(props)
 		if(this.isMany()){
 			this.state.value = new Caretaker.ValueArray()
 			this.state.name = "arr"
@@ -1200,21 +1244,21 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		this.assertValues()
 	}
 	isMany(){
-		return this.props.quantity == "many"
+		return this.getUpdatedProps().quantity == "many"
 	}
 	isObject(){
-		return this.props.type == "object" || this.props.type == null
+		return this.getUpdatedProps().type == "object" || this.getUpdatedProps().type == null
 	}
 	isInput(){
 		return !this.isObject() && !this.isMany()
 	}
 	isChildless(){
-		return this.isObject() && (this.props.has == null || (typeof this.props.has == "object" && Object.keys(this.props.has).length == 0 ))
+		return this.isObject() && (this.getUpdatedProps().has == null || (typeof this.getUpdatedProps().has == "object" && Object.keys(this.getUpdatedProps().has).length == 0 ))
 	}
 	updateParent(){
 		this.state.validationUpdated = false
-		if(this.props.onChange){
-			this.props.onChange(this.state.value, this.state.name)
+		if(this.getUpdatedProps().onChange){
+			this.getUpdatedProps().onChange(this.state.value, this.state.name)
 		}
 	}
 	onChange(value, name){
@@ -1233,10 +1277,10 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		return ["label","description","htmlLabel","htmlDescription","quantity"]
 	}
 	getNegativeInputPropKeys(){
-		return ["label","description","htmlLabel","htmlDescription","quantity","has","defaultValue","validate"]
+		return ["label","description","htmlLabel","htmlDescription","quantity","has","defaultValue","validate","supplements"]
 	}
 	getInputProps(){
-		var props = Object.assign({}, this.props)
+		var props = Object.assign({}, this.getUpdatedProps())
 		this.getNegativeInputPropKeys().forEach(function(key){
 			props[key] = null
 			delete props[key]
@@ -1248,7 +1292,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		return props
 	}
 	getCollectionProps(){
-		var props = Object.assign({}, this.props)
+		var props = Object.assign({}, this.getUpdatedProps())
 		this.getNegativeChildPropKeys().forEach(function(key){
 			props[key] = null
 			delete props[key]
@@ -1260,43 +1304,43 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		return props
 	}
 	appearanceGetLabel(){
-		if(this.props.htmlLabel && typeof this.props.htmlLabel == "string"){
+		if(this.getUpdatedProps().htmlLabel && typeof this.getUpdatedProps().htmlLabel == "string"){
 			return React.createElement('label',
 				{
 					className: this.appearanceProtoGetClassName("label", "CaretakerLabel"),
 					htmlFor: this.state.name,
 					key:"label",
-					dangerouslySetInnerHTML: {__html:this.props.htmlLabel}
+					dangerouslySetInnerHTML: {__html:this.getUpdatedProps().htmlLabel}
 				}
 			)
-		}else if(this.props.label){
+		}else if(this.getUpdatedProps().label){
 			return React.createElement('label',
 				{
 					className: this.appearanceProtoGetClassName("label", "CaretakerLabel"),
 					htmlFor: this.state.name,
 					key:"label"
 				},
-				this.props.label
+				this.getUpdatedProps().label
 			)
 		}
 		return false
 	}
 	appearanceGetDescription(){
-		if(this.props.htmlDescription){
+		if(this.getUpdatedProps().htmlDescription){
 			return React.createElement('p',
 				{
 					className: this.appearanceProtoGetClassName("p", "CaretakerDescription"),
 					key:"description",
-					dangerouslySetInnerHTML: {__html:this.props.htmlDescription}
+					dangerouslySetInnerHTML: {__html:this.getUpdatedProps().htmlDescription}
 				}
 			)
-		}else if(this.props.description){
+		}else if(this.getUpdatedProps().description){
 			return React.createElement('p',
 				{
 					className: this.appearanceProtoGetClassName("p", "CaretakerDescription"),
 					key:"description"
 				},
-				this.props.description
+				this.getUpdatedProps().description
 			)
 		}
 		return false;
@@ -1311,10 +1355,10 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 				map[key] = []
 			}
 		}
-		if(Array.isArray(this.props.supplements)){
+		if(Array.isArray(this.getUpdatedProps().supplements)){
 			var copyValue = this.createValueCopy()
-			for(var i in this.props.supplements){
-				var supplement = this.props.supplements[i]
+			for(var i in this.getUpdatedProps().supplements){
+				var supplement = this.getUpdatedProps().supplements[i]
 				if(supplement.condition){
 					var supplementConditionFunction = (new Function('value','return '+supplement.condition))
 					try{
@@ -1338,7 +1382,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 					console.error(new Error("This supplement object should have 'condition' parameter: " + JSON.stringify(supplement)))
 				}
 			}
-		}else if(typeof this.props.supplements == "function"){
+		}else if(typeof this.getUpdatedProps().supplements == "function"){
 			var pushAfter = function(key, model){
 				prepareMapKey(key)
 				map[key].push(model)
@@ -1351,7 +1395,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 			}
 
 			try{
-				this.props.supplements(
+				this.getUpdatedProps().supplements(
 					Object.assign({},this.state.value),
 					{pushFirst: pushFirst, pushLast: pushLast, pushAfter: pushAfter}
 				)
@@ -1383,7 +1427,8 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		props.onChange = this.getOnChangeListener()
 		props.onReportValidity = this.onReportValidity.bind(this)
 		props.isValidating = this.state.isValidating
-		return props
+		return props;
+
 	}
 	appearanceGetObject(){
 		if(this.isMany()){
@@ -1401,8 +1446,8 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 				objects.push(React.createElement(CaretakerFormObject, this.createChildProps("before",mappedSupplementParameter.before[i])))
 			}
 
-			if(this.props.has){
-				var has = this.props.has
+			if(this.getUpdatedProps().has){
+				var has = this.getUpdatedProps().has
 				// Spawn Object
 				for(var i in has){
 					var childProps = this.createChildProps("has",has[i])
@@ -1505,10 +1550,10 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 		this.reportValidity()
 	}
 	reportValidity(){
-		if(this.props.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
+		if(this.getUpdatedProps().onReportValidity && this.state.isValidating && !this.state.validationUpdated){
 			this.state.validationUpdated = true
 			if(this.isChildless()){
-				this.props.onReportValidity(this.props.required != true)
+				this.getUpdatedProps().onReportValidity(this.getUpdatedProps().required != true)
 			}else{
 				var isValid = true
 				for(var i = 0; i<this.state.childrenCount; i++){
@@ -1517,7 +1562,7 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 						break;
 					}
 				}
-				this.props.onReportValidity(isValid)
+				this.getUpdatedProps().onReportValidity(isValid)
 			}
 		}
 		this.setState(this.state)
@@ -1532,6 +1577,7 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 		this.reportValidity()
 	}
 	loadValue(props){
+		this.updateProps(props)
 		if(props.value){
 			this.state.value = props.value
 		}
@@ -1540,7 +1586,7 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 		return ["min","max","value","quantity","validate"]
 	}
 	getProps(){
-		var props = Object.assign({}, this.props)
+		var props = Object.assign({}, this.getUpdatedProps())
 		this.getNegativeChildPropKeys().forEach(function(key){
 			props[key] = null
 			delete props[key]
@@ -1551,8 +1597,8 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 	}
 	updateParent(){
 		this.state.validationUpdated = false
-		if(this.props.onChange){
-			this.props.onChange(this.state.value)
+		if(this.getUpdatedProps().onChange){
+			this.getUpdatedProps().onChange(this.state.value)
 		}
 		this.setState(this.state)
 	}
@@ -1627,7 +1673,7 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 		return React.createElement('div',{className: this.appearanceProtoGetClassName("div", "CaretakerFormObjectCollectionChildren"), key:"children"}, children);
 	}
 	render(){
-		var name = this.props.name || ""
+		var name = this.getUpdatedProps().name || ""
 		return React.createElement(
 			'div',
 			{
@@ -1671,9 +1717,9 @@ class CaretakerFormInputCheckbox extends CaretakerFormInputPrototype{
 	}
 	checkValidity(value){
 		if(this.isRequired()){
-			if(typeof this.props.values == "object" && this.props.values){
-				if(this.state.value.size <= 0 && Object.keys(this.props.values).length > 0){
-					if( Object.keys(this.props.values).length == 1 ){
+			if(typeof this.getUpdatedProps().values == "object" && this.getUpdatedProps().values){
+				if(this.state.value.size <= 0 && Object.keys(this.getUpdatedProps().values).length > 0){
+					if( Object.keys(this.getUpdatedProps().values).length == 1 ){
 						return ["Check to continue"]
 					}else{
 						return ["At least one option must be checked"]
@@ -1699,7 +1745,7 @@ class CaretakerFormInputCheckbox extends CaretakerFormInputPrototype{
 	}
 	getCheckboxes(){
 		var html = ""
-		var values = this.props.values
+		var values = this.getUpdatedProps().values
 		for(var i in values){
 			if(html == ""){
 				html = []
@@ -1722,7 +1768,7 @@ class CaretakerFormInputCheckbox extends CaretakerFormInputPrototype{
 		return html
 	}
 	render(){
-		var name = this.props.name || ""
+		var name = this.getUpdatedProps().name || ""
 		return React.createElement('div', {className: this.appearanceProtoGetClassName('div', "CaretakerFormInputCheckboxCollection")}, (
 			this.getCheckboxes()
 		))
@@ -1751,9 +1797,9 @@ class CaretakerFormInputDate extends CaretakerFormInputPrototype{
 		this.state.value = this.modifyValueAfterLoad(this.state.value) || this.state.value
 	}
 	updateParent(){
-		if(this.props.onChange){
+		if(this.getUpdatedProps().onChange){
 
-			this.props.onChange(this.transformValueBeforeSave(this.state.value))
+			this.getUpdatedProps().onChange(this.transformValueBeforeSave(this.state.value))
 		}
 		this.state.validationUpdated = false
 		this.setState(this.state)
@@ -1882,7 +1928,7 @@ class CaretakerFormInputFile extends CaretakerFormInputPrototype{
 		}
 	}
 	render(){
-		return React.createElement('div',{className: this.appearanceProtoGetClassName("div", "CaretakerFormInputFile "+(this.props.name || "") )}, this.appearanceGetControl())
+		return React.createElement('div',{className: this.appearanceProtoGetClassName("div", "CaretakerFormInputFile "+(this.getUpdatedProps().name || "") )}, this.appearanceGetControl())
 	}
 }
 
@@ -1927,7 +1973,7 @@ class CaretakerFormInputRadio extends CaretakerFormInputPrototype{
 	}
 	getCheckboxes(){
 		var html = ""
-		var values = this.props.values
+		var values = this.getUpdatedProps().values
 		for(var i in values){
 			if(html == ""){
 				html = []
@@ -1950,7 +1996,7 @@ class CaretakerFormInputRadio extends CaretakerFormInputPrototype{
 		return html
 	}
 	render(){
-		var name = this.props.name || ""
+		var name = this.getUpdatedProps().name || ""
 		return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "CaretakerFormInputRadioCollection")}, (
 			this.getCheckboxes()
 		))
@@ -2000,7 +2046,7 @@ class CaretakerFormInputSelect extends CaretakerFormInputPrototype{
 		return props
 	}
 	appearanceGetSelect(){
-		var options = this.props.values || {}
+		var options = this.getUpdatedProps().values || {}
 		if(typeof options != "object"){
 			options = {}
 		}
@@ -2114,6 +2160,20 @@ class CaretakerFormInputTime extends CaretakerFormInputPrototype{
 }
 
 Caretaker.SpecialInput.register('time',CaretakerFormInputTime)
+
+class CaretakerViewObject extends CaretakerViewPrototype{
+	
+}
+
+class CaretakerViewRoot extends CaretakerViewPrototype{
+	render(){
+		var props = this.getProps()
+		var childProps = props.model
+		childProps.value = props.value
+
+		return React.createElement(CaretakerViewObject, childProps)
+	}
+}
 
 /**
  * Represents a book.

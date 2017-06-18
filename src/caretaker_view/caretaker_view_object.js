@@ -1,0 +1,3 @@
+class CaretakerViewObject extends CaretakerViewPrototype{
+	
+}

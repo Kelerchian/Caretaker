@@ -18,10 +18,10 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 		this.reportValidity()
 	}
 	reportValidity(){
-		if(this.latestProps.onReportValidity && this.state.isValidating && !this.state.validationUpdated){
+		if(this.getUpdatedProps().onReportValidity && this.state.isValidating && !this.state.validationUpdated){
 			this.state.validationUpdated = true
 			if(this.isChildless()){
-				this.latestProps.onReportValidity(this.latestProps.required != true)
+				this.getUpdatedProps().onReportValidity(this.getUpdatedProps().required != true)
 			}else{
 				var isValid = true
 				for(var i = 0; i<this.state.childrenCount; i++){
@@ -30,7 +30,7 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 						break;
 					}
 				}
-				this.latestProps.onReportValidity(isValid)
+				this.getUpdatedProps().onReportValidity(isValid)
 			}
 		}
 		this.setState(this.state)
@@ -45,7 +45,7 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 		this.reportValidity()
 	}
 	loadValue(props){
-		this.latestProps = props
+		this.updateProps(props)
 		if(props.value){
 			this.state.value = props.value
 		}
@@ -54,7 +54,7 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 		return ["min","max","value","quantity","validate"]
 	}
 	getProps(){
-		var props = Object.assign({}, this.latestProps)
+		var props = Object.assign({}, this.getUpdatedProps())
 		this.getNegativeChildPropKeys().forEach(function(key){
 			props[key] = null
 			delete props[key]
@@ -65,8 +65,8 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 	}
 	updateParent(){
 		this.state.validationUpdated = false
-		if(this.latestProps.onChange){
-			this.latestProps.onChange(this.state.value)
+		if(this.getUpdatedProps().onChange){
+			this.getUpdatedProps().onChange(this.state.value)
 		}
 		this.setState(this.state)
 	}
@@ -141,7 +141,7 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 		return React.createElement('div',{className: this.appearanceProtoGetClassName("div", "CaretakerFormObjectCollectionChildren"), key:"children"}, children);
 	}
 	render(){
-		var name = this.latestProps.name || ""
+		var name = this.getUpdatedProps().name || ""
 		return React.createElement(
 			'div',
 			{

@@ -177,6 +177,22 @@ var Caretaker = (function(){
 		}
 	}
 
+	var ViewClass = {
+		inputMap: {}
+	}
+	var ViewClassPublic = {
+		getClass: function(type){
+			return ViewClass.inputMap[type]
+		},
+		register: function(type, className){
+			if(ViewClass.inputMap[type]){
+				console.warn('SpecialInput '+type+' has been installed and cannot be replaced with '+className)
+			}else{
+				ViewClass.inputMap[type] = className
+			}
+		}
+	}
+
 
 
 	class ValueNode{
@@ -369,13 +385,14 @@ var Caretaker = (function(){
 
 	return {
 		SpecialInput:SpecialInputPublic,
-		SubmissionPreprocessor: SubmissionPreprocessor,
+		SubmissionPreprocessor:SubmissionPreprocessor,
 		UploadedFile:UploadedFile,
 		ValueArray:ValueArray,
 		ValueNode:ValueNode,
+		ViewClass:ViewClassPublic,
 		Utils:Utils,
 		Widget:Widget,
 		StructBank:StructBank,
-		makeForm: makeForm
+		makeForm:makeForm
 	}
 })();
