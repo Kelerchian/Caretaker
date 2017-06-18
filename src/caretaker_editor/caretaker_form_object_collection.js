@@ -94,7 +94,7 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 	}
 	appearanceGetControl(){
 		return React.createElement('div',{className: this.appearanceProtoGetClassName("div", "CaretakerFormObjectCollectionControl"), key:"control"}, (
-			React.createElement('button',{className: this.appearanceProtoGetClassName("button", "CaretakerButton CaretakerAddButton"),
+			React.createElement('button',{className: this.appearanceProtoGetClassName("button", "Button CaretakerAddButton"),
 			"type":"button",
 			onClick:this.onAddChild.bind(this)},
 			[React.createElement('i',{className: this.appearanceProtoGetClassName("i","fa fa-plus"), key:"icon"}), " New"])
@@ -122,7 +122,7 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 					React.createElement(
 						'button',
 						{
-							className: this.appearanceProtoGetClassName("button", "CaretakerButton CaretakerNegativeButton CaretakerRemoveButton"),
+							className: this.appearanceProtoGetClassName("button", "Button CaretakerNegativeButton CaretakerRemoveButton"),
 							onClick:this.onRemoveChild.bind(this,i),
 							type:"button" ,
 							key:i+"-delete-button"

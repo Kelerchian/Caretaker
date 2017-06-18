@@ -1,9 +1,18 @@
 class CaretakerViewRoot extends CaretakerViewPrototype{
+	setValue(value){
+		getViewProps()
+		this.setState({
+			value:value
+		})
+	}
+	getViewProps(){
+		if(!this.state){
+			this.state = Object.assign({},this.getUpdatedProps().model)
+			this.state.value = this.getUpdatedProps().value
+		}
+		return this.state
+	}
 	render(){
-		var props = this.getProps()
-		var childProps = props.model
-		childProps.value = props.value
-
-		return React.createElement(CaretakerViewObject, childProps)
+		return React.createElement(CaretakerViewObject, this.getViewProps())
 	}
 }
