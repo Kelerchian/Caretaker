@@ -1,17 +1,17 @@
-.CaretakerFormObjectCollectionControl{
+.CaretakerFormObjectCollection > .CollectionControl{
 	font-size: 0.7em;
 }
 
-.CaretakerFormObjectCollectionControl .CaretakerAddButton{
+.CaretakerFormObjectCollection > .CollectionControl .AddButton{
 	border-bottom-left-radius: 0;
 	border-bottom-right-radius: 0;
 }
 
-.CaretakerFormObjectContainer{
+.CaretakerFormObjectCollection > .Objects > .ObjectContainer{
 	position: relative;
 }
 
-.CaretakerFormObjectContainer > .CaretakerRemoveButton{
+.CaretakerFormObjectCollection > .Objects > .ObjectContainer > .Remove{
 	font-size: 0.7em;
 	top: 1rem;
 	right: 1rem;
@@ -21,19 +21,19 @@
 }
 
 .CaretakerFormObject,
-.CaretakerFormActions{
+.CaretakerForm > .Actions{
 	padding: 0.6rem;
 	position: relative;
 	background: white;
 	z-index: 1;
 }
 .CaretakerFormObject,
-.CaretakerFormActions{
+.CaretakerForm > .Actions{
 	box-shadow: 0 3px 3px rgba(0,0,0,0.3);
 }
 
 .CaretakerFormObject,
-.CaretakerFormActions{
+.CaretakerForm > .Actions{
 	border: 1px solid rgba(127,127,127,0.1);
 }
 
@@ -41,26 +41,26 @@
 	box-shadow: none;
 }
 
-.CaretakerFormActions{
+.Actions{
 	padding-top: 1.4rem;
 }
 
-.CaretakerFormObject>.CaretakerLabel,
-.CaretakerFormObject>.CaretakerDescription,
-.CaretakerFormObject>.CaretakerErrorMessage{
+.CaretakerFormObject > .Label,
+.CaretakerFormObject > .Description,
+.CaretakerFormObject > .ErrorMessage{
 	margin-bottom: 0.2rem;
 }
 
-.CaretakerFormObject>.CaretakerErrorMessage{
+.CaretakerFormObject>.ErrorMessage{
 	color: rgb(214,45,45);
 	font-size: 0.7em;
 }
 
-.CaretakerFormObject>.CaretakerLabel{
+.CaretakerFormObject>.Label{
 	font-weight: bold;
 }
 
-.CaretakerFormObject>.CaretakerDescription{
+.CaretakerFormObject>.Description{
 	margin: 0;
 	font-size: 0.8em;
 }

@@ -1,7 +1,6 @@
 .CaretakerInput input,
 .CaretakerInput textarea,
-.CaretakerInput select,
-.CaretakerInput .CaretakerFormInputTextareaHTML{
+.CaretakerInput select{
 	width: 100%;
 	padding: 0.3rem;
 	padding-top: 0.4rem;
@@ -9,13 +8,8 @@
 }
 
 .CaretakerInput textarea,
-.CaretakerInput select,
-.CaretakerInput .CaretakerFormInputTextareaHTML{
+.CaretakerInput select{
 	padding-bottom: 0.4rem;
-}
-
-.CaretakerInput .CaretakerFormInputTextareaHTML{
-	position: relative;
 }
 
 .CaretakerInput input[type="radio"],

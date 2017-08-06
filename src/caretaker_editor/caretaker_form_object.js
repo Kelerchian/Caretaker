@@ -192,7 +192,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		if(this.getUpdatedProps().htmlLabel && typeof this.getUpdatedProps().htmlLabel == "string"){
 			return React.createElement('label',
 				{
-					className: this.appearanceProtoGetClassName("label", "CaretakerLabel"),
+					className: this.appearanceProtoGetClassName("label", "Label"),
 					htmlFor: this.state.name,
 					key:"label",
 					dangerouslySetInnerHTML: {__html:this.getUpdatedProps().htmlLabel}
@@ -201,7 +201,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		}else if(this.getUpdatedProps().label){
 			return React.createElement('label',
 				{
-					className: this.appearanceProtoGetClassName("label", "CaretakerLabel"),
+					className: this.appearanceProtoGetClassName("label", "Label"),
 					htmlFor: this.state.name,
 					key:"label"
 				},
@@ -212,9 +212,9 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 	}
 	appearanceGetDescription(){
 		if(this.getUpdatedProps().htmlDescription){
-			return React.createElement('p',
+			return React.createElement('div',
 				{
-					className: this.appearanceProtoGetClassName("p", "CaretakerDescription"),
+					className: this.appearanceProtoGetClassName("p", "Description"),
 					key:"description",
 					dangerouslySetInnerHTML: {__html:this.getUpdatedProps().htmlDescription}
 				}
@@ -222,7 +222,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		}else if(this.getUpdatedProps().description){
 			return React.createElement('p',
 				{
-					className: this.appearanceProtoGetClassName("p", "CaretakerDescription"),
+					className: this.appearanceProtoGetClassName("p", "Description"),
 					key:"description"
 				},
 				this.getUpdatedProps().description
@@ -359,12 +359,12 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 	}
 	appearanceGetErrorMessage(){
 		if(typeof this.state.isValid == "string"){
-			return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "CaretakerErrorMessage"), key:"errorMessage"}, this.state.isValid)
+			return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "ErrorMessage"), key:"errorMessage"}, this.state.isValid)
 		}else if (Array.isArray(this.state.isValid) && this.state.isValid.length > 0){
 			if(this.state.isValid.length == 1){
-				return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "CaretakerErrorMessage"), key:"errorMessage"}, this.state.isValid[0])
+				return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "ErrorMessage"), key:"errorMessage"}, this.state.isValid[0])
 			}else if(this.state.isValid.length > 1){
-				return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "CaretakerErrorMessage"), key:"errorMessage"}, (
+				return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "ErrorMessage"), key:"errorMessage"}, (
 					React.createElement('ul', {}, (function(validityList){
 						var lis = []
 						for(var i in validityList){
