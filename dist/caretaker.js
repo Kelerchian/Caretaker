@@ -672,7 +672,7 @@ class CaretakerDateInputWidget extends React.Component{
 		var widget = this
 
 		var day = React.createElement('div',{key:"day"},[
-			React.createElement('label',{key:"label", className:"CaretakerLabel"},"Day"),
+			React.createElement('label',{key:"label", className:"Label"},"Day"),
 			React.createElement('select',{onChange: this.changeDay.bind(this),value:this.state.value.date(), key:"day"}, (function(){
 				var options = []
 				for(var i = minDay; i<=maxDay; i++){
@@ -684,7 +684,7 @@ class CaretakerDateInputWidget extends React.Component{
 		])
 
 		var month = React.createElement('div',{key:"month"},[
-			React.createElement('label',{key:"label", className:"CaretakerLabel"},"Month"),
+			React.createElement('label',{key:"label", className:"Label"},"Month"),
 			React.createElement('select',{onChange: this.changeMonth.bind(this),value:this.state.value.month(), key:"month"}, (function(){
 				var options = []
 				modifier.date(1)
@@ -697,16 +697,16 @@ class CaretakerDateInputWidget extends React.Component{
 		])
 
 		var year = React.createElement('div',{key:"year"}, [
-			React.createElement('label',{key:"label", className:"CaretakerLabel"},"Year"),
+			React.createElement('label',{key:"label", className:"Label"},"Year"),
 			React.createElement('input',{onChange: this.changeYear.bind(this), key:"input" ,type:"number",min:"1970", value:this.state.value.year()})
 		])
 
 		return [day,month,year]
 	}
 	appearanceGetActions(){
-		var saveButton = React.createElement('button',{key:"save",className:"Button CaretakerPositiveButton",onClick: this.submitChange.bind(this)},"Save")
+		var saveButton = React.createElement('button',{key:"save",className:"Button PositiveButton",onClick: this.submitChange.bind(this)},"Save")
 		var clearButton = React.createElement('button',{key:"clear",className:"Button",onClick: this.clearChange.bind(this)},"Clear")
-		var cancelButton = React.createElement('button',{key:"cancel",className:"Button CaretakerNegativeButton",onClick: this.cancelChange.bind(this)},"Cancel")
+		var cancelButton = React.createElement('button',{key:"cancel",className:"Button Negative",onClick: this.cancelChange.bind(this)},"Cancel")
 		return [saveButton, clearButton, cancelButton]
 	}
 	render(){
@@ -780,24 +780,24 @@ class CaretakerTimeInputWidget extends React.Component{
 		var maxSecond = 59;
 
 		var hour 	= React.createElement('div',{key:"hour"},[
-			React.createElement('label', { className:"CaretakerLabel", key:"label" }, "Hour"),
+			React.createElement('label', { className:"Label", key:"label" }, "Hour"),
 			React.createElement('input', { onChange:this.changeHour.bind(this), value: this.state.value.hour(), key:"input" })
 		])
 		var minute 	= React.createElement('div',{key:"minute"},[
-			React.createElement('label', { className:"CaretakerLabel", key:"label" }, "Minute"),
+			React.createElement('label', { className:"Label", key:"label" }, "Minute"),
 			React.createElement('input', { onChange:this.changeMinute.bind(this), value: this.state.value.minute(), key:"input" })
 		])
 		var second 	= React.createElement('div',{key:"second"},[
-			React.createElement('label', { className:"CaretakerLabel", key:"label" }, "Second"),
+			React.createElement('label', { className:"Label", key:"label" }, "Second"),
 			React.createElement('input', { onChange:this.changeSecond.bind(this), value:this.state.value.second(), key:"input" })
 		])
 
 		return [hour,minute,second]
 	}
 	appearanceGetActions(){
-		var saveButton = React.createElement('button',{key:"save",className:"Button CaretakerPositiveButton",onClick: this.submitChange.bind(this)},"Save")
+		var saveButton = React.createElement('button',{key:"save",className:"Button PositiveButton",onClick: this.submitChange.bind(this)},"Save")
 		var clearButton = React.createElement('button',{key:"clear",className:"Button",onClick: this.clearChange.bind(this)},"Clear")
-		var cancelButton = React.createElement('button',{key:"cancel",className:"Button CaretakerNegativeButton",onClick: this.cancelChange.bind(this)},"Cancel")
+		var cancelButton = React.createElement('button',{key:"cancel",className:"Button Negative",onClick: this.cancelChange.bind(this)},"Cancel")
 		return [saveButton, clearButton, cancelButton]
 	}
 	render(){
@@ -963,7 +963,7 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 						type:"button",
 						key:"submit",
 						onClick: this.onSubmit.bind(this),
-						className: this.appearanceProtoGetClassName("button", "Button CaretakerPositiveButton")
+						className: this.appearanceProtoGetClassName("button", "Button PositiveButton")
 					},
 					[React.createElement('i',{key:"icon",className:  this.appearanceProtoGetClassName('i', "fa fa-check")} ), "Save"])
 			)
@@ -982,7 +982,7 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 			)
 		}
 		if(actions.length > 0){
-			return React.createElement('div', {className: this.appearanceProtoGetClassName("div","CaretakerFormActions") , key:"actions"}, actions)
+			return React.createElement('div', {className: this.appearanceProtoGetClassName("div","Actions") , key:"actions"}, actions)
 		}else{
 			return ""
 		}
@@ -1328,7 +1328,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		if(this.getUpdatedProps().htmlLabel && typeof this.getUpdatedProps().htmlLabel == "string"){
 			return React.createElement('label',
 				{
-					className: this.appearanceProtoGetClassName("label", "CaretakerLabel"),
+					className: this.appearanceProtoGetClassName("label", "Label"),
 					htmlFor: this.state.name,
 					key:"label",
 					dangerouslySetInnerHTML: {__html:this.getUpdatedProps().htmlLabel}
@@ -1337,7 +1337,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		}else if(this.getUpdatedProps().label){
 			return React.createElement('label',
 				{
-					className: this.appearanceProtoGetClassName("label", "CaretakerLabel"),
+					className: this.appearanceProtoGetClassName("label", "Label"),
 					htmlFor: this.state.name,
 					key:"label"
 				},
@@ -1348,9 +1348,9 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 	}
 	appearanceGetDescription(){
 		if(this.getUpdatedProps().htmlDescription){
-			return React.createElement('p',
+			return React.createElement('div',
 				{
-					className: this.appearanceProtoGetClassName("p", "CaretakerDescription"),
+					className: this.appearanceProtoGetClassName("p", "Description"),
 					key:"description",
 					dangerouslySetInnerHTML: {__html:this.getUpdatedProps().htmlDescription}
 				}
@@ -1358,7 +1358,7 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 		}else if(this.getUpdatedProps().description){
 			return React.createElement('p',
 				{
-					className: this.appearanceProtoGetClassName("p", "CaretakerDescription"),
+					className: this.appearanceProtoGetClassName("p", "Description"),
 					key:"description"
 				},
 				this.getUpdatedProps().description
@@ -1495,12 +1495,12 @@ class CaretakerFormObject extends CaretakerFormElementPrototype{
 	}
 	appearanceGetErrorMessage(){
 		if(typeof this.state.isValid == "string"){
-			return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "CaretakerErrorMessage"), key:"errorMessage"}, this.state.isValid)
+			return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "ErrorMessage"), key:"errorMessage"}, this.state.isValid)
 		}else if (Array.isArray(this.state.isValid) && this.state.isValid.length > 0){
 			if(this.state.isValid.length == 1){
-				return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "CaretakerErrorMessage"), key:"errorMessage"}, this.state.isValid[0])
+				return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "ErrorMessage"), key:"errorMessage"}, this.state.isValid[0])
 			}else if(this.state.isValid.length > 1){
-				return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "CaretakerErrorMessage"), key:"errorMessage"}, (
+				return React.createElement('div', {className: this.appearanceProtoGetClassName("div", "ErrorMessage"), key:"errorMessage"}, (
 					React.createElement('ul', {}, (function(validityList){
 						var lis = []
 						for(var i in validityList){
@@ -1646,8 +1646,8 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 		}
 	}
 	appearanceGetControl(){
-		return React.createElement('div',{className: this.appearanceProtoGetClassName("div", "CaretakerFormObjectCollectionControl"), key:"control"}, (
-			React.createElement('button',{className: this.appearanceProtoGetClassName("button", "Button CaretakerAddButton"),
+		return React.createElement('div',{className: this.appearanceProtoGetClassName("div", "CollectionControl"), key:"control"}, (
+			React.createElement('button',{className: this.appearanceProtoGetClassName("button", "Button AddButton"),
 			"type":"button",
 			onClick:this.onAddChild.bind(this)},
 			[React.createElement('i',{className: this.appearanceProtoGetClassName("i","fa fa-plus"), key:"icon"}), " New"])
@@ -1668,14 +1668,14 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 			children.push( React.createElement(
 				'div',
 				{
-					className: this.appearanceProtoGetClassName("div", "CaretakerFormObjectContainer"),
+					className: this.appearanceProtoGetClassName("div", "ObjectContainer"),
 					key: i
 				},
 				[
 					React.createElement(
 						'button',
 						{
-							className: this.appearanceProtoGetClassName("button", "Button CaretakerNegativeButton CaretakerRemoveButton"),
+							className: this.appearanceProtoGetClassName("button", "Negative Remove Button"),
 							onClick:this.onRemoveChild.bind(this,i),
 							type:"button" ,
 							key:i+"-delete-button"
@@ -1691,7 +1691,7 @@ class CaretakerFormObjectCollection extends CaretakerFormElementPrototype{
 				]
 			) )
 		}
-		return React.createElement('div',{className: this.appearanceProtoGetClassName("div", "CaretakerFormObjectCollectionChildren"), key:"children"}, children);
+		return React.createElement('div',{className: this.appearanceProtoGetClassName("div", "Objects"), key:"children"}, children);
 	}
 	render(){
 		var name = this.getUpdatedProps().name || ""
@@ -1922,12 +1922,12 @@ class CaretakerFormInputFile extends CaretakerFormInputPrototype{
 	}
 	appearanceGetControl(){
 		if(this.state.value === false){
-			return React.createElement('button', {className: this.appearanceProtoGetClassName("button", "Button CaretakerFormInputFilePromptButton") , type:"button", onClick: this.onWillPrompt.bind(this)}, "Select File...")
+			return React.createElement('button', {className: this.appearanceProtoGetClassName("button", "Button PromptButton") , type:"button", onClick: this.onWillPrompt.bind(this)}, "Select File...")
 		}else if(this.state.value instanceof Caretaker.UploadedFile){
 			return [
 				React.createElement('button', {className: this.appearanceProtoGetClassName("button", "Button CaretakerFormInputFileRemoveButton"), type:"button", key:"removeButton", onClick: this.onRemove.bind(this)}, [React.createElement('i', {className: this.appearanceProtoGetClassName("i", "fa fa-remove"), key:"icon"}),"Remove"]),
 				React.createElement('button', {className: this.appearanceProtoGetClassName("button", "Button CaretakerFormInputFileChangeButton"), type:"button", key:"changeButton", onClick: this.onWillPrompt.bind(this)}, [React.createElement('i',{className: this.appearanceProtoGetClassName("i", "fa fa-edit"), key:"icon"}), "Change..."]),
-				React.createElement('div', {className: this.appearanceProtoGetClassName("div", "CaretakerFormInputFilePreview"), key:"preview"}, this.state.value.getName() + "(" + this.state.value.getSize() + ")")
+				React.createElement('div', {className: this.appearanceProtoGetClassName("div", "FilePreview"), key:"preview"}, this.state.value.getName() + "(" + this.state.value.getSize() + ")")
 			]
 		}else if(typeof this.state.value == "object"){
 			var previewLinkProp = {}
@@ -1942,7 +1942,7 @@ class CaretakerFormInputFile extends CaretakerFormInputPrototype{
 			return [
 				React.createElement('button', {className:this.appearanceProtoGetClassName("button", "Button CaretakerFormInputFileRemoveButton"), type:"button", key:"removeButton", onClick: this.onRemove.bind(this)}, [React.createElement('i', {className:this.appearanceProtoGetClassName("i", "fa fa-remove"), key:"icon"}),"Remove"] ),
 				React.createElement('button', {className:this.appearanceProtoGetClassName("button", "Button CaretakerFormInputFileChangeButton"), type:"button", key:"changeButton", onClick: this.onWillPrompt.bind(this)}, [React.createElement('i',{className:this.appearanceProtoGetClassName("i", "fa fa-edit"), key:"icon"}), "Change..."] ),
-				React.createElement('div', {className:this.appearanceProtoGetClassName("div", "CaretakerFormInputFilePreview"), key:"preview"}, (
+				React.createElement('div', {className:this.appearanceProtoGetClassName("div", "FilePreview"), key:"preview"}, (
 					React.createElement('a', previewLinkProp, name)
 				))
 			]
@@ -2093,6 +2093,62 @@ class CaretakerFormInputSelect extends CaretakerFormInputPrototype{
 
 Caretaker.SpecialInput.register('select',CaretakerFormInputSelect)
 
+class CaretakerFormInputSelectObject extends CaretakerFormInputPrototype{
+	onChange(event){
+		this.state.value = event.target.value
+		this.updateParent()
+	}
+	getDefaultValue(){
+		return ""
+	}
+	loadedValueIsValid(value){
+		return typeof value == "string"
+	}
+	checkValidity(value){
+		if(this.isRequired()){
+			if(value == ""){
+				return ["An option must be selected"]
+			}
+		}
+		return true
+	}
+	removePropKeys(){
+		return ["multiple","type","required"]
+	}
+	getProps(){
+		var props = this.getProtoProps()
+		props.value = this.state.value
+		props.className = this.appearanceProtoGetClassName("select", "CaretakerFormInputSelect")
+		props.onChange = this.onChange.bind(this)
+		return props
+	}
+	appearanceGetSelect(){
+		var options = this.getUpdatedProps().values || {}
+		if(typeof options != "object"){
+			options = {}
+		}
+
+		var optionElements = []
+		for(var i in options){
+			var option = options[i]
+			var value = i
+			var key = i
+			var text = option
+			var prop = {value:value, key:key}
+			optionElements.push(React.createElement('option',prop, text))
+		}
+
+		var props = this.getProps()
+		var select = React.createElement('select', props, optionElements)
+		return select
+	}
+	render(){
+		return this.appearanceGetSelect()
+	}
+}
+
+Caretaker.SpecialInput.register('select-object',CaretakerFormInputSelectObject)
+
 class CaretakerFormInputTextarea extends CaretakerFormInputPrototype{
 	getDefaultValue(){
 		return ""
@@ -2201,6 +2257,15 @@ class CaretakerViewCollection extends CaretakerViewPrototype{
 		return React.createElement("div", {className: this.appearanceProtoGetClassName("div", "ViewCollection " + this.getUpdatedProps().name)}, viewObjects)
 	}
 }
+
+class CaretakerViewImage extends CaretakerViewPrototype{
+	render(){
+		var props = {}
+		props.className = this.appearanceProtoGetClassName("img", "ViewImage")
+		return React.createElement('img', props)
+	}
+}
+Caretaker.ViewClass.register('image', CaretakerViewImage)
 
 class CaretakerViewText extends CaretakerViewPrototype{
 	render(){

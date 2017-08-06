@@ -116,10 +116,10 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 		//Don't forget to handle all your state
 		if(this.state.value === false){
 			var control = []
-			control.push(React.createElement('button', {className: this.appearanceProtoGetClassName("button","Button CaretakerFormInputFilePromptButton") , key:"selectButton", type:"button", onClick: this.onWillPrompt.bind(this)}, "Select Image..."))
+			control.push(React.createElement('button', {className: this.appearanceProtoGetClassName("button","Button PromptButton") , key:"selectButton", type:"button", onClick: this.onWillPrompt.bind(this)}, "Select Image..."))
 			if(this.getUpdatedProps().placeholder){
-				control.push(React.createElement('div', {className: this.appearanceProtoGetClassName("div", "CaretakerFormInputFilePreview"), key:"preview"}, (
-					React.createElement('img', {src:this.getUpdatedProps().placeholder, className: this.appearanceProtoGetClassName("img", "CaretakerFormInputFilePreviewImage"), title:"placeholder", alt:"placeholder"})
+				control.push(React.createElement('div', {className: this.appearanceProtoGetClassName("div", "FilePreview"), key:"preview"}, (
+					React.createElement('img', {src:this.getUpdatedProps().placeholder, className: this.appearanceProtoGetClassName("img", "FilePreviewImage"), title:"placeholder", alt:"placeholder"})
 				)))
 			}
 			return control
@@ -128,7 +128,7 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 			var previewProps = {
 				title:this.state.value.getName(),
 				alt:this.state.value.getName(),
-				className: this.appearanceProtoGetClassName("img", "CaretakerFormInputFilePreviewImage")
+				className: this.appearanceProtoGetClassName("img", "FilePreviewImage")
 			}
 			if(this.state.imageData){
 				previewProps.src = this.state.imageData
@@ -136,7 +136,7 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 			return [
 				React.createElement('button', {className: this.appearanceProtoGetClassName("button", "Button CaretakerFormInputFileRemoveButton"), type:"button", key:"removeButton", onClick: this.onRemove.bind(this)}, [React.createElement('i', {className: this.appearanceProtoGetClassName("i", "fa fa-remove"), key:"icon"}),"Remove"]),
 				React.createElement('button', {className: this.appearanceProtoGetClassName("button", "Button CaretakerFormInputFileChangeButton"), type:"button", key:"changeButton", onClick: this.onWillPrompt.bind(this)}, [React.createElement('i',{className: this.appearanceProtoGetClassName("i", "fa fa-edit"), key:"icon"}), "Change..."]),
-				React.createElement('div', {className: this.appearanceProtoGetClassName("div", "CaretakerFormInputFilePreview"), key:"preview"}, (
+				React.createElement('div', {className: this.appearanceProtoGetClassName("div", "FilePreview"), key:"preview"}, (
 					React.createElement('img', previewProps)
 				))
 			]
@@ -145,8 +145,8 @@ class CaretakerFormInputImage extends CaretakerFormInputPrototype{
 			return [
 				React.createElement('button', {className: this.appearanceProtoGetClassName("button", "Button CaretakerFormInputFileRemoveButton"), type:"button", key:"removeButton", onClick: this.onRemove.bind(this)}, [React.createElement('i', {className: this.appearanceProtoGetClassName("i", "fa fa-remove"), key:"icon"}),"Remove"] ),
 				React.createElement('button', {className: this.appearanceProtoGetClassName("button", "Button CaretakerFormInputFileChangeButton"), type:"button", key:"changeButton", onClick: this.onWillPrompt.bind(this)}, [React.createElement('i',{className: this.appearanceProtoGetClassName("i", "fa fa-edit"), key:"icon"}), "Change..."] ),
-				React.createElement('div', {className: this.appearanceProtoGetClassName("div","CaretakerFormInputFilePreview"), key:"preview"}, (
-					React.createElement('img', {src: link, title: link, alt: link, className: this.appearanceProtoGetClassName("img", "CaretakerFormInputFilePreviewImage")})
+				React.createElement('div', {className: this.appearanceProtoGetClassName("div","FilePreview"), key:"preview"}, (
+					React.createElement('img', {src: link, title: link, alt: link, className: this.appearanceProtoGetClassName("img", "FilePreviewImage")})
 				))
 			]
 		}

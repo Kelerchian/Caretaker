@@ -153,7 +153,7 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 						type:"button",
 						key:"submit",
 						onClick: this.onSubmit.bind(this),
-						className: this.appearanceProtoGetClassName("button", "Button CaretakerPositiveButton")
+						className: this.appearanceProtoGetClassName("button", "Button PositiveButton")
 					},
 					[React.createElement('i',{key:"icon",className:  this.appearanceProtoGetClassName('i', "fa fa-check")} ), "Save"])
 			)
@@ -172,7 +172,7 @@ class CaretakerForm extends CaretakerFormElementPrototype{
 			)
 		}
 		if(actions.length > 0){
-			return React.createElement('div', {className: this.appearanceProtoGetClassName("div","CaretakerFormActions") , key:"actions"}, actions)
+			return React.createElement('div', {className: this.appearanceProtoGetClassName("div","Actions") , key:"actions"}, actions)
 		}else{
 			return ""
 		}
