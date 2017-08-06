@@ -15,32 +15,32 @@
 	border: 2px solid rgba(127,127,127,1);
 }
 
-.Button.CaretakerGreenButton,
-.Button.CaretakerPositiveButton
+.Button.Green,
+.Button.PositiveButton
 {
 	border: 2px solid #97FF61;
 }
 
-.Button.CaretakerGreenButton:hover,
-.Button.CaretakerPositiveButton:hover
+.Button.Green:hover,
+.Button.PositiveButton:hover
 {
 	border: 2px solid #6AFF1C;
 }
 
-.Button.CaretakerGreenButton:click,
-.Button.CaretakerPositiveButton:click
+.Button.Green:click,
+.Button.PositiveButton:click
 {
 	border: 2px solid #329100;
 }
 
-.Button.CaretakerNegativeButton{
+.Button.Negative{
 	border: 2px solid #D62D2D;
 }
 
-.Button.CaretakerNegativeButton:hover{
+.Button.Negative:hover{
 	border: 2px solid #BD0300;
 }
 
-.Button.CaretakerNegativeButton:click{
+.Button.Negative:click{
 	border: 2px solid #690200;
 }

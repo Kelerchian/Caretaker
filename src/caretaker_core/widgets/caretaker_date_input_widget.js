@@ -60,7 +60,7 @@ class CaretakerDateInputWidget extends React.Component{
 		var widget = this
 
 		var day = React.createElement('div',{key:"day"},[
-			React.createElement('label',{key:"label", className:"CaretakerLabel"},"Day"),
+			React.createElement('label',{key:"label", className:"Label"},"Day"),
 			React.createElement('select',{onChange: this.changeDay.bind(this),value:this.state.value.date(), key:"day"}, (function(){
 				var options = []
 				for(var i = minDay; i<=maxDay; i++){
@@ -72,7 +72,7 @@ class CaretakerDateInputWidget extends React.Component{
 		])
 
 		var month = React.createElement('div',{key:"month"},[
-			React.createElement('label',{key:"label", className:"CaretakerLabel"},"Month"),
+			React.createElement('label',{key:"label", className:"Label"},"Month"),
 			React.createElement('select',{onChange: this.changeMonth.bind(this),value:this.state.value.month(), key:"month"}, (function(){
 				var options = []
 				modifier.date(1)
@@ -85,16 +85,16 @@ class CaretakerDateInputWidget extends React.Component{
 		])
 
 		var year = React.createElement('div',{key:"year"}, [
-			React.createElement('label',{key:"label", className:"CaretakerLabel"},"Year"),
+			React.createElement('label',{key:"label", className:"Label"},"Year"),
 			React.createElement('input',{onChange: this.changeYear.bind(this), key:"input" ,type:"number",min:"1970", value:this.state.value.year()})
 		])
 
 		return [day,month,year]
 	}
 	appearanceGetActions(){
-		var saveButton = React.createElement('button',{key:"save",className:"Button CaretakerPositiveButton",onClick: this.submitChange.bind(this)},"Save")
+		var saveButton = React.createElement('button',{key:"save",className:"Button PositiveButton",onClick: this.submitChange.bind(this)},"Save")
 		var clearButton = React.createElement('button',{key:"clear",className:"Button",onClick: this.clearChange.bind(this)},"Clear")
-		var cancelButton = React.createElement('button',{key:"cancel",className:"Button CaretakerNegativeButton",onClick: this.cancelChange.bind(this)},"Cancel")
+		var cancelButton = React.createElement('button',{key:"cancel",className:"Button Negative",onClick: this.cancelChange.bind(this)},"Cancel")
 		return [saveButton, clearButton, cancelButton]
 	}
 	render(){

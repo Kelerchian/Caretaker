@@ -61,24 +61,24 @@ class CaretakerTimeInputWidget extends React.Component{
 		var maxSecond = 59;
 
 		var hour 	= React.createElement('div',{key:"hour"},[
-			React.createElement('label', { className:"CaretakerLabel", key:"label" }, "Hour"),
+			React.createElement('label', { className:"Label", key:"label" }, "Hour"),
 			React.createElement('input', { onChange:this.changeHour.bind(this), value: this.state.value.hour(), key:"input" })
 		])
 		var minute 	= React.createElement('div',{key:"minute"},[
-			React.createElement('label', { className:"CaretakerLabel", key:"label" }, "Minute"),
+			React.createElement('label', { className:"Label", key:"label" }, "Minute"),
 			React.createElement('input', { onChange:this.changeMinute.bind(this), value: this.state.value.minute(), key:"input" })
 		])
 		var second 	= React.createElement('div',{key:"second"},[
-			React.createElement('label', { className:"CaretakerLabel", key:"label" }, "Second"),
+			React.createElement('label', { className:"Label", key:"label" }, "Second"),
 			React.createElement('input', { onChange:this.changeSecond.bind(this), value:this.state.value.second(), key:"input" })
 		])
 
 		return [hour,minute,second]
 	}
 	appearanceGetActions(){
-		var saveButton = React.createElement('button',{key:"save",className:"Button CaretakerPositiveButton",onClick: this.submitChange.bind(this)},"Save")
+		var saveButton = React.createElement('button',{key:"save",className:"Button PositiveButton",onClick: this.submitChange.bind(this)},"Save")
 		var clearButton = React.createElement('button',{key:"clear",className:"Button",onClick: this.clearChange.bind(this)},"Clear")
-		var cancelButton = React.createElement('button',{key:"cancel",className:"Button CaretakerNegativeButton",onClick: this.cancelChange.bind(this)},"Cancel")
+		var cancelButton = React.createElement('button',{key:"cancel",className:"Button Negative",onClick: this.cancelChange.bind(this)},"Cancel")
 		return [saveButton, clearButton, cancelButton]
 	}
 	render(){
